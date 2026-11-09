@@ -1,11 +1,24 @@
 # axionFEM
 
-axionFEM is a finite-element package for designing axion dark-matter
-detectors: lumped-element experiments (e.g., ABRACADABRA, DMRadio, CORE),
-resonant-cavity haloscopes (e.g., ADMX, HAYSTAC, CAPP, QUAX, ORGAN) and
-superconducting radio-frequency heterodyne cavities. It has a C++ core
+axionFEM is a finite-element package for electromagnetics, structural
+mechanics, heat conduction, fluid flow and electrochemistry. We built it to
+design axion dark-matter detectors: lumped-element experiments (e.g.,
+ABRACADABRA, DMRadio, CORE), resonant-cavity haloscopes (e.g., ADMX, HAYSTAC,
+CAPP, QUAX, ORGAN) and superconducting radio-frequency heterodyne cavities.
+The solvers themselves are general and apply to magnets, superconducting
+devices, RF structures and resonators in other settings. It has a C++ core
 built on MFEM, a Python interface, a 3D viewer, and an MCP server so that
 designs can be built and evaluated through chat.
+
+**What it solves:** magnetostatics and magnetoquasistatics (superconducting,
+resistive and iron-core magnets and shields; fields, inductances, forces);
+full-wave electromagnetics (impedances, S-parameters, radiation, eigenmodes);
+superconductors (flux constraints, critical surfaces, the HTS critical state);
+electrostatics; circuits with the noise of every element; mechanics and heat
+conduction; adjoint shape sensitivities and optimization; and, in beta,
+incompressible flow and electrochemistry. Geometries are axisymmetric profiles
+or 3D solids, including imported CAD (STEP). Axisymmetric problems run on one
+machine; 3D problems use MPI.
 
 **Documentation:** [bsafdi.github.io/axionFEM](https://bsafdi.github.io/axionFEM/) (installation, tutorials, API reference)
 

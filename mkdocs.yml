@@ -10,7 +10,7 @@
 # copied in by scripts/docs/gen_pages.py.  scripts/docs/hooks.py maps links that point
 # outside the site (source files, pages kept out of the site) to the GitHub repository.
 site_name: axionFEM
-site_description: "Finite-element tools for axion dark-matter detectors: lumped-element detectors, cavity haloscopes, SRF heterodyne cavities, SQUID readout, COMSOL export and import"
+site_description: "Finite-element simulation of electromagnetics, mechanics, heat conduction, fluid flow and electrochemistry, built for axion dark-matter detectors"
 site_author: Joshua N. Benabou, Joshua W. Foster, Benjamin R. Safdi
 site_url: https://bsafdi.github.io/axionFEM/
 repo_url: https://github.com/bsafdi/axionFEM
