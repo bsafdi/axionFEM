@@ -1,0 +1,150 @@
+{
+ "T": 1.0,
+ "boundaries": [
+  {
+   "kind": "dirichlet",
+   "name": "x0",
+   "normal": [
+    -1,
+    0
+   ],
+   "where": "x = 0"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "x1",
+   "normal": [
+    1,
+    0
+   ],
+   "where": "x = 1"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "y0",
+   "normal": [
+    0,
+    -1
+   ],
+   "where": "y = 0"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "y1",
+   "normal": [
+    0,
+    1
+   ],
+   "where": "y = 1"
+  }
+ ],
+ "box": [
+  0.0,
+  1.0,
+  0.0,
+  1.0
+ ],
+ "constants": {
+  "T": "1",
+  "mu": "1/100",
+  "rho": "5/4"
+ },
+ "coords": [
+  "x",
+  "y",
+  "t"
+ ],
+ "description": "energy identity, planar: homogeneous Dirichlet, u(0) = 0, f polynomial in space",
+ "exact_ns": false,
+ "extra": {},
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "numpy": "-3/4*y*np.sin(3*t) + (3/2)*y*np.cos(np.pi*t) - 3/2*y + (3/10)*np.sin(3*t) - 3/5*np.cos(np.pi*t) + 3/5",
+     "sympy": "-3*y*sin(3*t)/4 + 3*y*cos(pi*t)/2 - 3*y/2 + 3*sin(3*t)/10 - 3*cos(pi*t)/5 + 3/5"
+    },
+    {
+     "numpy": "(9/10)*x*np.sin(3*t) - 9/5*x*np.cos(np.pi*t) + (9/5)*x - 27/50*np.sin(3*t) + (27/25)*np.cos(np.pi*t) - 27/25",
+     "sympy": "9*x*sin(3*t)/10 - 9*x*cos(pi*t)/5 + 9*x/5 - 27*sin(3*t)/50 + 27*cos(pi*t)/25 - 27/25"
+    }
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "numpy": "-3/4*y*np.sin(3*t) + (3/2)*y*np.cos(np.pi*t) - 3/2*y + (3/10)*np.sin(3*t) - 3/5*np.cos(np.pi*t) + 3/5",
+     "sympy": "-3*y*sin(3*t)/4 + 3*y*cos(pi*t)/2 - 3*y/2 + 3*sin(3*t)/10 - 3*cos(pi*t)/5 + 3/5"
+    },
+    {
+     "numpy": "(9/10)*x*np.sin(3*t) - 9/5*x*np.cos(np.pi*t) + (9/5)*x - 27/50*np.sin(3*t) + (27/25)*np.cos(np.pi*t) - 27/25",
+     "sympy": "9*x*sin(3*t)/10 - 9*x*cos(pi*t)/5 + 9*x/5 - 27*sin(3*t)/50 + 27*cos(pi*t)/25 - 27/25"
+    }
+   ]
+  }
+ },
+ "geometry": "planar",
+ "grad_u": [
+  [
+   {
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ],
+  [
+   {
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ]
+ ],
+ "homogeneous": true,
+ "mu": 0.01,
+ "name": "f3a_tr_sq_energy",
+ "p": {
+  "numpy": "0",
+  "sympy": "0"
+ },
+ "pressure": "mean_zero",
+ "rho": 1.25,
+ "selfcheck": {
+  "checks": {
+   "curl_f_nonzero": {
+    "pass": true,
+    "value": "33*sin(3*t)/20 - 33*cos(pi*t)/10 + 33/10"
+   },
+   "div_u_symbolic_zero": {
+    "pass": true,
+    "value": "0"
+   },
+   "force_space_degree": {
+    "pass": true,
+    "value": "[1, 1]"
+   },
+   "numpy_spelling_vs_sympy_max": {
+    "pass": true,
+    "value": 6.661338147750939e-16
+   }
+  },
+  "status": "pass"
+ },
+ "space_exact": false,
+ "u": [
+  {
+   "numpy": "0",
+   "sympy": "0"
+  },
+  {
+   "numpy": "0",
+   "sympy": "0"
+  }
+ ]
+}

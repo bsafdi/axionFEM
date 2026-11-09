@@ -1,0 +1,269 @@
+{
+  "_about": [
+    "Published geometry and sensitivity inputs for the benchmark detectors, with the",
+    "source of every number.  Public information only.  'chosen' marks a quantity the",
+    "sources do not fix, where axionFEM makes (and documents) a modelling choice.",
+    "Written by hand from the references; benchmarks/published_benchmarks.py reads it and",
+    "must not modify it.  Line numbers refer to plain-text extractions of the references (refs/*.txt),",
+    "which are not distributed with axionFEM."
+  ],
+  "references": {
+    "ABRA10": "Ouellet et al. (ABRACADABRA), First Results from ABRACADABRA-10 cm, arXiv:1810.12257, PRL 122 121802 (2019)",
+    "KST": "Kahn, Safdi & Thaler, Broadband and Resonant Approaches to Axion Dark Matter Detection, arXiv:1602.01086, PRL 117 141801 (2016)",
+    "ABRA10_DET": "Ouellet et al., Design and Implementation of the ABRACADABRA-10 cm Axion Dark Matter Search, arXiv:1901.10652, PRD 99 052012 (2019).  The source of the geometric factor G_V = 0.027, of the field volume V = 890 cm^3, and of the pickup and calibration inductances.",
+    "M3_EM": "AlShirawi et al., Electromagnetic modeling and science reach of DMRadio-m^3, arXiv:2302.14084, PRD 112 052001 (2025).  The source of the m^3 coax radii, the six pickup heights and their frequency assignment, the L_eff convention, and the COMSOL 'bulk electron shuttling' source recipe.",
+    "SQUID": "Ankel et al., Noise limits for dc SQUID readout of high-Q resonators below 300 MHz, J. Appl. Phys. 138 094505 (2025), arXiv:2504.20398.  Reference [45] of CORE for the frequency-dependent amplifier noise eta(omega_r).",
+    "M3": "Brouwer et al. (DMRadio), Projected sensitivity of DMRadio-m^3, arXiv:2204.13781, PRD 106 103008 (2022)",
+    "GUT": "Brouwer et al. (DMRadio), Introducing DMRadio-GUT, arXiv:2203.11246, PRD 106 112003 (2022)",
+    "CORE": "Ankel et al. (DMRadio), DMRadio-Core: A new approach for GUT-scale axion searches, arXiv:2604.16602, PRD 114 092004 (2026)",
+    "P50L": "Status of DMRadio-50L and DMRadio-m^3, arXiv:2210.07215, SciPost Phys. Proc. 12 036 (2023)",
+    "T50L": "M. Simanovskaia for the DMRadio Collaboration, 'DMRadio-50L Overview and Status Update', 18th Patras Workshop on Axions, WIMPs and WISPs, Rijeka, 5 July 2023 (INFN Indico event 34455), slide 20.  A public conference talk, not a refereed paper: the only public source of the 50L magnet dimensions.",
+    "C50L": "The Cryogenic System of DMRadio-50L, arXiv:2607.05771 (2026)",
+    "NOTE_50L_PAPER": "There is no public DMRadio-50L design paper: it is cited as 'in preparation' by M3 ref. [61] and as 'to appear' by CORE ref. [35]."
+  },
+  "conventions": {
+    "Psi": "axionFEM: Psi = (1/I) int A_I . B_lab d^3x, natural Heaviside-Lorentz, [T m^3].",
+    "V_B": "KST Eq. (8): the 'effective volume containing the external B-field'.  Identity proved in docs/validation/published_benchmarks.md: Psi_natural = B_max * V_B exactly.",
+    "G": "ABRA10 Eq. (3) and ABRA10_DET Eq. (3): |Phi_a|^2 = g^2 rho_DM V^2 G_V^2 B_max^2 (time-averaged, i.e. half the squared amplitude).  ABRA10_DET footnote 1 (L350) states 'In the notation of [15], G_V = V_B/V', [15] = KST, so G_V is exactly V_B/V and Psi_natural = G_V * V * B_max.  ASSUMPTION, STATED EXPLICITLY: ABRA10_DET Eq. (4) writes G_V as a bare Biot-Savart double integral and, as printed, it carries NEITHER the 1/(4 pi) of the Biot-Savart kernel NOR a 1/V normalisation, so it is dimensionally inconsistent and cannot be the definition we compare against.  We therefore assume the intended definition is the footnote's G_V = V_B/V with V_B the KST Eq. (8) triple integral -- i.e. we supply the missing 1/(4 pi) and the missing 1/V ourselves.  Every G_V in this repository is that quantity.  If instead their Eq. (4) were meant literally, our G would differ from theirs by 4 pi (and by a length^3), which is NOT the ~10 % discrepancy we see, so the assumption is at least self-consistent; it cannot be verified from the published text.",
+    "c_PU": "M3 Eq. (A5).  Identity derived in the report: c_PU = Psi_natural / (B_0 V_PU^(5/6) sqrt(2 L_p_natural)) = F_natural^(1/4) / (sqrt(2) B_0 V_PU^(5/6)), equivalently F = Psi^4/L_p^2 = 4 c_PU^4 B_0^4 V_PU^(10/3).",
+    "L_eff": "CORE / M3 L_eff = our L_p (SI henries) when the readout inductance is pickup-dominated."
+  },
+
+  "abra10cm": {
+    "label": "ABRACADABRA-10 cm",
+    "topology": "toroidal magnet (counter-wound, no net azimuthal current) with a single circular superconducting pickup loop on the axis in the bore",
+    "geometry": {
+      "R_in_m": [0.03, "ABRA10 L166-177: 'a minimum inner radius of 3 cm'"],
+      "R_out_m": [0.06, "ABRA10 L166-177: 'a maximum outer radius of 6 cm'"],
+      "H_m": [0.12, "ABRA10 L166-177: 'a maximum height of 12 cm'"],
+      "turns": [1280, "ABRA10 Fig. 1 caption: '1,280 superconducting windings around a POM support frame'"],
+      "current_A": [121.0, "ABRA10 L166-177: 'a current of 121 A'"],
+      "B_max_T": [1.0, "ABRA10 L166-177: 'a maximum field of 1 T at the inner radius ... confirmed with a Hall sensor to a precision of ~1 %'.  mu0*N*I/(2 pi R_in) = 1.0327 T, consistent at the 3 % level."],
+      "cross_section": ["rectangular", "chosen, and now better supported: ABRA10_DET L142-153 describes a frame of 80 identical Delrin wedges with R_in = 3 cm, R_out = 6 cm, total height 12 cm and a winding groove between each adjacent pair (16 winds each, 'laid down in pairs 8 layers deep'), with no taper, fillet or trapezoid stated.  No engineering cross-section is published."],
+      "winding_thickness_m": [2e-4, "chosen; not published.  Thin-sheet limit, convergence in the record."],
+      "pickup_loop_radius_m": [0.0201, "ABRA10_DET Table I: 'Pickup Loop Radius R_p 20.1 mm' (the PRL rounds it to 2.0 cm).  NOTE an internal inconsistency in ABRA10_DET: L296-298 says the wire is wound on the outside of a 5.5 cm diameter PTFE tube, which would give 27.5 mm; the quoted L_p = 95.5 nH matches 20.1 mm to 0.2 % and 27.5 mm not at all, so 20.1 mm is used."],
+      "pickup_wire_radius_m": [5e-4, "ABRA10_DET Table I: 'Pickup Loop Wire Diameter 1.0 mm'; L296 'solid NbTi wire'"],
+      "pickup_turns": [1, "ABRA10_DET L322-324 ('the two wire leads from the pickup loop'); a single turn, consistent with L_p"],
+      "calibration_loop_radius_m": [0.045, "ABRA10_DET L401-406: '0.5 mm diameter NbTi wire passing through the body of the toroid (i.e. in the magnetic field region), creating a 9 cm diameter loop concentric with and in the same plane as the pickup loop'"],
+      "calibration_wire_radius_m": [2.5e-4, "ABRA10_DET L402: '0.5 mm diameter NbTi wire'"],
+      "shield": ["spun copper can coated inside and out with 25-75 um of tin, ~1 mm total, built as two hemispheres with ~12 mm vertical overlap, superconducting below 3.7 K; one small gap for three twisted pairs", "ABRA10_DET L192-211"],
+      "shield_radius_m": [null, "NOT published in either paper.  ABRA10_DET L202-203: 'Optimizing and characterizing this external shielding will be the subject of future work.'  Scanned in the record (0.075-0.20 m)."]
+    },
+    "published_quantities": {
+      "G_V": [0.027, "ABRA10_DET Table I ('Geometric Factor G_V 0.027') and L320-322: 'For the ABRACADABRA-10 cm geometry, we calculate this using a COMSOL simulation to be G_V = 0.027'.  No uncertainty quoted; no analytic cross-check reported (unlike M_CP); the superconducting shield is not mentioned in connection with it, and Eq. (4) is a bare vacuum Biot-Savart integral, so the computation is shield-free."],
+      "V_field_m3": [8.90e-04, "ABRA10_DET L147: 'The total volume of magnetic field is V ~ 890 cm^3'.  This is 12.6 % BELOW the rectangular annulus pi(R_out^2 - R_in^2)H = 1017.9 cm^3, and the paper does not say how it was obtained.  It is the V in G_V = V_B/V, so it is the one to use."],
+      "V_toroid_rect_m3": [0.0010179, "derived: pi (0.06^2 - 0.03^2) * 0.12, the rectangular-annulus value, for comparison"],
+      "V_B_m3": [2.403e-05, "derived: G_V * V_field = 0.027 * 890 cm^3 = 24.03 cm^3.  This is the number a FEM must reproduce.  NOT 2.75e-05 m^3: that would be 0.027 times the 1017.9 cm^3 rectangular annulus, which is not the V the paper quotes."],
+      "L_p_H": [9.55e-08, "ABRA10_DET Table I: 'Pickup Loop Inductance L_p 95.5 nH' (calculated).  The PRL's '~100 nH' is this rounded, and must not be used as the reference: against 95.5 nH our FEM is -0.3 %, against '100 nH' it would look like -5.4 %."],
+      "L_cal_H": [3.0e-07, "ABRA10_DET L449 and Fig. 3 caption: 'The calibration loop, L_C ~ 300 nH'"],
+      "L_in_H": [1.5e-07, "ABRA10_DET Table I: 'SQUID Input Inductance L_in 150 nH'"],
+      "M_in_H": [2.52e-09, "ABRA10_DET L371-373: 'The inductive coupling between the input coil of the SQUID and the SQUID is M_in = 2.52 nH'"],
+      "M_cal_H": [1.93e-08, "ABRA10_DET L437-442: 'We calculate the mutual inductance between the calibration and pickup loops both with an analytic calculation based on the geometry, as well as with a COMSOL simulation.  These values agree and predict a mutual inductance of M_CP = 19.3 nH.'  NOTE: the PRL (ABRA10 L227-242) says '~ 50 nH' for the same quantity; the two papers disagree and 19.3 nH is the one consistent with the stated 2.01 cm / 4.5 cm geometry."],
+      "L_total_design_H": [5.5e-07, "ABRA10_DET L337-339: 'the total design inductance of the pickup loop circuit is ~550 nH'"],
+      "L_total_measured_H": [3.3e-06, "ABRA10_DET L339-340: 'measuring the inductance of the circuit yielded a value closer to L_T ~ 3.3 uH'"],
+      "gain_shortfall": [6.5, "ABRA10_DET L694-702: 'our measured gain is a factor of ~6.5 below what is expected based on the calculated circuit inductance ... most likely come from parasitic inductance in the readout circuit'.  Consistent with L_T 3.3 uH / 550 nH = 6.0."],
+      "flux_noise_Phi0_2_per_Hz": [6e-07, "ABRA10_DET L369-370: 'typical flux noise floor of 0.6 uPhi_0^2/Hz'"]
+    },
+    "sensitivity_inputs": {
+      "readout": ["broadband (untuned)", "ABRA10 L105-110: 'The present design uses a simplified broadband readout'.  Not a resonant scan, so the optimal-scan machinery of docs/physics/scan_and_signal.md does not apply directly."],
+      "T_K": [1.2, "ABRA10 L178-200 (toroid/shield); SQUID at 870 mK (L212-226)"],
+      "integration_time_s": [2.45e06, "ABRA10 L245"],
+      "f_range_Hz": [[75000.0, 2000000.0], "ABRA10 L130-137, L290-299"],
+      "m_a_range_eV": [[3.1e-10, 8.3e-09], "ABRA10 L130-137"],
+      "rho_DM_GeV_cm3": [0.4, "ABRA10 L68"],
+      "g_limit_best_GeV": [1.4e-10, "ABRA10 abstract: '95% C.L. upper limits ... between g < 1.4e-10 GeV^-1 and g < 3.3e-9 GeV^-1'"],
+      "g_limit_worst_GeV": [3.3e-09, "ABRA10 abstract"],
+      "SQUID_flux_noise": [null, "NOT published numerically; only the 'characteristic SQUID flux floor' curve of ABRA10 Fig. 2.  KST's benchmark is 1e-6 Phi_0/sqrt(Hz) (KST Eq. 12)."]
+    }
+  },
+
+  "dmradio_50l": {
+    "label": "DMRadio-50L",
+    "topology": "toroidal magnet enclosed in a slit superconducting pickup sheath (azimuthal pickup), resonant LC readout",
+    "geometry": {
+      "R_in_m": [0.14, "T50L slide 20: radial callout '14 cm'.  Cross-checked: N = 140 grooves x 36 winds = 5040, I = 140 A give mu0 N I/(2 pi * 0.14) = 1.008 T, matching the slide's '1 T peak field: ~140 A'."],
+      "R_out_m": [0.24, "T50L slide 20: radial callout '24 cm'.  Cross-checked: b/a = 1.714 gives B_rms/B_peak = 0.746, matching GUT L327's '12 T RMS (equivalent to a 16 T peak field for a toroid with the same approximate aspect ratio as DMRadio-50L)'."],
+      "H_m": [0.47, "T50L slide 20: vertical dimension line '47 cm'"],
+      "turns": [5040, "T50L slide 20: '140 grooves', '36 winds in each groove', 'Counter wound'"],
+      "current_A": [140.0, "T50L slide 20: '1 T peak field: ~140 A'"],
+      "B_max_T": [1.0, "T50L slide 20 ('1 T peak field'); P50L abstract says '~50 L toroidal magnet that sustains an average DC magnetic field of 1 T' -- the field calculation supports peak, not average (B_rms = 0.75 T)."],
+      "V_field_L": [56.1, "derived: pi (0.24^2 - 0.14^2) * 0.47 = 56.1 L, against the '~50 L' that names the experiment (P50L abstract).  This is a ROUNDING-LEVEL consistency note (+12 %), not an independent check of the dimensions: '50 L' is a round number in the experiment's own name and carries no stated precision.  The two independent checks are B_peak from N I (T50L's own '1 T peak field: ~140 A') and B_rms/B_peak against GUT's 0.75."],
+      "sheath": ["superconducting sheath wrapped around the magnet with vertical slits; the readout inductor senses the AC flux in the central hole", "P50L Sec. 3"],
+      "winding_thickness_m": [0.0024, "chosen (template default 0.01 R); not published"],
+      "sheath_clearance_m": [0.0012, "chosen (template default 0.005 R); not published.  Sensitivity in the record."],
+      "sheath_thickness_m": [0.0012, "chosen (template default 0.005 R); not published"]
+    },
+    "published_quantities": {
+      "c_PU": [null, "NOT published for 50L.  GUT L250 only states 50L 'will significantly improve the coupling factor by enclosing the axion effective current in a superconducting pickup sheath'."],
+      "L_p_H": [null, "NOT published (P50L Fig. 2a labels the sheath inductance L_p with no value)"],
+      "stored_energy_J": [null, "NOT published"]
+    },
+    "sensitivity_inputs": {
+      "Q": [1.0e06, "GUT L247-251: 'a resonator with a Q-factor of ~10^6'"],
+      "T_K": [0.020, "P50L Sec. 3: resonator base temperature ~20 mK"],
+      "eta_A": [20.0, "GUT L372: DC SQUIDs 'demonstrated noise as low as 20 times the quantum limit ... the baseline for DMRadio-50L and DMRadio-m3'"],
+      "f_range_Hz": [[5000.0, 5000000.0], "P50L abstract and Sec. 3"],
+      "m_a_range_eV": [[2e-11, 2e-08], "P50L Sec. 3 and Fig. 1"],
+      "rho_DM_GeV_cm3": [0.45, "DMRadio convention (M3 L98, GUT, CORE)"],
+      "SNR": [3.0, "DMRadio convention (GUT, CORE); not restated for 50L"],
+      "Q_axion": [640000.0, "DMRadio convention (M3 Eq. 5, GUT, CORE)"],
+      "g_reach_GeV": [5e-15, "P50L Sec. 3 and Fig. 1: 'g_agg > 5e-15 GeV^-1' flat across 20 peV - 20 neV"],
+      "live_time_yr": [null, "NOT published"]
+    }
+  },
+
+  "dmradio_m3": {
+    "label": "DMRadio-m^3",
+    "topology": "solenoid (plus bucking coils, not modelled) with an immersed shorted coaxial pickup, resonant LC readout",
+    "geometry": {
+      "bore_diameter_m": [1.45, "CORE L478: 'DMRadio-m3, which utilizes a ~6.7 T peak field solenoidal magnet, with a 1.45 m bore diameter, 1.72 m outer diameter, and 1.35 m height'"],
+      "outer_diameter_m": [1.72, "CORE L478"],
+      "H_m": [1.35, "CORE L478"],
+      "B_peak_T": [6.7, "CORE L478; M3 L366 says 'reaching a peak value of ~7 T off-axis'"],
+      "B_0_axis_T": [4.0, "M3 L366: 'a characteristic value of B0 > 4 T along the central axis in the high-field region'"],
+      "total_height_m": [2.5, "M3 Fig. 1 caption: 'Total height is ~2.5 m'"],
+      "coax_inner_radius_m": [0.336, "M3_EM L292-299: 'The chosen magnet dimensions set a maximum coaxial outer radius of ro = 0.628 m.  The coaxial inner radius is chosen to be ri = 0.336 m.'  PUBLISHED (it was not in the m^3 science paper)."],
+      "coax_outer_radius_m": [0.628, "M3_EM L292-299"],
+      "coax_heights_m": [[1.68, 1.40, 1.12, 0.84, 0.70, 0.56], "M3_EM Table I (L453-480): six interchangeable copper coaxes.  L298-299: 'the tallest of which has a height, hcoax = 1.68 m'."],
+      "coax_bands_MHz": [[[[5, 27], [31, 47]], [[27, 31], [47, 75]], [[100, 115]], [[75, 100], [115, 160]], [[160, 180]], [[180, 200]]],
+                         "M3_EM Table I: the frequency range(s) each coax covers, in the same order as coax_heights_m."],
+      "coax_material": ["OFHC copper, modelled in COMSOL with an impedance boundary condition", "M3 L409; M3_EM L1220-1228"],
+      "coax_short": ["shorted at one end, open at the top where the readout port is", "M3_EM L350-359: 'the impedance of a lossless coaxial cable shorted at one end', seen at its open top end; M3 Fig. 1 caption: 'Voltage accumulates across the slit on the top'"],
+      "coax_axial_position": ["centred on the magnet mid-plane", "chosen.  M3_EM Fig. 1a spans z = -0.5 to 2.0 m with the shielded electronics box above the coax, so the real coax is not centred; its axial offset is not given numerically."],
+      "coax_wall_m": [0.005, "chosen; not published (COMSOL uses an impedance boundary condition on zero-thickness walls)"],
+      "port_gap_m": [0.01, "chosen; not published"],
+      "bucking_coils": ["present in the real design; NOT modelled", "M3 Fig. 1 caption, L401; M3_EM L231-232"],
+      "segmentation": ["the real magnet is segmented; NOT modelled", "M3 Fig. 1 caption"]
+    },
+    "em_model": {
+      "Z_c_ohm": [37.53, "M3_EM Eq. (3): Z_c = (Z_0/2pi) ln(r_o/r_i) with Z_0 = 377 ohm; = 37.5 ohm for the published radii"],
+      "Z_p": ["Z_p(omega) = i Z_c tan(omega h_coax / c)", "M3_EM Eq. (2) (L350-359), a lossless coax shorted at one end seen from its open top"],
+      "L_coax_H": ["Z_c h_coax / c", "M3_EM L385-388: 'the coaxial impedance is well approximated as a linear inductor with Z_coax ~ i omega L_coax = i omega Z_c h_coax/c'.  = 210, 175, 140, 105, 87.6, 70.1 nH for the six heights."],
+      "lambda_quarter_MHz": ["c/(4 h_coax) = 44.6, 53.5, 66.9, 89.2, 107.1, 133.8 MHz", "M3_EM L370-375: the poles of Z_p, where the structure self-resonates (lambda/4 for a shorted coax seen from the open end)."],
+      "TE111_MHz": [99.0, "M3_EM Eq. (4) (L416-433): nu_TE111 ~ 2c/[2 pi r_i (1 + r_o/r_i)] = c/[pi(r_i+r_o)] ~ 100 MHz.  This is an m = 1 mode and is INVISIBLE to an axisymmetric (m = 0) solver.  M3_EM L509-516: 'For Coaxes 1-5 listed in Table I, the TE111 mode is found in the 125 MHz < f < 185 MHz range.'"],
+      "L_eff": ["L(omega_0) = [omega_0 (dX_p/domega)(omega_0) + X_p(omega_0)] / (2 omega_0), plus L_tuning",
+                "M3_EM Eq. (6) (L689-709) and L735-739.  This is the series-RLC (Foster) equivalent inductance of the port impedance at the tuning frequency, NOT -Im Z/omega and NOT 2U/I^2.  It reduces to the lumped inductance in the MQS limit (X = omega L gives L_eff = L).  Because dX/domega > 0 (Foster's reactance theorem), L_eff > 0 at every frequency, including above a self-resonance where -Im Z/omega is negative and a tuning INDUCTANCE is used instead of a capacitance (M3_EM L392-396)."],
+      "V_convention": ["|V| is a peak (zero-to-peak) phasor amplitude, from int_A^B E_r dr across the gap, driven by J_eff = g_agg sqrt(hbar c/mu0) sqrt(2 rho_DM) cos(m_a c^2 t/h) B",
+                       "M3_EM Eq. (1) (L81-94), Eq. (B2) (L1267-1288).  No RMS and no peak-to-peak anywhere.  In the lumped limit |V| = omega Phi_signal (M3_EM L388-392), so |V| = omega kappa_a |Psi(omega)| in our notation."],
+      "BES": ["J_eff = kappa B_dc imposed as a COMSOL 'external current density' over the whole pickup volume, with B_dc imported from a separate magnetostatic solve; conductors carry an impedance boundary condition and are not meshed inside",
+              "M3_EM Appendix B (L1238-1266) and Appendix D (L1426-1529).  Appendix D shows the bulk electron-shuttling current is J_e = -J_eff exactly (Eq. D7) when sigma >> omega, so the net bulk current vanishes and imposing J_eff = kappa B_dc with conductors as surfaces is equivalent to imposing it inside the metal too.  This is the same source axionFEM uses."],
+      "radiation": ["not a consideration, the experiment is fully shielded", "M3_EM L525-526.  Appendix A (L1149-1199) scans the inner shielded box over (r, h) = (0.17, 0.35) to (1.28, 2.80) m and finds the coax impedance essentially unchanged except at the two largest boxes' cavity modes."],
+      "single_mode": ["'The resonator is designed to be single-moded at each frequency that it scans.  In order to achieve this, the coax is operated below the frequency at which a second mode appears.'", "M3_EM L318-321; see also L550-554"]
+    },
+    "published_quantities": {
+      "c_PU": [[0.1, 0.2], "M3 L664: 'Typical values for the DMRadio-m3 geometry are cPU ~ 0.1-0.2'"],
+      "c_PU_lowest_coax": [0.16, "M3 L499: 'For the lowest frequency coax cPU ~ 0.16, with the exact value depending on details of the final design'"],
+      "L_PU_H": [2.0e-07, "M3 L445: 'the nominal LPU <~ 200 nH' (an upper bound)"],
+      "V_PU_m3": [2.0, "M3 L356: 'a bore volume of V ~ 2 m^3'"],
+      "stored_energy_J": [4.3e07, "CORE L478-484 states the Core magnet (4.3 MJ, L490) has 'an order of magnitude less stored energy than the magnet of DMRadio-m3', i.e. ~43 MJ.  Order of magnitude only."]
+    },
+    "sensitivity_inputs": {
+      "Q": [1.0e05, "M3 L291, L418: 'target Q > 10^5' (copper-limited).  M3_EM Fig. 7 shows the modelled total Q(nu) spanning 1e4-1e6 over 5-200 MHz."],
+      "Q_cryogenic_enhancement": [[11.1, 9.9, 8.2, 6.0], "M3_EM L1375-1377: 'These combine to adjust the Q by a factor of 11.1 at 5 MHz, 9.9 at 10 MHz, 8.2 at 30 MHz, and 6.0 at 200 MHz' over room-temperature copper; L1371 quotes a conservative constant baseline Q_rat = 6."],
+      "T_K": [0.020, "M3 L295: 'T ~ 20 mK' pickup and capacitor (magnet at 4 K); M3_EM L606 'evaluated at T = 0.02 K'"],
+      "eta_A": [20.0, "M3 L293, L477: DC SQUID at 20x the SQL.  M3_EM L859-860 is more detailed: eta = 10 for 10-30 MHz and eta = 20 for 30-200 MHz (conservative); its Table II gives eta 5-8 for a 5-75 MHz low-bandwidth configuration and 8-15 for 75-200 MHz."],
+      "f_range_Hz": [[5000000.0, 200000000.0], "M3 L126, L431"],
+      "m_a_range_eV": [[2e-08, 8e-07], "M3 L126: '20 neV <~ m_a c^2 <~ 800 neV'"],
+      "live_time_yr": [5.0, "M3 L127, L507, L536"],
+      "rho_DM_GeV_cm3": [0.45, "M3 L98; M3_EM L95-96"],
+      "SNR": [3.0, "M3_EM L611: 'We set SNR = 3' (the m^3 science paper does not state it)"],
+      "Q_axion": [640000.0, "M3 Eq. 5 and M3_EM Eq. (5) prefactor pi(6.4e5)"],
+      "reach_statement": ["DFSZ above ~120 neV (30 MHz); KSVZ down to ~40 neV (10 MHz); 'at or below the KSVZ sensitivity over the full range'", "M3 L30, L396, L511, L534"],
+      "live_times_table3": [[{"target": "DFSZ", "band_MHz": [30, 200], "years": 2.9, "years_scaled": 2.6},
+                             {"target": "KSVZ", "band_MHz": [10, 30], "years": 1.0, "years_scaled": 0.6},
+                             {"target": "g = 1.87e-17 GeV^-1", "band_MHz": [5, 30], "years": 3.5, "years_scaled": 2.1}],
+                            "M3_EM Table III (L937-965).  These are the sharpest published sensitivity numbers for m^3 and the ones to compare a scan time with."],
+      "scan_rate_data": [null, "M3_EM L1028 and ref [63]: the numerical scan rates are on Zenodo, 10.5281/zenodo.15149989.  Not used here (public but not fetched)."]
+    }
+  },
+
+  "dmradio_gut": {
+    "label": "DMRadio-GUT",
+    "topology": "toroidal magnet with a superconducting pickup sheath, as in DMRadio-50L",
+    "geometry": {
+      "V_m3": [10.0, "GUT L327 and Table II"],
+      "B_peak_T": [16.0, "GUT L327 and Table II"],
+      "B_rms_T": [12.0, "GUT L327: 'a 12 T root-mean-square (RMS) field (equivalent to a 16 T peak field for a toroid with the same approximate aspect ratio as DMRadio-50L)'"],
+      "stored_energy_J": [5.73e08, "GUT L327: 'for a total stored energy of 573 MJ'.  Identity: (1/2 mu0)(12 T)^2 (10 m^3) = 572.96 MJ, so 573 MJ is NOT an independent datum: it is DEFINED by the quoted B_rms and V.  Since the aspect ratio below was then chosen to reproduce it, a FEM W that comes out near 573 MJ is CIRCULAR and must not be reported as an agreement.  The non-circular check is W_FEM against the analytic ideal rectangular toroid at the same (a, b, H, NI)."],
+      "aspect_ratio": [1.7142857, "chosen, forced by the data: GUT L198 says r_out/r_in = 2, but r_out/r_in = 2 at V = 10 m^3 and B_peak = 16 T gives 471 MJ, not 573 MJ, and B_rms/B_peak = 0.680, not 0.75.  The 50L aspect ratio 24/14 = 1.714 gives B_rms/B_peak = 0.7458 and 566 MJ.  We therefore scale the 50L toroid uniformly by (10 m^3 / 56.11 L)^(1/3) = 5.6276.  NOTE this is a CHOICE made to reproduce the 573 MJ / 12 T RMS pair; see stored_energy_J above."],
+      "R_in_m": [0.78786, "derived: 0.14 * 5.6276"],
+      "R_out_m": [1.35062, "derived: 0.24 * 5.6276"],
+      "H_m": [2.64498, "derived: 0.47 * 5.6276"],
+      "H_over_R_in": [3.3571, "chosen, NOT published.  GUT fixes only V and B_peak; at fixed V and aspect ratio the stored energy is independent of H/R_in (W = V B_peak^2 ln(ar)/(mu0 (ar^2-1))) but Psi, L_p and c_PU are not.  Scanned over H/R_in = 1-8 in the record: c_PU runs 0.068-0.098, so the quoted c_PU deviation from the published 0.1 is set by this unpublished parameter, not measured."],
+      "winding_thickness_m": [0.0135, "chosen, NOT published (the 50L winding thickness 2.4 mm scaled by 5.6276).  Scanned over a factor 0.25-4 (3.4-54 mm) in the record: W runs 569-612 MJ, i.e. the FEM stored energy straddles the published 573 MJ across the range of an unpublished parameter."]
+    },
+    "published_quantities": {
+      "c_PU": [0.1, "GUT Table II (all four scenarios) and L195-200: 'A typical value is c_PU ~ 0.1'.  'Typical', with no geometry attached, so it fixes nothing: our value depends on the unpublished H/R_in (0.068-0.098 over H/R_in = 1-8)."],
+      "stored_energy_J": [5.73e08, "GUT L327; see geometry/stored_energy_J for why comparing a FEM W with this is circular."]
+    },
+    "sensitivity_inputs": {
+      "Q": [2.0e07, "GUT Table I and Table II (baseline)"],
+      "T_K": [0.010, "GUT Table II"],
+      "eta_A": [0.1, "GUT Table II ('-20 dB'), L402: 'eta_A = 0.1, corresponding to 20 dB of backaction-noise reduction'"],
+      "f_range_Hz": [[100000.0, 30000000.0], "GUT L90, L573"],
+      "m_a_range_eV": [[4e-10, 1.2e-07], "GUT L90: 'm_a in [0.4, 120] neV'"],
+      "live_time_yr": [6.2, "GUT Table II baseline: '6.2 years'; L567 '~6 years'.  'The total scan times in the table are calculated from Equation (3)'."],
+      "rho_DM_GeV_cm3": [0.45, "GUT Table II caption"],
+      "SNR": [3.0, "GUT Table II caption: 'All scenarios reach DFSZ sensitivities at SNR = 3'"],
+      "Q_axion": [640000.0, "GUT Eq. (A12) 'Q_axion ~ 10^6'; the Eq. (3) normalisation uses 6.4e5 as in M3/CORE"],
+      "C_agammagamma": [0.75, "GUT fixes the DFSZ photon coupling at C_agammagamma ~ 0.75 (as quoted from the paper; not re-checked against the text of 2203.11246).  With E/N = 8/3 this is C_gamma = 8/3 - 0.75 = 1.917 ~ 1.92, the chiral-perturbation-theory value, NOT axionFEM's lattice default C_gamma = 1.77 (which gives C_agammagamma = 0.897).  Since the scan time goes as g^-4 ~ C_agammagamma^-4, the convention is worth a factor ((8/3-1.77)/(8/3-1.92))^4 = 2.0798 in time.  THIS IS THE CONVENTION TO USE when comparing with GUT Table II: with it, Eq. (3) gives 3.86 yr for the baseline against the tabulated 6.2 yr, a factor 1.60 -- not the 3.34 that the lattice C_gamma would suggest."],
+      "scan_rate_anchor": [41000.0, "GUT Eq. (3): 41 kHz/year at c_PU = 0.1, B0 = 16 T, V = 10 m^3, nu_r = 100 kHz, Q = 2e7, T = 10 mK, eta_A = 0.1, SNR = 3, g = 1e-19 GeV^-1, rho = 0.45.  Already reproduced as 41.28 kHz/yr in docs/physics/scan_and_signal.md Sec. 8."],
+      "scenarios": [
+        {"name": "baseline", "B0_T": 16.0, "V_m3": 10.0, "c_PU": 0.1, "Q": 2.0e07, "eta_A": 0.1, "T_K": 0.010, "scan_time_yr": 6.2},
+        {"name": "stronger magnet + higher noise", "B0_T": 29.0, "V_m3": 10.0, "c_PU": 0.1, "Q": 2.0e07, "eta_A": 0.5623413252, "T_K": 0.010, "scan_time_yr": 3.2},
+        {"name": "lower noise + lower volume", "B0_T": 16.0, "V_m3": 8.0, "c_PU": 0.1, "Q": 2.0e07, "eta_A": 0.0562341325, "T_K": 0.010, "scan_time_yr": 7.3},
+        {"name": "higher volume + lower Q", "B0_T": 16.0, "V_m3": 17.0, "c_PU": 0.1, "Q": 2.0e06, "eta_A": 0.1, "T_K": 0.010, "scan_time_yr": 10.6}
+      ],
+      "scenarios_source": "GUT Table II.  eta_A is tabulated in dB; GUT L402 fixes the convention by stating that 20 dB of backaction reduction means eta_A = 0.1, i.e. eta_A = 10^(-dB/20): -20 dB -> 0.1, -5 dB -> 0.5623, -25 dB -> 0.05623.  With that convention all four tabulated scan times follow from the baseline by t ∝ eta_A/(Q B0^4 V^(10/3)) to better than 1 %, which confirms the reading."
+    }
+  },
+
+  "dmradio_core": {
+    "label": "DMRadio-Core",
+    "topology": "segmented solenoid with soft-iron flux return; the pickup is a closed conductor that threads the bore (copper plates) and closes outside the magnet (niobium ring), read out across a slit",
+    "geometry": {
+      "bore_diameter_m": [0.37, "CORE L487: 'nine segments with a 37 cm bore, a 60 cm outer diameter, and a total height of 2.95 m'"],
+      "outer_diameter_m": [0.60, "CORE L487"],
+      "H_m": [2.95, "CORE L487"],
+      "segments": [9, "CORE L487"],
+      "iron_segments": [3, "CORE L495: 'Three segments of soft iron redirect the returning magnetic field lines'.  Positions/sizes NOT published; not modelled."],
+      "conductor": ["3 mm diameter NbTi wire at 330 A", "CORE L494"],
+      "B_peak_T": [5.0, "CORE L475, L487: '~5 T peak field solenoidal magnet'"],
+      "stored_energy_J": [4.3e06, "CORE L490: 'a total magnetic field energy of 4.3 MJ'"],
+      "low_field_T": [0.170, "CORE L495: 'a large region where Bdc < 170 mT'"],
+      "pickup_inner_diameter_m": [0.64, "CORE L507: 'the large pickup region outside of the magnet is 29 cm in height and 64 cm in inner diameter'"],
+      "pickup_height_m": [0.29, "CORE L507"],
+      "pickup_outer_diameter_m": [[1.20, 1.46], "CORE L509: 'Four pickups have an outer diameter of 120 cm ... and four pickups have an outer diameter of 146 cm'"],
+      "plate_spacing_m": [0.06, "CORE L506: 'the copper plates have a 6 cm spacing'"],
+      "port": ["a 30 degree azimuthal sector of the slit", "CORE L512-521.  Not representable in an axisymmetric model; our port spans the full 360 degrees."],
+      "n_pickups": [8, "CORE L509"]
+    },
+    "published_quantities": {
+      "stored_energy_J": [4.3e06, "CORE L490"],
+      "B_peak_T": [5.0, "CORE L487"],
+      "L_eff_H": [null, "NOT published.  CORE L553: 'These simulations therefore provide L_eff' -- numerical values only in the Zenodo scan-rate dataset (10.5281/zenodo.21283056)."],
+      "V_slit": [null, "NOT published"],
+      "c_PU": [null, "CORE does not use c_PU at all; it quotes |V| and L_eff from COMSOL, neither numerically."]
+    },
+    "sensitivity_inputs": {
+      "Q": [1.0e06, "CORE L592, L599"],
+      "T_K": [0.050, "CORE L579"],
+      "eta_A": ["frequency-dependent; see eta_A_table_MHz below",
+                "CORE L575-578 cites 'Table 3 of [45]' = SQUID (arXiv:2504.20398).  THAT PAPER HAS NO TABLE 3: it has only Tables I and II (SQUID array parameters), and the frequency-dependent eta is its FIG. 3.  The Core paper's citation is therefore to the wrong object; the values below are read off Fig. 3 of the arXiv v1 by extracting the figure's vector path vertices with the axis ticks as calibration, and cross-checked against Fig. 4 through the analytic relation eta = sqrt(14.40 eps_uc/hbar - 61.70) that follows from SQUID Eqs. 11, 12, 42, 43.  Note also that Fig. 3's caption swaps the 'medium'/'low' bandwidth colours relative to its own legend; the legend is used (it is the one consistent with the Fig. 4 caption's '< 7.6 hbar below 50 MHz' statement and with the SQUID count)."],
+      "eta_A_definition": ["eta = k_B T_min(omega)/(hbar omega/2), so eta = 1 is the SQL",
+                           "SQUID Eq. (28) (L665-671), identical to CORE Eq. (6).  The operational form, SQUID Eq. (42), is eta = sqrt(S_VV S_IIsys - (Im S_IV)^2)/(hbar omega), i.e. it includes the imprecision-backaction correlation.  Same convention as axionFEM's eta_A (docs/physics/scan_and_signal.md S3.5)."],
+      "eta_A_table_MHz": [{"30": 6.08, "40": 6.48, "50": 6.97, "60": 7.52, "70": 8.13, "80": 8.78,
+                           "90": 9.35, "100": 9.78, "110": 10.23, "120": 10.71, "130": 11.21,
+                           "140": 11.72, "150": 12.24, "160": 12.79, "170": 13.33, "180": 13.89,
+                           "190": 14.46, "200": 15.03},
+                          "SQUID Fig. 3, the lower envelope over the five plotted amplifier chains ('the optimal frequency-dependent values of eta').  Below ~86 MHz the low-bandwidth second stage with the CITLF2 cryogenic preamp wins, above it the medium-bandwidth one.  The curves are a projection assembled from realized components, not a measured end-to-end chain.  Over Core's Ops-1 band (70-140 MHz) eta runs 8.1 to 11.7."],
+      "eta_A_floor": [3.7, "SQUID L800-803: 'From Eq. 29, it is seen that eta_TC ~ 3.7, so SQUID C1 would perform at about 4 times the SQL for optimal noise matching to a complex impedance' -- the first stage alone with no follow-on noise.  Do not extrapolate eta toward 1."],
+      "f_range_Hz": [[70000000.0, 140000000.0], "CORE L469, L593 ('Ops 1'); extensible to 30-200 MHz ('Ops 2')"],
+      "m_a_range_eV": [[2.9e-07, 5.8e-07], "CORE L469: '290-580 neV/c^2'"],
+      "live_time_yr": [0.75, "CORE L593, L602"],
+      "rho_DM_GeV_cm3": [0.45, "CORE L207, L592"],
+      "SNR": [3.0, "CORE L592, L601"],
+      "Q_axion": [640000.0, "CORE Eq. 3 prefactor pi(6.4e5)"]
+    }
+  }
+}

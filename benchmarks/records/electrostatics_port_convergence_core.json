@@ -1,0 +1,36 @@
+{
+  "check": "port_convergence_core",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:56",
+  "template": "core",
+  "rows": [
+    {
+      "surface_size_scale": 1.0,
+      "dofs": 136538,
+      "C_gap_F": 5.1093036156276664e-11,
+      "C_gap_port_region_F": 2.3921976192130026e-11,
+      "self_resonance_Hz": 38437452.48518689,
+      "charge_fraction_beyond_terminal_faces": 0.275763546151812
+    },
+    {
+      "surface_size_scale": 0.7,
+      "dofs": 189082,
+      "C_gap_F": 5.026198582223118e-11,
+      "C_gap_port_region_F": 2.3921976192130465e-11,
+      "self_resonance_Hz": 38753919.25205623,
+      "charge_fraction_beyond_terminal_faces": 0.2619006564181857
+    },
+    {
+      "surface_size_scale": 0.5,
+      "dofs": 255406,
+      "C_gap_F": 4.969768356823231e-11,
+      "C_gap_port_region_F": 2.3921976192130336e-11,
+      "self_resonance_Hz": 38973317.75578509,
+      "charge_fraction_beyond_terminal_faces": 0.19792313194783517
+    }
+  ],
+  "C_gap_spread": 0.028076813401747502,
+  "C_gap_port_region_spread": 1.84297022087776e-14,
+  "pass": true,
+  "headline": "core: C_gap spread 2.8% over 2x mesh refinement (region-only 0.00%)"
+}

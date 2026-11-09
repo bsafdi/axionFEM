@@ -1,0 +1,471 @@
+{
+ "id": "mms_advdiff_axi",
+ "capability": "F4a",
+ "title": "Axisymmetric scalar transport MMS: r-weighted, axis natural, Robin and Neumann outflow, variable kappa, Pe ~ 1 (Galerkin, SUPG) and Pe ~ 1e6 (SUPG); patch test",
+ "physics": "a b.grad T - div(kappa grad T) = s with prescribed divergence-free b; axisymmetric",
+ "levels": [
+  "mms",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f4a_heat",
+   "function": "scalar_mms_axi",
+   "check_module": "f4a_heat_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "element": {
+    "temperature": "P2",
+    "geometry": "affine (straight-sided)"
+   },
+   "fields": {
+    "pe1": {
+     "path": "tools/fluids_mms/out/heat_axi_pe1.json",
+     "sha256": "2390378c2fc8215975eacdb61294af589c4c9b04a025aed678b16925355735ec"
+    },
+    "pe1e6": {
+     "path": "tools/fluids_mms/out/heat_axi_pe1e6.json",
+     "sha256": "ace96913373867ae2997a4e8b36e8ee7af754921ce0d9b121fbb98c86e292849"
+    }
+   },
+   "patch_fields": {
+    "pe1e6": {
+     "path": "tools/fluids_mms/out/heat_axi_patch_pe1e6.json",
+     "sha256": "3bc5e96971f98b3372e4282fd512e627d66e86d0b1c03f2aac9297a8a5b66867"
+    },
+    "pe1e2": {
+     "path": "tools/fluids_mms/out/heat_axi_patch_pe1e2.json",
+     "sha256": "e13d6136a43f4df7fddb52beebb8295e1a453eec479f7dfa99c19a0e4a964f2f"
+    }
+   },
+   "a": 1.5,
+   "kappa0": {
+    "pe1": "3/2",
+    "pe1e6": "3/2000000"
+   },
+   "advecting_velocity": "the field's b (callable, evaluated at the quadrature points; exactly divergence-free)",
+   "advective_form": "convective: a b.grad T (natural BC: the outward diffusive flux q_out)",
+   "boundary_conditions": "axis r = 0: natural (symmetry); z = 0 Dirichlet (inflow); r = 1 diffusive-flux Neumann (outflow); z = 1 Robin -kappa grad T.n = h (T - T_ext), h = 2 kappa0 (outflow; r varies along it, so the Robin term's r weight is tested)",
+   "dirichlet_data": "P2 (P1) Lagrange NODAL interpolation of the fixed callables at the vertices and edge midpoints of the Dirichlet boundary parts; at a node shared by two Dirichlet parts the data agree (one exact callable per field); Dirichlet beats every natural condition at a shared node",
+   "supg": "Residual-based SUPG: add sum_K int_K tau_K (a b.grad v) R_K(T_h) (r-weighted in axisymmetry) to the Galerkin form, with the FULL element residual R_K(T) = a b.grad T - div(kappa grad T) - s evaluated element-wise (second derivatives of T_h for P2, the grad kappa. grad T term, and in axisymmetry the hoop term kappa T_r / r). FIXED FAMILY: tau_K = C tau_rule(h_K) with tau_coth(h) = h / (2 p a |b|) (coth Pe - 1/Pe), Pe = a |b| h / (2 p kappa), or tau_Shakib(h) = [(2 p a |b| / h)^2 + 9 (4 p^2 kappa / h^2)^2]^(-1/2) (C multiplies tau; it is NOT inside Pe or h); p the element degree; |b| the Euclidean norm of the advecting velocity (in axisymmetry its MERIDIONAL part (b_r, b_z)); tau evaluated at the quadrature points or as an element constant; h_K a length that depends on the element's GEOMETRY only (invariant under a renumbering of its vertices and under rigid motions); admissible pairs (C, h_K): c_adv = C h_K / sqrt(2|K|) in [1/2, 2] AND c_diff = C h_K^2 / (2|K|) in [1/2, 2] (the advective- and diffusive-limit tau relative to C = 1, h_K = sqrt(2|K|)), evaluated on the right isosceles triangles of the unit, channel, pipe and annulus families; the same (rule, C, h_K) is used on every fixed mesh; on the distorted family the per-element values may leave the box (longest edge x 1: c_diff in [1.37, 3.07]), immaterial for its Pe 1e6 items (advective limit: only c_adv matters). Examples: h_K = sqrt(2|K|) (NGSolve mesh_size; MFEM sqrt(T->Weight()) on an affine triangle) with C in [1/2, 2]; the longest edge (sqrt(2) sqrt(2|K|) on the fixed right triangles) with C in [1/(2 sqrt 2), 1] (C = 1 is the library's shakib_hK); MFEM GetElementSize(e, 0) = 1.0746 sqrt(2|K|) with C in [0.47, 1.73].",
+   "quadrature_requirement": "Every Galerkin and SUPG integrand that is a polynomial on affine triangles is integrated EXACTLY: for P2 T and v: a b.grad T v with b in P1 degree 4 planar / 5 axisymmetric; with b = u_h in P2 (the coupled energy equation: B, C1, E1, H1, X1) or the quadratic Poiseuille b (G1, G2) degree 5 planar / 6 axisymmetric (a degree-4 rule for a u_h.grad T v moves X1 by 3.4e-8 against its 1e-8 recipe); the momentum terms as F2a requires. Non-polynomial data (MMS loads, Robin T_ext, Neumann data) by rules of degree >= 6 on elements and edges; the identities that involve such data are then QUADRATURE-LIMITED (worst measured 1.3e-11 with an admissible degree-6 rule, against bounds of 1e-10). Data callables are evaluated at interior quadrature points and at the Dirichlet nodes only (some axisymmetric loads have removable 1/r singularities on the axis).",
+   "quadrature_error_norms": 10,
+   "meshes": {
+    "unit": {
+     "family": "unit",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "scalar_transport_check.box_mesh(8, 8, k), k = 0..4, on [0,1]^2 in (r, z): 8 x 8 squares split along the (1,1) diagonal except the two cells at the corners (1,0) and (0,1) (split the other way: no triangle with all vertices on the boundary), refined uniformly (red) k times (identical to the fixed F1a structured_mesh(N), N = 8 * 2^k). Nested.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    },
+    "distorted": {
+     "family": "distorted",
+     "refinements": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "scalar_transport_check.distorted_mesh(k), k = 1..5, on [0,1]^2 in (r, z): 4 x 4 base mesh, interior vertices displaced by (0.2/4) U(-1,1)^2 (numpy PCG64(20261101)), refined (red) k times. Nested; element Jacobians vary.",
+     "h_definition": "h_nominal = 0.25 / 2^k"
+    }
+   },
+   "variants": {
+    "pe1_gal": "Pe ~ 1 field, Galerkin, unit and distorted families",
+    "pe1_supg": "Pe ~ 1 field, SUPG, unit family",
+    "pe1e6_supg": "Pe ~ 1e6 field, SUPG, unit and distorted families"
+   },
+   "patch_runs": "every patch field, Galerkin and SUPG, on unit N = 8, N = 32 and distorted k = 1",
+   "balance_runs": "pe1 Galerkin and pe1e6 SUPG on unit N = 8, 16, 32: the discrete balance identity (scalar_transport_check.balance_defect with the variational Dirichlet flux)",
+   "solver": "direct sparse LU; relative_residual in the dual norm",
+   "conditional": {
+    "conservative": {
+     "advective_form": "conservative: div(a b T) with the convective term integrated by parts and the outward TOTAL flux j_out as natural datum",
+     "variant": "Pe ~ 1 field, SUPG, conservative form, unit family; the Pe ~ 1e2 patch with the conservative form"
+    },
+    "p1": {
+     "element": "P1 temperature",
+     "variant": "Pe ~ 1e6 SUPG with P1 temperature, unit family"
+    }
+   },
+   "norms": "r-weighted (suffix w) and unweighted (suffix _unw)"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "pe1_gal_unit_TL2w",
+    "level": "mms",
+    "norm": "r-weighted ||T - T_h|| = (int (T - T_h)^2 r dr dz)^1/2 (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.231899,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "pe1_gal_unit_TH1w",
+    "level": "mms",
+    "norm": "r-weighted |T - T_h|_H1 (the 3D seminorm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.045671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "pe1_gal_unit_TL2_unw",
+    "level": "mms",
+    "norm": "UNWEIGHTED ||T - T_h|| over the (r, z) half-plane (report both)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.231899,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "pe1_gal_unit_TH1_unw",
+    "level": "mms",
+    "norm": "UNWEIGHTED |T - T_h|_H1 over the (r, z) half-plane",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.045671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "pe1_supg_unit_TL2w",
+    "level": "mms",
+    "norm": "r-weighted ||T - T_h|| = (int (T - T_h)^2 r dr dz)^1/2 (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.231899,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "pe1_supg_unit_TH1w",
+    "level": "mms",
+    "norm": "r-weighted |T - T_h|_H1 (the 3D seminorm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.045671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "pe1_gal_dist_TL2w",
+    "level": "mms",
+    "norm": "r-weighted ||T - T_h|| = (int (T - T_h)^2 r dr dz)^1/2 (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.distorted.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.231899,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "pe1_gal_dist_TH1w",
+    "level": "mms",
+    "norm": "r-weighted |T - T_h|_H1 (the 3D seminorm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.distorted.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.045673,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "pe1_cons_supg_unit_TL2w",
+    "level": "mms",
+    "norm": "r-weighted ||T - T_h|| = (int (T - T_h)^2 r dr dz)^1/2 (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.231899,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "pe1_cons_supg_unit_TH1w",
+    "level": "mms",
+    "norm": "r-weighted |T - T_h|_H1 (the 3D seminorm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.045671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "p1_pe1e6_supg_unit_TL2w",
+    "level": "mms",
+    "norm": "r-weighted ||T - T_h|| = (int (T - T_h)^2 r dr dz)^1/2 (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.231899,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "p1_pe1e6_supg_unit_TH1w",
+    "level": "mms",
+    "norm": "r-weighted |T - T_h|_H1 (the 3D seminorm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.045671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "patch_pe1e6_gal_nodal_err_max",
+    "level": "mms",
+    "max": 1e-09
+   },
+   {
+    "quantity": "patch_pe1e6_supg_nodal_err_max",
+    "level": "mms",
+    "max": 1e-09
+   },
+   {
+    "quantity": "patch_pe1e2_gal_nodal_err_max",
+    "level": "mms",
+    "max": 1e-09
+   },
+   {
+    "quantity": "patch_pe1e2_supg_nodal_err_max",
+    "level": "mms",
+    "max": 1e-09
+   },
+   {
+    "quantity": "pe1e6_supg_Tstreamw_finest_max",
+    "level": "mms",
+    "max": 1.5e-05
+   },
+   {
+    "quantity": "pe1e6_supg_TL2w_finest_max",
+    "level": "mms",
+    "max": 2e-07
+   },
+   {
+    "quantity": "balance_pe1_defect_max",
+    "level": "conservation",
+    "max": 1e-10
+   },
+   {
+    "quantity": "balance_pe1e6_defect_max",
+    "level": "conservation",
+    "max": 1e-10
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "mms",
+    "max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  },
+  "solver_sensitivity": [
+   {
+    "quantity": "pe1_gal_unit_TL2w_finest",
+    "tight_quantity": "pe1_gal_unit_TL2w_finest_tight",
+    "level": "mms",
+    "rel_max": 0.001
+   }
+  ]
+ }
+}

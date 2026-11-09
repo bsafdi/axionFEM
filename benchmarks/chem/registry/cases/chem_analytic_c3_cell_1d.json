@@ -1,0 +1,717 @@
+{
+ "id": "chem_analytic_c3_cell_1d",
+ "capability": "C3a",
+ "title": "1D parallel-plate cell: BV sym/asym/strongly irreversible (|alpha f eta| 14-20), linearized, Tafel, two kappa layers, potentiostatic and galvanostatic from the default guess, break test",
+ "physics": "uniform current density; V = dE + eta_a - eta_c + i R_Omega",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3_current_distribution",
+   "function": "cell_1d",
+   "check_module": "c3_checks",
+   "cost": "short",
+   "timeout_s": 300
+  },
+  "parameters": {
+   "cell": {
+    "H": "0.005",
+    "L": "0.01",
+    "kappa": "1",
+    "kappa_two": [
+     "1",
+     "4"
+    ]
+   },
+   "variants": {
+    "asym_galv": {
+     "anode": [
+      {
+       "E_eq": "0.05",
+       "alpha_a": "0.3",
+       "alpha_c": "0.7",
+       "i0": "20",
+       "kind": "bv"
+      }
+     ],
+     "cathode": [
+      {
+       "E_eq": "-0.02",
+       "alpha_a": "0.6",
+       "alpha_c": "0.4",
+       "i0": "5",
+       "kind": "bv"
+      }
+     ],
+     "control": "galvanostatic",
+     "i": "30",
+     "layers": "one"
+    },
+    "asym_pot": {
+     "V": "0.6",
+     "anode": [
+      {
+       "E_eq": "0.05",
+       "alpha_a": "0.3",
+       "alpha_c": "0.7",
+       "i0": "20",
+       "kind": "bv"
+      }
+     ],
+     "cathode": [
+      {
+       "E_eq": "-0.02",
+       "alpha_a": "0.6",
+       "alpha_c": "0.4",
+       "i0": "5",
+       "kind": "bv"
+      }
+     ],
+     "control": "potentiostatic",
+     "layers": "one"
+    },
+    "high_V_pot": {
+     "V": "1.5",
+     "anode": [
+      {
+       "E_eq": "0.05",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "cathode": [
+      {
+       "E_eq": "-0.02",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "control": "potentiostatic",
+     "layers": "one"
+    },
+    "high_galv": {
+     "anode": [
+      {
+       "E_eq": "0.05",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "cathode": [
+      {
+       "E_eq": "-0.02",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "control": "galvanostatic",
+     "i": "2000",
+     "layers": "one"
+    },
+    "irrev_galv": {
+     "anode": [
+      {
+       "E_eq": "0.05",
+       "alpha_a": "0.6",
+       "alpha_c": "0.4",
+       "i0": "1e-5",
+       "kind": "bv"
+      }
+     ],
+     "cathode": [
+      {
+       "E_eq": "-0.02",
+       "alpha_a": "0.35",
+       "alpha_c": "0.65",
+       "i0": "1e-7",
+       "kind": "bv"
+      }
+     ],
+     "control": "galvanostatic",
+     "i": "50",
+     "layers": "one"
+    },
+    "irrev_pot": {
+     "V": "1.6",
+     "anode": [
+      {
+       "E_eq": "0.05",
+       "alpha_a": "0.6",
+       "alpha_c": "0.4",
+       "i0": "1e-5",
+       "kind": "bv"
+      }
+     ],
+     "cathode": [
+      {
+       "E_eq": "-0.02",
+       "alpha_a": "0.35",
+       "alpha_c": "0.65",
+       "i0": "1e-7",
+       "kind": "bv"
+      }
+     ],
+     "control": "potentiostatic",
+     "layers": "one"
+    },
+    "linear_pot": {
+     "V": "0.3",
+     "anode": [
+      {
+       "E_eq": "0.05",
+       "alpha_a": "0.4",
+       "alpha_c": "0.6",
+       "i0": "20",
+       "kind": "linear"
+      }
+     ],
+     "cathode": [
+      {
+       "E_eq": "-0.02",
+       "alpha_a": "0.4",
+       "alpha_c": "0.6",
+       "i0": "20",
+       "kind": "linear"
+      }
+     ],
+     "control": "potentiostatic",
+     "layers": "one"
+    },
+    "small_signal_pot": {
+     "V": "0.0705",
+     "anode": [
+      {
+       "E_eq": "0.05",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "cathode": [
+      {
+       "E_eq": "-0.02",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "control": "potentiostatic",
+     "layers": "one"
+    },
+    "sym_galv": {
+     "anode": [
+      {
+       "E_eq": "0.05",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "cathode": [
+      {
+       "E_eq": "-0.02",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "control": "galvanostatic",
+     "i": "50",
+     "layers": "one"
+    },
+    "sym_pot": {
+     "V": "0.6",
+     "anode": [
+      {
+       "E_eq": "0.05",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "cathode": [
+      {
+       "E_eq": "-0.02",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "control": "potentiostatic",
+     "layers": "one"
+    },
+    "tafel_pot": {
+     "V": "0.9",
+     "anode": [
+      {
+       "A": "0.06",
+       "E_eq": "0.05",
+       "i0": "1",
+       "kind": "tafel_a"
+      }
+     ],
+     "cathode": [
+      {
+       "A": "-0.12",
+       "E_eq": "-0.02",
+       "i0": "1",
+       "kind": "tafel_c"
+      }
+     ],
+     "control": "potentiostatic",
+     "layers": "one"
+    },
+    "twolayer_galv": {
+     "anode": [
+      {
+       "E_eq": "0.05",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "cathode": [
+      {
+       "E_eq": "-0.02",
+       "alpha_a": "0.5",
+       "alpha_c": "0.5",
+       "i0": "10",
+       "kind": "bv"
+      }
+     ],
+     "control": "galvanostatic",
+     "i": "50",
+     "layers": "two"
+    }
+   },
+   "mesh": {
+    "construction": "rect(Nx = 8, Ny = 2) on [0, L] x [0, H], P1 (P2 for asym_pot); two-layer interface at x = L/2 (a mesh line)"
+   },
+   "break_scale": 1000.0,
+   "ground": "cathode phi_s = 0 V in every variant",
+   "initial": "phi = 0; galvanostatic anode phi_s = 0.5 V; NO continuation in any variant",
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "asym_galv_V": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "V",
+    "value": 0.5344795419216724,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "asym_pot_I": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "A/m",
+    "value": 0.17387940058900775,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "asym_pot_break_I": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "A/m",
+    "value": 0.17387940058900775,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "asym_pot_p2_I": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "A/m",
+    "value": 0.17387940058900775,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "high_V_pot_I": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "A/m",
+    "value": 0.5879845411769169,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "high_galv_V": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "V",
+    "value": 20.61451232176485,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "irrev_galv_V": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "V",
+    "value": 2.0222425792277514,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "irrev_pot_I": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "A/m",
+    "value": 0.08385569240707196,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "irrev_pot_break_I": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "A/m",
+    "value": 0.08385569240707196,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "linear_pot_I": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "A/m",
+    "value": 0.09149307047701015,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "small_signal_pot_I": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "A/m",
+    "value": 0.00016514170971061314,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "sym_galv_V": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "V",
+    "value": 0.7392864662381128,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "sym_pot_I": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "A/m",
+    "value": 0.19255529004767938,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "sym_pot_break_I": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "A/m",
+    "value": 0.19255529004767938,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "tafel_pot_I": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "A/m",
+    "value": 0.26048661351807256,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "twolayer_galv_V": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "V",
+    "value": 0.5517864662381128,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "twolayer_galv_break_V": {
+    "kind": "scalar",
+    "source": "b1_closed_form",
+    "unit": "V",
+    "value": 0.5517864662381128,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "asym_galv_V",
+    "reference": "asym_galv_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "asym_pot_I",
+    "reference": "asym_pot_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "asym_pot_break_I",
+    "reference": "asym_pot_break_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "asym_pot_p2_I",
+    "reference": "asym_pot_p2_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "high_V_pot_I",
+    "reference": "high_V_pot_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "high_galv_V",
+    "reference": "high_galv_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "irrev_galv_V",
+    "reference": "irrev_galv_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "irrev_pot_I",
+    "reference": "irrev_pot_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "irrev_pot_break_I",
+    "reference": "irrev_pot_break_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "linear_pot_I",
+    "reference": "linear_pot_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "small_signal_pot_I",
+    "reference": "small_signal_pot_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "sym_galv_V",
+    "reference": "sym_galv_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "sym_pot_I",
+    "reference": "sym_pot_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "sym_pot_break_I",
+    "reference": "sym_pot_break_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "tafel_pot_I",
+    "reference": "tafel_pot_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "twolayer_galv_V",
+    "reference": "twolayer_galv_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "twolayer_galv_break_V",
+    "reference": "twolayer_galv_break_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "asym_galv_balance_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.3,
+    "scale_quantity": "asym_galv_I_scale"
+   },
+   {
+    "quantity": "asym_pot_balance_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.3477588011780155,
+    "scale_quantity": "asym_pot_I_scale"
+   },
+   {
+    "quantity": "high_V_pot_balance_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1.1759690823538338,
+    "scale_quantity": "high_V_pot_I_scale"
+   },
+   {
+    "quantity": "high_galv_balance_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 20.0,
+    "scale_quantity": "high_galv_I_scale"
+   },
+   {
+    "quantity": "irrev_galv_balance_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.5,
+    "scale_quantity": "irrev_galv_I_scale"
+   },
+   {
+    "quantity": "irrev_pot_balance_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.1677113848141439,
+    "scale_quantity": "irrev_pot_I_scale"
+   },
+   {
+    "quantity": "linear_pot_balance_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.1829861409540203,
+    "scale_quantity": "linear_pot_I_scale"
+   },
+   {
+    "quantity": "sym_galv_balance_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.5,
+    "scale_quantity": "sym_galv_I_scale"
+   },
+   {
+    "quantity": "sym_pot_balance_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.38511058009535876,
+    "scale_quantity": "sym_pot_I_scale"
+   },
+   {
+    "quantity": "tafel_pot_balance_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.5209732270361451,
+    "scale_quantity": "tafel_pot_I_scale"
+   },
+   {
+    "quantity": "twolayer_galv_balance_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.5,
+    "scale_quantity": "twolayer_galv_I_scale"
+   },
+   {
+    "quantity": "sym_galv_measure_dev",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.005,
+    "scale_quantity": "measure_scale"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  }
+ }
+}

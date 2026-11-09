@@ -1,0 +1,552 @@
+{
+ "id": "xcode_natconv_ra1e5",
+ "capability": "F4a",
+ "title": "Cross-code: differentially heated cavity, Ra = 1e5, Pr = 0.71, the fixed discrete problem (P2/P1/P2 Galerkin, N = 32 and 64, lap and sym) against NGSolve, checked by DOLFINx",
+ "physics": "Differentially heated square cavity [0,1]^2 in the de Vahl Davis scaling: rho0 = c_p = k = 1 (alpha = 1), mu = Pr, beta g = Ra Pr, T = +1/2 on x = 0 (hot), -1/2 on x = 1 (cold), adiabatic y = 0, 1, no slip, T_ref = 0, gravity -e_y; the hot / cold walls include their end points (corner vertices take the wall value); velocities in units of alpha / L; Nu_wall = q_in / (k Delta T) with q_in = -Q_out the VARIATIONAL heat flux entering through the wall; the case reports BOTH Nusselt numbers, Nu_hot (wall x = 0, heat entering) and Nu_cold (wall x = 1, heat leaving: q_in = -Q_out there too)",
+ "levels": [
+  "cross_code"
+ ],
+ "run": {
+  "runner": {
+   "module": "f4a_heat",
+   "function": "xcode_natconv",
+   "check_module": "f4a_heat_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "cavity": "Differentially heated square cavity [0,1]^2 in the de Vahl Davis scaling: rho0 = c_p = k = 1 (alpha = 1), mu = Pr, beta g = Ra Pr, T = +1/2 on x = 0 (hot), -1/2 on x = 1 (cold), adiabatic y = 0, 1, no slip, T_ref = 0, gravity -e_y; the hot / cold walls include their end points (corner vertices take the wall value); velocities in units of alpha / L; Nu_wall = q_in / (k Delta T) with q_in = -Q_out the VARIATIONAL heat flux entering through the wall; the case reports BOTH Nusselt numbers, Nu_hot (wall x = 0, heat entering) and Nu_cold (wall x = 1, heat leaving: q_in = -Q_out there too)",
+   "Ra": 100000.0,
+   "Pr": 0.71,
+   "N": [
+    32,
+    64
+   ],
+   "viscous_forms": [
+    "lap",
+    "sym"
+   ],
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "temperature": "P2"
+   },
+   "stabilization": "NONE (Galerkin): the discrete problem must be unique across codes",
+   "convective_form": "standard",
+   "meshes": {
+    "unit": {
+     "family": "unit",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "scalar_transport_check.box_mesh(8, 8, k), k = 0..4, on [0,1]^2 in (x, y): 8 x 8 squares split along the (1,1) diagonal except the two cells at the corners (1,0) and (0,1) (split the other way: no triangle with all vertices on the boundary), refined uniformly (red) k times (identical to the fixed F1a structured_mesh(N), N = 8 * 2^k). Nested.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    }
+   },
+   "continuation": "Ra = 1e3, 1e4, 1e5 (warm starts); Newton to newton_rtol 1e-12",
+   "quantities": "f4a_heat_check.cavity_functionals (Ekin, Diss, Tsq, vT, vleft) and Nu_hot, Nu_cold from the variational wall fluxes",
+   "dirichlet_data": "P2 (P1) Lagrange NODAL interpolation of the fixed callables at the vertices and edge midpoints of the Dirichlet boundary parts; at a node shared by two Dirichlet parts the data agree (one exact callable per field); Dirichlet beats every natural condition at a shared node"
+  }
+ },
+ "reference": {
+  "quantities": {
+   "lap_Diss_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 187485.53650450005,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_Diss_N32"
+   },
+   "lap_Diss_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 187527.03867443805,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_Diss_N64"
+   },
+   "lap_Ekin_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 433.2674510539948,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_Ekin_N32"
+   },
+   "lap_Ekin_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 433.2231332624742,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_Ekin_N64"
+   },
+   "lap_Nu_cold_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 4.521423743688596,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_Nu_cold_N32"
+   },
+   "lap_Nu_cold_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 4.521625169753084,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_Nu_cold_N64"
+   },
+   "lap_Nu_hot_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 4.521423743688595,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_Nu_hot_N32"
+   },
+   "lap_Nu_hot_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 4.521625169753084,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_Nu_hot_N64"
+   },
+   "lap_Tsq_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.059205627477364325,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_Tsq_N32"
+   },
+   "lap_Tsq_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.059210163205706975,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_Tsq_N64"
+   },
+   "lap_vT_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 1.8748486164567986,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_vT_N32"
+   },
+   "lap_vT_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 1.8752686109774763,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_vT_N64"
+   },
+   "lap_vleft_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 5.618154391729657,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_vleft_N32"
+   },
+   "lap_vleft_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 5.618210782358442,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.lap_vleft_N64"
+   },
+   "sym_Diss_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 187463.44519361656,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_Diss_N32"
+   },
+   "sym_Diss_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 187525.40975505795,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_Diss_N64"
+   },
+   "sym_Ekin_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 433.2511257110233,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_Ekin_N32"
+   },
+   "sym_Ekin_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 433.221852997012,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_Ekin_N64"
+   },
+   "sym_Nu_cold_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 4.5213860931750105,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_Nu_cold_N32"
+   },
+   "sym_Nu_cold_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 4.521620205774399,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_Nu_cold_N64"
+   },
+   "sym_Nu_hot_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 4.52138609317501,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_Nu_hot_N32"
+   },
+   "sym_Nu_hot_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 4.521620205774401,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_Nu_hot_N64"
+   },
+   "sym_Tsq_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.059205611615162204,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_Tsq_N32"
+   },
+   "sym_Tsq_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.0592101580018405,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_Tsq_N64"
+   },
+   "sym_vT_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 1.8747112238640602,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_vT_N32"
+   },
+   "sym_vT_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 1.8752589365417778,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_vT_N64"
+   },
+   "sym_vleft_N32": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 5.618071487624647,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_vleft_N32"
+   },
+   "sym_vleft_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 5.618204332558616,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_natconv_reference.json: quantities.sym_vleft_N64"
+   }
+  },
+  "tolerance_recipe": {
+   "lap_Diss_N32": {
+    "rel": 1e-08
+   },
+   "lap_Diss_N64": {
+    "rel": 1e-08
+   },
+   "lap_Ekin_N32": {
+    "rel": 1e-08
+   },
+   "lap_Ekin_N64": {
+    "rel": 1e-08
+   },
+   "lap_Nu_cold_N32": {
+    "rel": 1e-08
+   },
+   "lap_Nu_cold_N64": {
+    "rel": 1e-08
+   },
+   "lap_Nu_hot_N32": {
+    "rel": 1e-08
+   },
+   "lap_Nu_hot_N64": {
+    "rel": 1e-08
+   },
+   "lap_Tsq_N32": {
+    "rel": 1e-08
+   },
+   "lap_Tsq_N64": {
+    "rel": 1e-08
+   },
+   "lap_vT_N32": {
+    "rel": 1e-08
+   },
+   "lap_vT_N64": {
+    "rel": 1e-08
+   },
+   "lap_vleft_N32": {
+    "rel": 1e-08
+   },
+   "lap_vleft_N64": {
+    "rel": 1e-08
+   },
+   "sym_Diss_N32": {
+    "rel": 1e-08
+   },
+   "sym_Diss_N64": {
+    "rel": 1e-08
+   },
+   "sym_Ekin_N32": {
+    "rel": 1e-08
+   },
+   "sym_Ekin_N64": {
+    "rel": 1e-08
+   },
+   "sym_Nu_cold_N32": {
+    "rel": 1e-08
+   },
+   "sym_Nu_cold_N64": {
+    "rel": 1e-08
+   },
+   "sym_Nu_hot_N32": {
+    "rel": 1e-08
+   },
+   "sym_Nu_hot_N64": {
+    "rel": 1e-08
+   },
+   "sym_Tsq_N32": {
+    "rel": 1e-08
+   },
+   "sym_Tsq_N64": {
+    "rel": 1e-08
+   },
+   "sym_vT_N32": {
+    "rel": 1e-08
+   },
+   "sym_vT_N64": {
+    "rel": 1e-08
+   },
+   "sym_vleft_N32": {
+    "rel": 1e-08
+   },
+   "sym_vleft_N64": {
+    "rel": 1e-08
+   }
+  }
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "lap_Diss_N32",
+    "reference": "lap_Diss_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Diss_N64",
+    "reference": "lap_Diss_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Ekin_N32",
+    "reference": "lap_Ekin_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Ekin_N64",
+    "reference": "lap_Ekin_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Nu_cold_N32",
+    "reference": "lap_Nu_cold_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Nu_cold_N64",
+    "reference": "lap_Nu_cold_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Nu_hot_N32",
+    "reference": "lap_Nu_hot_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Nu_hot_N64",
+    "reference": "lap_Nu_hot_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Tsq_N32",
+    "reference": "lap_Tsq_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Tsq_N64",
+    "reference": "lap_Tsq_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_vT_N32",
+    "reference": "lap_vT_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_vT_N64",
+    "reference": "lap_vT_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_vleft_N32",
+    "reference": "lap_vleft_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_vleft_N64",
+    "reference": "lap_vleft_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Diss_N32",
+    "reference": "sym_Diss_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Diss_N64",
+    "reference": "sym_Diss_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Ekin_N32",
+    "reference": "sym_Ekin_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Ekin_N64",
+    "reference": "sym_Ekin_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Nu_cold_N32",
+    "reference": "sym_Nu_cold_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Nu_cold_N64",
+    "reference": "sym_Nu_cold_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Nu_hot_N32",
+    "reference": "sym_Nu_hot_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Nu_hot_N64",
+    "reference": "sym_Nu_hot_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Tsq_N32",
+    "reference": "sym_Tsq_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Tsq_N64",
+    "reference": "sym_Tsq_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_vT_N32",
+    "reference": "sym_vT_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_vT_N64",
+    "reference": "sym_vT_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_vleft_N32",
+    "reference": "sym_vleft_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_vleft_N64",
+    "reference": "sym_vleft_N64",
+    "level": "cross_code"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

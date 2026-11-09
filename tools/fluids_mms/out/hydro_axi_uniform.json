@@ -1,0 +1,278 @@
+{
+ "name": "hydro_axi_uniform",
+ "kind": "hydrostatic",
+ "geometry": "axisymmetric",
+ "coords": [
+  "r",
+  "z"
+ ],
+ "description": "hydrostatic no-flow (axisymmetric): T_bottom = 3/4, T_top = 3/4, T_ref = 1/4, beta g = 1000, mu = 1; exact u = 0, p linear in the vertical coordinate",
+ "box": [
+  "0",
+  "1",
+  "0",
+  "1"
+ ],
+ "exact_solution": true,
+ "rho0": {
+  "value": 1.0,
+  "sympy": "1"
+ },
+ "cp": {
+  "value": 1.0,
+  "sympy": "1"
+ },
+ "beta_g": {
+  "value": 1000.0,
+  "sympy": "1000"
+ },
+ "T_ref": {
+  "value": 0.25,
+  "sympy": "1/4"
+ },
+ "gravity": "-e_z",
+ "u": [
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "grad_u": [
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ]
+ ],
+ "p": {
+  "sympy": "500*z",
+  "c": "500*z",
+  "numpy": "500*z"
+ },
+ "mu": {
+  "sympy": "1",
+  "c": "1",
+  "numpy": "1"
+ },
+ "grad_mu": [
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "T": {
+  "sympy": "3/4",
+  "c": "3.0/4.0",
+  "numpy": "3/4"
+ },
+ "grad_T": [
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "k": {
+  "sympy": "1",
+  "c": "1",
+  "numpy": "1"
+ },
+ "grad_k": [
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "f_no_buoyancy": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "500",
+     "c": "500",
+     "numpy": "500"
+    }
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "f_no_buoyancy": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "500",
+     "c": "500",
+     "numpy": "500"
+    }
+   ]
+  }
+ },
+ "Q": {
+  "sympy": "0",
+  "c": "0",
+  "numpy": "0"
+ },
+ "Q_no_advection": {
+  "sympy": "0",
+  "c": "0",
+  "numpy": "0"
+ },
+ "u_boundaries": [
+  {
+   "name": "axis",
+   "type": "axis"
+  },
+  {
+   "name": "r1",
+   "type": "dirichlet"
+  },
+  {
+   "name": "z0",
+   "type": "dirichlet"
+  },
+  {
+   "name": "z1",
+   "type": "dirichlet"
+  }
+ ],
+ "T_boundaries": [
+  {
+   "name": "z0",
+   "type": "dirichlet"
+  },
+  {
+   "name": "z1",
+   "type": "dirichlet"
+  },
+  {
+   "name": "r1",
+   "type": "neumann_zero"
+  },
+  {
+   "name": "axis",
+   "type": "axis"
+  }
+ ],
+ "swirl": true,
+ "selfcheck": {
+  "status": "pass",
+  "fd_lap": [
+   3.785771696129671e-14,
+   0.0
+  ],
+  "fd_sym": [
+   3.785771696129671e-14,
+   0.0
+  ]
+ },
+ "generator": "tools/fluids_mms/generate_f4a.py (f4a_fields.py)"
+}

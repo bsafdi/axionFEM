@@ -1,0 +1,255 @@
+{
+ "benchmark": "blind independent check of the cavity reproductions: KLASH, QUAX 2004 flat ends + Table 1 changes, QUAX 2410 no gap, coax",
+ "comparison": [
+  {
+   "problem": "P1",
+   "quantity": "f L=4.0",
+   "independent": 57371263.9176,
+   "axionFEM": 57371263.94357836,
+   "rel_diff": 4.5281134397612277e-10
+  },
+  {
+   "problem": "P1",
+   "quantity": "Q0 L=4.0",
+   "independent": 152819.864658,
+   "axionFEM": 152819.86436243544,
+   "rel_diff": -1.9340715695648214e-09
+  },
+  {
+   "problem": "P1",
+   "quantity": "C",
+   "independent": 0.691660276123,
+   "axionFEM": 0.6916602778524915,
+   "rel_diff": 2.500492923829256e-09
+  },
+  {
+   "problem": "P1",
+   "quantity": "f L=3.5",
+   "independent": 57371263.9176,
+   "axionFEM": 57371263.94267396,
+   "rel_diff": 4.3704728724947017e-10
+  },
+  {
+   "problem": "P1",
+   "quantity": "Q0 L=3.5",
+   "independent": 145873.507174,
+   "axionFEM": 145873.5069092619,
+   "rel_diff": -1.8148470504186776e-09
+  },
+  {
+   "problem": "P1",
+   "quantity": "Q0 ratio",
+   "independent": 1.04761904762,
+   "axionFEM": 1.0476190474908813,
+   "rel_diff": -1.2324963272192235e-10
+  },
+  {
+   "problem": "P2",
+   "quantity": "f",
+   "independent": 10882572706.3,
+   "axionFEM": 10882572706.861816,
+   "rel_diff": 5.162537064506978e-11
+  },
+  {
+   "problem": "P2",
+   "quantity": "C",
+   "independent": 0.0409835344281,
+   "axionFEM": 0.040983534447030935,
+   "rel_diff": 4.619156168672589e-10
+  },
+  {
+   "problem": "P2",
+   "quantity": "p_e",
+   "independent": 0.167773168717,
+   "axionFEM": 0.16777316840260986,
+   "rel_diff": -1.873899924120792e-09
+  },
+  {
+   "problem": "P2",
+   "quantity": "Q_wall",
+   "independent": 1252432.5301,
+   "axionFEM": 1252432.5174279988,
+   "rel_diff": -1.0117911286577908e-08
+  },
+  {
+   "problem": "P2",
+   "quantity": "Q_diel",
+   "independent": 2980214.32046,
+   "axionFEM": 2980214.326048468,
+   "rel_diff": 1.8751897812308016e-09
+  },
+  {
+   "problem": "P2",
+   "quantity": "Q0",
+   "independent": 881840.014862,
+   "axionFEM": 881840.0090715298,
+   "rel_diff": -6.5663500192769675e-09
+  },
+  {
+   "problem": "P2",
+   "quantity": "Q0 tand=1e-05",
+   "independent": 403848.206293,
+   "axionFEM": 403848.20548940526,
+   "rel_diff": -1.989843623206866e-09
+  },
+  {
+   "problem": "P2",
+   "quantity": "Q0 tand=1e-07",
+   "independent": 1226657.44281,
+   "axionFEM": 1226657.4307079716,
+   "rel_diff": -9.865858130453375e-09
+  },
+  {
+   "problem": "P2",
+   "quantity": "df(a) MHz",
+   "independent": -143.981766716,
+   "axionFEM": -143.98176679959107,
+   "rel_diff": 5.805669278657888e-10
+  },
+  {
+   "problem": "P2",
+   "quantity": "C(a)",
+   "independent": 0.0442616460243,
+   "axionFEM": 0.04426164604089146,
+   "rel_diff": 3.7484948478549995e-10
+  },
+  {
+   "problem": "P2",
+   "quantity": "df(b) MHz",
+   "independent": -13.3087193339,
+   "axionFEM": -13.308719331697464,
+   "rel_diff": -1.6549561721035388e-10
+  },
+  {
+   "problem": "P2",
+   "quantity": "C(b)",
+   "independent": 0.0390603096033,
+   "axionFEM": 0.03906030962290909,
+   "rel_diff": 5.020206472750033e-10
+  },
+  {
+   "problem": "P2",
+   "quantity": "df(c) MHz",
+   "independent": -145.307173883,
+   "axionFEM": -145.30717375968362,
+   "rel_diff": -8.486599201162903e-10
+  },
+  {
+   "problem": "P2",
+   "quantity": "C(c)",
+   "independent": 0.0447967159331,
+   "axionFEM": 0.0447967159580344,
+   "rel_diff": 5.566123117972666e-10
+  },
+  {
+   "problem": "P2",
+   "quantity": "df(d) MHz",
+   "independent": -14.1232631538,
+   "axionFEM": -14.12326313453865,
+   "rel_diff": -1.3638030704754556e-09
+  },
+  {
+   "problem": "P2",
+   "quantity": "C(d)",
+   "independent": 0.0383266626548,
+   "axionFEM": 0.03832666267407281,
+   "rel_diff": 5.028564231679411e-10
+  },
+  {
+   "problem": "P2",
+   "quantity": "df(e) MHz",
+   "independent": -23.933247885,
+   "axionFEM": -23.933247838804245,
+   "rel_diff": -1.930191673160664e-09
+  },
+  {
+   "problem": "P2",
+   "quantity": "C(e)",
+   "independent": 0.041385936628,
+   "axionFEM": 0.04138593664897836,
+   "rel_diff": 5.068960806653422e-10
+  },
+  {
+   "problem": "P2",
+   "quantity": "df(f) MHz",
+   "independent": 170.407128754,
+   "axionFEM": 170.40712854023934,
+   "rel_diff": -1.2544115746138118e-09
+  },
+  {
+   "problem": "P2",
+   "quantity": "C(f)",
+   "independent": 0.0384322113014,
+   "axionFEM": 0.038432211311142196,
+   "rel_diff": 2.534903398299093e-10
+  },
+  {
+   "problem": "P3",
+   "quantity": "f tube mode",
+   "independent": 11043235063.0,
+   "axionFEM": 11043235063.443243,
+   "rel_diff": 4.0137004830853584e-11
+  },
+  {
+   "problem": "P3",
+   "quantity": "C tube mode",
+   "independent": 0.336619555504,
+   "axionFEM": 0.3366195555651597,
+   "rel_diff": 1.8168777593530194e-10
+  },
+  {
+   "problem": "P3",
+   "quantity": "f empty TM010",
+   "independent": 4029588334.86,
+   "axionFEM": 4029588336.595994,
+   "rel_diff": 4.308116086093605e-10
+  },
+  {
+   "problem": "P3",
+   "quantity": "C empty TM010",
+   "independent": 0.691660276123,
+   "axionFEM": 0.6916602777679682,
+   "rel_diff": 2.3782893432411356e-09
+  },
+  {
+   "problem": "P3",
+   "quantity": "Q_wall ratio tube/empty",
+   "independent": 4.30707975158,
+   "axionFEM": 4.307079757182531,
+   "rel_diff": 1.3007726007430165e-09
+  },
+  {
+   "problem": "P4",
+   "quantity": "f",
+   "independent": 5866558448.96,
+   "axionFEM": 5866558469.981157,
+   "rel_diff": 3.583217944580497e-09
+  },
+  {
+   "problem": "P4",
+   "quantity": "C vacuum volume",
+   "independent": 0.806157079044,
+   "axionFEM": 0.8061570967137999,
+   "rel_diff": 2.1918556969424685e-08
+  },
+  {
+   "problem": "P4",
+   "quantity": "C full volume",
+   "independent": 0.604617809283,
+   "axionFEM": 0.6046178225353498,
+   "rel_diff": 2.191855674738008e-08
+  },
+  {
+   "problem": "P4",
+   "quantity": "Q0",
+   "independent": 13853.6675621,
+   "axionFEM": 13853.6672051014,
+   "rel_diff": -2.5769248401807943e-08
+  }
+ ],
+ "max_abs_rel_diff": 2.5769248401807943e-08,
+ "not_compared": [
+  "P2 end-plate share of the wall loss (barrel and plates are one wall body in axionFEM)"
+ ],
+ "status": "beta"
+}

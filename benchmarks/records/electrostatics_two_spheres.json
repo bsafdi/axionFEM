@@ -1,0 +1,43 @@
+{
+  "check": "two_spheres",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:54",
+  "a_m": 0.1,
+  "centre_distance_m": 0.5,
+  "computed_F": {
+    "C_self": 1.1611217446626306e-11,
+    "C_mutual_coefficient": -2.3264587158745453e-12
+  },
+  "exact_F": {
+    "C_self": 1.1611217727714981e-11,
+    "C_mutual_coefficient": -2.326458825223452e-12
+  },
+  "leading_order_C12_F": -2.2253001108958378e-12,
+  "relative_error": {
+    "C_self": -2.4208371751655022e-08,
+    "C_mutual_coefficient": -4.700229616627638e-08
+  },
+  "asymmetry_of_equal_spheres": 6.690181741930701e-10,
+  "pair": {
+    "C_a_to_ground_others_floating_F": 9.284758726867703e-12,
+    "C_b_to_ground_others_floating_F": 9.284758734635818e-12,
+    "C_mutual_others_floating_F": 2.3264587158745453e-12,
+    "C_mutual_others_grounded_F": 2.3264587158745453e-12,
+    "a": "lower",
+    "b": "upper"
+  },
+  "checks": {
+    "identity_symmetry_relative": 4.174206040267432e-16,
+    "identity_energy_max_relative_difference": 8.070131677850367e-15,
+    "identity_energy_superposition_relative": 2.976573849137255e-14,
+    "identity_exterior_monopole_max_relative_difference": 2.6020038578188244e-10,
+    "identity_floating_solve_max_difference_V": 2.1094237467877974e-14,
+    "discretization_charge_gauss_max_relative_difference": 4.0599191177763516e-05,
+    "discretization_exterior_flux_max_relative_difference": 5.638683881773157e-07,
+    "min_slack_relative": 0.7996369693921519,
+    "off_diagonal_signs_ok": true
+  },
+  "warnings": [],
+  "pass": true,
+  "headline": "C11 1.16112174e-11 F, C12 -2.32645872e-12 F; worst rel err 4.7e-08"
+}

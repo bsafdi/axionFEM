@@ -1,0 +1,2947 @@
+{
+ "check": "fullwave_surface_losses",
+ "date": "2026-10-29",
+ "coax": {
+  "geometry": {
+   "a": 0.08,
+   "b": 0.2,
+   "t": 0.04,
+   "g": 0.02,
+   "l1": 0.6,
+   "l2": 0.3
+  },
+  "TEM_1_Hz": 162930683.6956522,
+  "closed_form": [
+   {
+    "f_Hz": 1000000.0,
+    "Gamma": {
+     "inner": 0.4023069346798893,
+     "outer": 0.16092277387195575,
+     "top": 0.016559562684055843,
+     "bottom": 0.06411617345479258
+    },
+    "Gamma_port_region": {
+     "inner": 0.004373567859149197,
+     "outer": 0.0017494271436596792
+    },
+    "Z_im_ohm": -0.2328403883789613,
+    "L_H": 3.705769876194839e-08,
+    "L_eff_H": 3.705869724911212e-08,
+    "R_s_ohm": 2.590623668683038e-05,
+    "R_loss_ohm": 1.6681166854095876e-05,
+    "Q_loss": 13958.279442651212,
+    "Q_loss_tuned": 13958.655536238155
+   },
+   {
+    "f_Hz": 50000000.0,
+    "Gamma": {
+     "inner": 0.4675438691741496,
+     "outer": 0.18701754766965983,
+     "top": 0.02201108285111527,
+     "bottom": 0.07690032443783779
+    },
+    "Gamma_port_region": {
+     "inner": 0.004756763965041239,
+     "outer": 0.0019027055860164957
+    },
+    "Z_im_ohm": -12.541327523304723,
+    "L_H": 3.992028536536768e-08,
+    "L_eff_H": 4.306807986830174e-08,
+    "R_s_ohm": 0.0001831847563628148,
+    "R_loss_ohm": 0.0001380247357147621,
+    "Q_loss": 90862.89829398596,
+    "Q_loss_tuned": 98027.61991740896
+   },
+   {
+    "f_Hz": 100000000.0,
+    "Gamma": {
+     "inner": 0.861849120297932,
+     "outer": 0.34473964811917285,
+     "top": 0.06080372453497247,
+     "bottom": 0.15234438153634425
+    },
+    "Gamma_port_region": {
+     "inner": 0.007407444332503032,
+     "outer": 0.0029629777330012134
+    },
+    "Z_im_ohm": -33.58369382206903,
+    "L_H": 5.345010879067034e-08,
+    "L_eff_H": 7.938974134244447e-08,
+    "R_s_ohm": 0.0002590623668683038,
+    "R_loss_ohm": 0.00036780039503517845,
+    "Q_loss": 91309.56430554377,
+    "Q_loss_tuned": 135622.59939822112
+   },
+   {
+    "f_Hz": 140000000.0,
+    "Gamma": {
+     "inner": 4.271497202485199,
+     "outer": 1.7085988809940797,
+     "top": 0.49604812456651104,
+     "bottom": 0.7587160667161099
+    },
+    "Gamma_port_region": {
+     "inner": 0.036320090676412245,
+     "outer": 0.0145280362705649
+    },
+    "Z_im_ohm": -98.35280013606209,
+    "L_H": 1.1180953077559655e-07,
+    "L_eff_H": 3.934714910791354e-07,
+    "R_s_ohm": 0.0003065267262383016,
+    "R_loss_ohm": 0.0022176780348143045,
+    "Q_loss": 44349.44955582679,
+    "Q_loss_tuned": 156071.1678532394
+   },
+   {
+    "f_Hz": 155000000.0,
+    "Gamma": {
+     "inner": 31.39420804617378,
+     "outer": 12.557683218469512,
+     "top": 4.489054982820528,
+     "bottom": 5.2809791405081565
+    },
+    "Gamma_port_region": {
+     "inner": 0.2991962218336053,
+     "outer": 0.11967848873344213
+    },
+    "Z_im_ohm": -278.8068706378885,
+    "L_H": 2.862805911613069e-07,
+    "L_eff_H": 2.891896042530911e-06,
+    "R_s_ohm": 0.0003225300457127705,
+    "R_loss_ohm": 0.017326935051160647,
+    "Q_loss": 16090.951447250482,
+    "Q_loss_tuned": 162544.58125189893
+   },
+   {
+    "f_Hz": 160000000.0,
+    "Gamma": {
+     "inner": 221.80441437101513,
+     "outer": 88.72176574840606,
+     "top": 33.97095241025183,
+     "bottom": 36.15121433729521
+    },
+    "Gamma_port_region": {
+     "inner": 2.2354558890129708,
+     "outer": 0.8941823556051883
+    },
+    "Z_im_ohm": -745.0285364396545,
+    "L_H": 7.410935894930705e-07,
+    "L_eff_H": 2.0431644870155052e-05,
+    "R_s_ohm": 0.0003276908541351928,
+    "R_loss_ohm": 0.12473498190998594,
+    "Q_loss": 5972.891686289727,
+    "Q_loss_tuned": 164670.162463083
+   },
+   {
+    "f_Hz": 175000000.0,
+    "Gamma": {
+     "inner": 12.124487742926712,
+     "outer": 4.849795097170685,
+     "top": 2.256457734862654,
+     "bottom": 1.693072655904134
+    },
+    "Gamma_port_region": {
+     "inner": 0.15043647169261706,
+     "outer": 0.060174588677046836
+    },
+    "Z_im_ohm": 170.48978814772573,
+    "L_H": -1.5505310017371761e-07,
+    "L_eff_H": 1.116854359391963e-06,
+    "R_s_ohm": 0.0003427072983946554,
+    "R_loss_ohm": 0.007170743504463811
+   }
+  ],
+  "levels": {
+   "coax_l0": {
+    "provenance": {
+     "commit": "be5a948ce75ed6949ffe3dd4ec8616cb40f65728",
+     "dirty": false,
+     "exe": "build5/axf",
+     "ranks": 16,
+     "seconds": 241.71702551841736,
+     "dofs": 805090,
+     "elements": 122416,
+     "order": 2
+    },
+    "rows": [
+     {
+      "f_Hz": 1000000.0,
+      "Gamma": {
+       "bottom": 0.06392555679418507,
+       "inner": 0.3810628846827938,
+       "outer": 0.15854596022492518,
+       "top": 0.016523724322876222
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.947194422552027,
+       "outer": 0.9852300977056127,
+       "top": 0.9978357906024821,
+       "bottom": 0.9970270112775538
+      },
+      "total_over_closed_form": 0.9629645643431878,
+      "L_over_closed_form": 0.9996092625467357,
+      "R_loss_over_closed_form": 0.9629645646052952,
+      "Q_loss_over_closed_form": 1.0380540461075642,
+      "Q_loss_tuned_over_closed_form": 1.038055286195184,
+      "L_eff_over_closed_form": 0.9996104567071704,
+      "L_eff_over_4Wm": 0.999999999996729,
+      "port_region_over_closed_form": {
+       "inner": 0.9429682173417512,
+       "outer": 1.0227178502604035
+      },
+      "H_normal_share": 1.9092684960008948e-28,
+      "R_loss_over_abs_X": 6.901573950884385e-05,
+      "indicator_surface_relative_error": 0.01416678885024933,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.0006531593216370091,
+       "outer": -0.0002025963692167121,
+       "top": 0.00012027274916825981,
+       "bottom": 0.00017400235750653081
+      }
+     },
+     {
+      "f_Hz": 50000000.0,
+      "Gamma": {
+       "bottom": 0.07669028192654073,
+       "inner": 0.4428043119781831,
+       "outer": 0.18425127862619098,
+       "top": 0.02196965495575149
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9470861263999345,
+       "outer": 0.9852085054159994,
+       "top": 0.9981178620041549,
+       "bottom": 0.997268639465015
+      },
+      "total_over_closed_form": 0.9631608523133606,
+      "L_over_closed_form": 0.9996319504617325,
+      "R_loss_over_closed_form": 0.963160852575521,
+      "Q_loss_over_closed_form": 1.0378660509183766,
+      "Q_loss_tuned_over_closed_form": 1.0378906300918942,
+      "L_eff_over_closed_form": 0.9996556241594537,
+      "L_eff_over_4Wm": 0.9999999999980578,
+      "port_region_over_closed_form": {
+       "inner": 0.9451818200735114,
+       "outer": 1.0207294314402593
+      },
+      "H_normal_share": 1.9587017302486966e-28,
+      "R_loss_over_abs_X": 1.0604058335046678e-05,
+      "indicator_surface_relative_error": 0.014093439799302006,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.0008918680574314664,
+       "outer": -0.0002609149060641691,
+       "top": 0.0005356982270272592,
+       "bottom": 0.0004994382163183708
+      }
+     },
+     {
+      "f_Hz": 100000000.0,
+      "Gamma": {
+       "bottom": 0.15205436130628686,
+       "inner": 0.8161368054368798,
+       "outer": 0.339674666932966,
+       "top": 0.060748339543895705
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9469601885243557,
+       "outer": 0.9853078077504566,
+       "top": 0.9990891184462736,
+       "bottom": 0.9980962853560293
+      },
+      "total_over_closed_form": 0.9639914253218123,
+      "L_over_closed_form": 0.9997515071869308,
+      "R_loss_over_closed_form": 0.9639914255841991,
+      "Q_loss_over_closed_form": 1.0370958502883576,
+      "Q_loss_tuned_over_closed_form": 1.0372669620100243,
+      "L_eff_over_closed_form": 0.9999164574194348,
+      "L_eff_over_4Wm": 1.0000000000008065,
+      "port_region_over_closed_form": {
+       "inner": 0.9550616183175775,
+       "outer": 1.0123207307795181
+      },
+      "H_normal_share": 2.1081825747688685e-28,
+      "R_loss_over_abs_X": 1.0560022243001397e-05,
+      "indicator_surface_relative_error": 0.013902193297835024,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.0019286924554857698,
+       "outer": -0.0002650689643362014,
+       "top": 0.005054655993709023,
+       "bottom": 0.002962305467531401
+      }
+     },
+     {
+      "f_Hz": 140000000.0,
+      "Gamma": {
+       "bottom": 0.7587865702447137,
+       "inner": 4.049747087564811,
+       "outer": 1.685769410020269,
+       "top": 0.4967138454022345
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9480860915017405,
+       "outer": 0.9866384841827074,
+       "top": 1.001342048891537,
+       "bottom": 1.0000929247866188
+      },
+      "total_over_closed_form": 0.966296051026653,
+      "L_over_closed_form": 1.0003744433018544,
+      "R_loss_over_closed_form": 0.9662960512896668,
+      "Q_loss_over_closed_form": 1.035267030188838,
+      "Q_loss_tuned_over_closed_form": 1.0362075191830213,
+      "L_eff_over_closed_form": 1.001283234103215,
+      "L_eff_over_4Wm": 0.9999999999999695,
+      "port_region_over_closed_form": {
+       "inner": 0.9723927629150289,
+       "outer": 1.0005296141543494
+      },
+      "H_normal_share": 2.267952890600849e-28,
+      "R_loss_over_abs_X": 2.1780075588565312e-05,
+      "indicator_surface_relative_error": 0.013774851372236684,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 0.0030542088959091274,
+       "outer": 0.013024438977245367,
+       "top": 0.10888616960722786,
+       "bottom": 0.03845645046673418
+      }
+     },
+     {
+      "f_Hz": 155000000.0,
+      "Gamma": {
+       "bottom": 5.30512156666824,
+       "inner": 29.89401441606094,
+       "outer": 12.443988605201984,
+       "top": 4.515929852985998
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.952214318389354,
+       "outer": 0.9909462110733683,
+       "top": 1.0059867545103187,
+       "bottom": 1.0045715814279397
+      },
+      "total_over_closed_form": 0.970908136002796,
+      "L_over_closed_form": 1.0024392136895812,
+      "R_loss_over_closed_form": 0.9709081362670658,
+      "Q_loss_over_closed_form": 1.0324758607377065,
+      "Q_loss_tuned_over_closed_form": 1.0356768555099907,
+      "L_eff_over_closed_form": 1.0055470855581403,
+      "L_eff_over_4Wm": 1.0000000000002436,
+      "port_region_over_closed_form": {
+       "inner": 0.9812490490835984,
+       "outer": 1.0015468816657367
+      },
+      "H_normal_share": 2.3013688022381036e-28,
+      "R_loss_over_abs_X": 6.0191943878664654e-05,
+      "indicator_surface_relative_error": 0.013785335027673398,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 0.36235217941325004,
+       "outer": 0.4368706238626032,
+       "top": 2.2475131623248785,
+       "bottom": 0.6377509995999731
+      }
+     },
+     {
+      "f_Hz": 160000000.0,
+      "Gamma": {
+       "bottom": 36.72400618316894,
+       "inner": 213.5759421389704,
+       "outer": 88.90491823235362,
+       "top": 34.56009833830949
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9629021259320797,
+       "outer": 1.0020643466955668,
+       "top": 1.0173426379379302,
+       "bottom": 1.0158443321026374
+      },
+      "total_over_closed_form": 0.9819166902186196,
+      "L_over_closed_form": 1.0079864500570936,
+      "R_loss_over_closed_form": 0.9819166904858856,
+      "Q_loss_over_closed_form": 1.0265498690711814,
+      "Q_loss_tuned_over_closed_form": 1.0354939004835695,
+      "L_eff_over_closed_form": 1.0167687437811475,
+      "L_eff_over_4Wm": 0.9999999999998995,
+      "port_region_over_closed_form": {
+       "inner": 0.993112392015713,
+       "outer": 1.0122577165814464
+      },
+      "H_normal_share": 2.3066458133373365e-28,
+      "R_loss_over_abs_X": 0.00016309299528316368,
+      "indicator_surface_relative_error": 0.013801585628847009,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 8.777382907810875,
+       "outer": 9.307310704305223,
+       "top": 40.35988510034758,
+       "bottom": 10.74228104201211
+      }
+     },
+     {
+      "f_Hz": 175000000.0,
+      "Gamma": {
+       "bottom": 1.6831713701507902,
+       "inner": 11.427436241413671,
+       "outer": 4.756721720348266,
+       "top": 2.247144949242406
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9425087874809644,
+       "outer": 0.9808088022364663,
+       "top": 0.9958728295786959,
+       "bottom": 0.9941518837252402
+      },
+      "total_over_closed_form": 0.9613197202259854,
+      "L_over_closed_form": 0.9969737151772369,
+      "R_loss_over_closed_form": 0.961319720487645,
+      "L_eff_over_closed_form": 0.9949402191685159,
+      "L_eff_over_4Wm": 0.9999999999995686,
+      "port_region_over_closed_form": {
+       "inner": 0.9722994302811738,
+       "outer": 0.990989751185582
+      },
+      "H_normal_share": 2.263376766106135e-28,
+      "R_loss_over_abs_X": 4.0555518679919775e-05,
+      "indicator_surface_relative_error": 0.013896774852943824,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.1686809720151814,
+       "outer": -0.14132985790842412,
+       "top": -0.25173228326818275,
+       "bottom": -0.07157172001260648
+      }
+     }
+    ],
+    "Gamma_MQS": {
+     "bottom": 0.0639099986830996,
+     "inner": 0.381290475943141,
+     "outer": 0.15856916434210708,
+     "top": 0.016519922696003872
+    },
+    "Gamma_MQS_over_closed_form_static": {
+     "inner": 0.9478134609208582,
+     "outer": 0.9854297309594553,
+     "top": 0.9977158057600921,
+     "bottom": 0.9968535684496385
+    },
+    "summary": {
+     "H_normal_share_max": 2.3066458133373365e-28,
+     "definitions": {
+      "Gamma": "oint |H|^2 dA / |I|^2 per surface, unit incoming current at the port (surface_Gamma; dimensionless: H per ampere is in 1/m)",
+      "Q_loss": "omega L / R_loss, L = -Im Z / omega: the reactance's Q, the key shared with 2D and MQS (2 pi f L_p / R_eff there); beyond MQS it is not a resonator Q and tends to 0 at a self-resonance",
+      "Q_loss_tuned": "the headline Q: omega L_eff / R_loss, L_eff = L + (omega / 2) dL/domega from the exact dZ/domega: the Q of the readout resonance when an ideal capacitor tunes the port to f (= 2 omega W_m / P_loss for a closed lossless structure; L > 0 only)",
+      "Q_total": "omega L / (R_loss + max(Re Z, 0)): with radiation, bulk and boundary losses (Q_total_tuned with L_eff); withheld where Re Z / |X| is below 100 times the solve's true relative residual",
+      "R_eff_ohm": "R_s(f) Gamma (Gamma_magnetoresistance with a magnetoresistance model)",
+      "R_loss_matrix_ohm": "multiport: sum_b R_s,b oint H_j^* . H_k dA (Hermitian): the dissipated power 1/2 I^dagger R I of any combination of port currents. It equals the (symmetric) impedance perturbation only for in-phase port fields (closed, lossless); with radiation or bulk loss do not add it to Z",
+      "R_loss_ohm": "sum of R_eff over the surfaces with rf data: 2 P_loss / |I|^2, the power the conductor surfaces dissipate (to first order the series resistance they add to Re Z)",
+      "R_loss_over_abs_X": "R_loss / |Im Z|: the perturbation parameter; the neglected order is about its square",
+      "T_over_Q_K": "sum over the rf surfaces of T_b R_eff,b / (omega L) (T_over_Q_tuned_K: with L_eff); radiation and bulk loss are not in it, as their temperatures are not known"
+     },
+     "engine": "3D full wave: perturbative surface loss of the perfectly conducting structure's port fields, H = curl E / (i omega mu) on the field side, over the faces of pickup.losses",
+     "evaluation_seconds": 0.430457562,
+     "evaluations": 7,
+     "faces": 5698,
+     "perturbation": {
+      "at_Hz": 160000000.0,
+      "flag_above": 0.1,
+      "max_R_loss_over_abs_X": 0.00016309299528316368,
+      "port_index": 0,
+      "rows_above_flag": 0
+     },
+     "quadrature_degree": 6,
+     "quadrature_points": 68376,
+     "scope": "conductor and superconductor regions meshed as volumes; PEC boundary groups (mesh.remove_pec holes, imported PEC groups) and a closed outer sphere carry no loss here. Re Z keeps the bulk, Robin and PML losses of the solve itself; R_loss adds the conductor surfaces, which those do not contain",
+     "setup_seconds": 0.011482304,
+     "surfaces": {
+      "bottom": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "inner": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air",
+        "port"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "outer": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air",
+        "port"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "top": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      }
+     }
+    }
+   },
+   "coax_l1": {
+    "provenance": {
+     "commit": "0f0ce65f3225278394cc5deb23ab0c98355b518f",
+     "dirty": false,
+     "exe": "build2/axf",
+     "ranks": 16,
+     "seconds": 521.5702211856842,
+     "dofs": 1061304,
+     "elements": 162890,
+     "order": 2
+    },
+    "rows": [
+     {
+      "f_Hz": 1000000.0,
+      "Gamma": {
+       "bottom": 0.06405130119740284,
+       "inner": 0.3915742074662859,
+       "outer": 0.15983332806758407,
+       "top": 0.016536361178382912
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9733220427280397,
+       "outer": 0.9932300085428646,
+       "top": 0.9985989058940988,
+       "bottom": 0.998988207594212
+      },
+      "total_over_closed_form": 0.9815031121739326,
+      "L_over_closed_form": 0.9998729791393447,
+      "R_loss_over_closed_form": 0.9815031124410857,
+      "Q_loss_over_closed_form": 1.0187160554718686,
+      "Q_loss_tuned_over_closed_form": 1.0187172669375528,
+      "L_eff_over_closed_form": 0.9998741681966844,
+      "L_eff_over_4Wm": 1.0000000000000264,
+      "port_region_over_closed_form": {
+       "inner": 0.9569600649753122,
+       "outer": 1.0208213556636048
+      },
+      "H_normal_share": 3.186618025732435e-28,
+      "R_loss_over_abs_X": 7.032584522198042e-05,
+      "indicator_surface_relative_error": 0.008000430447606378,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.00037252998060111064,
+       "outer": -0.00010842454781045952,
+       "top": 3.869368276654406e-05,
+       "bottom": -9.076241447081301e-06
+      }
+     },
+     {
+      "f_Hz": 50000000.0,
+      "Gamma": {
+       "bottom": 0.07683173298479314,
+       "inner": 0.4550547086730702,
+       "outer": 0.18574750228097506,
+       "top": 0.021983136289173675
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9732877248007984,
+       "outer": 0.9932089506866589,
+       "top": 0.9987303413407406,
+       "bottom": 0.9991080472865872
+      },
+      "total_over_closed_form": 0.9816108246230404,
+      "L_over_closed_form": 0.9998804134920738,
+      "R_loss_over_closed_form": 0.9816108248902229,
+      "Q_loss_over_closed_form": 1.018611845080146,
+      "Q_loss_tuned_over_closed_form": 1.0186197418111542,
+      "L_eff_over_closed_form": 0.9998881650087129,
+      "L_eff_over_4Wm": 0.9999999999996507,
+      "port_region_over_closed_form": {
+       "inner": 0.959093718557322,
+       "outer": 1.0189896969701433
+      },
+      "H_normal_share": 3.284246000967732e-28,
+      "R_loss_over_abs_X": 1.0804500459188217e-05,
+      "indicator_surface_relative_error": 0.00792732065118923,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.00047390138949965355,
+       "outer": -0.0001506444208476676,
+       "top": 0.00022640790014305523,
+       "bottom": 0.0001330028836694641
+      }
+     },
+     {
+      "f_Hz": 100000000.0,
+      "Gamma": {
+       "bottom": 0.1522683355505111,
+       "inner": 0.8388060933782734,
+       "outer": 0.3423956149867222,
+       "top": 0.06075296156922973
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9732632703602541,
+       "outer": 0.9932005699221451,
+       "top": 0.9991651339431756,
+       "bottom": 0.9995008284187035
+      },
+      "total_over_closed_form": 0.9820291566260272,
+      "L_over_closed_form": 0.9999194367186026,
+      "R_loss_over_closed_form": 0.9820291568933237,
+      "Q_loss_over_closed_form": 1.0182176666544966,
+      "Q_loss_tuned_over_closed_form": 1.018272399287815,
+      "L_eff_over_closed_form": 0.999973185760355,
+      "L_eff_over_4Wm": 1.0000000000000355,
+      "port_region_over_closed_form": {
+       "inner": 0.9683381719616531,
+       "outer": 1.0113149326230264
+      },
+      "H_normal_share": 3.5913976947247125e-28,
+      "R_loss_over_abs_X": 1.0755809495186917e-05,
+      "indicator_surface_relative_error": 0.007715904860699667,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.0009273751285929777,
+       "outer": -0.00029576635255423867,
+       "top": 0.0022243897421749814,
+       "bottom": 0.0011977633461537351
+      }
+     },
+     {
+      "f_Hz": 140000000.0,
+      "Gamma": {
+       "bottom": 0.7589493773854175,
+       "inner": 4.15919441052373,
+       "outer": 1.697654793624267,
+       "top": 0.49607233809809204
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9737087988969931,
+       "outer": 0.9935947006102185,
+       "top": 1.000048812867909,
+       "bottom": 1.0003075072211365
+      },
+      "total_over_closed_form": 0.9830004519148173,
+      "L_over_closed_form": 1.000121998756628,
+      "R_loss_over_closed_form": 0.9830004521823777,
+      "Q_loss_over_closed_form": 1.0174176385537141,
+      "Q_loss_tuned_over_closed_form": 1.017717963496389,
+      "L_eff_over_closed_form": 1.000417218311079,
+      "L_eff_over_4Wm": 1.0000000000002032,
+      "port_region_over_closed_form": {
+       "inner": 0.9832317824322165,
+       "outer": 1.000301368426944
+      },
+      "H_normal_share": 3.8982696732709765e-28,
+      "R_loss_over_abs_X": 2.2162181308273037e-05,
+      "indicator_surface_relative_error": 0.007504708756663791,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 0.0002622650448138586,
+       "outer": 0.0027471120555322415,
+       "top": 0.044659009338111844,
+       "bottom": 0.015521229084583865
+      }
+     },
+     {
+      "f_Hz": 155000000.0,
+      "Gamma": {
+       "bottom": 5.29065270898778,
+       "inner": 30.61383069737427,
+       "outer": 12.494777340312378,
+       "top": 4.496337718443554
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9751426330725798,
+       "outer": 0.994990646199403,
+       "top": 1.0016223315710981,
+       "bottom": 1.00183177555189
+      },
+      "total_over_closed_form": 0.9846184417835664,
+      "L_over_closed_form": 1.0007916306042628,
+      "R_loss_over_closed_form": 0.9846184420515678,
+      "Q_loss_over_closed_form": 1.0164258436181597,
+      "Q_loss_tuned_over_closed_form": 1.0174479902098756,
+      "L_eff_over_closed_form": 1.0017980549889467,
+      "L_eff_over_4Wm": 0.999999999999897,
+      "port_region_over_closed_form": {
+       "inner": 0.9884663232256512,
+       "outer": 0.9990293053471737
+      },
+      "H_normal_share": 3.990608550292728e-28,
+      "R_loss_over_abs_X": 6.114241334554915e-05,
+      "indicator_surface_relative_error": 0.007453499550227294,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 0.1168479361665078,
+       "outer": 0.12986048371591608,
+       "top": 0.8313675996279244,
+       "bottom": 0.23371650923549225
+      }
+     },
+     {
+      "f_Hz": 160000000.0,
+      "Gamma": {
+       "bottom": 36.34944853069783,
+       "inner": 217.0797648341138,
+       "outer": 88.59662962469349,
+       "top": 34.15079760069049
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9786990283746186,
+       "outer": 0.9985895668029486,
+       "top": 1.0052940873799106,
+       "bottom": 1.0054834726035222
+      },
+      "total_over_closed_form": 0.9882523953838809,
+      "L_over_closed_form": 1.002581237994955,
+      "R_loss_over_closed_form": 0.9882523956528712,
+      "Q_loss_over_closed_form": 1.0144991728885389,
+      "Q_loss_tuned_over_closed_form": 1.017355406835556,
+      "L_eff_over_closed_form": 1.0054039180356396,
+      "L_eff_over_4Wm": 1.0000000000000397,
+      "port_region_over_closed_form": {
+       "inner": 0.9926765555601137,
+       "outer": 1.0022979676141017
+      },
+      "H_normal_share": 4.010267065947253e-28,
+      "R_loss_over_abs_X": 0.0001650302902442612,
+      "indicator_surface_relative_error": 0.007444999801523892,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 2.8394044115096904,
+       "outer": 2.915100259207634,
+       "top": 13.83545593827057,
+       "bottom": 3.6610982296282373
+      }
+     },
+     {
+      "f_Hz": 175000000.0,
+      "Gamma": {
+       "bottom": 1.6906182398313325,
+       "inner": 11.78533311954045,
+       "outer": 4.809406376816533,
+       "top": 2.252944311280103
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9720273028784971,
+       "outer": 0.9916720769548151,
+       "top": 0.9984429473115015,
+       "bottom": 0.9985503185204472
+      },
+      "total_over_closed_form": 0.9815754815270903,
+      "L_over_closed_form": 0.9990155152017263,
+      "R_loss_over_closed_form": 0.9815754817942631,
+      "L_eff_over_closed_form": 0.9983519885956685,
+      "L_eff_over_4Wm": 0.9999999999998359,
+      "port_region_over_closed_form": {
+       "inner": 0.9856562918522102,
+       "outer": 0.9959286739746865
+      },
+      "H_normal_share": 3.9711525554072574e-28,
+      "R_loss_over_abs_X": 4.1325420928154076e-05,
+      "indicator_surface_relative_error": 0.007455755223464918,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.05130401894624015,
+       "outer": -0.05053721825569468,
+       "top": -0.016011859731349887,
+       "bottom": -0.011815122257189614
+      }
+     }
+    ],
+    "Gamma_MQS": {
+     "bottom": 0.0640474353437649,
+     "inner": 0.3916980890263028,
+     "outer": 0.1598416658146482,
+     "top": 0.01653390515436101
+    },
+    "Gamma_MQS_over_closed_form_static": {
+     "inner": 0.9736847490821386,
+     "outer": 0.9933377046751163,
+     "top": 0.9985602721636592,
+     "bottom": 0.9989972741051393
+    },
+    "summary": {
+     "H_normal_share_max": 4.010267065947253e-28,
+     "definitions": {
+      "Gamma": "oint |H|^2 dA / |I|^2 per surface, unit incoming current at the port (surface_Gamma)",
+      "Q_loss": "omega L / R_loss, L = -Im Z / omega (the MQS 2 pi f L_p / R_eff with L(omega))",
+      "Q_loss_tuned": "omega L_eff / R_loss, L_eff = L + (omega / 2) dL/domega from the exact dZ/domega: the Q of the readout resonance when an ideal capacitor tunes the port to f (= 2 omega W_m / P_loss for a closed lossless structure)",
+      "Q_total": "omega L / (R_loss + max(Re Z, 0)): with radiation, bulk and boundary losses (Q_total_tuned with L_eff)",
+      "R_eff_ohm": "R_s(f) Gamma (Gamma_magnetoresistance with a magnetoresistance model)",
+      "R_loss_matrix_ohm": "multiport: sum_b R_s,b oint H_j^* . H_k dA (Hermitian), the loss resistance of any combination of port currents",
+      "R_loss_ohm": "sum of R_eff over the surfaces with rf data: the series resistance the losses add to Re Z",
+      "R_loss_over_abs_X": "R_loss / |Im Z|: the perturbation parameter; the neglected order is about its square"
+     },
+     "engine": "3D full wave: perturbative surface loss of the perfectly conducting structure's port fields, H = curl E / (i omega mu) on the field side, over the faces of pickup.losses",
+     "evaluation_seconds": 0.631532786,
+     "evaluations": 7,
+     "faces": 10924,
+     "perturbation": {
+      "at_Hz": 160000000.0,
+      "flag_above": 0.1,
+      "max_R_loss_over_abs_X": 0.0001650302902442612,
+      "port_index": 0,
+      "rows_above_flag": 0
+     },
+     "quadrature_degree": 6,
+     "quadrature_points": 131088,
+     "scope": "conductor and superconductor regions meshed as volumes; PEC boundary groups (mesh.remove_pec holes, imported PEC groups) and a closed outer sphere carry no loss here. Re Z keeps the bulk, Robin and PML losses of the solve itself; R_loss adds the conductor surfaces, which those do not contain",
+     "setup_seconds": 0.024668472,
+     "surfaces": {
+      "bottom": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "inner": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air",
+        "port"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "outer": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air",
+        "port"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "top": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      }
+     }
+    }
+   },
+   "coax_l2": {
+    "provenance": {
+     "commit": "0f0ce65f3225278394cc5deb23ab0c98355b518f",
+     "dirty": true,
+     "exe": "build2/axf",
+     "ranks": 32,
+     "seconds": 334.6044578552246,
+     "dofs": 1600884,
+     "elements": 248130,
+     "order": 2
+    },
+    "rows": [
+     {
+      "f_Hz": 1000000.0,
+      "Gamma": {
+       "bottom": 0.06409833505572393,
+       "inner": 0.39548123821085623,
+       "outer": 0.1603865736166486,
+       "top": 0.01655254215945501
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9830336097127826,
+       "outer": 0.9966679653699371,
+       "top": 0.9995760440819134,
+       "bottom": 0.9997217800422662
+      },
+      "total_over_closed_form": 0.9885281981866794,
+      "L_over_closed_form": 0.9999468850616858,
+      "R_loss_over_closed_form": 0.9885281984557446,
+      "Q_loss_over_closed_form": 1.011551199676225,
+      "Q_loss_tuned_over_closed_form": 1.0115524010433647,
+      "L_eff_over_closed_form": 0.9999480726469803,
+      "L_eff_over_4Wm": 1.0000000000003981,
+      "port_region_over_closed_form": {
+       "inner": 0.9560523489008873,
+       "outer": 1.0177834292836299
+      },
+      "H_normal_share": 6.203105785761244e-28,
+      "R_loss_over_abs_X": 7.082396587062729e-05,
+      "indicator_surface_relative_error": 0.0046861625834803385,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.00021567860786664284,
+       "outer": -5.7284863389961416e-05,
+       "top": 2.085341800062146e-05,
+       "bottom": 2.3287004451200133e-05
+      }
+     },
+     {
+      "f_Hz": 50000000.0,
+      "Gamma": {
+       "bottom": 0.07688386061444756,
+       "inner": 0.45961801268632557,
+       "outer": 0.1863909706407914,
+       "top": 0.02200325079424965
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9830478870318118,
+       "outer": 0.9966496350921296,
+       "top": 0.9996441766668821,
+       "bottom": 0.9997859069709968
+      },
+      "total_over_closed_form": 0.9886170686954503,
+      "L_over_closed_form": 0.9999499094774172,
+      "R_loss_over_closed_form": 0.9886170689645397,
+      "Q_loss_over_closed_form": 1.0114633267709483,
+      "Q_loss_tuned_over_closed_form": 1.0114664947881786,
+      "L_eff_over_closed_form": 0.9999530414333261,
+      "L_eff_over_4Wm": 1.0000000000001508,
+      "port_region_over_closed_form": {
+       "inner": 0.9587987416810351,
+       "outer": 1.0164158989658263
+      },
+      "H_normal_share": 6.411826271103268e-28,
+      "R_loss_over_abs_X": 1.0880861279506649e-05,
+      "indicator_surface_relative_error": 0.004617115454083845,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.00023377625952702985,
+       "outer": -8.794787148769245e-05,
+       "top": 0.0001183310503256596,
+       "bottom": 0.00010487197266328963
+      }
+     },
+     {
+      "f_Hz": 100000000.0,
+      "Gamma": {
+       "bottom": 0.1523429755796764,
+       "inner": 0.8472932184866182,
+       "outer": 0.3435729585269462,
+       "top": 0.060795431901062374
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9831108468193575,
+       "outer": 0.9966157371262868,
+       "top": 0.9998636163495983,
+       "bottom": 0.9999907711944893
+      },
+      "total_over_closed_form": 0.9889188692096292,
+      "L_over_closed_form": 0.9999652916728166,
+      "R_loss_over_closed_form": 0.988918869478801,
+      "Q_loss_over_closed_form": 1.0111702006453143,
+      "Q_loss_tuned_over_closed_form": 1.0111912745043734,
+      "L_eff_over_closed_form": 0.9999861320096929,
+      "L_eff_over_4Wm": 1.0000000000020222,
+      "port_region_over_closed_form": {
+       "inner": 0.9702373951744039,
+       "outer": 1.0105123493383763
+      },
+      "H_normal_share": 7.011513762118218e-28,
+      "R_loss_over_abs_X": 1.083077333586398e-05,
+      "indicator_surface_relative_error": 0.004418952170791232,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.00029374982441554565,
+       "outer": -0.00023498032589275297,
+       "top": 0.0011330693568183392,
+       "bottom": 0.0006947098961638254
+      }
+     },
+     {
+      "f_Hz": 140000000.0,
+      "Gamma": {
+       "bottom": 0.7589939040146864,
+       "inner": 4.200293848667471,
+       "outer": 1.7030130034119546,
+       "top": 0.49618003597791493
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9833305863395388,
+       "outer": 0.9967307261849105,
+       "top": 1.0002659246247916,
+       "bottom": 1.0003661940359045
+      },
+      "total_over_closed_form": 0.9894428531043902,
+      "L_over_closed_form": 1.0000419656133321,
+      "R_loss_over_closed_form": 0.9894428533737045,
+      "Q_loss_over_closed_form": 1.0107122025324535,
+      "Q_loss_tuned_over_closed_form": 1.0108239796983893,
+      "L_eff_over_closed_form": 1.0001525627313377,
+      "L_eff_over_4Wm": 1.0000000000001015,
+      "port_region_over_closed_form": {
+       "inner": 0.9869870681051116,
+       "outer": 1.0013705207631751
+      },
+      "H_normal_share": 7.6981313075804505e-28,
+      "R_loss_over_abs_X": 2.2309213360010275e-05,
+      "indicator_surface_relative_error": 0.004227770164100817,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 0.0009170919774614816,
+       "outer": 6.0368046472802916e-05,
+       "top": 0.02130177880340156,
+       "bottom": 0.007904041399253714
+      }
+     },
+     {
+      "f_Hz": 155000000.0,
+      "Gamma": {
+       "bottom": 5.28608566105248,
+       "inner": 30.887764998283256,
+       "outer": 12.523051030673725,
+       "top": 4.49302328918536
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9838682648995107,
+       "outer": 0.9972421515025279,
+       "top": 1.0008839959367881,
+       "bottom": 1.0009669647253772
+      },
+      "total_over_closed_form": 0.9900971455335018,
+      "L_over_closed_form": 1.0002913238825666,
+      "R_loss_over_closed_form": 0.9900971458029945,
+      "Q_loss_over_closed_form": 1.0102961392453105,
+      "Q_loss_tuned_over_closed_form": 1.0106736982994582,
+      "L_eff_over_closed_form": 1.0006651440244505,
+      "L_eff_over_4Wm": 1.0000000000002467,
+      "port_region_over_closed_form": {
+       "inner": 0.991217795582542,
+       "outer": 0.999434489404198
+      },
+      "H_normal_share": 7.895100486797149e-28,
+      "R_loss_over_abs_X": 6.15133787525146e-05,
+      "indicator_surface_relative_error": 0.0041864796926426445,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 0.049415701146529045,
+       "outer": 0.040486381258986626,
+       "top": 0.3604164009011015,
+       "bottom": 0.10451672458322037
+      }
+     },
+     {
+      "f_Hz": 160000000.0,
+      "Gamma": {
+       "bottom": 36.23549298549058,
+       "inner": 218.5202639482591,
+       "outer": 88.5955194565008,
+       "top": 34.04757307095352
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.985193484845335,
+       "outer": 0.9985770538848013,
+       "top": 1.0022554757893265,
+       "bottom": 1.0023312812512752
+      },
+      "total_over_closed_form": 0.9914632562245179,
+      "L_over_closed_form": 1.0009547376309464,
+      "R_loss_over_closed_form": 0.9914632564943822,
+      "Q_loss_over_closed_form": 1.009573205133314,
+      "Q_loss_tuned_over_closed_form": 1.0106270607508596,
+      "L_eff_over_closed_form": 1.001999596753393,
+      "L_eff_over_4Wm": 1.000000000000001,
+      "port_region_over_closed_form": {
+       "inner": 0.9929624840093061,
+       "outer": 1.000369084475735
+      },
+      "H_normal_share": 7.928505683527935e-28,
+      "R_loss_over_abs_X": 0.00016583551554565112,
+      "indicator_surface_relative_error": 0.004181353098258507,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 1.0922557235764998,
+       "outer": 1.0244751016529108,
+       "top": 5.542523520616214,
+       "bottom": 1.4850152321828318
+      }
+     },
+     {
+      "f_Hz": 175000000.0,
+      "Gamma": {
+       "bottom": 1.692736062482902,
+       "inner": 11.91434868216808,
+       "outer": 4.830422989951228,
+       "top": 2.255902541376872
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9826682112090694,
+       "outer": 0.99600558233259,
+       "top": 0.9997539535187369,
+       "bottom": 0.9998011937526377
+      },
+      "total_over_closed_form": 0.9889884815763293,
+      "L_over_closed_form": 0.9996334782204223,
+      "R_loss_over_closed_form": 0.98898848184552,
+      "L_eff_over_closed_form": 0.999385514655476,
+      "L_eff_over_4Wm": 1.0000000000002212,
+      "port_region_over_closed_form": {
+       "inner": 0.9892476294590582,
+       "outer": 0.9978611579470426
+      },
+      "H_normal_share": 7.902759296150544e-28,
+      "R_loss_over_abs_X": 4.1611776606293175e-05,
+      "indicator_surface_relative_error": 0.004200895439970011,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.017700432780337394,
+       "outer": -0.02175564192627988,
+       "top": 0.027097499485250864,
+       "bottom": 0.002712726772450935
+      }
+     }
+    ],
+    "Gamma_MQS": {
+     "bottom": 0.06409239225067127,
+     "inner": 0.3955442945369122,
+     "outer": 0.16038673766889475,
+     "top": 0.01655037895148029
+    },
+    "Gamma_MQS_over_closed_form_static": {
+     "inner": 0.9832456628379996,
+     "outer": 0.9967250594165773,
+     "top": 0.9995552022289654,
+     "bottom": 0.9996985016751522
+    },
+    "summary": {
+     "H_normal_share_max": 7.928505683527935e-28,
+     "definitions": {
+      "Gamma": "oint |H|^2 dA / |I|^2 per surface, unit incoming current at the port (surface_Gamma)",
+      "Q_loss": "omega L / R_loss, L = -Im Z / omega (the MQS 2 pi f L_p / R_eff with L(omega))",
+      "Q_loss_tuned": "omega L_eff / R_loss, L_eff = L + (omega / 2) dL/domega from the exact dZ/domega: the Q of the readout resonance when an ideal capacitor tunes the port to f (= 2 omega W_m / P_loss for a closed lossless structure)",
+      "Q_total": "omega L / (R_loss + max(Re Z, 0)): with radiation, bulk and boundary losses (Q_total_tuned with L_eff)",
+      "R_eff_ohm": "R_s(f) Gamma (Gamma_magnetoresistance with a magnetoresistance model)",
+      "R_loss_matrix_ohm": "multiport: sum_b R_s,b oint H_j^* . H_k dA (Hermitian), the loss resistance of any combination of port currents",
+      "R_loss_ohm": "sum of R_eff over the surfaces with rf data: the series resistance the losses add to Re Z",
+      "R_loss_over_abs_X": "R_loss / |Im Z|: the perturbation parameter; the neglected order is about its square"
+     },
+     "engine": "3D full wave: perturbative surface loss of the perfectly conducting structure's port fields, H = curl E / (i omega mu) on the field side, over the faces of pickup.losses",
+     "evaluation_seconds": 0.509666509,
+     "evaluations": 7,
+     "faces": 20570,
+     "perturbation": {
+      "at_Hz": 160000000.0,
+      "flag_above": 0.1,
+      "max_R_loss_over_abs_X": 0.00016583551554565112,
+      "port_index": 0,
+      "rows_above_flag": 0
+     },
+     "quadrature_degree": 6,
+     "quadrature_points": 246840,
+     "scope": "conductor and superconductor regions meshed as volumes; PEC boundary groups (mesh.remove_pec holes, imported PEC groups) and a closed outer sphere carry no loss here. Re Z keeps the bulk, Robin and PML losses of the solve itself; R_loss adds the conductor surfaces, which those do not contain",
+     "setup_seconds": 0.021111359,
+     "surfaces": {
+      "bottom": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "inner": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air",
+        "port"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "outer": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air",
+        "port"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "top": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      }
+     }
+    }
+   },
+   "coax_l3": {
+    "provenance": {
+     "commit": "0f0ce65f3225278394cc5deb23ab0c98355b518f",
+     "dirty": true,
+     "exe": "build2/axf",
+     "ranks": 32,
+     "seconds": 589.4236845970154,
+     "dofs": 2665844,
+     "elements": 415813,
+     "order": 2
+    },
+    "rows": [
+     {
+      "f_Hz": 1000000.0,
+      "Gamma": {
+       "bottom": 0.06410832213598051,
+       "inner": 0.39877943539560634,
+       "outer": 0.16061391426110375,
+       "top": 0.01655695561005829
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9912318208308049,
+       "outer": 0.9980806967005319,
+       "top": 0.9998425638377478,
+       "bottom": 0.99987754542436
+      },
+      "total_over_closed_form": 0.9940258040684956,
+      "L_over_closed_form": 0.9999779550788532,
+      "R_loss_over_closed_form": 0.9940258043390573,
+      "Q_loss_over_closed_form": 1.0059879237679887,
+      "Q_loss_tuned_over_closed_form": 1.0059891179212819,
+      "L_eff_over_closed_form": 0.9999791420980408,
+      "L_eff_over_4Wm": 0.9999999999988524,
+      "port_region_over_closed_form": {
+       "inner": 0.9989722879391914,
+       "outer": 0.9975641748719756
+      },
+      "H_normal_share": 1.2946784500037883e-27,
+      "R_loss_over_abs_X": 7.121563385564445e-05,
+      "indicator_surface_relative_error": 0.002665157792645064,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.00012562993195019967,
+       "outer": -2.714461139863289e-05,
+       "top": 9.71792782444858e-06,
+       "bottom": 4.516337017701488e-06
+      }
+     },
+     {
+      "f_Hz": 50000000.0,
+      "Gamma": {
+       "bottom": 0.07689371588091473,
+       "inner": 0.4634361390720115,
+       "outer": 0.18666025991813381,
+       "top": 0.022008442127426045
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9912142359830451,
+       "outer": 0.9980895495851698,
+       "top": 0.9998800275430751,
+       "bottom": 0.999914063341457
+      },
+      "total_over_closed_form": 0.9940618068880901,
+      "L_over_closed_form": 0.9999792989997065,
+      "R_loss_over_closed_form": 0.9940618071586617,
+      "Q_loss_over_closed_form": 1.005952840958611,
+      "Q_loss_tuned_over_closed_form": 1.0059542436272062,
+      "L_eff_over_closed_form": 0.9999806933389853,
+      "L_eff_over_4Wm": 0.9999999999999124,
+      "port_region_over_closed_form": {
+       "inner": 0.9985056451383104,
+       "outer": 0.9977127304353659
+      },
+      "H_normal_share": 1.3370048282712045e-27,
+      "R_loss_over_abs_X": 1.0940465297970969e-05,
+      "indicator_surface_relative_error": 0.0026295154614604356,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.00016661742067536345,
+       "outer": -2.123777575602226e-05,
+       "top": 6.272794246986457e-05,
+       "bottom": 4.922469492729675e-05
+      }
+     },
+     {
+      "f_Hz": 100000000.0,
+      "Gamma": {
+       "bottom": 0.15234883159763263,
+       "inner": 0.854240136366598,
+       "outer": 0.3440924732348841,
+       "top": 0.0608036745006911
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9911713271474899,
+       "outer": 0.9981227140892567,
+       "top": 0.9999991771181493,
+       "bottom": 1.000029210537622
+      },
+      "total_over_closed_form": 0.9941878252675594,
+      "L_over_closed_form": 0.99998615170173,
+      "R_loss_over_closed_form": 0.9941878255381654,
+      "Q_loss_over_closed_form": 1.0058322240673447,
+      "Q_loss_tuned_over_closed_form": 1.0058415794451612,
+      "L_eff_over_closed_form": 0.9999954527044586,
+      "L_eff_over_4Wm": 0.9999999999999052,
+      "port_region_over_closed_form": {
+       "inner": 0.9968758696760733,
+       "outer": 0.9983238937167829
+      },
+      "H_normal_share": 1.4570779318880438e-27,
+      "R_loss_over_abs_X": 1.0888252518778157e-05,
+      "indicator_surface_relative_error": 0.002529146933153152,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.00039986387736190565,
+       "outer": 3.203718877609063e-05,
+       "top": 0.0006108974858438643,
+       "bottom": 0.0003711685173581891
+      }
+     },
+     {
+      "f_Hz": 140000000.0,
+      "Gamma": {
+       "bottom": 0.7588885796532867,
+       "inner": 4.233863023813231,
+       "outer": 1.7055567227919977,
+       "top": 0.4961504184448314
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9911894642819683,
+       "outer": 0.9982195012323125,
+       "top": 1.0002062176495672,
+       "bottom": 1.0002273748306445
+      },
+      "total_over_closed_form": 0.9944157138459896,
+      "L_over_closed_form": 1.0000204844266705,
+      "R_loss_over_closed_form": 0.9944157141166573,
+      "Q_loss_over_closed_form": 1.0056362447117921,
+      "Q_loss_tuned_over_closed_form": 1.0056861263620975,
+      "L_eff_over_closed_form": 1.0000700875235802,
+      "L_eff_over_4Wm": 0.9999999999998446,
+      "port_region_over_closed_form": {
+       "inner": 0.9955772235037778,
+       "outer": 0.9992435468172501
+      },
+      "H_normal_share": 1.5922595012024671e-27,
+      "R_loss_over_abs_X": 2.2421819311340117e-05,
+      "indicator_surface_relative_error": 0.0024407236944711786,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.0017875444905435245,
+       "outer": 0.001188427150077942,
+       "top": 0.011187513312592046,
+       "bottom": 0.0041939487484423665
+      }
+     },
+     {
+      "f_Hz": 155000000.0,
+      "Gamma": {
+       "bottom": 5.283676449044896,
+       "inner": 31.124348084905996,
+       "outer": 12.53832105557577,
+       "top": 4.491281291685684
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9914041481514398,
+       "outer": 0.9984581421145212,
+       "top": 1.0004959415453087,
+       "bottom": 1.0005107591726787
+      },
+      "total_over_closed_form": 0.9947079613266563,
+      "L_over_closed_form": 1.0001324236945894,
+      "R_loss_over_closed_form": 0.9947079615974038,
+      "Q_loss_over_closed_form": 1.0054533212828363,
+      "Q_loss_tuned_over_closed_form": 1.0056220713101114,
+      "L_eff_over_closed_form": 1.00030028069024,
+      "L_eff_over_4Wm": 1.0000000000002034,
+      "port_region_over_closed_form": {
+       "inner": 0.9960585347119619,
+       "outer": 0.9996551490984162
+      },
+      "H_normal_share": 1.6236772790089606e-27,
+      "R_loss_over_abs_X": 6.180966112510161e-05,
+      "indicator_surface_relative_error": 0.002428662892677429,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 0.003762065625622313,
+       "outer": 0.027393384823824363,
+       "top": 0.17980458906208696,
+       "bottom": 0.05253738577276579
+      }
+     },
+     {
+      "f_Hz": 160000000.0,
+      "Gamma": {
+       "bottom": 36.19198764422461,
+       "inner": 220.02895658040765,
+       "outer": 88.63825998966047,
+       "top": 34.00885662860104
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9919953901925611,
+       "outer": 0.9990587906130904,
+       "top": 1.0011157832106516,
+       "bottom": 1.0011278544214028
+      },
+      "total_over_closed_form": 0.9953230165355307,
+      "L_over_closed_form": 1.000430259440675,
+      "R_loss_over_closed_form": 0.9953230168064456,
+      "Q_loss_over_closed_form": 1.0051312413638502,
+      "Q_loss_tuned_over_closed_form": 1.0056023863462165,
+      "L_eff_over_closed_form": 1.0008992008858772,
+      "L_eff_over_4Wm": 0.9999999999999936,
+      "port_region_over_closed_form": {
+       "inner": 0.9968721180828201,
+       "outer": 1.0002718153568226
+      },
+      "H_normal_share": 1.630630570067875e-27,
+      "R_loss_over_abs_X": 0.00016656839033993626,
+      "indicator_surface_relative_error": 0.0024300975656482136,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 0.3554104058522398,
+       "outer": 0.5253408496555494,
+       "top": 2.632592772116368,
+       "bottom": 0.7076582374670579
+      }
+     },
+     {
+      "f_Hz": 175000000.0,
+      "Gamma": {
+       "bottom": 1.6930848059120163,
+       "inner": 12.013348786538536,
+       "outer": 4.8395850553394455,
+       "top": 2.2564719014361394
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9908335132382798,
+       "outer": 0.9978947477931189,
+       "top": 1.0000062782356907,
+       "bottom": 1.00000717630625
+      },
+      "total_over_closed_form": 0.994201693529787,
+      "L_over_closed_form": 0.9998366828825715,
+      "R_loss_over_closed_form": 0.9942016938003965,
+      "L_eff_over_closed_form": 0.9997253508635086,
+      "L_eff_over_4Wm": 0.999999999999809,
+      "port_region_over_closed_form": {
+       "inner": 0.9966263134042365,
+       "outer": 0.9990307997353444
+      },
+      "H_normal_share": 1.6205775559396574e-27,
+      "R_loss_over_abs_X": 4.182262128617395e-05,
+      "indicator_surface_relative_error": 0.0024557655035588773,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.01589546214309223,
+       "outer": -0.006433026041243295,
+       "top": 0.023638610890373002,
+       "bottom": 0.003543007753414429
+      }
+     }
+    ],
+    "Gamma_MQS": {
+     "bottom": 0.06410358156043816,
+     "inner": 0.39880709981569745,
+     "outer": 0.16060923773803748,
+     "top": 0.016554976148983727
+    },
+    "Gamma_MQS_over_closed_form_static": {
+     "inner": 0.9913563578558775,
+     "outer": 0.9981077884243479,
+     "top": 0.9998328486015171,
+     "bottom": 0.9998730299743142
+    },
+    "summary": {
+     "H_normal_share_max": 1.630630570067875e-27,
+     "definitions": {
+      "Gamma": "oint |H|^2 dA / |I|^2 per surface, unit incoming current at the port (surface_Gamma)",
+      "Q_loss": "omega L / R_loss, L = -Im Z / omega (the MQS 2 pi f L_p / R_eff with L(omega))",
+      "Q_loss_tuned": "omega L_eff / R_loss, L_eff = L + (omega / 2) dL/domega from the exact dZ/domega: the Q of the readout resonance when an ideal capacitor tunes the port to f (= 2 omega W_m / P_loss for a closed lossless structure)",
+      "Q_total": "omega L / (R_loss + max(Re Z, 0)): with radiation, bulk and boundary losses (Q_total_tuned with L_eff)",
+      "R_eff_ohm": "R_s(f) Gamma (Gamma_magnetoresistance with a magnetoresistance model)",
+      "R_loss_matrix_ohm": "multiport: sum_b R_s,b oint H_j^* . H_k dA (Hermitian), the loss resistance of any combination of port currents",
+      "R_loss_ohm": "sum of R_eff over the surfaces with rf data: the series resistance the losses add to Re Z",
+      "R_loss_over_abs_X": "R_loss / |Im Z|: the perturbation parameter; the neglected order is about its square"
+     },
+     "engine": "3D full wave: perturbative surface loss of the perfectly conducting structure's port fields, H = curl E / (i omega mu) on the field side, over the faces of pickup.losses",
+     "evaluation_seconds": 0.7967168499999999,
+     "evaluations": 7,
+     "faces": 38854,
+     "perturbation": {
+      "at_Hz": 160000000.0,
+      "flag_above": 0.1,
+      "max_R_loss_over_abs_X": 0.00016656839033993626,
+      "port_index": 0,
+      "rows_above_flag": 0
+     },
+     "quadrature_degree": 6,
+     "quadrature_points": 466248,
+     "scope": "conductor and superconductor regions meshed as volumes; PEC boundary groups (mesh.remove_pec holes, imported PEC groups) and a closed outer sphere carry no loss here. Re Z keeps the bulk, Robin and PML losses of the solve itself; R_loss adds the conductor surfaces, which those do not contain",
+     "setup_seconds": 0.034646101,
+     "surfaces": {
+      "bottom": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "inner": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air",
+        "port"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "outer": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air",
+        "port"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      },
+      "top": {
+       "T_K": 0.03,
+       "field_side_regions": [
+        "air"
+       ],
+       "material": "copper_classical",
+       "rf_model": "skin"
+      }
+     }
+    }
+   },
+   "coax_2d": {
+    "provenance": {
+     "commit": "0f0ce65f3225278394cc5deb23ab0c98355b518f",
+     "dirty": false,
+     "exe": "build2/axf",
+     "ranks": null,
+     "seconds": 3.025131940841675,
+     "dofs": 61357,
+     "elements": 13536,
+     "order": 3
+    },
+    "rows": [
+     {
+      "f_Hz": 1000000.0,
+      "Gamma": {
+       "bottom": 0.06411617345574096,
+       "inner": 0.4023069366869383,
+       "outer": 0.1609227738295707,
+       "top": 0.016559562683533553
+      },
+      "Gamma_over_closed_form": {
+       "inner": 1.00000000498885,
+       "outer": 0.9999999997366126,
+       "top": 0.9999999999684599,
+       "bottom": 1.0000000000147915
+      },
+      "total_over_closed_form": 1.0000000030518301,
+      "L_over_closed_form": 1.0000000004990541,
+      "R_loss_over_closed_form": 1.0000000033240177,
+      "Q_loss_over_closed_form": 0.9999999971750365,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -9.00612917575927e-13,
+       "outer": -5.311306949806749e-13,
+       "top": -2.8955726705248708e-11,
+       "bottom": 1.347677525131985e-11
+      }
+     },
+     {
+      "f_Hz": 50000000.0,
+      "Gamma": {
+       "bottom": 0.07690032430168438,
+       "inner": 0.4675438703657936,
+       "outer": 0.18701754733794093,
+       "top": 0.02201108278213078
+      },
+      "Gamma_over_closed_form": {
+       "inner": 1.000000002548732,
+       "outer": 0.9999999982262686,
+       "top": 0.9999999968659203,
+       "bottom": 0.999999998229482
+      },
+      "total_over_closed_form": 1.0000000008690257,
+      "L_over_closed_form": 0.9999999997973644,
+      "R_loss_over_closed_form": 1.0000000011412133,
+      "Q_loss_over_closed_form": 0.9999999986561511,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -2.8370068516636593e-09,
+       "outer": -1.7559729226235277e-09,
+       "top": -4.1628578362207236e-09,
+       "bottom": -2.125267961616828e-09
+      }
+     },
+     {
+      "f_Hz": 100000000.0,
+      "Gamma": {
+       "bottom": 0.15234437992825384,
+       "inner": 0.8618491128012062,
+       "outer": 0.3447396445582711,
+       "top": 0.06080372355039637
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9999999913015798,
+       "outer": 0.9999999896707508,
+       "top": 0.999999983807306,
+       "bottom": 0.9999999894443734
+      },
+      "total_over_closed_form": 0.9999999903853353,
+      "L_over_closed_form": 0.9999999958111594,
+      "R_loss_over_closed_form": 0.9999999906575232,
+      "Q_loss_over_closed_form": 1.0000000051536362,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -2.9325375017208444e-08,
+       "outer": -2.1566120889104923e-08,
+       "top": -5.9453677980769726e-08,
+       "bottom": -2.5085753030396063e-08
+      }
+     },
+     {
+      "f_Hz": 140000000.0,
+      "Gamma": {
+       "bottom": 0.7587160270506262,
+       "inner": 4.27149696614745,
+       "outer": 1.7085987883254927,
+       "top": 0.49604809273442196
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9999999446709811,
+       "outer": 0.9999999457634041,
+       "top": 0.9999999358286273,
+       "bottom": 0.9999999477202535
+      },
+      "total_over_closed_form": 0.9999999446424819,
+      "L_over_closed_form": 0.9999999755345671,
+      "R_loss_over_closed_form": 0.9999999449146695,
+      "Q_loss_over_closed_form": 1.0000000306198993,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -6.404710628515886e-07,
+       "outer": -5.730988661412084e-07,
+       "top": -1.9224120109129217e-06,
+       "bottom": -6.18708728694628e-07
+      }
+     },
+     {
+      "f_Hz": 155000000.0,
+      "Gamma": {
+       "bottom": 5.2809781674996,
+       "inner": 31.394202059190352,
+       "outer": 12.557680846070117,
+       "top": 4.489054086978061
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9999998092965614,
+       "outer": 0.9999998110798501,
+       "top": 0.9999998004385174,
+       "bottom": 0.999999815752244
+      },
+      "total_over_closed_form": 0.999999809607832,
+      "L_over_closed_form": 0.9999999098559084,
+      "R_loss_over_closed_form": 0.9999998098800199,
+      "Q_loss_over_closed_form": 1.0000000999759076,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -1.5271867809474315e-05,
+       "outer": -1.472278759706569e-05,
+       "top": -5.410343720768651e-05,
+       "bottom": -1.5176873688460546e-05
+      }
+     },
+     {
+      "f_Hz": 160000000.0,
+      "Gamma": {
+       "bottom": 36.15119507666083,
+       "inner": 221.80429444262748,
+       "outer": 88.72171794647849,
+       "top": 33.970933745325844
+      },
+      "Gamma_over_closed_form": {
+       "inner": 0.9999994593056771,
+       "outer": 0.9999994612153268,
+       "top": 0.9999994505621814,
+       "bottom": 0.9999994672202653
+      },
+      "total_over_closed_form": 0.9999994597221368,
+      "L_over_closed_form": 0.9999997357058016,
+      "R_loss_over_closed_form": 0.9999994599943245,
+      "Q_loss_over_closed_form": 1.000000275711626,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": -0.00030086964716247167,
+       "outer": -0.0002969206500438304,
+       "top": -0.001127257331063447,
+       "bottom": -0.00030042371963645564
+      }
+     },
+     {
+      "f_Hz": 175000000.0,
+      "Gamma": {
+       "bottom": 1.693072925341822,
+       "inner": 12.12448950686575,
+       "outer": 4.8497958117134985,
+       "top": 2.256458045277269
+      },
+      "Gamma_over_closed_form": {
+       "inner": 1.0000001454856546,
+       "outer": 1.0000001473346398,
+       "top": 1.0000001375672187,
+       "bottom": 1.0000001591412435
+      },
+      "total_over_closed_form": 1.0000001461652386,
+      "L_over_closed_form": 1.000000082068063,
+      "R_loss_over_closed_form": 1.0000001464374264,
+      "over_MQS_minus_closed_form_ratio": {
+       "inner": 4.234420412529971e-06,
+       "outer": 4.448456042638327e-06,
+       "top": 1.8747750743841607e-05,
+       "bottom": 4.202592798208116e-06
+      }
+     }
+    ],
+    "Gamma_MQS": {
+     "bottom": 0.0641117218274897,
+     "inner": 0.4022843033641226,
+     "outer": 0.16091372050043248,
+     "top": 0.01655774379897261
+    },
+    "Gamma_MQS_over_closed_form_static": {
+     "inner": 1.0000000049897506,
+     "outer": 0.9999999997371436,
+     "top": 0.9999999999974124,
+     "bottom": 1.0000000000013156
+    },
+    "summary": null
+   }
+  },
+  "observed_rates": {
+   "coax_l0->coax_l1": [
+    {
+     "f_Hz": 1000000.0,
+     "rate": {
+      "inner": 1.970084229353393,
+      "outer": 2.2508687280495883,
+      "top": 1.254572468817608,
+      "bottom": 3.1100013495298953
+     }
+    },
+    {
+     "f_Hz": 50000000.0,
+     "rate": {
+      "inner": 1.9722863469035004,
+      "outer": 2.2461228421794197,
+      "top": 1.1358634398252485,
+      "bottom": 3.2291612534301994
+     }
+    },
+    {
+     "f_Hz": 100000000.0,
+     "rate": {
+      "inner": 1.9765052753195058,
+      "outer": 2.2231278961025924,
+      "top": 0.2514374216403378,
+      "bottom": 3.8624190730507557
+     }
+    },
+    {
+     "f_Hz": 140000000.0,
+     "rate": {
+      "inner": 1.9630821142888013,
+      "outer": 2.1214915512319976,
+      "top": 9.562063806639935,
+      "bottom": -3.4529698280449646
+     }
+    },
+    {
+     "f_Hz": 155000000.0,
+     "rate": {
+      "inner": 1.8858098268869161,
+      "outer": 1.7077943264015196,
+      "top": 3.7674108125540875,
+      "bottom": 2.6389011534490248
+     }
+    },
+    {
+     "f_Hz": 160000000.0,
+     "rate": {
+      "inner": 1.6008345496890897,
+      "outer": 1.0990938943407715,
+      "top": 3.4237388945552327,
+      "bottom": 3.0616102410628687
+     }
+    },
+    {
+     "f_Hz": 175000000.0,
+     "rate": {
+      "inner": 2.0786441867560455,
+      "outer": 2.408832227074429,
+      "top": 2.8126704961280997,
+      "bottom": 4.024472092406685
+     }
+    }
+   ],
+   "coax_l1->coax_l2": [
+    {
+     "f_Hz": 1000000.0,
+     "rate": {
+      "inner": 1.305937098468529,
+      "outer": 2.045501236990603,
+      "top": 3.4491353786858205,
+      "bottom": 3.725230994740046
+     }
+    },
+    {
+     "f_Hz": 50000000.0,
+     "rate": {
+      "inner": 1.3120755096471077,
+      "outer": 2.038632544043688,
+      "top": 3.6704153298951554,
+      "bottom": 4.117458813362062
+     }
+    },
+    {
+     "f_Hz": 100000000.0,
+     "rate": {
+      "inner": 1.3254520328660913,
+      "outer": 2.01314438281804,
+      "top": 5.227748099318465,
+      "bottom": 11.514496120064694
+     }
+    },
+    {
+     "f_Hz": 140000000.0,
+     "rate": {
+      "inner": 1.3147533867507368,
+      "outer": 1.940591582577182,
+      "top": -4.891367911360819,
+      "bottom": -0.5039760103534886
+     }
+    },
+    {
+     "f_Hz": 155000000.0,
+     "rate": {
+      "inner": 1.2475437264644458,
+      "outer": 1.722162610667331,
+      "top": 1.7519141265373275,
+      "bottom": 1.8434151473887044
+     }
+    },
+    {
+     "f_Hz": 160000000.0,
+     "rate": {
+      "inner": 1.049374219595194,
+      "outer": -0.025485387348406892,
+      "top": 2.461900413970522,
+      "bottom": 2.4679335106160853
+     }
+    },
+    {
+     "f_Hz": 175000000.0,
+     "rate": {
+      "inner": 1.381197608091318,
+      "outer": 2.119943088985718,
+      "top": 5.323629948888778,
+      "bottom": 5.732601902274982
+     }
+    }
+   ],
+   "coax_l2->coax_l3": [
+    {
+     "f_Hz": 1000000.0,
+     "rate": {
+      "inner": 1.904660941497916,
+      "outer": 1.5916413644016534,
+      "top": 2.8582946126452726,
+      "bottom": 2.3679584613960505
+     }
+    },
+    {
+     "f_Hz": 50000000.0,
+     "rate": {
+      "inner": 1.8964509044351776,
+      "outer": 1.6208108460692583,
+      "top": 3.1369157722051844,
+      "bottom": 2.633784468339995
+     }
+    },
+    {
+     "f_Hz": 100000000.0,
+     "rate": {
+      "inner": 1.871657007179054,
+      "outer": 1.7003864903618293,
+      "top": 14.745539372926801,
+      "bottom": -3.3245461501093403
+     }
+    },
+    {
+     "f_Hz": 140000000.0,
+     "rate": {
+      "inner": 1.8398034202285118,
+      "outer": 1.753377553206873,
+      "top": 0.7336991276410024,
+      "bottom": 1.3750714625160516
+     }
+    },
+    {
+     "f_Hz": 155000000.0,
+     "rate": {
+      "inner": 1.8163781952214824,
+      "outer": 1.6777468154388024,
+      "top": 1.6677393051990248,
+      "bottom": 1.8416401061937542
+     }
+    },
+    {
+     "f_Hz": 160000000.0,
+     "rate": {
+      "inner": 1.7746582909147455,
+      "outer": 1.192586832282978,
+      "top": 2.0307501035467865,
+      "bottom": 2.0950844044386954
+     }
+    },
+    {
+     "f_Hz": 175000000.0,
+     "rate": {
+      "inner": 1.8379595150200634,
+      "outer": 1.8479842319185211,
+      "top": 10.584855768477626,
+      "bottom": 9.583955648775722
+     }
+    }
+   ]
+  },
+  "richardson": [
+   {
+    "f_Hz": 1000000.0,
+    "levels": [
+     "coax_l1",
+     "coax_l2",
+     "coax_l3"
+    ],
+    "inner": {
+     "finest_over_closed_form": -0.008768179169195145,
+     "observed_order": 0.4887899088436196,
+     "behaviour": "no usable order",
+     "extrapolated_over_closed_form": null,
+     "gci_fine": null,
+     "order2_extrapolated_over_closed_form": -0.000569968051172931
+    },
+    "outer": {
+     "finest_over_closed_form": -0.0019193032994681003,
+     "observed_order": 2.5661286080435044,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": -0.0009338279457775656,
+     "gci_fine": 0.0012342130212371417,
+     "order2_extrapolated_over_closed_form": -0.0005065719688731596
+    },
+    "top": {
+     "finest_over_closed_form": -0.00015743616225216694,
+     "observed_order": 3.74864025380299,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": -5.747706035819089e-05,
+     "gci_fine": 0.0001249685519366429,
+     "order2_extrapolated_over_closed_form": 0.00010908359358219322
+    },
+    "bottom": {
+     "finest_over_closed_form": -0.0001224545756399742,
+     "observed_order": 4.4711296310223325,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": -8.046330262123647e-05,
+     "gci_fine": 5.2495519589894335e-05,
+     "order2_extrapolated_over_closed_form": 3.3310806453856756e-05
+    }
+   },
+   {
+    "f_Hz": 50000000.0,
+    "levels": [
+     "coax_l1",
+     "coax_l2",
+     "coax_l3"
+    ],
+    "inner": {
+     "finest_over_closed_form": -0.008785764016954856,
+     "observed_order": 0.5144278246294034,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 0.03305681317785658,
+     "gci_fine": 0.05276681830708599,
+     "order2_extrapolated_over_closed_form": -0.0006194150657214958
+    },
+    "outer": {
+     "finest_over_closed_form": -0.0019104504148301782,
+     "observed_order": 2.5134248515000337,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": -0.0008741724628344993,
+     "gci_fine": 0.001297826873884066,
+     "order2_extrapolated_over_closed_form": -0.0004705359217898053
+    },
+    "top": {
+     "finest_over_closed_form": -0.00011997245692485503,
+     "observed_order": 3.9081185067365087,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": -3.792686457360084e-05,
+     "gci_fine": 0.00010256929592968457,
+     "order2_extrapolated_over_closed_form": 0.00011587841926830045
+    },
+    "bottom": {
+     "finest_over_closed_form": -8.593665854295107e-05,
+     "observed_order": 4.806162949369826,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": -5.605862275026574e-05,
+     "gci_fine": 3.735075453993418e-05,
+     "order2_extrapolated_over_closed_form": 4.221971191742391e-05
+    }
+   },
+   {
+    "f_Hz": 100000000.0,
+    "levels": [
+     "coax_l1",
+     "coax_l2",
+     "coax_l3"
+    ],
+    "inner": {
+     "finest_over_closed_form": -0.0088286728525101,
+     "observed_order": 0.5778058021766046,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 0.027527145949983067,
+     "gci_fine": 0.04584956430681208,
+     "order2_extrapolated_over_closed_form": -0.0007681925243775423
+    },
+    "outer": {
+     "finest_over_closed_form": -0.0018772859107433204,
+     "observed_order": 2.360597701629061,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": -0.0006871637112255691,
+     "gci_fine": 0.001490450751593837,
+     "order2_extrapolated_over_closed_form": -0.0003703089477734567
+    },
+    "top": {
+     "finest_over_closed_form": -8.228818506594848e-07,
+     "observed_order": 4.7305681117366944,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 3.182237591525805e-05,
+     "gci_fine": 4.080660578601353e-05,
+     "order2_extrapolated_over_closed_form": 0.0001347378867004867
+    },
+    "bottom": {
+     "finest_over_closed_form": 2.9210537622059718e-05,
+     "observed_order": 7.34391533492405,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 3.248312204484627e-05,
+     "gci_fine": 4.090611039369726e-06,
+     "order2_extrapolated_over_closed_form": 6.764988075480538e-05
+    }
+   },
+   {
+    "f_Hz": 140000000.0,
+    "levels": [
+     "coax_l1",
+     "coax_l2",
+     "coax_l3"
+    ],
+    "inner": {
+     "finest_over_closed_form": -0.008810535718031698,
+     "observed_order": 0.5839631671255481,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 0.02622357267490294,
+     "gci_fine": 0.04418190171431307,
+     "order2_extrapolated_over_closed_form": -0.0009516577756022437
+    },
+    "outer": {
+     "finest_over_closed_form": -0.0017804987676874884,
+     "observed_order": 2.1496230888538737,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": -0.00043495289895234546,
+     "gci_fine": 0.0016849323559023591,
+     "order2_extrapolated_over_closed_form": -0.0002917237202854084
+    },
+    "top": {
+     "finest_over_closed_form": 0.00020621764956718636,
+     "observed_order": 3.7249329272304936,
+     "behaviour": "oscillatory",
+     "extrapolated_over_closed_form": 0.0001835695263472381,
+     "gci_fine": 2.83043171754381e-05,
+     "order2_extrapolated_over_closed_form": 0.00014651067434301446
+    },
+    "bottom": {
+     "finest_over_closed_form": 0.00022737483064450004,
+     "observed_order": 2.4841977234237334,
+     "behaviour": "oscillatory",
+     "extrapolated_over_closed_form": 0.0001257073658988972,
+     "gci_fine": 0.00012705544172262565,
+     "order2_extrapolated_over_closed_form": 8.855562538423456e-05
+    }
+   },
+   {
+    "f_Hz": 155000000.0,
+    "levels": [
+     "coax_l1",
+     "coax_l2",
+     "coax_l3"
+    ],
+    "inner": {
+     "finest_over_closed_form": -0.008595851848560154,
+     "observed_order": 0.42296597365032595,
+     "behaviour": "no usable order",
+     "extrapolated_over_closed_form": null,
+     "gci_fine": null,
+     "order2_extrapolated_over_closed_form": -0.0010599685966309336
+    },
+    "outer": {
+     "finest_over_closed_form": -0.0015418578854787812,
+     "observed_order": 1.7775155704141916,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": -0.00011393689013328157,
+     "gci_fine": 0.001787657558084419,
+     "order2_extrapolated_over_closed_form": -0.00032586727348560274
+    },
+    "top": {
+     "finest_over_closed_form": 0.0004959415453087423,
+     "observed_order": 1.856035815395753,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 6.604067614013331e-05,
+     "gci_fine": 0.000537109711440406,
+     "order2_extrapolated_over_closed_form": 0.00010788715382936687
+    },
+    "bottom": {
+     "finest_over_closed_form": 0.0005107591726787319,
+     "observed_order": 1.8454011553982252,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 1.4081690318246132e-06,
+     "gci_fine": 0.0006363637259484197,
+     "order2_extrapolated_over_closed_form": 5.455361998030206e-05
+    }
+   },
+   {
+    "f_Hz": 160000000.0,
+    "levels": [
+     "coax_l1",
+     "coax_l2",
+     "coax_l3"
+    ],
+    "inner": {
+     "finest_over_closed_form": -0.00800460980743889,
+     "observed_order": null,
+     "behaviour": "no usable order",
+     "extrapolated_over_closed_form": null,
+     "gci_fine": null,
+     "order2_extrapolated_over_closed_form": -0.0012027044602128667
+    },
+    "outer": {
+     "finest_over_closed_form": -0.0009412093869095584,
+     "observed_order": 10.533509470691689,
+     "behaviour": "unreliable order",
+     "extrapolated_over_closed_form": null,
+     "gci_fine": null,
+     "order2_extrapolated_over_closed_form": -0.00045947265862034126
+    },
+    "top": {
+     "finest_over_closed_form": 0.001115783210651644,
+     "observed_order": 2.8295351023902473,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 0.0004317628992320799,
+     "gci_fine": 0.0008540724295967686,
+     "order2_extrapolated_over_closed_form": -2.390936802321164e-05
+    },
+    "bottom": {
+     "finest_over_closed_form": 0.0011278544214028408,
+     "observed_order": 2.778413378128368,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 0.00038469837651966543,
+     "gci_fine": 0.0009278985216539117,
+     "order2_extrapolated_over_closed_form": -7.55724084695597e-05
+    }
+   },
+   {
+    "f_Hz": 175000000.0,
+    "levels": [
+     "coax_l1",
+     "coax_l2",
+     "coax_l3"
+    ],
+    "inner": {
+     "finest_over_closed_form": -0.00916648676172016,
+     "observed_order": 0.7640863027516709,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 0.017765161130575136,
+     "gci_fine": 0.03397600042346681,
+     "order2_extrapolated_over_closed_form": -0.0010011847325097634
+    },
+    "outer": {
+     "finest_over_closed_form": -0.0021052522068810697,
+     "observed_order": 2.3955708616355453,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": -0.0006451663521785944,
+     "gci_fine": 0.0018289577356874716,
+     "order2_extrapolated_over_closed_form": -0.00021608674635220648
+    },
+    "top": {
+     "finest_over_closed_form": 6.2782356906598835e-06,
+     "observed_order": 4.754642151997263,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 6.641696803844077e-05,
+     "gci_fine": 7.517294348150191e-05,
+     "order2_extrapolated_over_closed_form": 0.00025860295264434896
+    },
+    "bottom": {
+     "finest_over_closed_form": 7.176306249911946e-06,
+     "observed_order": 5.204687684296031,
+     "behaviour": "monotone",
+     "extrapolated_over_closed_form": 4.778221082024636e-05,
+     "gci_fine": 5.0757016465088965e-05,
+     "order2_extrapolated_over_closed_form": 0.00021315885986217253
+    }
+   }
+  ]
+ },
+ "solenoid": {
+  "params": {
+   "R": 1.0,
+   "H": 2.0,
+   "x": 0.534,
+   "tw": 0.05,
+   "g": 0.03,
+   "tc": 0.03,
+   "tp": 0.05
+  },
+  "mesh3d": {
+   "order": 2,
+   "size": 0.4,
+   "surface_size": 0.13
+  },
+  "mesh2d": {
+   "order": 2,
+   "size": 0.05,
+   "surface_size": 0.015
+  },
+  "provenance": {
+   "commit": "b980c75e07334416a3cdbf6eeab7a066bc808db9",
+   "dirty": true,
+   "exe": "build7/axf",
+   "ranks": 8,
+   "seconds": 1095.765370130539,
+   "dofs": 901086,
+   "elements": 137551,
+   "order": 2
+  },
+  "provenance_2d": {
+   "commit": "2340e7a8a9e304f2504c426e89e5b95f9717d0ed",
+   "dirty": true,
+   "exe": "build2/axf",
+   "ranks": null,
+   "seconds": 9.664135217666626,
+   "dofs": 55740,
+   "elements": 27683,
+   "order": 2
+  },
+  "Gamma_MQS": {
+   "coax_inner": 0.5685899268814992,
+   "coax_outer": 0.32576630254923417,
+   "coax_short": 0.08993663597039298
+  },
+  "rows": [
+   {
+    "f_Hz": 45441.38246892326,
+    "k_R": 0.0010000000000000007,
+    "Gamma": {
+     "coax_inner": 0.5684779903081383,
+     "coax_outer": 0.32573453087747783,
+     "coax_short": 0.08994026293343654
+    },
+    "over_MQS_same_run": {
+     "coax_inner": -0.00019686696522203118,
+     "coax_outer": -9.752903080428865e-05,
+     "coax_short": 4.032798207798116e-05
+    },
+    "R_loss_ohm": 5.444540875594259e-06,
+    "Q_loss": 11485.688990057604,
+    "Q_loss_tuned": 11485.707629082113,
+    "L_over_MQS": 0.9999992879795598,
+    "over_2D": {
+     "coax_inner": -0.015130907361365242,
+     "coax_outer": -0.0066203741076176215,
+     "coax_short": -0.0006634164309387014
+    },
+    "R_loss_over_2D": -0.0110181014225742,
+    "L_over_2D": -4.3768399242694045e-05
+   },
+   {
+    "f_Hz": 1000000.0,
+    "k_R": 0.02200637273049268,
+    "Gamma": {
+     "coax_inner": 0.5693692846179886,
+     "coax_outer": 0.32624653502941847,
+     "coax_short": 0.09013080241416785
+    },
+    "over_MQS_same_run": {
+     "coax_inner": 0.0013706850924424252,
+     "coax_outer": 0.0014741625405276793,
+     "coax_short": 0.002158924910631521
+    },
+    "R_loss_ohm": 2.6154123908452005e-05,
+    "Q_loss": 52658.36539266276,
+    "Q_loss_tuned": 52699.78986115843,
+    "L_over_MQS": 1.0007842500625772,
+    "over_2D": {
+     "coax_inner": -0.015114861154855719,
+     "coax_outer": -0.006604206651905753,
+     "coax_short": -0.0006463288841903614
+    },
+    "R_loss_over_2D": -0.011001401155240398,
+    "L_over_2D": -3.5583565561991826e-05
+   },
+   {
+    "f_Hz": 10000000.0,
+    "k_R": 0.2200637273049268,
+    "Gamma": {
+     "coax_inner": 0.6709664524982539,
+     "coax_outer": 0.3846284090144189,
+     "coax_short": 0.11213021988859326
+    },
+    "over_MQS_same_run": {
+     "coax_inner": 0.18005335792396338,
+     "coax_outer": 0.18068813749171841,
+     "coax_short": 0.24676911337340202
+    },
+    "R_loss_ohm": 0.00010564359825102755,
+    "Q_loss": 141494.98323151114,
+    "Q_loss_tuned": 153817.457948413,
+    "L_over_MQS": 1.086218357706721,
+    "over_2D": {
+     "coax_inner": -0.013376306899018031,
+     "coax_outer": -0.004850029658434063,
+     "coax_short": 0.0011983349527118214
+    },
+    "R_loss_over_2D": -0.009195167100504387,
+    "L_over_2D": 0.0008507261038592784
+   },
+   {
+    "f_Hz": 30000000.0,
+    "k_R": 0.6601911819147803,
+    "Gamma": {
+     "coax_inner": 11.850133941400355,
+     "coax_outer": 6.859827896571489,
+     "coax_short": 2.963911905926125
+    },
+    "over_MQS_same_run": {
+     "coax_inner": 19.841266053364432,
+     "coax_outer": 20.057512219314766,
+     "coax_short": 31.95555669773818
+    },
+    "R_loss_ohm": 0.0036282435495376903,
+    "Q_loss": 50291.24174399093,
+    "Q_loss_tuned": 236191.7744993321,
+    "L_over_MQS": 4.419777914145579,
+    "over_2D": {
+     "coax_inner": 0.05199877513793716,
+     "coax_outer": 0.061433513435087184,
+     "coax_short": 0.06826963029457822
+    },
+    "R_loss_over_2D": 0.057174847284766406,
+    "L_over_2D": 0.033393688609014927
+   }
+  ],
+  "summary": {
+   "H_normal_share_max": 4.216553843423172e-28,
+   "definitions": {
+    "Gamma": "oint |H|^2 dA / |I|^2 per surface, unit incoming current at the port (surface_Gamma; dimensionless: H per ampere is in 1/m)",
+    "Q_loss": "omega L / R_loss, L = -Im Z / omega: the reactance's Q, the key shared with 2D and MQS (2 pi f L_p / R_eff there); beyond MQS it is not a resonator Q and tends to 0 at a self-resonance",
+    "Q_loss_tuned": "the headline Q: omega L_eff / R_loss, L_eff = L + (omega / 2) dL/domega from the exact dZ/domega: the Q of the readout resonance when an ideal capacitor tunes the port to f (= 2 omega W_m / P_loss for a closed lossless structure; L > 0 only)",
+    "Q_total": "omega L / (R_loss + max(Re Z, 0)): with radiation, bulk and boundary losses (Q_total_tuned with L_eff); withheld where the solve's true relative residual times |X| exceeds 0.01 of R_loss + max(Re Z, 0)",
+    "R_eff_ohm": "R_s(f) Gamma (Gamma_magnetoresistance with a magnetoresistance model)",
+    "R_loss_matrix_ohm": "multiport: sum_b R_s,b oint H_j^* . H_k dA (Hermitian): the dissipated power 1/2 I^dagger R I of any combination of port currents. It equals the (symmetric) impedance perturbation only for in-phase port fields (closed, lossless); with radiation or bulk loss do not add it to Z",
+    "R_loss_ohm": "sum of R_eff over the surfaces with rf data: 2 P_loss / |I|^2, the power the conductor surfaces dissipate (to first order the series resistance they add to Re Z)",
+    "R_loss_over_abs_X": "R_loss / |Im Z|: the perturbation parameter; the neglected order is about its square",
+    "T_over_Q_K": "sum over the rf surfaces of T_b R_eff,b / (omega L) (T_over_Q_tuned_K: with L_eff); radiation and bulk loss are not in it, as their temperatures are not known"
+   },
+   "engine": "3D full wave: perturbative surface loss of the perfectly conducting structure's port fields, H = curl E / (i omega mu) on the field side, over the faces of pickup.losses",
+   "evaluation_seconds": 0.46978405600000006,
+   "evaluations": 4,
+   "faces": 6262,
+   "perturbation": {
+    "at_Hz": 45441.38246892326,
+    "flag_above": 0.1,
+    "max_R_loss_over_abs_X": 8.706486836493948e-05,
+    "port_index": 0,
+    "rows_above_flag": 0
+   },
+   "quadrature_degree": 6,
+   "quadrature_points": 75144,
+   "scope": "conductor and superconductor regions meshed as volumes; PEC boundary groups (mesh.remove_pec holes, imported PEC groups) and a closed outer sphere carry no loss here. Re Z keeps the bulk, Robin and PML losses of the solve itself; R_loss adds the conductor surfaces, which those do not contain",
+   "setup_seconds": 0.159358068,
+   "surfaces": {
+    "coax_inner": {
+     "T_K": 0.03,
+     "field_side_regions": [
+      "air",
+      "port"
+     ],
+     "material": "copper",
+     "rf_model": "anomalous"
+    },
+    "coax_outer": {
+     "T_K": 0.03,
+     "field_side_regions": [
+      "air",
+      "port"
+     ],
+     "material": "copper",
+     "rf_model": "anomalous"
+    },
+    "coax_short": {
+     "T_K": 0.03,
+     "field_side_regions": [
+      "air"
+     ],
+     "material": "copper",
+     "rf_model": "anomalous"
+    }
+   }
+  }
+ },
+ "abra": {
+  "abra_mini_c360": {
+   "provenance": {
+    "commit": "0f0ce65f3225278394cc5deb23ab0c98355b518f",
+    "dirty": false,
+    "exe": "build2/axf",
+    "ranks": 8,
+    "seconds": 292.74780344963074,
+    "dofs": 857456,
+    "elements": 130725,
+    "order": 2
+   },
+   "Gamma_MQS": {
+    "wall": 0.6366722943712113
+   },
+   "rows": [
+    {
+     "f_Hz": 3000000.0,
+     "k_R": 0.059731583125622975,
+     "Gamma": {
+      "wall": 0.6452875169374284
+     },
+     "over_MQS_same_run": {
+      "wall": 0.013531643582395336
+     },
+     "by_region_over_MQS": {
+      "wall": {
+       "air": 0.013559133372804011,
+       "port": 0.010966181303677436
+      }
+     },
+     "L_over_MQS": 1.0063216419903633,
+     "Q_loss": 38519536.38944641,
+     "Q_loss_tuned": 38760328.828608654,
+     "R_loss_ohm": 5.8075876524368554e-08,
+     "indicator_surface_relative_error": 0.038257120364551096
+    },
+    {
+     "f_Hz": 20000000.0,
+     "k_R": 0.3982105541708199,
+     "Gamma": {
+      "wall": 1.2490720266780877
+     },
+     "over_MQS_same_run": {
+      "wall": 0.9618758939584344
+     },
+     "by_region_over_MQS": {
+      "wall": {
+       "air": 0.9618715789170169,
+       "port": 0.9622785916809171
+      }
+     },
+     "L_over_MQS": 1.3961135101483106,
+     "Q_loss": 4141159.985901125,
+     "Q_loss_tuned": 5834669.700566465,
+     "R_loss_ohm": 4.99628810671235e-06,
+     "indicator_surface_relative_error": 0.038183730219170695
+    }
+   ],
+   "summary": {
+    "H_normal_share_max": 2.0848096160077185e-27,
+    "definitions": {
+     "Gamma": "oint |H|^2 dA / |I|^2 per surface, unit incoming current at the port (surface_Gamma)",
+     "Q_loss": "omega L / R_loss, L = -Im Z / omega (the MQS 2 pi f L_p / R_eff with L(omega))",
+     "Q_loss_tuned": "omega L_eff / R_loss, L_eff = L + (omega / 2) dL/domega from the exact dZ/domega: the Q of the readout resonance when an ideal capacitor tunes the port to f (= 2 omega W_m / P_loss for a closed lossless structure)",
+     "Q_total": "omega L / (R_loss + max(Re Z, 0)): with radiation, bulk and boundary losses (Q_total_tuned with L_eff)",
+     "R_eff_ohm": "R_s(f) Gamma (Gamma_magnetoresistance with a magnetoresistance model)",
+     "R_loss_matrix_ohm": "multiport: sum_b R_s,b oint H_j^* . H_k dA (Hermitian), the loss resistance of any combination of port currents",
+     "R_loss_ohm": "sum of R_eff over the surfaces with rf data: the series resistance the losses add to Re Z",
+     "R_loss_over_abs_X": "R_loss / |Im Z|: the perturbation parameter; the neglected order is about its square"
+    },
+    "engine": "3D full wave: perturbative surface loss of the perfectly conducting structure's port fields, H = curl E / (i omega mu) on the field side, over the faces of pickup.losses",
+    "evaluation_seconds": 0.159583941,
+    "evaluations": 2,
+    "faces": 4676,
+    "perturbation": {
+     "at_Hz": 20000000.0,
+     "flag_above": 0.1,
+     "max_R_loss_over_abs_X": 2.4147823397419357e-07,
+     "port_index": 0,
+     "rows_above_flag": 0
+    },
+    "quadrature_degree": 6,
+    "quadrature_points": 56112,
+    "scope": "conductor and superconductor regions meshed as volumes; PEC boundary groups (mesh.remove_pec holes, imported PEC groups) and a closed outer sphere carry no loss here. Re Z keeps the bulk, Robin and PML losses of the solve itself; R_loss adds the conductor surfaces, which those do not contain",
+    "setup_seconds": 0.014276325,
+    "surfaces": {
+     "wall": {
+      "T_K": 0.01,
+      "field_side_regions": [
+       "air",
+       "port"
+      ],
+      "material": "nb_rf",
+      "rf_model": "power"
+     }
+    }
+   }
+  },
+  "abra_mini_n1": {
+   "provenance": {
+    "commit": "0f0ce65f3225278394cc5deb23ab0c98355b518f",
+    "dirty": false,
+    "exe": "build2/axf",
+    "ranks": 8,
+    "seconds": 475.58541107177734,
+    "dofs": 857238,
+    "elements": 130688,
+    "order": 2
+   },
+   "Gamma_MQS": {
+    "wall": 1.850027084706976
+   },
+   "rows": [
+    {
+     "f_Hz": 3000000.0,
+     "k_R": 0.05973158312562297,
+     "Gamma": {
+      "wall": 1.842738461969962
+     },
+     "over_MQS_same_run": {
+      "wall": -0.003939738394785897
+     },
+     "by_region_over_MQS": {
+      "wall": {
+       "air": -0.0004882926854047343,
+       "gap": -0.016567178920693704,
+       "port": 0.002539856981729205
+      }
+     },
+     "L_over_MQS": 0.9988475654667022,
+     "Q_loss": 29799479.319228876,
+     "Q_loss_tuned": 29905461.60734742,
+     "R_loss_ohm": 1.6584646157729657e-07,
+     "indicator_surface_relative_error": 0.08192676403809555
+    },
+    {
+     "f_Hz": 20000000.0,
+     "k_R": 0.39821055417081985,
+     "Gamma": {
+      "wall": 2.5847284624291493
+     },
+     "over_MQS_same_run": {
+      "wall": 0.39713006571389853
+     },
+     "by_region_over_MQS": {
+      "wall": {
+       "air": 0.5099980832910913,
+       "gap": 0.11780110715733505,
+       "port": 0.0493919855819438
+      }
+     },
+     "L_over_MQS": 1.2082837904535422,
+     "Q_loss": 3854947.289792419,
+     "Q_loss_tuned": 4795048.682892547,
+     "R_loss_ohm": 1.0338913849716597e-05,
+     "indicator_surface_relative_error": 0.07415116331569228
+    }
+   ],
+   "summary": {
+    "H_normal_share_max": 1.3587450647065471e-27,
+    "definitions": {
+     "Gamma": "oint |H|^2 dA / |I|^2 per surface, unit incoming current at the port (surface_Gamma)",
+     "Q_loss": "omega L / R_loss, L = -Im Z / omega (the MQS 2 pi f L_p / R_eff with L(omega))",
+     "Q_loss_tuned": "omega L_eff / R_loss, L_eff = L + (omega / 2) dL/domega from the exact dZ/domega: the Q of the readout resonance when an ideal capacitor tunes the port to f (= 2 omega W_m / P_loss for a closed lossless structure)",
+     "Q_total": "omega L / (R_loss + max(Re Z, 0)): with radiation, bulk and boundary losses (Q_total_tuned with L_eff)",
+     "R_eff_ohm": "R_s(f) Gamma (Gamma_magnetoresistance with a magnetoresistance model)",
+     "R_loss_matrix_ohm": "multiport: sum_b R_s,b oint H_j^* . H_k dA (Hermitian), the loss resistance of any combination of port currents",
+     "R_loss_ohm": "sum of R_eff over the surfaces with rf data: the series resistance the losses add to Re Z",
+     "R_loss_over_abs_X": "R_loss / |Im Z|: the perturbation parameter; the neglected order is about its square"
+    },
+    "engine": "3D full wave: perturbative surface loss of the perfectly conducting structure's port fields, H = curl E / (i omega mu) on the field side, over the faces of pickup.losses",
+    "evaluation_seconds": 0.341639533,
+    "evaluations": 2,
+    "faces": 4698,
+    "perturbation": {
+     "at_Hz": 20000000.0,
+     "flag_above": 0.1,
+     "max_R_loss_over_abs_X": 2.5940691916797856e-07,
+     "port_index": 0,
+     "rows_above_flag": 0
+    },
+    "quadrature_degree": 6,
+    "quadrature_points": 56376,
+    "scope": "conductor and superconductor regions meshed as volumes; PEC boundary groups (mesh.remove_pec holes, imported PEC groups) and a closed outer sphere carry no loss here. Re Z keeps the bulk, Robin and PML losses of the solve itself; R_loss adds the conductor surfaces, which those do not contain",
+    "setup_seconds": 0.032027063,
+    "surfaces": {
+     "wall": {
+      "T_K": 0.01,
+      "field_side_regions": [
+       "air",
+       "gap",
+       "port"
+      ],
+      "material": "nb_rf",
+      "rf_model": "power"
+     }
+    }
+   }
+  },
+  "abra_mini_n1_g1": {
+   "provenance": {
+    "commit": "0f0ce65f3225278394cc5deb23ab0c98355b518f",
+    "dirty": true,
+    "exe": "build2/axf",
+    "ranks": 8,
+    "seconds": 284.7506604194641,
+    "dofs": 857238,
+    "elements": 130688,
+    "order": 2
+   },
+   "Gamma_MQS": {
+    "wall": 1.71044585832104
+   },
+   "rows": [
+    {
+     "f_Hz": 3000000.0,
+     "k_R": 0.059731583125622933,
+     "Gamma": {
+      "wall": 1.7053628195198214
+     },
+     "over_MQS_same_run": {
+      "wall": -0.0029717624656112607
+     },
+     "by_region_over_MQS": {
+      "wall": {
+       "air": -0.0003845394396866375,
+       "gap": -0.013212920208929946,
+       "port": -0.0028394718416133724
+      }
+     },
+     "L_over_MQS": 0.9984056242084451,
+     "Q_loss": 32449311.265415303,
+     "Q_loss_tuned": 32558947.562428866,
+     "R_loss_ohm": 1.5348265375678393e-07,
+     "indicator_surface_relative_error": 0.18358196029995041
+    },
+    {
+     "f_Hz": 20000000.0,
+     "k_R": 0.39821055417081963,
+     "Gamma": {
+      "wall": 2.371402445706241
+     },
+     "over_MQS_same_run": {
+      "wall": 0.386423565627497
+     },
+     "by_region_over_MQS": {
+      "wall": {
+       "air": 0.47962687503793844,
+       "gap": 0.1178618561264968,
+       "port": 0.04369041367853077
+      }
+     },
+     "L_over_MQS": 1.1939472860344058,
+     "Q_loss": 4185876.4257874116,
+     "Q_loss_tuned": 5133575.7483830685,
+     "R_loss_ohm": 9.485609782824964e-06,
+     "indicator_surface_relative_error": 0.16734940064521917
+    }
+   ],
+   "summary": {
+    "H_normal_share_max": 1.1764604922134857e-27,
+    "definitions": {
+     "Gamma": "oint |H|^2 dA / |I|^2 per surface, unit incoming current at the port (surface_Gamma)",
+     "Q_loss": "omega L / R_loss, L = -Im Z / omega (the MQS 2 pi f L_p / R_eff with L(omega))",
+     "Q_loss_tuned": "omega L_eff / R_loss, L_eff = L + (omega / 2) dL/domega from the exact dZ/domega: the Q of the readout resonance when an ideal capacitor tunes the port to f (= 2 omega W_m / P_loss for a closed lossless structure)",
+     "Q_total": "omega L / (R_loss + max(Re Z, 0)): with radiation, bulk and boundary losses (Q_total_tuned with L_eff)",
+     "R_eff_ohm": "R_s(f) Gamma (Gamma_magnetoresistance with a magnetoresistance model)",
+     "R_loss_matrix_ohm": "multiport: sum_b R_s,b oint H_j^* . H_k dA (Hermitian), the loss resistance of any combination of port currents",
+     "R_loss_ohm": "sum of R_eff over the surfaces with rf data: the series resistance the losses add to Re Z",
+     "R_loss_over_abs_X": "R_loss / |Im Z|: the perturbation parameter; the neglected order is about its square"
+    },
+    "engine": "3D full wave: perturbative surface loss of the perfectly conducting structure's port fields, H = curl E / (i omega mu) on the field side, over the faces of pickup.losses",
+    "evaluation_seconds": 0.29321205800000005,
+    "evaluations": 2,
+    "faces": 4698,
+    "perturbation": {
+     "at_Hz": 20000000.0,
+     "flag_above": 0.1,
+     "max_R_loss_over_abs_X": 2.3889859572524013e-07,
+     "port_index": 0,
+     "rows_above_flag": 0
+    },
+    "quadrature_degree": 6,
+    "quadrature_points": 56376,
+    "scope": "conductor and superconductor regions meshed as volumes; PEC boundary groups (mesh.remove_pec holes, imported PEC groups) and a closed outer sphere carry no loss here. Re Z keeps the bulk, Robin and PML losses of the solve itself; R_loss adds the conductor surfaces, which those do not contain",
+    "setup_seconds": 0.013330479,
+    "surfaces": {
+     "wall": {
+      "T_K": 0.01,
+      "field_side_regions": [
+       "air",
+       "gap",
+       "port"
+      ],
+      "material": "nb_rf",
+      "rf_model": "power"
+     }
+    }
+   }
+  },
+  "abra_mini_n1_rad": {
+   "provenance": {
+    "commit": "20c6a7dedd8b43381c3a725b76a7084c3d2de5f3",
+    "dirty": false,
+    "exe": "build2/axf",
+    "ranks": 8,
+    "seconds": 619.7209477424622,
+    "dofs": 857238,
+    "elements": 130688,
+    "order": 2
+   },
+   "Gamma_MQS": {
+    "wall": 1.850027084706976
+   },
+   "rows": [
+    {
+     "f_Hz": 3000000.0,
+     "k_R": 0.05973158312562297,
+     "Gamma": {
+      "wall": 1.8596432810785144
+     },
+     "over_MQS_same_run": {
+      "wall": 0.005197867885843088
+     },
+     "by_region_over_MQS": {
+      "wall": {
+       "air": 0.006804150856991598,
+       "gap": -0.00021718480550847463,
+       "port": 0.006279634192528638
+      }
+     },
+     "L_over_MQS": 1.003704017560035,
+     "Q_loss": 29672161.093575045,
+     "Q_loss_tuned": 29778009.575700466,
+     "R_loss_ohm": 1.673678952970663e-07,
+     "indicator_surface_relative_error": 0.08217905070676608
+    },
+    {
+     "f_Hz": 20000000.0,
+     "k_R": 0.39821055417081985,
+     "Gamma": {
+      "wall": 2.5990125480309336
+     },
+     "over_MQS_same_run": {
+      "wall": 0.40485108002761416
+     },
+     "by_region_over_MQS": {
+      "wall": {
+       "air": 0.5114413420873403,
+       "gap": 0.14612576165844193,
+       "port": 0.055229693899646826
+      }
+     },
+     "L_over_MQS": 1.212105749894878,
+     "Q_loss": 3845887.3146578693,
+     "Q_loss_tuned": 4760163.307573787,
+     "R_loss_ohm": 1.0396050192123734e-05,
+     "indicator_surface_relative_error": 0.07477995591976322
+    }
+   ],
+   "summary": {
+    "H_normal_share_max": 1.3528883083461304e-27,
+    "definitions": {
+     "Gamma": "oint |H|^2 dA / |I|^2 per surface, unit incoming current at the port (surface_Gamma)",
+     "Q_loss": "omega L / R_loss, L = -Im Z / omega (the MQS 2 pi f L_p / R_eff with L(omega))",
+     "Q_loss_tuned": "omega L_eff / R_loss, L_eff = L + (omega / 2) dL/domega from the exact dZ/domega: the Q of the readout resonance when an ideal capacitor tunes the port to f (= 2 omega W_m / P_loss for a closed lossless structure)",
+     "Q_total": "omega L / (R_loss + max(Re Z, 0)): with radiation, bulk and boundary losses (Q_total_tuned with L_eff)",
+     "R_eff_ohm": "R_s(f) Gamma (Gamma_magnetoresistance with a magnetoresistance model)",
+     "R_loss_matrix_ohm": "multiport: sum_b R_s,b oint H_j^* . H_k dA (Hermitian), the loss resistance of any combination of port currents",
+     "R_loss_ohm": "sum of R_eff over the surfaces with rf data: the series resistance the losses add to Re Z",
+     "R_loss_over_abs_X": "R_loss / |Im Z|: the perturbation parameter; the neglected order is about its square"
+    },
+    "engine": "3D full wave: perturbative surface loss of the perfectly conducting structure's port fields, H = curl E / (i omega mu) on the field side, over the faces of pickup.losses",
+    "evaluation_seconds": 0.220531438,
+    "evaluations": 2,
+    "faces": 4698,
+    "perturbation": {
+     "at_Hz": 20000000.0,
+     "flag_above": 0.1,
+     "max_R_loss_over_abs_X": 2.600180187777967e-07,
+     "port_index": 0,
+     "rows_above_flag": 0
+    },
+    "quadrature_degree": 6,
+    "quadrature_points": 56376,
+    "scope": "conductor and superconductor regions meshed as volumes; PEC boundary groups (mesh.remove_pec holes, imported PEC groups) and a closed outer sphere carry no loss here. Re Z keeps the bulk, Robin and PML losses of the solve itself; R_loss adds the conductor surfaces, which those do not contain",
+    "setup_seconds": 0.01806767,
+    "surfaces": {
+     "wall": {
+      "T_K": 0.01,
+      "field_side_regions": [
+       "air",
+       "gap",
+       "port"
+      ],
+      "material": "nb_rf",
+      "rf_model": "power"
+     }
+    }
+   }
+  }
+ },
+ "extra": {
+  "coax_straight_order2_mqs_limit": {
+   "provenance": {
+    "commit": "be5a948ce75ed6949ffe3dd4ec8616cb40f65728",
+    "dirty": false,
+    "exe": "build5/axf",
+    "ranks": 8,
+    "seconds": 98.95494294166565,
+    "dofs": 800940,
+    "elements": 121758,
+    "order": 2
+   },
+   "f_Hz": 1000000.0,
+   "over_MQS_minus_closed_form_ratio": {
+    "inner": -6.676017494378073e-08,
+    "outer": 5.6430847328314826e-08,
+    "top": 1.4929193081769654e-07,
+    "bottom": 1.419953874481905e-07
+   },
+   "Gamma_over_closed_form": {
+    "inner": -0.08040336534718728,
+    "outer": -0.006746265564644305,
+    "top": 0.007107150017467756,
+    "bottom": 0.008290452823318972
+   }
+  },
+  "coax_order1_solve_paths": {
+   "provenance": {
+    "default": {
+     "commit": "be5a948ce75ed6949ffe3dd4ec8616cb40f65728",
+     "dirty": false,
+     "exe": "build5/axf",
+     "ranks": null,
+     "seconds": 47.84606456756592,
+     "dofs": 137419,
+     "elements": 110069,
+     "order": 1
+    },
+    "guard_off": {
+     "commit": "be5a948ce75ed6949ffe3dd4ec8616cb40f65728",
+     "dirty": false,
+     "exe": "build5/axf",
+     "ranks": null,
+     "seconds": 46.15473699569702,
+     "dofs": 137419,
+     "elements": 110069,
+     "order": 1
+    },
+    "strumpack": {
+     "commit": "c8414594f9c6391c1fa8130905ace61daaa45bce",
+     "dirty": false,
+     "exe": "build5/axf",
+     "ranks": null,
+     "seconds": 37.401262521743774,
+     "dofs": 137419,
+     "elements": 110069,
+     "order": 1
+    },
+    "tree_cotree": {
+     "commit": "c8414594f9c6391c1fa8130905ace61daaa45bce",
+     "dirty": false,
+     "exe": "build5/axf",
+     "ranks": null,
+     "seconds": 31.461771488189697,
+     "dofs": 137419,
+     "elements": 110069,
+     "order": 1
+    }
+   },
+   "solver_path": {
+    "default": "AMS-GMRES",
+    "guard_off": "AMS-GMRES",
+    "strumpack": "STRUMPACK real sparse LU reused across RHS with GMRES refinement",
+    "tree_cotree": "tree-cotree gauged STRUMPACK LU (E = S_c e + G_c phi, K G = 0 exact), Woodbury loads, iterative refinement on the transformed residual (normwise, extended residual); charge projection 2; gate on the split-form original-space residual"
+   },
+   "frequencies_Hz": [
+    100000.0,
+    1000000.0,
+    100000000.0
+   ],
+   "max_relative_deviation_from_default": {
+    "default": 0.0,
+    "guard_off": 1.1102230246251565e-15,
+    "strumpack": 1.7710277688820497e-11,
+    "tree_cotree": 1.767241908368078e-11
+   }
+  },
+  "mqs_pickup_losses_bit_identical": {
+   "against": "b5",
+   "designs": {
+    "solenoid_mr_o1": true,
+    "solenoid_o2": true,
+    "abra_mini_n1": true
+   },
+   "largest_relative_difference": {
+    "solenoid_mr_o1": 0.0,
+    "solenoid_o2": 0.0,
+    "abra_mini_n1": 0.0
+   },
+   "provenance": {
+    "solenoid_mr_o1": {
+     "b1": {
+      "commit": "f3dd18e94ebe5143b3317ac2c1cde6833b7dc673",
+      "dirty": false,
+      "exe": "build1/axf",
+      "ranks": 2,
+      "seconds": 12.625712156295776,
+      "dofs": 81078,
+      "elements": 67599,
+      "order": 1
+     },
+     "b5": {
+      "commit": "be5a948ce75ed6949ffe3dd4ec8616cb40f65728",
+      "dirty": false,
+      "exe": "build5/axf",
+      "ranks": 2,
+      "seconds": 12.554348945617676,
+      "dofs": 81078,
+      "elements": 67599,
+      "order": 1
+     }
+    },
+    "solenoid_o2": {
+     "b1": {
+      "commit": "f3dd18e94ebe5143b3317ac2c1cde6833b7dc673",
+      "dirty": false,
+      "exe": "build1/axf",
+      "ranks": 2,
+      "seconds": 122.81784105300903,
+      "dofs": 435626,
+      "elements": 67599,
+      "order": 2
+     },
+     "b5": {
+      "commit": "be5a948ce75ed6949ffe3dd4ec8616cb40f65728",
+      "dirty": false,
+      "exe": "build5/axf",
+      "ranks": 2,
+      "seconds": 124.06119275093079,
+      "dofs": 435626,
+      "elements": 67599,
+      "order": 2
+     }
+    },
+    "abra_mini_n1": {
+     "b1": {
+      "commit": "f3dd18e94ebe5143b3317ac2c1cde6833b7dc673",
+      "dirty": false,
+      "exe": "build1/axf",
+      "ranks": 2,
+      "seconds": 185.61385703086853,
+      "dofs": 562812,
+      "elements": 86153,
+      "order": 2
+     },
+     "b5": {
+      "commit": "c8414594f9c6391c1fa8130905ace61daaa45bce",
+      "dirty": false,
+      "exe": "build5/axf",
+      "ranks": 2,
+      "seconds": 189.68689560890198,
+      "dofs": 562812,
+      "elements": 86153,
+      "order": 2
+     }
+    }
+   }
+  }
+ }
+}

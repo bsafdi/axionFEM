@@ -1,0 +1,78 @@
+{
+  "check": "port",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 15:29",
+  "ring_R_m": 0.3,
+  "cross_section_m": [
+    0.05,
+    0.05
+  ],
+  "gap_m": 0.02,
+  "parallel_plate_F": 1.1067734766000483e-12,
+  "port_capacitance": {
+    "C_gap_F": 1.7677229223115226e-12,
+    "C_gap_port_region_F": 1.1093462056369377e-12,
+    "C_terminal_to_ground_F": [
+      1.1281935570608645e-12,
+      1.2001122261169809e-12
+    ],
+    "L_p_H": 8.864648742640618e-07,
+    "checks": {
+      "gap_charge_fraction_beyond_terminal_faces": 0.5289461501164413,
+      "gap_charge_reaction_C": 2.895916479372387e-12,
+      "gap_charge_terminal_faces_C": 1.3641326065496042e-12,
+      "gap_energy_relative": 2.1632485942027603e-07,
+      "gap_symmetry_relative": 6.804569042303869e-17,
+      "region_charge_gauss_relative": 0.00012351836987407888,
+      "region_energy_relative": 1.0886154172914519e-13,
+      "region_symmetry_relative": 7.281708476863606e-16
+    },
+    "gap_solver": {
+      "boundary": "open",
+      "capacitance_seconds": 30.723789296,
+      "conductor_elements": 0,
+      "conductors": 2,
+      "dofs": 132677,
+      "free_dofs": 119063,
+      "insulating_elements": 3521,
+      "max_relative_residual": 1.4178608200503218e-14,
+      "mpi_ranks": 1,
+      "order": 2,
+      "pcg_iterations_total": 302,
+      "pinned_dofs": 0,
+      "setup_seconds": 5.52445667
+    },
+    "note": "C_gap_port_region_F: the electrostatic capacitance of the gap region alone (no fringing), a rigorous lower bound. C_gap_F: the same two terminal patches driven at V = +-1/2 on the whole domain, with the rest of their own conductor body insulating (n.D = 0) and every other conductor floating -- this adds the fringing field at the mouths of the gap. Both are lumped-element estimates: the body is electrically continuous around the port, so a capacitance across the readout exists only in the lumped model. f = 1/(2 pi sqrt(L_p C)) is an upper bound on the first self-resonance.",
+    "port": "gap",
+    "port_region_solver": {
+      "boundary": "none",
+      "capacitance_seconds": 19.64622801,
+      "conductor_elements": 0,
+      "conductors": 2,
+      "dofs": 132677,
+      "free_dofs": 669,
+      "insulating_elements": 95298,
+      "max_relative_residual": 9.461722003555118e-16,
+      "mpi_ranks": 1,
+      "order": 2,
+      "pcg_iterations_total": 50,
+      "pinned_dofs": 0,
+      "setup_seconds": 5.211295862
+    },
+    "self_resonance_Hz": 127140018.15160325,
+    "self_resonance_upper_bound_Hz": 160492896.37386414,
+    "terminal_area_m2": [
+      0.0025000000000000074,
+      0.0024999999999999974
+    ],
+    "terminals_on_one_body": true
+  },
+  "L_p_H": 8.864648742640618e-07,
+  "region_over_parallel_plate": 1.0023245308017252,
+  "warnings": [
+    "3D linear solve reached the iteration cap (800 AMS-PCG iterations, relative residual 3.64177e-07); accuracy is reduced",
+    "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 3.05413e-06); results are NOT reliable"
+  ],
+  "pass": true,
+  "headline": "C_gap = 1.7677e-12 F (region only 1.1093e-12 F, parallel plate 1.1068e-12 F), f_SR = 1.2714e+08 Hz"
+}

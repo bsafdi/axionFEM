@@ -1,0 +1,82 @@
+{
+  "case": "toroid_slit1.5_h0.32",
+  "slit_deg": 1.5,
+  "order_3d": 2,
+  "seconds_2d": 2.8228583335876465,
+  "seconds_3d": 4687.785252094269,
+  "dofs_3d": 1088890,
+  "elements_3d": 167107,
+  "open_boundary": "infinity shell",
+  "domain_radius": 3.0021986355982966,
+  "timing_3d": {
+    "mesh_s": 58.963472906,
+    "pickup_s": 1538.0952465660002,
+    "post_s": 14.395819204999498,
+    "setup_s": 54.097515565,
+    "static_s": 3021.758394599,
+    "total_s": 4687.310450785
+  },
+  "solver_3d": {
+    "max_relative_residual": 0.05824426454752939,
+    "pcg_iterations_total": 2400
+  },
+  "warnings_3d": [
+    "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 2.12686e-06); results are NOT reliable",
+    "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 1.16295e-06); results are NOT reliable",
+    "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.0582443); results are NOT reliable"
+  ],
+  "Psi_SI_H_T_m2": {
+    "2d": 5.2125137785501e-08,
+    "3d": 5.307773416820849e-08,
+    "rel_diff": 0.018275182055681058
+  },
+  "L_p_H": {
+    "2d": 4.253043339273552e-07,
+    "3d": 4.3457288992040226e-07,
+    "rel_diff": 0.021792761685400994
+  },
+  "W_mag_J": {
+    "2d": 57330.08859351358,
+    "3d": 57268.63007785977,
+    "rel_diff": -0.0010720115241678212
+  },
+  "g_factor": {
+    "2d": 0.05335763864892286,
+    "3d": 0.05420382272170545,
+    "rel_diff": 0.01585872415288517
+  },
+  "bodies_3d_static": [
+    {
+      "betti1": 1,
+      "elements": 22999,
+      "generators": [
+        {
+          "azimuthal_period": -5.260774717377482e-07,
+          "constraint": "net current",
+          "fluxoid_coefficient": 0.12245545562940445,
+          "net_current_A": 1.4477345461338942e-08
+        }
+      ],
+      "names": [
+        "sheath"
+      ]
+    }
+  ],
+  "bodies_3d_pickup": [
+    {
+      "betti1": 1,
+      "elements": 22999,
+      "generators": [
+        {
+          "azimuthal_period": -5.260774717377482e-07,
+          "constraint": "fixed fluxoid",
+          "fluxoid_coefficient": 0.0,
+          "net_current_A": -0.00042488818632358113
+        }
+      ],
+      "names": [
+        "sheath"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+ "name": "analytic_klash_tab2",
+ "title": "KLASH 4 m x 4 m empty copper cylinder: TM010 and TE111 f, Q0 at 300 K (KLASH proposal Table 2)",
+ "benchmark_rank": "analytic",
+ "citations": [
+  {
+   "arxiv": "1707.06010",
+   "authors_short": "D. Alesini et al. (KLASH proposal)",
+   "journal": "arXiv preprint (LNF)",
+   "items_used": [
+    "Table 2",
+    "Fig. 3 (D = 4 m, L = 4 m)",
+    "Table 3 (R = 2 m, L = 4 m, OFHC, Q0(4 K) = 450,000)"
+   ]
+  }
+ ],
+ "software": {
+  "code": "not stated (field plots in Figs. 3-4 look like HFSS/CST)",
+  "version": null,
+  "solver_type": "eigenmode (assumed)",
+  "boundary": "copper walls at 300 K (conductivity not stated)",
+  "mesh_notes": null
+ },
+ "geometry": {
+  "units": "m",
+  "description": "empty closed copper cylinder, two lengths",
+  "parameters": {
+   "R": {
+    "value": 2.0,
+    "unit": "m",
+    "source": "Fig. 3 'D=4 m'; Table 3 R = 2",
+    "note": null
+   },
+   "L": {
+    "value": [
+     4.0,
+     3.5
+    ],
+    "unit": "m",
+    "source": "Table 2 column headers; Fig. 3 'L=4 m'",
+    "note": null
+   }
+  }
+ },
+ "materials": {
+  "walls": {
+   "material": "OFHC copper",
+   "sigma_S_per_m": null,
+   "temperature_K": 300,
+   "source": "Table 3 'Oxygen Free Copper'; sigma not given - 5.8e7 S/m reproduces Table 2 Q to <1%"
+  }
+ },
+ "conditions": {
+  "temperature_K": 300,
+  "B0_T": 0.6,
+  "B0_direction": "z (axial, KLOE solenoid)",
+  "field_map": "uniform"
+ },
+ "conventions": {
+  "form_factor_definition": "not tabulated (closed form C010 = 0.6917)",
+  "Q_definition": "unloaded wall-loss Q0 at 300 K",
+  "notes": "TE111 Q closed form: Pozar, Microwave Engineering, Sec. 6.4; TM010: (R/delta)/(1+R/L)"
+ },
+ "reference_values": {
+  "tables": [
+   {
+    "source": "Table 2",
+    "description": "f and Q0(300 K) of TM010 and nearest mode TE111",
+    "simulated": true,
+    "columns": [
+     "mode",
+     "f (L=4 m)",
+     "Q0 300K (L=4 m)",
+     "f (L=3.5 m)",
+     "Q0 300K (L=3.5 m)"
+    ],
+    "units": [
+     "",
+     "MHz",
+     "1",
+     "MHz",
+     "1"
+    ],
+    "rows": [
+     [
+      "TM010",
+      "57.37",
+      "153,000",
+      "57.37",
+      "146,000"
+     ],
+     [
+      "TE111",
+      "57.74",
+      "162,000",
+      "61.35",
+      "159,000"
+     ]
+    ]
+   }
+  ],
+  "curves": []
+ },
+ "analytic_check": {
+  "method": "closed form, PEC eigenfrequency + perturbative wall loss with sigma = 5.8e7 S/m (assumed)",
+  "rows": [
+   {
+    "L_m": 4.0,
+    "mode": "TM010",
+    "f_closed_form_MHz": 57.3713,
+    "f_table_MHz": 57.37,
+    "pct_diff_f": -0.0022,
+    "Q_closed_form_sigma5.8e7": 152820,
+    "Q_table": 153000.0,
+    "pct_diff_Q": 0.1179
+   },
+   {
+    "L_m": 4.0,
+    "mode": "TE111",
+    "f_closed_form_MHz": 57.738,
+    "f_table_MHz": 57.74,
+    "pct_diff_f": 0.0035,
+    "Q_closed_form_sigma5.8e7": 162125,
+    "Q_table": 162000.0,
+    "pct_diff_Q": -0.0773
+   },
+   {
+    "L_m": 3.5,
+    "mode": "TM010",
+    "f_closed_form_MHz": 57.3713,
+    "f_table_MHz": 57.37,
+    "pct_diff_f": -0.0022,
+    "Q_closed_form_sigma5.8e7": 145874,
+    "Q_table": 146000.0,
+    "pct_diff_Q": 0.0867
+   },
+   {
+    "L_m": 3.5,
+    "mode": "TE111",
+    "f_closed_form_MHz": 61.3479,
+    "f_table_MHz": 61.35,
+    "pct_diff_f": 0.0034,
+    "Q_closed_form_sigma5.8e7": 159298,
+    "Q_table": 159000.0,
+    "pct_diff_Q": -0.1868
+   }
+  ]
+ },
+ "measured_values": {
+  "tables": [],
+  "curves": []
+ },
+ "gaps": [
+  {
+   "parameter": "copper conductivity at 300 K",
+   "issue": "not stated",
+   "proposal": "use 5.8e7 S/m (IACS); check shows Table 2 Q matches to <1%"
+  },
+  {
+   "parameter": "solver",
+   "issue": "software and mesh not stated",
+   "proposal": "compare to closed form; table is a 4-significant-figure sanity check"
+  }
+ ],
+ "inconsistencies": [],
+ "solver_class": {
+  "axisymmetric_2d_possible": true,
+  "needs_3d": false,
+  "reason": "empty closed cylinder: TM0np exactly axisymmetric (m=0); TE111 is an m=1 azimuthal mode, reachable with an azimuthal-order-m 2D formulation or as a 3D cross-check"
+ },
+ "priority": "P0",
+ "priority_reason": "closed-form, very large aspect-scale test (R = 2 m) of unit handling and Q scaling",
+ "readme_row": {
+  "quantities": "f, Q0(300 K) TM010/TE111, L = 4 and 3.5 m",
+  "geometry_complete": "yes (sigma assumed)",
+  "axisym_2d": "yes (TE111 needs m=1)",
+  "needs_3d": "no"
+ }
+}

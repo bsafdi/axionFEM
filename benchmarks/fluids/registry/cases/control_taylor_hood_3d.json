@@ -1,0 +1,83 @@
+{
+ "id": "control_taylor_hood_3d",
+ "capability": "F1c",
+ "title": "3D Taylor-Hood mesh condition and inf-sup: octant Kuhn (fixed families), standard Kuhn, five-tet split with corner tetrahedra (violation), P1/P1 negative control",
+ "physics": "discrete inf-sup constant beta_h of B A^-1 B^T q = lambda M_p q (A the vector H1 seminorm on the free velocity DOFs), unit cube, N = 2, 4, 8; and the API's mesh check against the check module's counts",
+ "levels": [
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1c_stokes",
+   "function": "taylor_hood_control_3d",
+   "check_module": "f1c_stokes_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "meshes": {
+    "octant": "f1c_stokes_check.cube_tet(N)",
+    "standard": "f1c_stokes_check.cube_tet(N, 'standard')",
+    "five": "f1c_stokes_check.five_tet_cube(N)",
+    "N": [
+     2,
+     4,
+     8
+    ]
+   },
+   "elements": [
+    "P2/P1",
+    "P1/P1"
+   ],
+   "blocks": "sol.blocks(): A (vector H1 Gram, Dirichlet rows removed), B, M_p; dense eigenproblem in f1c_stokes_check.inf_sup",
+   "zero_mode_threshold_rel": 1e-10
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "th_octant_zero_modes_beyond_constant_max",
+    "level": "conservation",
+    "max": 0
+   },
+   {
+    "quantity": "th_octant_beta_min",
+    "level": "conservation",
+    "min": 0.133
+   },
+   {
+    "quantity": "th_octant_beta_ratio_8_over_4",
+    "level": "conservation",
+    "min": 0.8
+   },
+   {
+    "quantity": "th_five_zero_modes_beyond_constant_min",
+    "level": "conservation",
+    "min": 1
+   },
+   {
+    "quantity": "api_flags_violations",
+    "level": "conservation",
+    "min": 1
+   },
+   {
+    "quantity": "api_counts_agree_all_meshes",
+    "level": "conservation",
+    "min": 1
+   },
+   {
+    "quantity": "p1p1_zero_modes_beyond_constant_min",
+    "level": "conservation",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,187 @@
+{
+ "schema": "axionfem.design/1",
+ "name": "solenoid_shielded_lossless",
+ "symmetry": "3d",
+ "notes": "Replica of the 2022 COMSOL model Model_File.mph (arXiv:2211.00008, shielded lossless solenoid): closed annular PEC can R 0.5-1.0 m, z 0-1.5 m, 25 mm walls (revolved 360 deg, not meshed: mesh.remove_pec); a 1 cm annular slot R 0.745-0.755 through the 25 mm top lid; PEC bridge on the outer lid face z = 1.5 at phi = 0, R 0.740-0.760, |y| <= 0.5 mm (COMSOL: zero thickness; here 0.2 mm, z 1.5-1.5002); lumped port R 0.7500-0.7505 inside the bridge (current along +x); source Je = (0,0,1) A/m^2 in the bore R < 0.5, z 0-1.5 (fullwave.source kind axial_box, B0_T = 1 <-> Je = 1 A/m^2); closed PEC cylinder shield R 1.5 m, z -0.5..2.0 as the outer boundary (mesh.domain_solid, fullwave.rf_only). The 'bore' vacuum region only aligns element faces with the source discontinuity; the 'slot' vacuum region carves the slot and refines its walls. Lossless (vacuum only). Approach and lessons from toroid_small_shield_lossless.json: AXF_FW_SOLVER=strumpack, no tree-cotree gauge at order 2.",
+ "regions": [
+  {
+   "name": "can",
+   "material": "superconductor",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "frame": {
+       "r": [
+        0.5,
+        1.0
+       ],
+       "z": [
+        0.0,
+        1.5
+       ],
+       "thickness": 0.025
+      }
+     },
+     "angles": [
+      0,
+      360
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "slot",
+   "material": "vacuum",
+   "surface_size": 0.004,
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        0.745,
+        0.755
+       ],
+       "z": [
+        1.475,
+        1.5
+       ]
+      }
+     },
+     "angles": [
+      0,
+      360
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "bore",
+   "material": "vacuum",
+   "solid": {
+    "cylinder": {
+     "base": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1.5
+     ],
+     "radius": 0.5
+    }
+   }
+  },
+  {
+   "name": "bridge",
+   "material": "superconductor",
+   "surface_size": 0.0003,
+   "solid": {
+    "box": {
+     "min": [
+      0.74,
+      -0.0005,
+      1.5
+     ],
+     "max": [
+      0.76,
+      0.0005,
+      1.5002
+     ]
+    }
+   }
+  },
+  {
+   "name": "port",
+   "material": "vacuum",
+   "surface_size": 0.0001,
+   "solid": {
+    "box": {
+     "min": [
+      0.75,
+      -0.0005,
+      1.5
+     ],
+     "max": [
+      0.7505,
+      0.0005,
+      1.5002
+     ]
+    }
+   }
+  }
+ ],
+ "pickup": {
+  "type": "port",
+  "port": "port",
+  "toward": [
+   1.0,
+   0.0,
+   0.0
+  ]
+ },
+ "fullwave": {
+  "frequencies": [
+   5000000.0,
+   25000000.0
+  ],
+  "boundary": "pec",
+  "source": {
+   "kind": "axial_box",
+   "B0_T": 1.0,
+   "r_m": [
+    0.0,
+    0.5
+   ],
+   "z_m": [
+    0.0,
+    1.5
+   ]
+  },
+  "rf_only": true
+ },
+ "mesh": {
+  "order": 2,
+  "size": 0.12,
+  "surface_size": 0.025,
+  "domain_radius": 2.2,
+  "remove_pec": true,
+  "domain_solid": {
+   "cylinder": {
+    "base": [
+     0,
+     0,
+     -0.5
+    ],
+    "axis": [
+     0,
+     0,
+     2.5
+    ],
+    "radius": 1.5
+   }
+  },
+  "threads": 16
+ }
+}

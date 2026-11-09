@@ -1,0 +1,508 @@
+{
+ "id": "xcode_cavity_re1000",
+ "capability": "F2a",
+ "title": "Cross-code: Re = 1000 singular-lid cavity, the same discrete problem in NGSolve (and DOLFINx)",
+ "physics": "the fixed discrete problem of the Re = 1000 cavity (P2/P1, nested structured meshes, corner rule), both viscous and both convective forms",
+ "levels": [
+  "cross_code"
+ ],
+ "run": {
+  "runner": {
+   "module": "f2a_ns",
+   "function": "xcode_cavity",
+   "check_module": "f2a_ns_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine"
+   },
+   "meshes": {
+    "structured": {
+     "family": "structured",
+     "N": [
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.015625,
+      0.0078125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(N)"
+    }
+   },
+   "rho": 1.0,
+   "mu": 0.001,
+   "Re": 1000,
+   "lid": "u = (1, 0) at every lid node (vertices and edge midpoints) EXCEPT the lid corner vertices (0,1) and (1,1), which take the wall value 0; u = 0 on the other walls; P2 nodal interpolation",
+   "pressure": "mean-zero (nullspace)",
+   "variants": [
+    [
+     "lap",
+     "standard"
+    ],
+    [
+     "lap",
+     "skew"
+    ],
+    [
+     "sym",
+     "standard"
+    ],
+    [
+     "sym",
+     "skew"
+    ]
+   ],
+   "continuation": [
+    100,
+    200,
+    400,
+    700,
+    1000
+   ],
+   "quantities": "f2a_ns_check.functionals: Ekin = (1/2)||u_h||^2, Diss = a_form(u_h, u_h) with mu = 1e-3, Enst = ||d_x u_y - d_y u_x||^2 (degree-10 rule)",
+   "quadrature_requirement": "The convective trilinear form and every load integral must be integrated EXACTLY for the polynomial integrands of P2 on affine triangles: degree >= 5 planar (P2. grad P2. P2), degree >= 6 in axisymmetry (the extra factor r); the viscous form with variable mu by a rule of degree >= 4 planar (as F1a) and, in AXISYMMETRY, the r-weighted viscous form (with its rational hoop terms mu u_r v_r / r, mu u_theta v_theta / r) by a rule of degree >= 6 (with degree 4 a correct code's energy-identity defect reaches 9.1e-10, with degree 6 <= 2.4e-11). The discrete energy identities (cons_ns_energy_identity) and the cross-code values (xcode_cavity_re1000) assume it.",
+   "nonlinear_solver": {
+    "start": "the TRUE Stokes solution with the Dirichlet data (the convective term absent from both the matrix and the residual of that first step: Oseen with zero advecting velocity), then n_picard = 3 Picard (Oseen) steps, then Newton with an Armijo backtracking line search on the DUAL-norm merit ||R||_* (sufficient decrease 1e-4; lambda = 1, 1/2,..., 1/64; lambda = 1/64 is accepted even without sufficient decrease and then counts as a violation in the line-search check)",
+    "newton_rtol": 1e-12,
+    "newton_maxit": 30,
+    "residual_definition": "relative_residual = ||R(x)||_* / ||R(x_lift)||_*, the discrete dual norm over the rows of the system actually solved (a pinned pressure row excluded), with consistent exactly integrated mass matrices, and x_lift the P2 Lagrange NODAL lift (the Dirichlet data at the boundary nodes, vertices and edge midpoints, ZERO at every other node, p = 0): with that definite lift the same number in every basis of the same spaces (zeroing the interior coefficients of a hierarchical basis gives another lift and a denominator smaller by 1.8-1.9)",
+    "linear_solver": "direct sparse LU",
+    "history": "every run reports solver.history = [{kind: stokes|picard|newton|ptc, residual, step, dt}] with the relative residual after each step"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "lap_skew_Diss_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.041369585651181914,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_skew_Diss_N128"
+   },
+   "lap_skew_Diss_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.03863327519964996,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_skew_Diss_N64"
+   },
+   "lap_skew_Ekin_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.04451152227834228,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_skew_Ekin_N128"
+   },
+   "lap_skew_Ekin_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.04451499884959042,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_skew_Ekin_N64"
+   },
+   "lap_skew_Enst_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 40.410823538817276,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_skew_Enst_N128"
+   },
+   "lap_skew_Enst_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 37.61217923853498,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_skew_Enst_N64"
+   },
+   "lap_standard_Diss_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.04132423019192012,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_standard_Diss_N128"
+   },
+   "lap_standard_Diss_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.038547462408679914,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_standard_Diss_N64"
+   },
+   "lap_standard_Ekin_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.044522292317873156,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_standard_Ekin_N128"
+   },
+   "lap_standard_Ekin_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.04461228949130605,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_standard_Ekin_N64"
+   },
+   "lap_standard_Enst_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 40.36124849515388,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_standard_Enst_N128"
+   },
+   "lap_standard_Enst_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 37.51380211321411,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.lap_standard_Enst_N64"
+   },
+   "sym_skew_Diss_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.04204611188741134,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_skew_Diss_N128"
+   },
+   "sym_skew_Diss_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.03921387928670566,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_skew_Diss_N64"
+   },
+   "sym_skew_Ekin_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.04451137040946166,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_skew_Ekin_N128"
+   },
+   "sym_skew_Ekin_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.04452049230893244,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_skew_Ekin_N64"
+   },
+   "sym_skew_Enst_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 40.833927499175914,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_skew_Enst_N128"
+   },
+   "sym_skew_Enst_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 37.92380518961367,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_skew_Enst_N64"
+   },
+   "sym_standard_Diss_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.04200860495307815,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_standard_Diss_N128"
+   },
+   "sym_standard_Diss_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.03910685911695884,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_standard_Diss_N64"
+   },
+   "sym_standard_Ekin_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.04451988776322185,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_standard_Ekin_N128"
+   },
+   "sym_standard_Ekin_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.04458613561200894,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_standard_Ekin_N64"
+   },
+   "sym_standard_Enst_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 40.797032664900065,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_standard_Enst_N128"
+   },
+   "sym_standard_Enst_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 37.815018176321786,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_ns_cavity_reference.json: quantities.sym_standard_Enst_N64"
+   }
+  },
+  "tolerance_recipe": {
+   "lap_skew_Diss_N128": {
+    "rel": 1e-08
+   },
+   "lap_skew_Diss_N64": {
+    "rel": 1e-08
+   },
+   "lap_skew_Ekin_N128": {
+    "rel": 1e-08
+   },
+   "lap_skew_Ekin_N64": {
+    "rel": 1e-08
+   },
+   "lap_skew_Enst_N128": {
+    "rel": 1e-08
+   },
+   "lap_skew_Enst_N64": {
+    "rel": 1e-08
+   },
+   "lap_standard_Diss_N128": {
+    "rel": 1e-08
+   },
+   "lap_standard_Diss_N64": {
+    "rel": 1e-08
+   },
+   "lap_standard_Ekin_N128": {
+    "rel": 1e-08
+   },
+   "lap_standard_Ekin_N64": {
+    "rel": 1e-08
+   },
+   "lap_standard_Enst_N128": {
+    "rel": 1e-08
+   },
+   "lap_standard_Enst_N64": {
+    "rel": 1e-08
+   },
+   "sym_skew_Diss_N128": {
+    "rel": 1e-08
+   },
+   "sym_skew_Diss_N64": {
+    "rel": 1e-08
+   },
+   "sym_skew_Ekin_N128": {
+    "rel": 1e-08
+   },
+   "sym_skew_Ekin_N64": {
+    "rel": 1e-08
+   },
+   "sym_skew_Enst_N128": {
+    "rel": 1e-08
+   },
+   "sym_skew_Enst_N64": {
+    "rel": 1e-08
+   },
+   "sym_standard_Diss_N128": {
+    "rel": 1e-08
+   },
+   "sym_standard_Diss_N64": {
+    "rel": 1e-08
+   },
+   "sym_standard_Ekin_N128": {
+    "rel": 1e-08
+   },
+   "sym_standard_Ekin_N64": {
+    "rel": 1e-08
+   },
+   "sym_standard_Enst_N128": {
+    "rel": 1e-08
+   },
+   "sym_standard_Enst_N64": {
+    "rel": 1e-08
+   }
+  }
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "lap_skew_Diss_N128",
+    "reference": "lap_skew_Diss_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_skew_Diss_N64",
+    "reference": "lap_skew_Diss_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_skew_Ekin_N128",
+    "reference": "lap_skew_Ekin_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_skew_Ekin_N64",
+    "reference": "lap_skew_Ekin_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_skew_Enst_N128",
+    "reference": "lap_skew_Enst_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_skew_Enst_N64",
+    "reference": "lap_skew_Enst_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_standard_Diss_N128",
+    "reference": "lap_standard_Diss_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_standard_Diss_N64",
+    "reference": "lap_standard_Diss_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_standard_Ekin_N128",
+    "reference": "lap_standard_Ekin_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_standard_Ekin_N64",
+    "reference": "lap_standard_Ekin_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_standard_Enst_N128",
+    "reference": "lap_standard_Enst_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_standard_Enst_N64",
+    "reference": "lap_standard_Enst_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_skew_Diss_N128",
+    "reference": "sym_skew_Diss_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_skew_Diss_N64",
+    "reference": "sym_skew_Diss_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_skew_Ekin_N128",
+    "reference": "sym_skew_Ekin_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_skew_Ekin_N64",
+    "reference": "sym_skew_Ekin_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_skew_Enst_N128",
+    "reference": "sym_skew_Enst_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_skew_Enst_N64",
+    "reference": "sym_skew_Enst_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_standard_Diss_N128",
+    "reference": "sym_standard_Diss_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_standard_Diss_N64",
+    "reference": "sym_standard_Diss_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_standard_Ekin_N128",
+    "reference": "sym_standard_Ekin_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_standard_Ekin_N64",
+    "reference": "sym_standard_Ekin_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_standard_Enst_N128",
+    "reference": "sym_standard_Enst_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_standard_Enst_N64",
+    "reference": "sym_standard_Enst_N64",
+    "level": "cross_code"
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "cross_code",
+    "abs_max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

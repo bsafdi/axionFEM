@@ -1,0 +1,325 @@
+{
+ "name": "couette_periodic",
+ "description": "Plane Couette u = (y, 0), p = 0, mu = 1 on the unit square.",
+ "domain": {
+  "kind": "rect",
+  "x": [
+   0,
+   1
+  ],
+  "y": [
+   0,
+   1
+  ]
+ },
+ "pressure": "mean_zero",
+ "conventions": {
+  "G_ij": "d u_i / d x_j",
+  "sigma_sym": "2 mu eps(u) - p I",
+  "sigma_lap": "mu G - p I",
+  "f": "-div sigma_form - gamma grad div u (= -div sigma_form for these fields)",
+  "traction": "g = sigma_form n, n the outward unit normal",
+  "grad_div": "gamma (div u_h, div v); gamma in viscosity units, not scaled by mu"
+ },
+ "u": [
+  {
+   "sympy": "y",
+   "c": "y",
+   "numpy": "y"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "p": {
+  "sympy": "0",
+  "c": "0",
+  "numpy": "0"
+ },
+ "mu": {
+  "sympy": "1",
+  "c": "1",
+  "numpy": "1"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "1",
+    "c": "1",
+    "numpy": "1"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "1",
+      "c": "1",
+      "numpy": "1"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "1",
+      "c": "1",
+      "numpy": "1"
+     }
+    ],
+    [
+     {
+      "sympy": "1",
+      "c": "1",
+      "numpy": "1"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "x0",
+   "bc": "periodic_src",
+   "normal": [
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "y": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "x1",
+   "bc": "periodic_dst",
+   "normal": [
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    "y": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "y0",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "y": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "y1",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "y": {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  }
+ ],
+ "extra": {
+  "periodic_x": 1,
+  "p_periodic": {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  "G": {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ },
+ "constants": {
+  "area": 1.0,
+  "p_mean": 0.0,
+  "u_L2": 0.5773502691896264,
+  "grad_u_L2": 1.0,
+  "p_minus_mean_L2": 0.0,
+  "u_max_sampled": 0.999,
+  "p_max_abs_sampled": 0.0,
+  "p_minus_mean_max_abs_sampled": 0.0,
+  "mu_min_sampled": 1.0,
+  "mu_max_sampled": 1.0
+ },
+ "selfcheck": {
+  "fd_residual_lap": 4.015306605727461e-11,
+  "fd_residual_sym": 4.015306605727461e-11,
+  "net_boundary_flux": 0.0,
+  "harness_ns_residual_fd": {
+   "momentum_max": 2.220446049250313e-08,
+   "divergence_max": 0.0,
+   "scale": 2.220446049250313e-08,
+   "momentum_rel": 1.0
+  },
+  "status": "pass"
+ }
+}

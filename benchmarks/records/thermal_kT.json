@@ -1,0 +1,78 @@
+{
+ "axionfem_version": "0.1.0",
+ "date": "2026-10-06 15:02",
+ "check": "thermal_kT",
+ "geometry": {
+  "R_generating_m": 0.4,
+  "R_sink_m": 0.5,
+  "height_m": 1.0,
+  "q_W_m3": 5000.0,
+  "T0_K": 4.0
+ },
+ "material": {
+  "k0_W_mK": 10.0,
+  "dk_dT_over_k0": 0.08,
+  "table": [
+   [
+    4.0,
+    10.0
+   ],
+   [
+    34.0,
+    34.0
+   ]
+  ]
+ },
+ "reference": "Kirchhoff: theta = int_T0^T k dT = q (R^2 - r^2)/4 solves the linear Poisson problem; for k = k0 (1 + c (T - T0)), T = T0 + (sqrt(1 + 2 c theta/k0) - 1)/c",
+ "temperature_rise_K": 13.117376914898998,
+ "rows": [
+  {
+   "mesh_size": 0.08,
+   "dofs": 13112,
+   "max_abs_err_K": 0.02256943751150242,
+   "max_rel_err_of_rise": 0.0017205755127663955,
+   "T_max_K": 17.1166764925919,
+   "T_max_exact_K": 17.117376914898998,
+   "picard_iterations": 14,
+   "picard_change": 8.794138907779484e-13,
+   "balance_relative": 3.7997026594550755e-15,
+   "seconds": 0.021478775
+  },
+  {
+   "mesh_size": 0.04,
+   "dofs": 14296,
+   "max_abs_err_K": 0.004437264037911781,
+   "max_rel_err_of_rise": 0.00033827373160802003,
+   "T_max_K": 17.117327097000068,
+   "T_max_exact_K": 17.117376914898998,
+   "picard_iterations": 14,
+   "picard_change": 2.407586359237816e-14,
+   "balance_relative": 9.046911093940617e-16,
+   "seconds": 0.056462566
+  },
+  {
+   "mesh_size": 0.02,
+   "dofs": 18843,
+   "max_abs_err_K": 0.000396221413276443,
+   "max_rel_err_of_rise": 3.0205841903224283e-05,
+   "T_max_K": 17.11737314586652,
+   "T_max_exact_K": 17.117376914898998,
+   "picard_iterations": 14,
+   "picard_change": 1.1519033567858243e-13,
+   "balance_relative": 4.2158605697762666e-14,
+   "seconds": 0.221296736
+  },
+  {
+   "mesh_size": 0.01,
+   "dofs": 36476,
+   "max_abs_err_K": 5.987025061937601e-05,
+   "max_rel_err_of_rise": 4.56419381769644e-06,
+   "T_max_K": 17.117376640046174,
+   "T_max_exact_K": 17.117376914898998,
+   "picard_iterations": 14,
+   "picard_change": 1.3698308261359724e-13,
+   "balance_relative": 2.1712586625456655e-15,
+   "seconds": 1.215457404
+  }
+ ]
+}

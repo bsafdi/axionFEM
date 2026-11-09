@@ -1,0 +1,377 @@
+{
+ "id": "analytic_graetz_planar",
+ "capability": "F4a",
+ "title": "Graetz problem, parallel plates (half channel): exact two-mode solution WITH axial conduction (eigenvalues by mpmath) and the fully developed uniform-wall-flux solution with its closed-form Nusselt number",
+ "physics": "u = (3/2)(1 - y^2) e_x, a = 2, kappa = 1/8 (Pe = 16); T = phi_1(y) e^{-lam_1 x} - (1/2) phi_2(y) e^{-lam_2 x}; uniform flux: T = x/2 + g(y), Nu = 140/17 (D_h = 4H)",
+ "levels": [
+  "analytic"
+ ],
+ "run": {
+  "runner": {
+   "module": "f4a_heat",
+   "function": "graetz_planar",
+   "check_module": "f4a_heat_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "modes_field": {
+    "path": "tools/fluids_mms/out/graetz_plates.json",
+    "sha256": "208d709f2e86e31c5dcf109c859f4ada2ef81ea6c14e2a34e9b24a60cd908d4e"
+   },
+   "uniform_flux_field": {
+    "path": "tools/fluids_mms/out/flux_plates.json",
+    "sha256": "ebb8316193fe08b3a8f09c55c43434b3df160f3bf31966761d6b99a6a9dc2426"
+   },
+   "element": {
+    "temperature": "P2"
+   },
+   "advecting_velocity": "(3/2) Um (1 - y^2) along x",
+   "Pe": "16",
+   "kappa": 0.125,
+   "a": 2.0,
+   "eigenvalues_40_digits": [
+    "0.1171702230684671700794220394123579050816",
+    "1.246709874908754321487767516559547461553"
+   ],
+   "boundary_conditions": "modes: x = 0 Dirichlet (the exact series), y = 1 Dirichlet T = 0, y = 0 symmetry (natural), x = 2 exact diffusive flux; uniform flux: x = 0 Dirichlet (exact), y = 1 Neumann q_out = -a A U_m H = -1 (heating), y = 0 symmetry, x = 2 exact diffusive flux",
+   "variants": {
+    "gal": "Galerkin",
+    "supg": "SUPG (tau of the pinned family)"
+   },
+   "dirichlet_data": "P2 (P1) Lagrange NODAL interpolation of the fixed callables at the vertices and edge midpoints of the Dirichlet boundary parts; at a node shared by two Dirichlet parts the data agree (one exact callable per field); Dirichlet beats every natural condition at a shared node",
+   "supg": "Residual-based SUPG: add sum_K int_K tau_K (a b.grad v) R_K(T_h) (r-weighted in axisymmetry) to the Galerkin form, with the FULL element residual R_K(T) = a b.grad T - div(kappa grad T) - s evaluated element-wise (second derivatives of T_h for P2, the grad kappa. grad T term, and in axisymmetry the hoop term kappa T_r / r). FIXED FAMILY: tau_K = C tau_rule(h_K) with tau_coth(h) = h / (2 p a |b|) (coth Pe - 1/Pe), Pe = a |b| h / (2 p kappa), or tau_Shakib(h) = [(2 p a |b| / h)^2 + 9 (4 p^2 kappa / h^2)^2]^(-1/2) (C multiplies tau; it is NOT inside Pe or h); p the element degree; |b| the Euclidean norm of the advecting velocity (in axisymmetry its MERIDIONAL part (b_r, b_z)); tau evaluated at the quadrature points or as an element constant; h_K a length that depends on the element's GEOMETRY only (invariant under a renumbering of its vertices and under rigid motions); admissible pairs (C, h_K): c_adv = C h_K / sqrt(2|K|) in [1/2, 2] AND c_diff = C h_K^2 / (2|K|) in [1/2, 2] (the advective- and diffusive-limit tau relative to C = 1, h_K = sqrt(2|K|)), evaluated on the right isosceles triangles of the unit, channel, pipe and annulus families; the same (rule, C, h_K) is used on every fixed mesh; on the distorted family the per-element values may leave the box (longest edge x 1: c_diff in [1.37, 3.07]), immaterial for its Pe 1e6 items (advective limit: only c_adv matters). Examples: h_K = sqrt(2|K|) (NGSolve mesh_size; MFEM sqrt(T->Weight()) on an affine triangle) with C in [1/2, 2]; the longest edge (sqrt(2) sqrt(2|K|) on the fixed right triangles) with C in [1/(2 sqrt 2), 1] (C = 1 is the library's shakib_hK); MFEM GetElementSize(e, 0) = 1.0746 sqrt(2|K|) with C in [0.47, 1.73].",
+   "quadrature_requirement": "Every Galerkin and SUPG integrand that is a polynomial on affine triangles is integrated EXACTLY: for P2 T and v: a b.grad T v with b in P1 degree 4 planar / 5 axisymmetric; with b = u_h in P2 (the coupled energy equation: B, C1, E1, H1, X1) or the quadratic Poiseuille b (G1, G2) degree 5 planar / 6 axisymmetric (a degree-4 rule for a u_h.grad T v moves X1 by 3.4e-8 against its 1e-8 recipe); the momentum terms as F2a requires. Non-polynomial data (MMS loads, Robin T_ext, Neumann data) by rules of degree >= 6 on elements and edges; the identities that involve such data are then QUADRATURE-LIMITED (worst measured 1.3e-11 with an admissible degree-6 rule, against bounds of 1e-10). Data callables are evaluated at interior quadrature points and at the Dirichlet nodes only (some axisymmetric loads have removable 1/r singularities on the axis).",
+   "meshes": {
+    "channel": {
+     "family": "channel",
+     "k": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "scalar_transport_check.box_mesh(16, 8, k, (0, 2, 0, 1)), k = 0..4: (x, y) in [0,2] x [0,1], 16 x 8 squares of side 1/8, flipped corner cells, red-refined k times. Nested.",
+     "h_definition": "h_nominal = 0.125 / 2^k (cell side)"
+    }
+   },
+   "wall_flux": "variational outward flux through the closed wall (Dirichlet T = 0): scalar_transport_check.flux_from_residual with v_wall = the P2 nodal function 1 at every wall node (corner nodes included), 0 at every other node; reference scalar_transport_check.graetz_wall_flux_exact",
+   "nusselt": "scalar_transport_check.nusselt_uniform_flux: D q_in / (kappa (T_w - T_b)), T_b flow-weighted over the domain, T_w the wall mean, D = 2R (pipe) or 4H (plates)"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "modes_gal_TL2",
+    "level": "analytic",
+    "norm": "||T - T_h||_L2: scalar_transport_check.scalar_norms, degree-10 element quadrature, exact T at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.164309,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "modes_gal_TH1",
+    "level": "analytic",
+    "norm": "|T - T_h|_H1 seminorm (both gradient components), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 3.370818,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "modes_gal_wall_flux_err",
+    "level": "analytic",
+    "norm": "|Q_wall,h - Q_wall| with Q_wall,h the VARIATIONAL outward flux through the closed wall y = 1 (v_wall = the P2 nodal function 1 at every wall node, 0 at every other node: at the inlet corner it vanishes at the inlet edge's midpoint) and Q_wall = scalar_transport_check.graetz_wall_flux_exact (40-digit modes)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-12,
+    "solution_scale": 0.49725,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "flux_gal_TL2",
+    "level": "analytic",
+    "norm": "||T - T_h||_L2: scalar_transport_check.scalar_norms, degree-10 element quadrature, exact T at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 5.99986,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "flux_gal_TH1",
+    "level": "analytic",
+    "norm": "|T - T_h|_H1 seminorm (both gradient components), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 8.01561,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "flux_gal_Nu_err",
+    "level": "analytic",
+    "norm": "|Nu_h - Nu| with Nu = 140/17 (closed form derived by the generator, verified, not cited) and Nu_h by scalar_transport_check.nusselt_uniform_flux (domain means of T_h by degree-10 quadrature)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-12,
+    "solution_scale": 8.235294,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "modes_supg_TL2",
+    "level": "analytic",
+    "norm": "||T - T_h||_L2: scalar_transport_check.scalar_norms, degree-10 element quadrature, exact T at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.164309,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "modes_supg_TH1",
+    "level": "analytic",
+    "norm": "|T - T_h|_H1 seminorm (both gradient components), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 3.370818,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "modes_supg_wall_flux_err",
+    "level": "analytic",
+    "norm": "|Q_wall,h - Q_wall| with Q_wall,h the VARIATIONAL outward flux through the closed wall y = 1 (v_wall = the P2 nodal function 1 at every wall node, 0 at every other node: at the inlet corner it vanishes at the inlet edge's midpoint) and Q_wall = scalar_transport_check.graetz_wall_flux_exact (40-digit modes)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-12,
+    "solution_scale": 0.49725,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "flux_supg_TL2",
+    "level": "analytic",
+    "norm": "||T - T_h||_L2: scalar_transport_check.scalar_norms, degree-10 element quadrature, exact T at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 5.99986,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "flux_supg_TH1",
+    "level": "analytic",
+    "norm": "|T - T_h|_H1 seminorm (both gradient components), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 8.01561,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "flux_supg_Nu_err",
+    "level": "analytic",
+    "norm": "|Nu_h - Nu| with Nu = 140/17 (closed form derived by the generator, verified, not cited) and Nu_h by scalar_transport_check.nusselt_uniform_flux (domain means of T_h by degree-10 quadrature)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.channel.h_nominal",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-12,
+    "solution_scale": 8.235294,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "analytic",
+    "max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

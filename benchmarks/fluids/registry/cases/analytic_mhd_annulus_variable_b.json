@@ -1,0 +1,1019 @@
+{
+ "id": "analytic_mhd_annulus_variable_b",
+ "capability": "F13a",
+ "title": "Annular duct in a non-uniform 1/r imposed field (radial: Hartmann walls with variable-field layers, m = 5 and 20; azimuthal: line-current field, conducting walls, and insulating walls with a sliding inner wall): closed forms",
+ "physics": "Fully developed 2.5D inductionless flow in 1 < r < 2 driven by G_z (and E_z): radial field B = (C/r) e_r gives axial flow w(r) and an E_z-driven swirl u_t(r) with phi = 0; azimuthal field B = (C/r) e_theta gives w(r) with a radial current K/r closing through the conducting walls, a non-trivial potential and a Lorentz-balanced in-plane pressure; with insulating walls and an axially sliding inner wall (K = 0) the insulating wall carries (u x B).n != 0",
+ "levels": [
+  "analytic"
+ ],
+ "run": {
+  "runner": {
+   "module": "f13a_mhd",
+   "function": "annulus_varB",
+   "check_module": "f13a_annulus_check",
+   "cost": "long",
+   "timeout_s": 14400
+  },
+  "parameters": {
+   "formulation": "2.5D planar inductionless MHD (u = (u_x, u_y, u_z) independent of z; J = sigma(-grad phi + E_z e_z + u x B); Lorentz force J x B; conservative potential equation (J, grad psi) = <j_n, psi> - (q, psi))",
+   "element": {
+    "velocity": "P2 (all three components)",
+    "pressure": "P1",
+    "potential": "P2 Lagrange",
+    "geometry": "ISOPARAMETRIC P2 (6-node triangles): the fixed geometry X6 of f13a_annulus_check.annulus_mesh; boundary-edge midpoints on the circles, other edges straight"
+   },
+   "viscous_form": "lap (mu constant: both forms coincide with Dirichlet data)",
+   "quadrature_error_norms": 10,
+   "dirichlet_data": "P2 Lagrange NODAL interpolation of the fixed callables (velocity and potential)",
+   "solver": {
+    "kind": "direct sparse LU (Newton for rho > 0)",
+    "tight": "same, plus 2 steps of iterative refinement / Newton to 1e-14 (vacuous for a direct linear solve; meaningful for an iterative path)"
+   },
+   "shared_node_rule": "At a node shared by several boundary attributes: (1) velocity Dirichlet beats every natural velocity condition; potential Dirichlet beats insulation and normal-current data; (2) between Dirichlet attributes the fixed data AGREE at shared nodes (one exact callable per MMS field; the Hartmann/duct data vanish or are consistent at the corners), checked by dirichlet_shared_node_mismatch, so the result is independent of attribute order.",
+   "series_magnitude_keys": {
+    "uL2": "u_magnitude",
+    "uH1": "u_magnitude",
+    "divL2": "u_magnitude",
+    "pL2": "p_magnitude",
+    "phiL2": "phi_magnitude",
+    "phiH1": "phi_magnitude",
+    "JL2": "J_magnitude"
+   },
+   "meshes": {
+    "annulus": {
+     "family": "annulus_<variant>",
+     "k": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "f13a_annulus_check.annulus_mesh(variant, k): annulus 1 < r < 2; NR0 = 8 base radial intervals (radial field: f13a_mhd_check.graded_nodes clustered to the layer thickness r1/m at both walls; uniform when the layer is thicker than a uniform interval; azimuthal field: uniform), NT0 = 32 base angles; level k splits every base radial interval into 2^k equal parts and the angle into 32 2^k; each polar quadrilateral split along its (i, j)-(i+1, j+1) diagonal (= k red refinements in the (r, theta) parameter space: NESTED there). Returns V, T and the 6-node geometry X6.",
+     "records": {
+      "radial_ins_m5": [
+       {
+        "n_vertices": 288,
+        "n_elements": 512,
+        "mesh_hash": "1fa7e1c509fbc967c98f3bd2a6f862396617bceb435a62e07fc17ce3eafeaab4",
+        "p2_nodes_hash": "d905aef58271f65b8726de1605225e080b908d633a7248c3253e35449b5e36fa"
+       },
+       {
+        "n_vertices": 1088,
+        "n_elements": 2048,
+        "mesh_hash": "5e0f8c9d365d7f496f08f2c388d02d7a8b391d1f9b0c20f9c406a6130decec8c",
+        "p2_nodes_hash": "85e1ceaf30f4de7ab9e3cea772123236c9b43a101e573591df65a562f5e79753"
+       },
+       {
+        "n_vertices": 4224,
+        "n_elements": 8192,
+        "mesh_hash": "0d751b5751a4efb4ff61f474a7290a9b74c0e2c76f7a5d5633978cb1a2951700",
+        "p2_nodes_hash": "e068e2e150810655c1411604e4f32f62586fef7f78dfd83aa2b688db56d99da6"
+       },
+       {
+        "n_vertices": 16640,
+        "n_elements": 32768,
+        "mesh_hash": "e12836f905d869f5b8a7bbaedaec0abac2305a1a1779bac06d4a77630a0789a5",
+        "p2_nodes_hash": "12b8cdbd35dc364e1bd07da7ee1eb8a2114f8e0d3440da083e524f3248c2fcc2"
+       },
+       {
+        "n_vertices": 66048,
+        "n_elements": 131072,
+        "mesh_hash": "3bd0971016a07941b7beee283c8917532027d263f2dcbc3c66b69c084dcfed1d",
+        "p2_nodes_hash": "c8ca6fbfa09d85954490036c5765e1431dfe28fd120f7176d03080152e458b33"
+       }
+      ],
+      "radial_gnd_m5": [
+       {
+        "n_vertices": 288,
+        "n_elements": 512,
+        "mesh_hash": "1fa7e1c509fbc967c98f3bd2a6f862396617bceb435a62e07fc17ce3eafeaab4",
+        "p2_nodes_hash": "d905aef58271f65b8726de1605225e080b908d633a7248c3253e35449b5e36fa"
+       },
+       {
+        "n_vertices": 1088,
+        "n_elements": 2048,
+        "mesh_hash": "5e0f8c9d365d7f496f08f2c388d02d7a8b391d1f9b0c20f9c406a6130decec8c",
+        "p2_nodes_hash": "85e1ceaf30f4de7ab9e3cea772123236c9b43a101e573591df65a562f5e79753"
+       },
+       {
+        "n_vertices": 4224,
+        "n_elements": 8192,
+        "mesh_hash": "0d751b5751a4efb4ff61f474a7290a9b74c0e2c76f7a5d5633978cb1a2951700",
+        "p2_nodes_hash": "e068e2e150810655c1411604e4f32f62586fef7f78dfd83aa2b688db56d99da6"
+       },
+       {
+        "n_vertices": 16640,
+        "n_elements": 32768,
+        "mesh_hash": "e12836f905d869f5b8a7bbaedaec0abac2305a1a1779bac06d4a77630a0789a5",
+        "p2_nodes_hash": "12b8cdbd35dc364e1bd07da7ee1eb8a2114f8e0d3440da083e524f3248c2fcc2"
+       },
+       {
+        "n_vertices": 66048,
+        "n_elements": 131072,
+        "mesh_hash": "3bd0971016a07941b7beee283c8917532027d263f2dcbc3c66b69c084dcfed1d",
+        "p2_nodes_hash": "c8ca6fbfa09d85954490036c5765e1431dfe28fd120f7176d03080152e458b33"
+       }
+      ],
+      "radial_ins_m20": [
+       {
+        "n_vertices": 288,
+        "n_elements": 512,
+        "mesh_hash": "a2ccd99eb9ec91b76f362bb90eff694b5d58a9f0d55da30576b3a3ae61382df1",
+        "p2_nodes_hash": "9e73bc0326bac1026cac92fb9b710e6ff5dead3a7731b073f60d71e23165c580"
+       },
+       {
+        "n_vertices": 1088,
+        "n_elements": 2048,
+        "mesh_hash": "561612dbd991306efb31bb86e17b073bb832f3e930e576d9a45a4f0efd92ee36",
+        "p2_nodes_hash": "99bcd6f0aad3939eb353e7983c350a1fc85ece43ca0e3ed2e99baa9c0e330cfa"
+       },
+       {
+        "n_vertices": 4224,
+        "n_elements": 8192,
+        "mesh_hash": "9dfe41f0af43d555e9211acbc5023e3ed023c6af02b524775a0e38659b0eea46",
+        "p2_nodes_hash": "34fcde6f860abaf946a2f0ca13f0b329f58f753e44ee79541d87e0c0c88591ca"
+       },
+       {
+        "n_vertices": 16640,
+        "n_elements": 32768,
+        "mesh_hash": "1247a6cb7870b2d51db3676154248741a3d2ab183e501e3016caf3a8079cb1e1",
+        "p2_nodes_hash": "3eed7bbdafd09ae851063ea374ffe6ac82fcfd1cd3f6d37cc7843e09914d5fdd"
+       },
+       {
+        "n_vertices": 66048,
+        "n_elements": 131072,
+        "mesh_hash": "e42b15b289f00d03ee7d3d62e42b36a4869d48433f7cac9b3ee11d87c0aecc8f",
+        "p2_nodes_hash": "0c1803c04ac55f8e05c2c04e01bdb8931387a2218dfde442fc3e76ac5761c56e"
+       }
+      ],
+      "azimuthal_cond": [
+       {
+        "n_vertices": 288,
+        "n_elements": 512,
+        "mesh_hash": "1fa7e1c509fbc967c98f3bd2a6f862396617bceb435a62e07fc17ce3eafeaab4",
+        "p2_nodes_hash": "d905aef58271f65b8726de1605225e080b908d633a7248c3253e35449b5e36fa"
+       },
+       {
+        "n_vertices": 1088,
+        "n_elements": 2048,
+        "mesh_hash": "5e0f8c9d365d7f496f08f2c388d02d7a8b391d1f9b0c20f9c406a6130decec8c",
+        "p2_nodes_hash": "85e1ceaf30f4de7ab9e3cea772123236c9b43a101e573591df65a562f5e79753"
+       },
+       {
+        "n_vertices": 4224,
+        "n_elements": 8192,
+        "mesh_hash": "0d751b5751a4efb4ff61f474a7290a9b74c0e2c76f7a5d5633978cb1a2951700",
+        "p2_nodes_hash": "e068e2e150810655c1411604e4f32f62586fef7f78dfd83aa2b688db56d99da6"
+       },
+       {
+        "n_vertices": 16640,
+        "n_elements": 32768,
+        "mesh_hash": "e12836f905d869f5b8a7bbaedaec0abac2305a1a1779bac06d4a77630a0789a5",
+        "p2_nodes_hash": "12b8cdbd35dc364e1bd07da7ee1eb8a2114f8e0d3440da083e524f3248c2fcc2"
+       },
+       {
+        "n_vertices": 66048,
+        "n_elements": 131072,
+        "mesh_hash": "3bd0971016a07941b7beee283c8917532027d263f2dcbc3c66b69c084dcfed1d",
+        "p2_nodes_hash": "c8ca6fbfa09d85954490036c5765e1431dfe28fd120f7176d03080152e458b33"
+       }
+      ],
+      "azimuthal_slide_ins": [
+       {
+        "n_vertices": 288,
+        "n_elements": 512,
+        "mesh_hash": "1fa7e1c509fbc967c98f3bd2a6f862396617bceb435a62e07fc17ce3eafeaab4",
+        "p2_nodes_hash": "d905aef58271f65b8726de1605225e080b908d633a7248c3253e35449b5e36fa"
+       },
+       {
+        "n_vertices": 1088,
+        "n_elements": 2048,
+        "mesh_hash": "5e0f8c9d365d7f496f08f2c388d02d7a8b391d1f9b0c20f9c406a6130decec8c",
+        "p2_nodes_hash": "85e1ceaf30f4de7ab9e3cea772123236c9b43a101e573591df65a562f5e79753"
+       },
+       {
+        "n_vertices": 4224,
+        "n_elements": 8192,
+        "mesh_hash": "0d751b5751a4efb4ff61f474a7290a9b74c0e2c76f7a5d5633978cb1a2951700",
+        "p2_nodes_hash": "e068e2e150810655c1411604e4f32f62586fef7f78dfd83aa2b688db56d99da6"
+       },
+       {
+        "n_vertices": 16640,
+        "n_elements": 32768,
+        "mesh_hash": "e12836f905d869f5b8a7bbaedaec0abac2305a1a1779bac06d4a77630a0789a5",
+        "p2_nodes_hash": "12b8cdbd35dc364e1bd07da7ee1eb8a2114f8e0d3440da083e524f3248c2fcc2"
+       },
+       {
+        "n_vertices": 66048,
+        "n_elements": 131072,
+        "mesh_hash": "3bd0971016a07941b7beee283c8917532027d263f2dcbc3c66b69c084dcfed1d",
+        "p2_nodes_hash": "c8ca6fbfa09d85954490036c5765e1431dfe28fd120f7176d03080152e458b33"
+       }
+      ]
+     },
+     "h_definition": "h_nominal = 1/(8 * 2^k) (base radial intervals halved per level)"
+    }
+   },
+   "physical": {
+    "mu": 0.5,
+    "sigma": 2.0,
+    "G_z": 1.0,
+    "r1": 1.0,
+    "r2": 2.0,
+    "rho": 0.0
+   },
+   "variants": {
+    "radial_ins_m5": {
+     "field": "radial",
+     "C": 2.5,
+     "E_z": 0.5,
+     "potential": "insulating",
+     "B": "(C x/r^2, C y/r^2, 0) (radial, div- and curl-free)",
+     "m": 5.0,
+     "velocity": "u = 0 on r = 1 and r = 2 (no-slip, all three components)",
+     "potential_bc": "insulating on both walls (potential up to a constant; compared mean-free)"
+    },
+    "radial_gnd_m5": {
+     "field": "radial",
+     "C": 2.5,
+     "E_z": 0.5,
+     "potential": "grounded",
+     "B": "(C x/r^2, C y/r^2, 0) (radial, div- and curl-free)",
+     "m": 5.0,
+     "velocity": "u = 0 on r = 1 and r = 2 (no-slip, all three components)",
+     "potential_bc": "potential Dirichlet phi = 0 on both walls"
+    },
+    "radial_ins_m20": {
+     "field": "radial",
+     "C": 10.0,
+     "E_z": 0.5,
+     "potential": "insulating",
+     "B": "(C x/r^2, C y/r^2, 0) (radial, div- and curl-free)",
+     "m": 20.0,
+     "velocity": "u = 0 on r = 1 and r = 2 (no-slip, all three components)",
+     "potential_bc": "insulating on both walls (potential up to a constant; compared mean-free)"
+    },
+    "azimuthal_cond": {
+     "field": "azimuthal",
+     "C": 2.0,
+     "E_z": 0.5,
+     "V": 0.25,
+     "potential": "dirichlet",
+     "B": "(-C y/r^2, C x/r^2, 0) (azimuthal, div- and curl-free)",
+     "m": null,
+     "velocity": "u = 0 on r = 1 and r = 2 (no-slip, all three components)",
+     "potential_bc": "potential Dirichlet phi = 0 on r = 1, phi = 0.25 on r = 2"
+    },
+    "azimuthal_slide_ins": {
+     "field": "azimuthal",
+     "C": 2.0,
+     "E_z": 0.5,
+     "W": 0.5,
+     "potential": "insulating",
+     "B": "(-C y/r^2, C x/r^2, 0) (azimuthal, div- and curl-free)",
+     "m": null,
+     "velocity": "u = (0, 0, 0.5) on r = 1 (inner wall sliding axially), u = 0 on r = 2",
+     "potential_bc": "insulating on both walls (potential up to a constant; compared mean-free)"
+    }
+   },
+   "exact": "f13a_annulus_check.exact(variant) (fixed closed forms; reference values out of band in tools/fluids_mms/f13a_reference/mhd_annulus_reference.json)",
+   "pressure": "nullspace (enclosed): mean-free",
+   "quadrature": "the imposed field and the geometry are non-polynomial: the solver integrates them with its own quadrature (reference solver: NGSolve default order + 4); every window is a convergence window, no round-off identity is claimed in this case"
+  }
+ },
+ "reference": {
+  "quantities": {
+   "radial_ins_m5_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.7433326191638626,
+    "uncertainty": 7.433326191638626e-14,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "mhd_annulus_reference.json: radial.radial_ins_m5.Q"
+   },
+   "radial_ins_m5_L_theta": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 1.8403806438601482,
+    "uncertainty": 1.8403806438601482e-13,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "mhd_annulus_reference.json: radial.radial_ins_m5.L_theta"
+   },
+   "radial_gnd_m5_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.7433326191638626,
+    "uncertainty": 7.433326191638626e-14,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "mhd_annulus_reference.json: radial.radial_gnd_m5.Q"
+   },
+   "radial_gnd_m5_L_theta": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 1.8403806438601482,
+    "uncertainty": 1.8403806438601482e-13,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "mhd_annulus_reference.json: radial.radial_gnd_m5.L_theta"
+   },
+   "radial_ins_m20_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.09415805343087584,
+    "uncertainty": 9.415805343087585e-15,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "mhd_annulus_reference.json: radial.radial_ins_m20.Q"
+   },
+   "radial_ins_m20_L_theta": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.9413362764925666,
+    "uncertainty": 9.413362764925665e-14,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "mhd_annulus_reference.json: radial.radial_ins_m20.L_theta"
+   },
+   "azimuthal_cond_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.3405982197086162,
+    "uncertainty": 3.405982197086162e-14,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "mhd_annulus_reference.json: azimuthal.azimuthal_cond.Q"
+   },
+   "azimuthal_cond_I_wall": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": -5.335916362352007,
+    "uncertainty": 5.335916362352007e-13,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "mhd_annulus_reference.json: azimuthal.azimuthal_cond.I_wall"
+   },
+   "azimuthal_slide_ins_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 3.4116359114260364,
+    "uncertainty": 3.4116359114260366e-13,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "mhd_annulus_reference.json: azimuthal.azimuthal_slide_ins.Q"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "radial_ins_m5_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.217246,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "radial_ins_m5_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.217246,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "radial_ins_m5_JL2",
+    "level": "analytic",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.99999,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "radial_gnd_m5_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.217246,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "radial_gnd_m5_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.217246,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "radial_gnd_m5_JL2",
+    "level": "analytic",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.99999,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "radial_ins_m20_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0823374,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "radial_ins_m20_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0823374,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "radial_ins_m20_JL2",
+    "level": "analytic",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.99998,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_cond_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0591286,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_cond_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0591286,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_cond_pL2m",
+    "level": "analytic",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2 (pressure up to a constant) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.848382,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_cond_phiL2",
+    "level": "analytic",
+    "norm": "||phi_h - phi||_L2 (potential determined by the potential-Dirichlet boundary) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.249999,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_cond_phiH1",
+    "level": "analytic",
+    "norm": "|phi - phi_h|_H1 (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.249999,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_cond_JL2",
+    "level": "analytic",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.31194,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_slide_ins_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.543036,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_slide_ins_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.543036,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_slide_ins_pL2m",
+    "level": "analytic",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2 (pressure up to a constant) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.848382,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_slide_ins_phiL2m",
+    "level": "analytic",
+    "norm": "||(phi_h - mean phi_h) - (phi - mean phi)||_L2 (potential up to a constant) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.410598,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_slide_ins_phiH1",
+    "level": "analytic",
+    "norm": "|phi - phi_h|_H1 (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.410598,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "azimuthal_slide_ins_JL2",
+    "level": "analytic",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B) (curved elements: the fixed isoparametric map)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "comparisons": [
+   {
+    "quantity": "radial_ins_m5_Q_h_finest",
+    "reference": "radial_ins_m5_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-07
+    }
+   },
+   {
+    "quantity": "radial_ins_m5_L_h_finest",
+    "reference": "radial_ins_m5_L_theta",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-07
+    }
+   },
+   {
+    "quantity": "radial_gnd_m5_Q_h_finest",
+    "reference": "radial_gnd_m5_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-07
+    }
+   },
+   {
+    "quantity": "radial_gnd_m5_L_h_finest",
+    "reference": "radial_gnd_m5_L_theta",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-07
+    }
+   },
+   {
+    "quantity": "radial_ins_m20_Q_h_finest",
+    "reference": "radial_ins_m20_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-07
+    }
+   },
+   {
+    "quantity": "radial_ins_m20_L_h_finest",
+    "reference": "radial_ins_m20_L_theta",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-07
+    }
+   },
+   {
+    "quantity": "azimuthal_cond_Q_h_finest",
+    "reference": "azimuthal_cond_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-07
+    }
+   },
+   {
+    "quantity": "azimuthal_cond_I_var_h_finest",
+    "reference": "azimuthal_cond_I_wall",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-10
+    }
+   },
+   {
+    "quantity": "azimuthal_cond_I_direct_h_finest",
+    "reference": "azimuthal_cond_I_wall",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.001
+    }
+   },
+   {
+    "quantity": "azimuthal_slide_ins_Q_h_finest",
+    "reference": "azimuthal_slide_ins_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-07
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "radial_ins_m5_phi_spread_finest",
+    "level": "analytic",
+    "abs_max": 3e-09
+   },
+   {
+    "quantity": "phi_nullspace_detected_radial_ins_m5",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "radial_gnd_m5_phi_spread_finest",
+    "level": "analytic",
+    "abs_max": 3e-09
+   },
+   {
+    "quantity": "phi_nullspace_detected_radial_gnd_m5",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "radial_ins_m20_phi_spread_finest",
+    "level": "analytic",
+    "abs_max": 1e-08
+   },
+   {
+    "quantity": "phi_nullspace_detected_radial_ins_m20",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "phi_nullspace_detected_azimuthal_cond",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "phi_nullspace_detected_azimuthal_slide_ins",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "nullspace_detected",
+    "level": "analytic",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual_unscaled_euclid"
+  }
+ }
+}

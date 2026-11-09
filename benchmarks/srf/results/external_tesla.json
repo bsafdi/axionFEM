@@ -1,0 +1,1000 @@
+{
+ "cell": {
+  "order": 3,
+  "TESLA": {
+   "reference": {
+    "f_pi_GHz": 1.30116,
+    "bandwidth_MHz": 24.32,
+    "kc_pct": 1.89,
+    "Epk_Eacc": 2.18,
+    "Bpk_Eacc_mT_MVm": 4.18
+   },
+   "rows": [
+    {
+     "cell": "TESLA",
+     "h_over_Req": 0.05,
+     "order": 3,
+     "angle_tol": 0.02,
+     "f_0_Hz": 1276690034.6759584,
+     "f_pi_Hz": 1300986736.6767638,
+     "bandwidth_Hz": 24296702.000805378,
+     "kc_pct": 1.8851628156663622,
+     "f_Hz": 1300986736.6767638,
+     "V_acc": 2.0298391008154897,
+     "L_acc_m": 0.1154,
+     "E_acc": 17.589593594588298,
+     "U_J": 4.426809938867105e-12,
+     "R_over_Q_linac_ohm": 113.86221143112995,
+     "R_over_Q_aune_ohm": 56.931105715564975,
+     "Epk_over_Eacc": 1.9855279290022592,
+     "Bpk_over_Eacc_mT_per_MVm": 4.159255538899995,
+     "Epk_at_rz": [
+      0.037856773360526196,
+      -0.006327895880643794
+     ],
+     "Bpk_at_rz": [
+      0.0915487851831333,
+      -0.02856503803870344
+     ],
+     "G_ohm": 271.22775168103317,
+     "G_solver_all_pec_ohm": 148.26173438671267,
+     "energy_check_eps0E2_over_mu0H2": 0.9999959530474734,
+     "alt_window": "iris_to_iris",
+     "V_acc_alt": 2.0264230825713145,
+     "R_over_Q_linac_ohm_alt": 113.47929624863413,
+     "R_over_Q_aune_ohm_alt": 56.739648124317064,
+     "Epk_over_Eacc_alt": 1.988875008735078,
+     "Bpk_over_Eacc_mT_per_MVm_alt": 4.166266953705356
+    },
+    {
+     "cell": "TESLA",
+     "h_over_Req": 0.025,
+     "order": 3,
+     "angle_tol": 0.01,
+     "f_0_Hz": 1276670557.0930033,
+     "f_pi_Hz": 1300965147.5805392,
+     "bandwidth_Hz": 24294590.487535954,
+     "kc_pct": 1.8850290165896708,
+     "f_Hz": 1300965147.5805392,
+     "V_acc": 2.029798026986439,
+     "L_acc_m": 0.1154,
+     "E_acc": 17.589237668859955,
+     "U_J": 4.4269921461073994e-12,
+     "R_over_Q_linac_ohm": 113.85480664304576,
+     "R_over_Q_aune_ohm": 56.92740332152288,
+     "Epk_over_Eacc": 1.9826729549156732,
+     "Bpk_over_Eacc_mT_per_MVm": 4.15924698466592,
+     "Epk_at_rz": [
+      0.03805174388163196,
+      0.00652240560321793
+     ],
+     "Bpk_at_rz": [
+      0.09165876508467292,
+      -0.028677523625812978
+     ],
+     "G_ohm": 271.2367581158895,
+     "G_solver_all_pec_ohm": 148.26271281419633,
+     "energy_check_eps0E2_over_mu0H2": 1.0000000946422825,
+     "alt_window": "iris_to_iris",
+     "V_acc_alt": 2.0264178338462555,
+     "R_over_Q_linac_ohm_alt": 113.47592087441724,
+     "R_over_Q_aune_ohm_alt": 56.73796043720862,
+     "Epk_over_Eacc_alt": 1.9859801788304534,
+     "Bpk_over_Eacc_mT_per_MVm_alt": 4.16618487175469
+    },
+    {
+     "cell": "TESLA",
+     "h_over_Req": 0.0125,
+     "order": 3,
+     "angle_tol": 0.005,
+     "f_0_Hz": 1276665687.1943626,
+     "f_pi_Hz": 1300959749.6047902,
+     "bandwidth_Hz": 24294062.41042757,
+     "kc_pct": 1.8849955516109032,
+     "f_Hz": 1300959749.6047902,
+     "V_acc": 2.0297877540811884,
+     "L_acc_m": 0.1154,
+     "E_acc": 17.589148648883782,
+     "U_J": 4.4270656988151425e-12,
+     "R_over_Q_linac_ohm": 113.85223499174998,
+     "R_over_Q_aune_ohm": 56.92611749587499,
+     "Epk_over_Eacc": 1.9811872240663848,
+     "Bpk_over_Eacc_mT_per_MVm": 4.15924313653807,
+     "Epk_at_rz": [
+      0.03815291073133436,
+      -0.006620108234154451
+     ],
+     "Bpk_at_rz": [
+      0.09171333233435879,
+      0.028734176960688716
+     ],
+     "G_ohm": 271.24089512815397,
+     "G_solver_all_pec_ohm": 148.2629572350769,
+     "energy_check_eps0E2_over_mu0H2": 1.0000005094369084,
+     "alt_window": "iris_to_iris",
+     "V_acc_alt": 2.0264165183087943,
+     "R_over_Q_linac_ohm_alt": 113.4743590442023,
+     "R_over_Q_aune_ohm_alt": 56.73717952210115,
+     "Epk_over_Eacc_alt": 1.9844832143927749,
+     "Bpk_over_Eacc_mT_per_MVm_alt": 4.166162636611867
+    }
+   ]
+  },
+  "LL": {
+   "reference": {
+    "f_pi_GHz": 1.30008,
+    "bandwidth_MHz": 19.74,
+    "kc_pct": 1.53,
+    "Epk_Eacc": 2.42,
+    "Bpk_Eacc_mT_MVm": 3.64
+   },
+   "rows": [
+    {
+     "cell": "LL",
+     "h_over_Req": 0.05,
+     "order": 3,
+     "angle_tol": 0.02,
+     "f_0_Hz": 1280139649.0518148,
+     "f_pi_Hz": 1299861432.219024,
+     "bandwidth_Hz": 19721783.16720915,
+     "kc_pct": 1.5288197598347308,
+     "f_Hz": 1299861432.219024,
+     "V_acc": 2.1941990277203494,
+     "L_acc_m": 0.115304,
+     "E_acc": 19.029686981547467,
+     "U_J": 4.426836387950559e-12,
+     "R_over_Q_linac_ohm": 133.1624076822717,
+     "R_over_Q_aune_ohm": 66.58120384113585,
+     "Epk_over_Eacc": 2.316297053586447,
+     "Bpk_over_Eacc_mT_per_MVm": 3.6111170608136116,
+     "Epk_at_rz": [
+      0.033643268981873975,
+      0.005866632162743043
+     ],
+     "Bpk_at_rz": [
+      0.09857490682465081,
+      0.057140012279340416
+     ],
+     "G_ohm": 284.14209838416815,
+     "G_solver_all_pec_ohm": 165.0644251877704,
+     "energy_check_eps0E2_over_mu0H2": 0.9999990953054053,
+     "alt_window": "iris_to_iris",
+     "V_acc_alt": 2.194474132274808,
+     "R_over_Q_linac_ohm_alt": 133.19580108086345,
+     "R_over_Q_aune_ohm_alt": 66.59790054043172,
+     "Epk_over_Eacc_alt": 2.3160066770176146,
+     "Bpk_over_Eacc_mT_per_MVm_alt": 3.610664362494911
+    },
+    {
+     "cell": "LL",
+     "h_over_Req": 0.025,
+     "order": 3,
+     "angle_tol": 0.01,
+     "f_0_Hz": 1280116062.0225837,
+     "f_pi_Hz": 1299836196.5864565,
+     "bandwidth_Hz": 19720134.563872814,
+     "kc_pct": 1.528720889936526,
+     "f_Hz": 1299836196.5864565,
+     "V_acc": 2.194142441385882,
+     "L_acc_m": 0.115304,
+     "E_acc": 19.02919622377265,
+     "U_J": 4.427012161728283e-12,
+     "R_over_Q_linac_ohm": 133.15283762702282,
+     "R_over_Q_aune_ohm": 66.57641881351141,
+     "Epk_over_Eacc": 2.3151190762356055,
+     "Bpk_over_Eacc_mT_per_MVm": 3.6111182025187323,
+     "Epk_at_rz": [
+      0.0334072807674057,
+      0.005714412199344009
+     ],
+     "Bpk_at_rz": [
+      0.09857872461525866,
+      0.057395778171145134
+     ],
+     "G_ohm": 284.1515653705732,
+     "G_solver_all_pec_ohm": 165.0656023757802,
+     "energy_check_eps0E2_over_mu0H2": 1.0000024990594016,
+     "alt_window": "iris_to_iris",
+     "V_acc_alt": 2.1944646138723605,
+     "R_over_Q_linac_ohm_alt": 133.1919429552866,
+     "R_over_Q_aune_ohm_alt": 66.5959714776433,
+     "Epk_over_Eacc_alt": 2.3147791902950576,
+     "Bpk_over_Eacc_mT_per_MVm_alt": 3.610588049094102
+    },
+    {
+     "cell": "LL",
+     "h_over_Req": 0.0125,
+     "order": 3,
+     "angle_tol": 0.005,
+     "f_0_Hz": 1280110177.6246295,
+     "f_pi_Hz": 1299829900.782809,
+     "bandwidth_Hz": 19719723.15817952,
+     "kc_pct": 1.5286962145533425,
+     "f_Hz": 1299829900.782809,
+     "V_acc": 2.1941282890896927,
+     "L_acc_m": 0.115304,
+     "E_acc": 19.02907348478537,
+     "U_J": 4.427069717936535e-12,
+     "R_over_Q_linac_ohm": 133.15003377461744,
+     "R_over_Q_aune_ohm": 66.57501688730872,
+     "Epk_over_Eacc": 2.3136002152400157,
+     "Bpk_over_Eacc_mT_per_MVm": 3.6111184941454546,
+     "Epk_at_rz": [
+      0.033612399831727105,
+      -0.005847469875793599
+     ],
+     "Bpk_at_rz": [
+      0.09857967820252662,
+      0.057523295302653224
+     ],
+     "G_ohm": 284.155589989084,
+     "G_solver_all_pec_ohm": 165.06589592980336,
+     "energy_check_eps0E2_over_mu0H2": 1.0000005917878045,
+     "alt_window": "iris_to_iris",
+     "V_acc_alt": 2.1944622040208555,
+     "R_over_Q_linac_ohm_alt": 133.1905639183933,
+     "R_over_Q_aune_ohm_alt": 66.59528195919665,
+     "Epk_over_Eacc_alt": 2.313248171967092,
+     "Bpk_over_Eacc_mT_per_MVm_alt": 3.6105690172024545
+    }
+   ]
+  }
+ },
+ "ninecell": {
+  "tube0.2_o3": {
+   "reference": {
+    "f_pi_MHz": 1300.0,
+    "k_cell_pct": 1.87,
+    "G_ohm": 270.0,
+    "R_over_Q_aune_ohm": 518.0,
+    "R_over_Q_linac_ohm": 1036.0,
+    "Epk_Eacc": 2.0,
+    "Bpk_Eacc_mT_MVm": 4.26,
+    "active_length_m": 1.038
+   },
+   "rows": [
+    {
+     "h_over_Req": 0.05,
+     "order": 3,
+     "tube_m": 0.2,
+     "passband_Hz": [
+      1277411860.4275424,
+      1279495337.2057378,
+      1282702186.232966,
+      1286660903.7963662,
+      1290904661.1678023,
+      1294922507.7630296,
+      1298220438.0080154,
+      1300388533.6613576,
+      1301072241.0094926
+     ],
+     "k_cell_fit_pct": 0.9469159277703337,
+     "f0_fit_Hz": 1288754706.7880206,
+     "k_cell_fit_rms_resid_Hz": 27063.853854660774,
+     "cell_peak_Ez": [
+      13.197089623150815,
+      12.187888643458804,
+      11.481771532253042,
+      10.933821677408357,
+      10.536564515103729,
+      10.284455618656311,
+      10.174089632820412,
+      10.203886459637962,
+      10.5139589467324
+     ],
+     "field_flatness": 0.9109555294509638,
+     "field_flatness_min_over_max": 0.770934344112709,
+     "f_Hz": 1301072241.0094926,
+     "V_acc": 6.024044045504529,
+     "L_acc_m": 1.0386000000000002,
+     "E_acc": 5.800157948685277,
+     "U_J": 4.4267072551546716e-12,
+     "R_over_Q_linac_ohm": 1002.7997000272491,
+     "R_over_Q_aune_ohm": 501.39985001362453,
+     "Epk_over_Eacc": 2.3482485938693376,
+     "Bpk_over_Eacc_mT_per_MVm": 4.96506579877492,
+     "Epk_at_rz": [
+      0.03864365248750244,
+      0.10663398298795958
+     ],
+     "Bpk_at_rz": [
+      0.08967611909665173,
+      0.025795323526851335
+     ],
+     "G_ohm": 271.6327710943508,
+     "G_solver_all_pec_ohm": 271.5979679459566,
+     "energy_check_eps0E2_over_mu0H2": 1.000003543831231,
+     "alt_window": [
+      0.0,
+      1.0361999999999998
+     ],
+     "V_acc_alt": 6.116996045685057,
+     "R_over_Q_linac_ohm_alt": 1033.9851884947345,
+     "R_over_Q_aune_ohm_alt": 516.9925942473673,
+     "Epk_over_Eacc_alt": 2.3125653267736794,
+     "Bpk_over_Eacc_mT_per_MVm_alt": 4.8896181781491705
+    },
+    {
+     "h_over_Req": 0.025,
+     "order": 3,
+     "tube_m": 0.2,
+     "passband_Hz": [
+      1277392340.3724973,
+      1279475695.6699057,
+      1282682356.3280103,
+      1286640839.5236154,
+      1290884343.5344422,
+      1294901949.0351388,
+      1298199684.6341841,
+      1300367697.7969706,
+      1301051030.422699
+     ],
+     "k_cell_fit_pct": 0.9468707506656812,
+     "f0_fit_Hz": 1288734498.870565,
+     "k_cell_fit_rms_resid_Hz": 27136.157899128513,
+     "cell_peak_Ez": [
+      13.200358307744176,
+      12.188617183988953,
+      11.48078221860232,
+      10.931814630193877,
+      10.534193874589619,
+      10.282344698962003,
+      10.17284954617245,
+      10.204133934554655,
+      10.516384449883377
+     ],
+     "field_flatness": 0.9108507302966078,
+     "field_flatness_min_over_max": 0.770649501249099,
+     "f_Hz": 1301051030.422699,
+     "V_acc": 6.024049946850768,
+     "L_acc_m": 1.0386000000000002,
+     "E_acc": 5.8001636307055335,
+     "U_J": 4.426984191625173e-12,
+     "R_over_Q_linac_ohm": 1002.7552803602415,
+     "R_over_Q_aune_ohm": 501.37764018012075,
+     "Epk_over_Eacc": 2.3444208904284034,
+     "Bpk_over_Eacc_mT_per_MVm": 4.966235962356507,
+     "Epk_at_rz": [
+      0.03887707302615486,
+      0.10643565264970914
+     ],
+     "Bpk_at_rz": [
+      0.0897901143567602,
+      0.025894490130085993
+     ],
+     "G_ohm": 271.6492752298953,
+     "G_solver_all_pec_ohm": 271.59686195258496,
+     "energy_check_eps0E2_over_mu0H2": 1.0000022956435277,
+     "alt_window": [
+      0.0,
+      1.0361999999999998
+     ],
+     "V_acc_alt": 6.116980303902394,
+     "R_over_Q_linac_ohm_alt": 1033.9320401238651,
+     "R_over_Q_aune_ohm_alt": 516.9660200619326,
+     "Epk_over_Eacc_alt": 2.3088039913045315,
+     "Bpk_over_Eacc_mT_per_MVm_alt": 4.8907879376358805
+    }
+   ]
+  },
+  "tube0.1_o3": {
+   "reference": {
+    "f_pi_MHz": 1300.0,
+    "k_cell_pct": 1.87,
+    "G_ohm": 270.0,
+    "R_over_Q_aune_ohm": 518.0,
+    "R_over_Q_linac_ohm": 1036.0,
+    "Epk_Eacc": 2.0,
+    "Bpk_Eacc_mT_MVm": 4.26,
+    "active_length_m": 1.038
+   },
+   "rows": [
+    {
+     "h_over_Req": 0.05,
+     "order": 3,
+     "tube_m": 0.1,
+     "passband_Hz": [
+      1277411858.6706836,
+      1279495330.2480006,
+      1282702171.0098567,
+      1286660878.2214758,
+      1290904624.243122,
+      1294922459.6471903,
+      1298220380.0574975,
+      1300388464.6283805,
+      1301072202.5554893
+     ],
+     "k_cell_fit_pct": 0.9469137377552372,
+     "f0_fit_Hz": 1288754677.027986,
+     "k_cell_fit_rms_resid_Hz": 27056.8115494546,
+     "cell_peak_Ez": [
+      13.1967215330166,
+      12.187784714257454,
+      11.481833987959776,
+      10.93401659858727,
+      10.536783431808084,
+      10.284679828083622,
+      10.174209436685711,
+      10.203891574698018,
+      10.51375379650172
+     ],
+     "field_flatness": 0.9109677929401474,
+     "field_flatness_min_over_max": 0.7709649257378866,
+     "f_Hz": 1301072202.5554893,
+     "V_acc": 6.023318291777965,
+     "L_acc_m": 1.0386000000000002,
+     "E_acc": 5.799459167897135,
+     "U_J": 4.4267135938598495e-12,
+     "R_over_Q_linac_ohm": 1002.556681704403,
+     "R_over_Q_aune_ohm": 501.2783408522015,
+     "Epk_over_Eacc": 2.34819421985245,
+     "Bpk_over_Eacc_mT_per_MVm": 4.965521370042312,
+     "Epk_at_rz": [
+      0.03864365248750244,
+      0.10663398298795958
+     ],
+     "Bpk_at_rz": [
+      0.08967611909665173,
+      0.025795323526851335
+     ],
+     "G_ohm": 271.59529293853075,
+     "G_solver_all_pec_ohm": 271.5979321148969,
+     "energy_check_eps0E2_over_mu0H2": 1.000004372075118,
+     "alt_window": [
+      0.0,
+      1.0361999999999998
+     ],
+     "V_acc_alt": 6.117008011029808,
+     "R_over_Q_linac_ohm_alt": 1033.9877835869663,
+     "R_over_Q_aune_ohm_alt": 516.9938917934832,
+     "Epk_over_Eacc_alt": 2.3122286535477983,
+     "Bpk_over_Eacc_mT_per_MVm_alt": 4.889468125995641
+    }
+   ]
+  }
+ },
+ "cell3d": {
+  "n8_o2": {
+   "rows": [
+    {
+     "i": 0,
+     "f_Hz": 1277109454.6386337,
+     "E_azimuthal_fraction": 2.702657708246345e-05,
+     "axis_Ez_parity": 0.9999792995553313,
+     "G_solver_all_pec_ohm": 148.07821458702944,
+     "V_axis_rel": 2.231552104743209,
+     "peak_wall_fields": {
+      "B_rms": 6.587592804438221e-08,
+      "B_t_max": 8.094636497460597e-08,
+      "B_t_max_at": [
+       0.0777729311692463,
+       -0.017115280425823255,
+       0.05770000000000003
+      ],
+      "B_t_max_face_rms": 8.033935263736048e-08,
+      "B_t_max_flux": 8.05540216550235e-08,
+      "B_t_max_flux_at": [
+       -0.028083420658577975,
+       -0.07299358037649807,
+       -0.05769999999999994
+      ],
+      "B_t_max_flux_face_rms": 8.000219100875186e-08,
+      "Bpk_face_rms_over_Brms": 1.2195555345077478,
+      "Bpk_flux_face_rms_over_Brms": 1.2144374035209407,
+      "Bpk_flux_over_Brms": 1.2228142213154447,
+      "Bpk_over_Brms": 1.2287700132295736,
+      "E_max": 35.38855255009763,
+      "E_max_at": [
+       -0.00028941238016314756,
+       0.0009870643926886112,
+       0.0577
+      ],
+      "E_max_face_rms": 35.24977394298876,
+      "cEpk_face_rms_over_Brms": 1.7848794393167036,
+      "cEpk_over_Brms": 1.791906522181015,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    },
+    {
+     "i": 1,
+     "f_Hz": 1301419983.7850835,
+     "E_azimuthal_fraction": 5.097223669017786e-05,
+     "axis_Ez_parity": -0.9999082315029542,
+     "G_solver_all_pec_ohm": 148.20442951807263,
+     "V_axis_rel": 1.9551437900764512,
+     "peak_wall_fields": {
+      "B_rms": 6.587592804438217e-08,
+      "B_t_max": 8.251715962808825e-08,
+      "B_t_max_at": [
+       0.0777729311692463,
+       -0.017115280425823255,
+       0.05770000000000003
+      ],
+      "B_t_max_face_rms": 8.184622225017764e-08,
+      "B_t_max_flux": 8.210033608771377e-08,
+      "B_t_max_flux_at": [
+       -0.07725633215345146,
+       0.020995956878907283,
+       -0.05769999999999994
+      ],
+      "B_t_max_flux_face_rms": 8.150684394515935e-08,
+      "Bpk_face_rms_over_Brms": 1.2424298932841735,
+      "Bpk_flux_face_rms_over_Brms": 1.2372781130346469,
+      "Bpk_flux_over_Brms": 1.246287354500734,
+      "Bpk_over_Brms": 1.2526147574345288,
+      "E_max": 39.60729821734022,
+      "E_max_at": [
+       -0.007797767423132971,
+       0.03622254336513507,
+       -0.005419364575495305
+      ],
+      "E_max_face_rms": 37.549425945304314,
+      "cEpk_face_rms_over_Brms": 1.901322783979144,
+      "cEpk_over_Brms": 2.0055235630547052,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    },
+    {
+     "i": 2,
+     "f_Hz": 1794028443.5369287,
+     "E_azimuthal_fraction": 0.03253566283493355,
+     "axis_Ez_parity": -0.10570576425778865,
+     "G_solver_all_pec_ohm": 178.91581641353196,
+     "V_axis_rel": 0.0008032493715593291,
+     "peak_wall_fields": {
+      "B_rms": 6.587592804438241e-08,
+      "B_t_max": 3.531660193325502e-07,
+      "B_t_max_at": [
+       0.02756755523613896,
+       0.02210712086521404,
+       -0.0022453024089523982
+      ],
+      "B_t_max_face_rms": 3.433497415856862e-07,
+      "B_t_max_flux": 6.043873758996403e-07,
+      "B_t_max_flux_at": [
+       -0.033180338896790236,
+       -0.012920002366786037,
+       0.0030043819017266833
+      ],
+      "B_t_max_flux_face_rms": 4.0779359276515496e-07,
+      "Bpk_face_rms_over_Brms": 5.212066862334935,
+      "Bpk_flux_face_rms_over_Brms": 6.1903278613458514,
+      "Bpk_flux_over_Brms": 9.174631672626274,
+      "Bpk_over_Brms": 5.361078467002584,
+      "E_max": 64.05047256969057,
+      "E_max_at": [
+       0.018505436794549093,
+       -0.0304456138454799,
+       0.0030519687328231194
+      ],
+      "E_max_face_rms": 62.34211315863218,
+      "cEpk_face_rms_over_Brms": 3.1567055198812124,
+      "cEpk_over_Brms": 3.2432086444882797,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    },
+    {
+     "i": 3,
+     "f_Hz": 1794087118.5547502,
+     "E_azimuthal_fraction": 0.03247941295490491,
+     "axis_Ez_parity": -0.012236675703771554,
+     "G_solver_all_pec_ohm": 178.92198346211885,
+     "V_axis_rel": 0.0008646681325003334,
+     "peak_wall_fields": {
+      "B_rms": 6.587592804438186e-08,
+      "B_t_max": 3.6048348714021207e-07,
+      "B_t_max_at": [
+       -0.018343946680777344,
+       0.03020321606687681,
+       -0.002245872867109957
+      ],
+      "B_t_max_face_rms": 3.5100849644972686e-07,
+      "B_t_max_flux": 5.793991162667098e-07,
+      "B_t_max_flux_at": [
+       0.007029573693127411,
+       -0.03527714392176733,
+       0.0037831706640558127
+      ],
+      "B_t_max_flux_face_rms": 4.03273366199663e-07,
+      "Bpk_face_rms_over_Brms": 5.328327157884528,
+      "Bpk_flux_face_rms_over_Brms": 6.121710587939955,
+      "Bpk_flux_over_Brms": 8.795308597039538,
+      "Bpk_over_Brms": 5.472158007358129,
+      "E_max": 61.69822558345196,
+      "E_max_at": [
+       0.02756755523613896,
+       0.02210712086521404,
+       -0.0022453024089523982
+      ],
+      "E_max_face_rms": 59.938613318036346,
+      "cEpk_face_rms_over_Brms": 3.0350038189052593,
+      "cEpk_over_Brms": 3.124102142167968,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    },
+    {
+     "i": 4,
+     "f_Hz": 1890122784.5697584,
+     "E_azimuthal_fraction": 0.0019956152749023514,
+     "axis_Ez_parity": 0.17032160704868932,
+     "G_solver_all_pec_ohm": 222.26356159682882,
+     "V_axis_rel": 0.0006584228768693553,
+     "peak_wall_fields": {
+      "B_rms": 6.587592804438231e-08,
+      "B_t_max": 1.183610319064363e-07,
+      "B_t_max_at": [
+       -0.06881084390004807,
+       0.06074416859859716,
+       -0.05770000000000003
+      ],
+      "B_t_max_face_rms": 1.1558832819836773e-07,
+      "B_t_max_flux": 1.7157996990816585e-07,
+      "B_t_max_flux_at": [
+       -0.02676236862658007,
+       -0.023486838931190208,
+       0.003004041451179384
+      ],
+      "B_t_max_flux_face_rms": 1.1523143972100837e-07,
+      "Bpk_face_rms_over_Brms": 1.7546368093743272,
+      "Bpk_flux_face_rms_over_Brms": 1.749219223801659,
+      "Bpk_flux_over_Brms": 2.6045928308223303,
+      "Bpk_over_Brms": 1.796726595285207,
+      "E_max": 41.29329368332183,
+      "E_max_at": [
+       -0.03477629967137906,
+       0.03300156949989336,
+       0.011381462818261712
+      ],
+      "E_max_face_rms": 40.26637399104543,
+      "cEpk_face_rms_over_Brms": 2.0388959982748753,
+      "cEpk_over_Brms": 2.0908942847756076,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    },
+    {
+     "i": 5,
+     "f_Hz": 1890145766.2273405,
+     "E_azimuthal_fraction": 0.001991162404495909,
+     "axis_Ez_parity": 0.11026140447822243,
+     "G_solver_all_pec_ohm": 222.2783874653097,
+     "V_axis_rel": 0.001091853025081633,
+     "peak_wall_fields": {
+      "B_rms": 6.587592804438244e-08,
+      "B_t_max": 1.1776399399307589e-07,
+      "B_t_max_at": [
+       0.0709597205200783,
+       0.06061905841319732,
+       -0.05770000000000003
+      ],
+      "B_t_max_face_rms": 1.1664907383821555e-07,
+      "B_t_max_flux": 1.4030167580617903e-07,
+      "B_t_max_flux_at": [
+       -0.03369349793310271,
+       0.016925332592859128,
+       -0.006168318892746046
+      ],
+      "B_t_max_flux_face_rms": 1.1566941212543531e-07,
+      "Bpk_face_rms_over_Brms": 1.77073898313244,
+      "Bpk_flux_face_rms_over_Brms": 1.75586766758725,
+      "Bpk_flux_over_Brms": 2.129786706179743,
+      "Bpk_over_Brms": 1.787663528834615,
+      "E_max": 41.74530394635082,
+      "E_max_at": [
+       0.035294158019577165,
+       0.028076353058810927,
+       -0.010596609031052613
+      ],
+      "E_max_face_rms": 41.194622018307506,
+      "cEpk_face_rms_over_Brms": 2.0858980250432135,
+      "cEpk_over_Brms": 2.1137819159458187,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    }
+   ],
+   "ref2d_same_polygon_angle_tol_0.1": [
+    {
+     "f_Hz": 1277257842.4252787,
+     "G_solver_all_pec_ohm": 148.0915511688721
+    },
+    {
+     "f_Hz": 1301615927.7266843,
+     "G_solver_all_pec_ohm": 148.2328483410581
+    },
+    {
+     "f_Hz": 2673528822.266347,
+     "G_solver_all_pec_ohm": 322.95363676384403
+    },
+    {
+     "f_Hz": 2776278079.554409,
+     "G_solver_all_pec_ohm": 317.54729442861714
+    },
+    {
+     "f_Hz": 3756000369.8480372,
+     "G_solver_all_pec_ohm": 427.2121175742009
+    },
+    {
+     "f_Hz": 3858879925.370504,
+     "G_solver_all_pec_ohm": 340.4016117369336
+    }
+   ],
+   "note": "3D wall polygon angle_tol 0.1 (faceted 3D wall); 2D reference uses the same polygon at h = Req/40, order 3"
+  },
+  "n12_o3": {
+   "rows": [
+    {
+     "i": 0,
+     "f_Hz": 1277252923.8194983,
+     "E_azimuthal_fraction": 6.403355475884598e-07,
+     "axis_Ez_parity": 0.999999978022252,
+     "G_solver_all_pec_ohm": 148.09088528468544,
+     "V_axis_rel": 2.2316941919364703,
+     "peak_wall_fields": {
+      "B_rms": 6.587589448011625e-08,
+      "B_t_max": 8.000639591021728e-08,
+      "B_t_max_at": [
+       -0.023104992289034995,
+       0.07541331165807158,
+       0.05769999999999999
+      ],
+      "B_t_max_face_rms": 7.996019533030692e-08,
+      "B_t_max_flux": 8.00059441180383e-08,
+      "B_t_max_flux_at": [
+       -0.0572596924711751,
+       -0.054041511796057415,
+       0.05770000000000001
+      ],
+      "B_t_max_flux_face_rms": 7.995965600765132e-08,
+      "Bpk_face_rms_over_Brms": 1.2138005253870492,
+      "Bpk_flux_face_rms_over_Brms": 1.2137923384370297,
+      "Bpk_flux_over_Brms": 1.2144949947083756,
+      "Bpk_over_Brms": 1.2145018529405491,
+      "E_max": 35.232393248511535,
+      "E_max_at": [
+       0.000551131774688726,
+       0.0005520694488497745,
+       0.05769999999999993
+      ],
+      "E_max_face_rms": 35.19145205554981,
+      "cEpk_face_rms_over_Brms": 1.781927206644877,
+      "cEpk_over_Brms": 1.7840002732945803,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    },
+    {
+     "i": 1,
+     "f_Hz": 1301609905.2033825,
+     "E_azimuthal_fraction": 6.43462132409673e-07,
+     "axis_Ez_parity": -0.999999968039569,
+     "G_solver_all_pec_ohm": 148.232086551384,
+     "V_axis_rel": 1.9544216212345489,
+     "peak_wall_fields": {
+      "B_rms": 6.58758944801163e-08,
+      "B_t_max": 8.152803414185012e-08,
+      "B_t_max_at": [
+       -0.058926467489539266,
+       -0.05386539373476722,
+       0.05769999999999999
+      ],
+      "B_t_max_face_rms": 8.148045868780668e-08,
+      "B_t_max_flux": 8.152984212485055e-08,
+      "B_t_max_flux_at": [
+       -0.04121628224244982,
+       0.06827917172688808,
+       -0.05769999999999999
+      ],
+      "B_t_max_flux_face_rms": 8.147988031511926e-08,
+      "Bpk_face_rms_over_Brms": 1.236878213659784,
+      "Bpk_flux_face_rms_over_Brms": 1.2368694339279567,
+      "Bpk_flux_over_Brms": 1.2376278571740558,
+      "Bpk_over_Brms": 1.2376004118844746,
+      "E_max": 37.544317888793664,
+      "E_max_at": [
+       -0.03492456410053728,
+       0.0022985657087681065,
+       5.794483978892612e-06
+      ],
+      "E_max_face_rms": 35.84535467258304,
+      "cEpk_face_rms_over_Brms": 1.8150377148997925,
+      "cEpk_over_Brms": 1.901065105110227,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    },
+    {
+     "i": 2,
+     "f_Hz": 1793673951.6044915,
+     "E_azimuthal_fraction": 0.03268163273125213,
+     "axis_Ez_parity": 0.4038065123432148,
+     "G_solver_all_pec_ohm": 178.9711566635552,
+     "V_axis_rel": 5.347036530679125e-06,
+     "peak_wall_fields": {
+      "B_rms": 6.587589448011631e-08,
+      "B_t_max": 3.648703591470327e-07,
+      "B_t_max_at": [
+       0.017965360467366263,
+       -0.03007740030299723,
+       -0.0007194329131687537
+      ],
+      "B_t_max_face_rms": 3.51203195783662e-07,
+      "B_t_max_flux": 5.150774071880054e-07,
+      "B_t_max_flux_at": [
+       0.02169724103237027,
+       -0.0275084305832047,
+       0.0007316391253263807
+      ],
+      "B_t_max_flux_face_rms": 3.563894770073066e-07,
+      "Bpk_face_rms_over_Brms": 5.3312854201876165,
+      "Bpk_flux_face_rms_over_Brms": 5.4100134779175955,
+      "Bpk_flux_over_Brms": 7.81890570523447,
+      "Bpk_over_Brms": 5.538753773691278,
+      "E_max": 63.73483927896707,
+      "E_max_at": [
+       0.032121666396876684,
+       0.014252130686429408,
+       -0.001461371748057914
+      ],
+      "E_max_face_rms": 60.930307028583606,
+      "cEpk_face_rms_over_Brms": 3.0852200026323207,
+      "cEpk_over_Brms": 3.2272281332142234,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    },
+    {
+     "i": 3,
+     "f_Hz": 1793674727.2810075,
+     "E_azimuthal_fraction": 0.03268376624787596,
+     "axis_Ez_parity": 0.038025984467723734,
+     "G_solver_all_pec_ohm": 178.9608760221956,
+     "V_axis_rel": 3.1102833023309115e-06,
+     "peak_wall_fields": {
+      "B_rms": 6.587589448011634e-08,
+      "B_t_max": 3.617306260482061e-07,
+      "B_t_max_at": [
+       0.032121666396876684,
+       0.014252130686429408,
+       -0.001461371748057914
+      ],
+      "B_t_max_face_rms": 3.480277636143445e-07,
+      "B_t_max_flux": 5.393864161649942e-07,
+      "B_t_max_flux_at": [
+       0.024641914369923898,
+       0.024904909234371435,
+       -0.0007310727049766707
+      ],
+      "B_t_max_flux_face_rms": 3.5426585083668114e-07,
+      "Bpk_face_rms_over_Brms": 5.283082170814265,
+      "Bpk_flux_face_rms_over_Brms": 5.377776706221591,
+      "Bpk_flux_over_Brms": 8.187917908694203,
+      "Bpk_over_Brms": 5.491092438333253,
+      "E_max": 63.78349956965854,
+      "E_max_at": [
+       0.017965360467366263,
+       -0.03007740030299723,
+       -0.0007194329131687537
+      ],
+      "E_max_face_rms": 61.32813247553973,
+      "cEpk_face_rms_over_Brms": 3.1053639849354027,
+      "cEpk_over_Brms": 3.2296920581392152,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    },
+    {
+     "i": 4,
+     "f_Hz": 1890183785.7058725,
+     "E_azimuthal_fraction": 0.001959954775215778,
+     "axis_Ez_parity": 0.023073937994628164,
+     "G_solver_all_pec_ohm": 222.5397067877481,
+     "V_axis_rel": 5.482005324846935e-06,
+     "peak_wall_fields": {
+      "B_rms": 6.587589448011586e-08,
+      "B_t_max": 1.1608975348335363e-07,
+      "B_t_max_at": [
+       0.08653975426826467,
+       0.03395770130761233,
+       0.0577
+      ],
+      "B_t_max_face_rms": 1.1594034538537888e-07,
+      "B_t_max_flux": 1.3293097996362972e-07,
+      "B_t_max_flux_at": [
+       0.008153903264803666,
+       -0.03782408993282925,
+       -0.007108484697227776
+      ],
+      "B_t_max_flux_face_rms": 1.159359482274872e-07,
+      "Bpk_face_rms_over_Brms": 1.7599813452305317,
+      "Bpk_flux_face_rms_over_Brms": 1.75991459611196,
+      "Bpk_flux_over_Brms": 2.017900189632399,
+      "Bpk_over_Brms": 1.7622493690525058,
+      "E_max": 42.94012608151812,
+      "E_max_at": [
+       0.040865612121637196,
+       0.01885649273699216,
+       0.010569634175068008
+      ],
+      "E_max_face_rms": 40.95336216873104,
+      "cEpk_face_rms_over_Brms": 2.073682840277537,
+      "cEpk_over_Brms": 2.1742830844444225,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    },
+    {
+     "i": 5,
+     "f_Hz": 1890183922.8177867,
+     "E_azimuthal_fraction": 0.0019595948657965133,
+     "axis_Ez_parity": 0.15295786376410378,
+     "G_solver_all_pec_ohm": 222.5441532708555,
+     "V_axis_rel": 8.633511497215289e-06,
+     "peak_wall_fields": {
+      "B_rms": 6.587589448011592e-08,
+      "B_t_max": 1.1608838169622066e-07,
+      "B_t_max_at": [
+       0.03272362316586274,
+       -0.08690912368050968,
+       -0.0577
+      ],
+      "B_t_max_face_rms": 1.1585265677473887e-07,
+      "B_t_max_flux": 1.4134270738193e-07,
+      "B_t_max_flux_at": [
+       0.03539912198118889,
+       0.01079029249621748,
+       0.005367874626339497
+      ],
+      "B_t_max_flux_face_rms": 1.1585306388914002e-07,
+      "Bpk_face_rms_over_Brms": 1.7586502269006459,
+      "Bpk_flux_face_rms_over_Brms": 1.758656406921492,
+      "Bpk_flux_over_Brms": 2.1455907126178473,
+      "Bpk_over_Brms": 1.762228545242159,
+      "E_max": 42.585289725583095,
+      "E_max_at": [
+       0.016579887784931857,
+       -0.04184249963837142,
+       -0.010570012379774297
+      ],
+      "E_max_face_rms": 40.99093880053081,
+      "cEpk_face_rms_over_Brms": 2.0755855416049034,
+      "cEpk_over_Brms": 2.1563158645766736,
+      "note": "largest |E| and |B_t| over the wall quadrature points (E normalized to int eps_r |E|^2 dV = 1; B = curl E/(i omega) pointwise, B_t_max_flux from the consistent-flux current; *_face_rms: largest face rms, robust to single-point outliers; *_at: location of the pointwise maximum); B_rms over the (meshed) cavity volume, mu_r = 1. cEpk_over_Brms = E_max/(c B_rms): E_pk in units of B_rms with c = 1",
+      "note_flux": "E_n_max_flux: largest |E_n| over the same wall quadrature points from the consistent-flux (charge) recovery eps_r E_n = M_bdr^-1 G^T M u (an H1 field on the whole cavity boundary; a diagnostic: on the SRF cell it converges no better than the pointwise field, and it mixes E_n across boundary corners); B_t_max_flux from the consistent-flux surface current"
+     }
+    }
+   ],
+   "ref2d_same_polygon_angle_tol_0.1": [
+    {
+     "f_Hz": 1277257846.7366838,
+     "G_solver_all_pec_ohm": 148.09155046209239
+    },
+    {
+     "f_Hz": 1301615932.406092,
+     "G_solver_all_pec_ohm": 148.23284752424658
+    },
+    {
+     "f_Hz": 2673528815.3027215,
+     "G_solver_all_pec_ohm": 322.9535991239157
+    },
+    {
+     "f_Hz": 2776278064.2670045,
+     "G_solver_all_pec_ohm": 317.5472529132079
+    },
+    {
+     "f_Hz": 3756000363.7952466,
+     "G_solver_all_pec_ohm": 427.2120824795969
+    },
+    {
+     "f_Hz": 3858879764.8439765,
+     "G_solver_all_pec_ohm": 340.4015855766572
+    }
+   ],
+   "note": "3D wall polygon angle_tol 0.1 (faceted 3D wall); 2D reference uses the same polygon at h = Req/40, order 3"
+  }
+ }
+}

@@ -1,0 +1,237 @@
+# The quick pre-merge subset: a curated selection of the test suite with a representative of every test file (or a
+# stated reason why not), for checking a change before it is merged. It runs in about 30 min on one cluster node
+# (16 MPI ranks x 8 threads, ctest included) with AXF_SLOW=1 and AXF_MPI=1: scripts/slurm/tests_premerge.slurm is an
+# example job. The full suite (AXF_SLOW=1, 5-7 h on such a node) remains the complete check, for example before a
+# release.
+#
+# One pytest node ID per line (a whole file, a test, or one parametrization); `exclude tests/<file>.py` records a test
+# file that is deliberately not represented. Every tests/test_*.py must appear in one of the two forms:
+# `python scripts/premerge_tests.py check` fails otherwise, and also when a listed test no longer exists; `run` also
+# fails when a test named on its own line, or every test of a listed file, is skipped. Times in the comments are
+# full-suite times on that node. Keep the total near 30 min: swap tests rather than grow the list. A new test file
+# needs a representative entry here (or an exclude line with the reason).
+
+# --- Schema, spec and input validation; packaging (seconds) ---
+tests/test_schema.py
+tests/test_multiport_fem_spec.py
+tests/test_packaging.py                       # versions, pins, the sequential build's MPI-free files, the 3D guards
+tests/test_scan_reach.py
+tests/test_prescribed_source.py
+tests/test_mpi_output_parser.py               # rank 0's summary among UCX/OpenMPI warnings (pure Python)
+
+# --- Circuit, scan, reach, SQUID chains, sensitivity layers (closed forms, seconds) ---
+tests/test_circuit.py
+tests/test_circuits.py
+tests/test_multiport.py
+tests/test_multiport_components.py
+tests/test_finite_band.py
+tests/test_multipole_scan.py
+tests/test_squid.py
+tests/test_draw.py                            # most need schemdraw (skipped without it)
+tests/test_haloscope.py
+tests/test_heterodyne.py                      # SRF heterodyne sensitivity and cost
+tests/test_fullwave_energy_reference.py
+tests/test_dzdw_algebra.py                    # the exact dZ/dw identity
+tests/test_fluids_stokes_3d_api.py            # fluids API (beta), 3D Stokes: meshes (tet/hex/curved), TH counts, patch tests, 3D slip, reaction (seconds)
+tests/test_convergence.py
+tests/test_touchstone.py                      # S/Y/Z and Touchstone v1: closed forms, the two-port record, round trips (2 s)
+tests/test_fluids_verification.py             # fluids and chemistry verification: case definitions, acceptance check, runner (seconds)
+tests/test_chem_current_distribution.py       # chemistry (beta), current distribution: API, stored mesh hashes, the small cases judged (seconds)
+tests/test_chem_kinetics.py                   # chemistry (beta), kinetics/reactors/time integration: API, refusals, orders, DAE (seconds)
+tests/test_chem_current_distribution_3d.py    # chemistry (beta), 3D current distribution: mesh hashes, porous closed form, rank invariance under AXF_MPI (seconds)
+tests/test_fluids_stokes_planar_check.py      # fluids check-module self-tests, planar Stokes: norms, meshes, flux defect, P2 geometry (seconds)
+tests/test_fluids_transport_check.py          # fluids check-module self-tests, scalar transport and Boussinesq: norms, meshes, fluxes, Taylor (seconds)
+tests/test_fluids_navier_stokes_check.py      # fluids check-module self-tests, steady Navier-Stokes: norms (planar, r-weighted), identities, Newton/Taylor diagnostics (seconds)
+tests/test_fluids_gls_check.py                # fluids check-module self-tests, GLS stabilization: residual, tau limits and invariance, patch consistency, inf-sup (seconds)
+tests/test_fluids_stokes_axi_check.py         # fluids check-module self-tests, axisymmetric Stokes: weighted norms, sphere geometry, reactions, continuity residual (seconds)
+tests/test_fluids_stokes_3d_check.py          # fluids check-module self-tests, 3D Stokes: meshes, TH condition, norms, drag, duct series (seconds)
+tests/test_fluids_mhd_check.py                # fluids check-module self-tests, inductionless MHD: graded meshes, norms, current residual, wall current, series (seconds)
+tests/test_fluids_mhd_annulus_check.py        # fluids check-module self-tests, MHD annulus (curved family, variable B) and suction (convection) (seconds)
+tests/test_fluids_transient_check.py          # fluids check-module self-tests, transient Navier-Stokes: space-exactness, BDF coefficients, discrete divergence, effectivity, energy identity (seconds)
+tests/test_fluids_api.py                      # fluids library Python boundary (axionfem.fluids, beta): Poiseuille, BCs, pressure point, torque (seconds)
+tests/test_fluids_stokes_planar_api.py        # fluids API, planar Stokes: variable-mu Laplacian, grad-div, slip, periodic, P2 nodes (seconds)
+tests/test_fluids_stokes_axi_api.py           # fluids API, axisymmetric Stokes: patch tests, axis nodes, identity, decoupling, normal traction (seconds)
+tests/test_fluids_navier_stokes_api.py        # fluids API, steady Navier-Stokes: Taylor test, kernel energy, Stokes limit, Couette torque, driver paths and refusals (seconds)
+tests/test_fluids_mhd_api.py                  # fluids API, inductionless MHD: Hartmann duct, Jacobian action, scaling identity, refusals (seconds)
+tests/test_fluids_gls_api.py                  # fluids API, GLS stabilization: residual = numpy residual, Jacobian = derivative, patch reproduced, tau_at, refusals (seconds)
+tests/test_fluids_transport_api.py            # fluids API, scalar transport: 2-rank refusal, flux sign, outflow/robin semantics, Boussinesq and gravity (seconds)
+tests/test_fluids_transient_api.py            # fluids API, transient Navier-Stokes: BDF2 exactness in time, variable steps, projection, adaptive control, refusals (seconds)
+
+# --- Axisymmetric engine: MQS, nonlinear iron, persistent circuits, forces, direct solvers ---
+tests/test_thin_magnetic_layer.py             # thin layers, their junctions with sheets, regions and pickups; background drive (60 s)
+tests/test_regression.py::test_mutual_inductance_vs_maxwell
+tests/test_regression.py::test_core_pickup_inductance_exact
+tests/test_regression.py::test_persistent_nonzero_linkage
+tests/test_regression.py::test_persistent_with_iron_converges
+tests/test_regression.py::test_persistent_loop_screens_background
+tests/test_regression.py::test_iron_in_toroidal_field_saturates
+tests/test_regression.py::test_iron_filled_toroid_memory_is_linear
+tests/test_regression.py::test_sheet_with_poloidal_pickup_rejected
+tests/test_regression.py::test_background_hermite_interpolation
+tests/test_forces.py
+tests/test_published.py                       # stored Psi, L_p of every published design (1e-4)
+tests/test_adjoint.py
+tests/test_global_opt.py::test_quantities_match_sensitivity_engine   # af.objectives() values from a solved model (1e-12)
+tests/test_global_opt.py::test_toroid_hole_fraction_from_random_start   # DE end to end, adjoint polish (27 s)
+tests/test_global_opt.py::test_failed_meshes_are_infeasible_points
+tests/test_global_opt.py::test_timeouts_become_failed_points
+tests/test_global_opt.py::test_crash_of_the_last_spawned_worker_is_detected_promptly
+tests/test_global_opt.py::test_precheck_and_argument_checks
+tests/test_global_opt.py::test_argument_validation
+tests/test_solvers.py::test_strumpack_and_eigen_agree
+tests/test_solvers.py::test_strumpack_min_dofs_rejects_garbage
+tests/test_solvers.py::test_dtn_low_rank_matches_the_assembled_block   # the default low-rank exterior map against the assembled one
+tests/test_solvers.py::test_metis_and_amd_orderings_agree
+# (not the three MCP worker tests: with AXF_PYTHONPATH set to a package copy outside python/, the worker imports
+# python/axionfem, which has no compiled core)
+tests/test_mesh_options.py::test_region_surface_size_matches_the_global_one_and_is_selective
+tests/test_mesh_options.py::test_mesher_3d_honours_a_per_region_surface_size
+tests/test_mesh_options.py::test_domain_center_z_is_translation_invariant
+tests/test_force_distributions.py::test_loop_and_superconductor_obey_newtons_third_law
+tests/test_mcp_progress.py::test_the_plot_helper_named_in_the_mcp_reply_exists
+
+# --- Axisymmetric adaptive refinement, full wave, surface losses; electrostatics, mechanics, thermal, HTS ---
+tests/test_adapt.py::test_adaptive_refinement_converges_towards_fine_mesh
+tests/test_adapt.py::test_adapt_watch_gamma_2d
+tests/test_adapt.py::test_adapt_watch_and_refinements_are_validated
+tests/test_fullwave.py
+# the grid background's exterior term (2D): the five default-suite tests, a few seconds each; the AXF_SLOW ones
+# (the long magnet against 3D, the MQS rate, the multipole order: about 40 s) are left to the full suite
+tests/test_axi_background_exterior.py::test_grid_background_exterior_term_matches_the_winding
+tests/test_axi_background_exterior.py::test_reaction_field_next_to_a_grid_background
+tests/test_axi_background_exterior.py::test_grid_that_does_not_reach_past_the_domain_sphere
+tests/test_axi_background_exterior.py::test_uniform_background_keeps_the_static_fields_exterior_term
+tests/test_axi_background_exterior.py::test_eigenmode_only_run_reports_no_sweep_labels
+tests/test_surface_resistance.py
+tests/test_electrostatics.py
+tests/test_mechanics.py
+tests/test_torsion.py                         # m = 0 torsion: modes, modal-sum harmonic, overrides (5 s)
+tests/test_torsion_highfreq.py                # multi-branch waveguide, named loads, band, complex solvers, mesh guard (17 s)
+tests/test_strumpack_threads.py               # STRUMPACK called from 2 OpenMP/Python threads (10 s)
+tests/test_thermal.py
+tests/test_hts.py::test_builtin_conductors_reference_points
+tests/test_hts.py::test_critical_surface_shape
+tests/test_hts.py::test_table_conductor_and_low_field_floor
+tests/test_hts.py::test_unknown_conductor_is_an_error
+tests/test_hts.py::test_solenoid_margins
+tests/test_hts.py::test_margins_scale_with_the_benchmark_amplitude
+tests/test_hts.py::test_over_critical_winding_warns
+tests/test_hts.py::test_critical_state_full_penetration
+tests/test_hts.py::test_critical_state_trapped_flux_and_cooldown
+tests/test_hts.py::test_critical_state_sampling_and_profile
+tests/test_hts.py::test_field_cooled_hold_is_static
+tests/test_hts.py::test_critical_state_input_checks
+
+# --- Cavities (axisymmetric, cross-section, 3D) and SRF ---
+tests/test_cavity.py
+tests/test_cavity_xsec.py
+tests/test_cavity_modefields.py
+tests/test_cavity_coupling.py::test_reference_Q_ext   # coax-probe Q_ext against Balleyguier (1997) on the 2D full-wave engine (one FE study)
+tests/test_cavity_coupling.py::test_one_port_lemma_error_is_order_one_over_Q   # open/short expansion lemma (closed form, seconds)
+tests/test_cavity3d.py::test_cavity3d_spec_errors
+tests/test_cavity3d.py::test_rod_gap_refinement_regions
+tests/test_cavity3d.py::test_reference_closed_forms_3d
+tests/test_cavity3d.py::test_mirror_parity_of_the_analytic_subsets
+tests/test_cavity3d.py::test_pillbox_lowest_modes_ame
+tests/test_cavity3d.py::test_pillbox_tm010_form_factor_and_q
+tests/test_cavity3d.py::test_builtin_copper_q0_matches_2d
+tests/test_cavity3d.py::test_floating_rod_vs_2d                          # 3D against the axisymmetric solver
+tests/test_cavity3d.py::test_shift_invert_rank_independence   # srun, 4 ranks
+tests/test_cavity_track.py                    # mode tracking: synthetic, 2D, cross-section, a 3D rod sweep (33 s)
+tests/test_cavity_repro_models.py             # reference models of the published-cavity reproductions (no solves)
+tests/test_srf.py                             # 126 s; its coarse 3D cell (78 s) also guards the mesher's reproducible meshes
+tests/test_srf_external.py                    # published SRF numbers (Lasenby, Aune, TESLA cell)
+tests/test_srf_vibration.py
+
+# --- 3D MQS (ports, iron, superconductors, background, surface losses), 3D electrostatics and mechanics, MPI ---
+tests/test_3d.py::test_solenoid_3d_vs_2d                                  # 15 s, against the axisymmetric engine
+tests/test_3d.py::test_saturated_iron_newton_3d
+tests/test_3d.py::test_surface_losses_magnetoresistance_3d_vs_2d          # 3D pickup surface losses against 2D
+tests/test_3d.py::test_multiple_free_body_currents_with_inexact_lifts     # two-body constraint regression
+tests/test_3d.py::test_port_between_two_conductors_is_an_error
+tests/test_3d.py::test_wedge_frame_parameter_expressions_are_evaluated    # regression
+tests/test_3d.py::test_gauge_regularization_does_not_change_the_results  # 25 s; sensitive to the mesh
+tests/test_background_3d.py                   # 3D MQS Psi with a background in reciprocal form
+tests/test_mpi.py::test_two_ranks_match_one_rank[1]                       # 2 ranks against 1 (order 2: 91 s)
+tests/test_breakdown_mesh_check.py                         # solver-failure mesh check: 3D/2D, MPI reduction
+tests/test_electrostatics3d.py::test_isolated_sphere_3d                   # C = 4 pi eps0 a through the infinity shell
+tests/test_electrostatics3d.py::test_electrostatics_3d_needs_a_conductor
+tests/test_electrostatics3d.py::test_3d_electrostatics_is_accepted_by_the_schema
+tests/test_mechanics3d.py::test_free_cooldown_is_a_stress_free_contraction  # 34 s; every 3D mechanics test is >= 32 s
+tests/test_mechanics3d.py::test_3d_input_errors
+
+# --- 3D full wave: each solver path with the Gauss-law guard; error indicator; imposed background; ports ---
+tests/test_fullwave3d.py::test_diagnostic_reductions_include_ranks_without_local_support   # AMS, radiating exterior, 16 ranks; MPI collectives match
+tests/test_fullwave3d_solver_paths.py         # AMS and plain STRUMPACK with the guard: exact Z and dZ/dw of a TEM line (1 s)
+tests/test_fullwave3d_dzdw_terminations.py    # exact dZ/dw with Robin and PML terminations against a centred difference
+tests/test_adaptive_sweep.py::test_tem_line_pole_on_the_eigenmode   # adaptive sweep: TEM line, eigenmode pole, pole classes
+tests/test_adaptive_sweep.py::test_adaptive_with_robin_and_pml_terminations[pml-6]   # Hermite rows from the PML's exact dZ/dw
+tests/test_adaptive_sweep.py::test_adaptive_with_every_solve_refused   # the all-refused stop writes its results
+tests/test_adaptive_sweep.py::test_adaptive_noise_bound_is_flagged   # noise-bound sweeps are flagged
+tests/test_adaptive_sweep.py::test_adaptive_near_noise_bound_warns   # the near-noise-bound warning's positive branch (seconds)
+tests/test_fullwave3d_gauss_guard.py::test_guard_estimates_and_removes_the_gradient_error   # AMS + guard against the gauged path
+tests/test_fullwave3d_gauss_guard.py::test_guard_corrects_a_lossy_model                    # the complex (lossy) guard
+tests/test_fullwave3d_tree_cotree_options.py::test_refinement_residual_modes               # gauged path, extended residual
+tests/test_fullwave3d_tree_cotree_options.py::test_projection_keeps_real_source_charge     # a charged sector source keeps its charge
+tests/test_fullwave3d_feed_continuity.py      # gauged path; port feeds discretely divergence-free
+tests/test_fullwave3d_curved_port_charge.py   # curved (order-2) port feed charge-free
+tests/test_fullwave3d_distributed_port.py::test_distributed_port_orientation_errors   # its full-wave cases are 20 min each
+tests/test_fullwave3d_error_indicator.py::test_tem_line_effectivity_against_the_exact_error
+tests/test_fullwave3d_error_indicator.py::test_indicator_on_and_off_give_identical_results
+tests/test_fullwave3d_error_indicator.py::test_an_interior_port_face_cuts_the_recovery
+tests/test_fullwave3d_error_indicator.py::test_pml_and_robin_groups_withhold_the_z_and_l_estimates
+tests/test_fullwave3d_error_indicator.py::test_a_failed_solve_withholds_its_estimate
+tests/test_fullwave3d_error_indicator.py::test_a_lossy_fill_uses_the_complex_projection        # the complex-eps path (GMRES, PRESB), seconds
+tests/test_fullwave3d_error_indicator.py::test_an_interior_pmc_plane_changes_nothing          # regression, seconds
+tests/test_fullwave3d_error_indicator.py::test_the_projection_tolerance_override   # AXF_FW_INDICATOR_TOL, seconds
+tests/test_fullwave3d_error_indicator.py::test_the_ridge_line_reproduces_the_stored_numbers   # stored order-2 numbers, pinned BLAS kernels, ~15 s each
+tests/test_fullwave3d_error_indicator.py::test_a_projection_that_did_not_converge_withholds_on_every_rank   # 2 ranks: the global decision
+tests/test_fullwave3d_error_indicator.py::test_indicator_reports_per_frequency_and_port     # the two-port frame, 4 ranks
+tests/test_fullwave3d_error_indicator.py::test_the_gauged_path_gives_the_same_estimate
+tests/test_fullwave3d_background.py::test_analytic_coil_field
+tests/test_fullwave3d_background.py::test_closed_domain_grid_background_source_check   # 4 min: the cheapest 3D full-wave background solve
+tests/test_fullwave3d_memory.py::test_a_released_factor_goes_back_to_the_system[strumpack-8]   # 68 s: two 6-frequency two-port sweeps on 2 ranks; the plain path's freed factors and work memory against glibc's behaviour
+tests/test_fullwave3d_memory.py::test_the_record_says_which_thresholds_were_in_force   # 51 s, in process: the allocator thresholds end with the analysis (or numpy slows down)
+tests/test_fullwave3d_surface_losses.py::test_keys_and_formula_chain             # surface losses: the order-1 sealed coax (40 s, shared by the next five)
+tests/test_fullwave3d_surface_losses.py::test_perturbation_flag
+tests/test_fullwave3d_surface_losses.py::test_mqs_limit_on_the_same_mesh         # against pickup.losses on the same mesh
+tests/test_fullwave3d_surface_losses.py::test_tuned_inductance_is_four_magnetic_energies
+tests/test_fullwave3d_surface_losses.py::test_frequency_dependence_follows_the_closed_form
+tests/test_fullwave3d_surface_losses.py::test_python_columns
+tests/test_fullwave3d_surface_losses.py::test_multiport_matrices                 # the two-port frame: the Hermitian loss matrices (26 s)
+tests/test_fullwave3d_surface_losses.py::test_magnetoresistance_weight_matches_pickup_losses[tiny]   # 102 s: a measured R_s table with magnetoresistance and Q_total withheld; [skin], [table]: full suite
+tests/test_fullwave3d_surface_losses.py::test_pec_boundary_conductors_are_reported
+tests/test_fullwave3d_surface_losses.py::test_loss_interpolation_check           # the R_loss interpolation guard (pure Python)
+tests/test_fullwave3d_surface_losses.py::test_reach_uses_the_rows_exact_tuned_inductance   # the reach's MQS comparison keeps L_p
+tests/test_fullwave3d_surface_losses.py::test_tables_warn_where_re_z_is_unresolved
+tests/test_fullwave3d_surface_losses.py::test_rows_without_dz_domega_have_no_tuned_q
+tests/test_fullwave3d_surface_quadrature.py   # conductor-surface quadrature export: TEM line, PML skip, PEC hole (5 s)
+
+# --- Mesher: curved elements and reproducibility ---
+tests/test_mesh3d_reproducible.py::test_curved_mesh_with_patch_optimizer_is_reproducible
+tests/test_mesh3d_reproducible.py::test_curved_mesh_with_surface_smoothing_is_reproducible
+# The curved-mesh process, about 11 s together; not its STEP-path (50 s) and two-mesher (42 s) cases
+tests/test_mesh3d_curved_process.py::test_a_missing_step_file_is_named_as_the_user_wrote_it
+tests/test_mesh3d_curved_process.py::test_a_read_only_output_directory_is_named
+tests/test_mesh3d_curved_process.py::test_mesher_warnings_reach_the_results
+tests/test_mesh3d_curved_process.py::test_a_symbolic_link_at_the_lock_path_is_refused_and_its_target_kept   # guards against data loss
+tests/test_mesh3d_curved_process.py::test_a_working_directory_that_is_not_utf8
+tests/test_mesh3d_curved_process.py::test_closed_standard_descriptors
+tests/test_mesh3d_curved_process.py::test_a_long_output_name
+tests/test_mesh3d_curved_process.py::test_a_stopped_run_cleans_up
+tests/test_mesh3d_degenerate_element.py
+
+# --- COMSOL export and import; viewer, widget, MCP ---
+tests/test_comsol_export.py
+tests/test_comsol_import.py
+tests/test_comsol_import2d.py
+tests/test_viewer.py
+tests/test_widget.py
+tests/test_mcp_modules.py
+tests/test_mcp_chat.py
+
+# --- Not represented ---
+exclude tests/test_fullwave3d_radiating_source.py   # one 35-min test (4 ranks); the radiating exterior is covered above
+exclude tests/test_fullwave3d_strumpack_mpi.py      # needs a build against an MPI STRUMPACK; skips with build/
+exclude tests/test_gpu.py                           # needs a CUDA build and a visible GPU; skips without one (run it on a GPU node: docs/validation/gpu.md)
+exclude tests/test_mesh3d_curved_elements.py        # 7 min; the reproducibility cases run its optimizer on the same probe shell (the inverted count: full suite)

@@ -1,0 +1,611 @@
+{
+ "check": "tree_cotree_scale",
+ "provenance": {
+  "git_describe": "897f5f4-dirty",
+  "git_head": "897f5f487366be0faf6e392c36847121a4a34e8c",
+  "git_diff_sha256": "8590344959449d3c2e53d6c9df7a5d3acae8687ac5b2df382e30ee94ae7d1796",
+  "AXF_EXE": "build14/axf",
+  "driver": "benchmarks/tree_cotree_scale.py",
+  "date": "2026-10-26"
+ },
+ "frequencies_Hz": [
+  1000.0,
+  10000.0,
+  100000.0
+ ],
+ "mesh": {
+  "order": 1,
+  "size": 0.13,
+  "surface_size": 0.02
+ },
+ "configs": {
+  "tree_cotree": {
+   "config": "tree_cotree",
+   "env": {
+    "AXF_FW_SOLVER": "strumpack",
+    "AXF_FW_GAUGE": "tree-cotree",
+    "AXF_FW_TC_CHARGE_PROJECTION": "2",
+    "AXF_FW_STRUMPACK_DIST": "0",
+    "AXF_FW_GAUSS_GUARD": "off",
+    "produced_by": {
+     "AXF_EXE": "build14/axf",
+     "ranks": 8,
+     "seconds": 239.79534339904785
+    }
+   },
+   "dofs": 1387041,
+   "mesh": {
+    "dofs": 1387041,
+    "elements": 1178849,
+    "mpi_ranks": 8,
+    "order": 1
+   },
+   "mesh_sha256": "75581d70e3750994916ea50417cd8b573b97ea9f63f4e46ebdebceb51a84dc35",
+   "solver_path": "tree-cotree gauged STRUMPACK LU (E = S_c e + G_c phi, K G = 0 exact), Woodbury loads, iterative refinement on the transformed residual (normwise); charge projection 2; gate on the split-form original-space residual",
+   "tree_cotree_topology": {
+    "contracted_pec_nodes": 2,
+    "cotree_edges": 768046,
+    "essential_edges": 515786,
+    "free_edges": 871255,
+    "gathered_K_nonzeros": 22663973,
+    "gathered_M_nonzeros": 22663994,
+    "global_edges": 1387041,
+    "grounded_roots": 1,
+    "h1_nodes": 198581,
+    "largest_root_node_count": 64795,
+    "phi_block_nonzeros": 1440349,
+    "setup_seconds": 3.630316682,
+    "tree": "BFS spanning forest of the PEC-contracted free-edge graph",
+    "tree_edges_potentials": 103209
+   },
+   "gauss_law_guard": {
+    "mode": "off"
+   },
+   "energy_operator_setup_seconds": 2.986833055,
+   "fullwave_seconds": 100.655606655,
+   "warnings": [],
+   "rows": [
+    {
+     "f_Hz": 1000.0,
+     "L_H": 6.240624383776522e-07,
+     "Psi_abs": 1.1732168737564779e-06,
+     "solver_setup_seconds": 25.979866612,
+     "port_solves_seconds": 3.054378423,
+     "frequency_total_seconds": 32.002097408,
+     "peak_rss_max_rank_bytes": 12192731136.0,
+     "peak_rss_sum_rank_bytes": 27558424576.0,
+     "solver": {
+      "accepted": true,
+      "gmres_iterations": 2,
+      "gmres_reported_converged": null,
+      "preconditioned_final_norm": null,
+      "preconditioned_initial_norm": null,
+      "relative_residual": 8.62354768145496e-11,
+      "rhs_norm": 269.8593427355578,
+      "solve_seconds": 3.054378423,
+      "true_residual_norm": 2.3271449093661788e-08
+     },
+     "factorization_seconds": 21.938981764,
+     "factor": {
+      "factor_nonzeros": 785729149,
+      "matrix_nonzeros": 21223653,
+      "backend": "strumpack",
+      "inertia": {
+       "accurate": false,
+       "excess_negative_modes": null,
+       "expected_negative_below_first_resonance": 103209,
+       "negative": null,
+       "positive": null,
+       "status": "BACKEND_INERTIA_SELF_CHECK_FAILED"
+      }
+     },
+     "factor_nonzeros_over_int32": 0.3658836471689323,
+     "matrix_nonzeros_over_int32": 0.009883033581954909,
+     "tree_cotree": {
+      "curl_representative_norm_fraction": 2.5070114957954197,
+      "refinement_steps": 2,
+      "split_true_relative_residual": 8.623547681452446e-11,
+      "curl_block_relative_residual": 6.556404946575019e-17,
+      "gauss_block_relative_residual": 3.7605725408892895e-16,
+      "componentwise_backward_error": {
+       "conductor_gauss_rows": 2.2842362542806694e-15,
+       "curl_rows": 4.340221625110735e-16,
+       "free_vertex_gauss_rows": 4.4317711630871355e-16
+      },
+      "rhs_charge_field_fraction": 2.003456187518087e-07,
+      "charged_free_vertex_rows": 0,
+      "charged_conductor_rows": 0
+     },
+     "values": {
+      "Z": {
+       "re": [
+        [
+         -0.0
+        ]
+       ],
+       "im": [
+        [
+         -0.0039210999435771296
+        ]
+       ]
+      },
+      "Psi": {
+       "re": [
+        1.1732168737564779e-06
+       ],
+       "im": [
+        0.0
+       ]
+      },
+      "U_e": [
+       3.717508129898535e-16
+      ],
+      "U_m": [
+       1.5601560996605235e-07
+      ]
+     }
+    },
+    {
+     "f_Hz": 10000.0,
+     "L_H": 6.240625855916702e-07,
+     "Psi_abs": 1.1732171512796461e-06,
+     "solver_setup_seconds": 25.511393091,
+     "port_solves_seconds": 2.945039712,
+     "frequency_total_seconds": 30.109911551,
+     "peak_rss_max_rank_bytes": 13215969280.0,
+     "peak_rss_sum_rank_bytes": 28581662720.0,
+     "solver": {
+      "accepted": true,
+      "gmres_iterations": 2,
+      "gmres_reported_converged": null,
+      "preconditioned_final_norm": null,
+      "preconditioned_initial_norm": null,
+      "relative_residual": 9.065717070724934e-11,
+      "rhs_norm": 2698.5934273555754,
+      "solve_seconds": 2.945039712,
+      "true_residual_norm": 2.4464684501323547e-07
+     },
+     "factorization_seconds": 21.470601437,
+     "factor": {
+      "factor_nonzeros": 785729149,
+      "matrix_nonzeros": 21223653,
+      "backend": "strumpack",
+      "inertia": {
+       "accurate": false,
+       "excess_negative_modes": null,
+       "expected_negative_below_first_resonance": 103209,
+       "negative": null,
+       "positive": null,
+       "status": "BACKEND_INERTIA_SELF_CHECK_FAILED"
+      }
+     },
+     "factor_nonzeros_over_int32": 0.3658836471689323,
+     "matrix_nonzeros_over_int32": 0.009883033581954909,
+     "tree_cotree": {
+      "curl_representative_norm_fraction": 2.507011530341206,
+      "refinement_steps": 2,
+      "split_true_relative_residual": 9.065717070722064e-11,
+      "curl_block_relative_residual": 6.570917112604715e-17,
+      "gauss_block_relative_residual": 8.289812515353865e-17,
+      "componentwise_backward_error": {
+       "conductor_gauss_rows": 2.412565271241034e-16,
+       "curl_rows": 4.160674668448702e-16,
+       "free_vertex_gauss_rows": 5.265041682054014e-16
+      },
+      "rhs_charge_field_fraction": 2.0131849013063893e-09,
+      "charged_free_vertex_rows": 0,
+      "charged_conductor_rows": 0
+     },
+     "values": {
+      "Z": {
+       "re": [
+        [
+         -0.0
+        ]
+       ],
+       "im": [
+        [
+         -0.03921100868550085
+        ]
+       ]
+      },
+      "Psi": {
+       "re": [
+        1.1732171512796461e-06
+       ],
+       "im": [
+        0.0
+       ]
+      },
+      "U_e": [
+       3.717509920626214e-14
+      ],
+      "U_m": [
+       1.5601568357306056e-07
+      ]
+     }
+    },
+    {
+     "f_Hz": 100000.0,
+     "L_H": 6.240773072863841e-07,
+     "Psi_abs": 1.1732449041506707e-06,
+     "solver_setup_seconds": 25.447758115,
+     "port_solves_seconds": 2.887538106,
+     "frequency_total_seconds": 29.980571737,
+     "peak_rss_max_rank_bytes": 14093844480.0,
+     "peak_rss_sum_rank_bytes": 29459537920.0,
+     "solver": {
+      "accepted": true,
+      "gmres_iterations": 2,
+      "gmres_reported_converged": null,
+      "preconditioned_final_norm": null,
+      "preconditioned_initial_norm": null,
+      "relative_residual": 8.958810410949816e-11,
+      "rhs_norm": 26985.934273555762,
+      "solve_seconds": 2.887538106,
+      "true_residual_norm": 2.4176186891913882e-06
+     },
+     "factorization_seconds": 21.387535763,
+     "factor": {
+      "factor_nonzeros": 785729149,
+      "matrix_nonzeros": 21223653,
+      "backend": "strumpack",
+      "inertia": {
+       "accurate": false,
+       "excess_negative_modes": null,
+       "expected_negative_below_first_resonance": 103209,
+       "negative": null,
+       "positive": null,
+       "status": "BACKEND_INERTIA_SELF_CHECK_FAILED"
+      }
+     },
+     "factor_nonzeros_over_int32": 0.3658836471689323,
+     "matrix_nonzeros_over_int32": 0.009883033581954909,
+     "tree_cotree": {
+      "curl_representative_norm_fraction": 2.507014984817862,
+      "refinement_steps": 2,
+      "split_true_relative_residual": 8.958810410947843e-11,
+      "curl_block_relative_residual": 6.339877655918796e-17,
+      "gauss_block_relative_residual": 1.3204169736589095e-16,
+      "componentwise_backward_error": {
+       "conductor_gauss_rows": 6.750424816619994e-16,
+       "curl_rows": 4.1053733910749e-16,
+       "free_vertex_gauss_rows": 5.351630277478646e-16
+      },
+      "rhs_charge_field_fraction": 2.0239426189488313e-11,
+      "charged_free_vertex_rows": 0,
+      "charged_conductor_rows": 0
+     },
+     "values": {
+      "Z": {
+       "re": [
+        [
+         -0.0
+        ]
+       ],
+       "im": [
+        [
+         -0.39211933676860083
+        ]
+       ]
+      },
+      "Psi": {
+       "re": [
+        1.1732449041506707e-06
+       ],
+       "im": [
+        0.0
+       ]
+      },
+      "U_e": [
+       3.7176889991499006e-12
+      ],
+      "U_m": [
+       1.5602304451084345e-07
+      ]
+     }
+    }
+   ]
+  },
+  "ams": {
+   "config": "ams",
+   "env": {
+    "AXF_FW_SOLVER": "ams",
+    "AXF_FW_GAUGE": "none",
+    "AXF_FW_TC_CHARGE_PROJECTION": "0",
+    "AXF_FW_GAUSS_GUARD": "correct",
+    "produced_by": {
+     "AXF_EXE": "build14/axf",
+     "ranks": 8,
+     "seconds": 241.46098470687866
+    }
+   },
+   "dofs": 1387041,
+   "mesh": {
+    "dofs": 1387041,
+    "elements": 1178849,
+    "mpi_ranks": 8,
+    "order": 1
+   },
+   "mesh_sha256": "75581d70e3750994916ea50417cd8b573b97ea9f63f4e46ebdebceb51a84dc35",
+   "solver_path": "AMS-GMRES",
+   "tree_cotree_topology": null,
+   "gauss_law_guard": {
+    "mode": "correct",
+    "setup": {
+     "essential_edge_leak_relative": 0.0,
+     "floating_set_nodes": [
+      30578.0
+     ],
+     "grounded_set_nodes": 64795.0,
+     "h1_order": 1,
+     "h1_true_dofs": 198581,
+     "label_exchange_passes": 7,
+     "pec_sets": 2,
+     "schur_eigenvalue_ratio": 1.0,
+     "setup_pcg_iterations_max": 22,
+     "setup_pcg_relative_residual_max": 6.17943196696595e-14,
+     "setup_seconds": 0.536362409
+    }
+   },
+   "energy_operator_setup_seconds": 2.979494487,
+   "fullwave_seconds": 101.909505294,
+   "warnings": [
+    "3D full wave at f = 1000 Hz, port 0: the Gauss-law guard removed a gradient-field error of 0.0073566 of the field (energy norm) from the solver's field; the curl part's error is not estimated"
+   ],
+   "rows": [
+    {
+     "f_Hz": 1000.0,
+     "L_H": 6.240624383775746e-07,
+     "Psi_abs": 1.1732168737563578e-06,
+     "solver_setup_seconds": 6.193903674,
+     "port_solves_seconds": 24.85446039,
+     "frequency_total_seconds": 34.204225104,
+     "peak_rss_max_rank_bytes": 2197745664.0,
+     "peak_rss_sum_rank_bytes": 17581010944.0,
+     "solver": {
+      "accepted": true,
+      "gauss_law_guard": {
+       "applied": true,
+       "charged_rows": 0.0,
+       "field_fraction": 0.007356596261713964,
+       "field_fraction_of_solved": 0.007356397202106559,
+       "floating_conductors": 1,
+       "gauss_residual_after": 3.288128519098139e-16,
+       "gauss_residual_before": 0.002176004445291381,
+       "gauss_residual_reduction": 1.5110792396011127e-13,
+       "loads": 0,
+       "pcg_iterations_max": 20,
+       "pcg_relative_residual_max": 1.204805523744455e-13,
+       "rounding_charge_rows_zeroed": 386.0,
+       "seconds": 0.098175623
+      },
+      "gmres_iterations": 151,
+      "gmres_reported_converged": true,
+      "preconditioned_final_norm": 5.105639263305572e-14,
+      "preconditioned_initial_norm": 0.0006783516988106712,
+      "relative_residual": 1.2867640304607354e-09,
+      "rhs_norm": 269.8593427355578,
+      "solve_seconds": 24.85446039,
+      "true_residual_norm": 3.472452955158913e-07
+     },
+     "gauss_law_guard": {
+      "applied": true,
+      "field_fraction": 0.007356596261713964,
+      "gauss_residual_reduction": 1.5110792396011127e-13,
+      "pcg_relative_residual_max": 1.204805523744455e-13,
+      "seconds": 0.098175623
+     },
+     "values": {
+      "Z": {
+       "re": [
+        [
+         -0.0
+        ]
+       ],
+       "im": [
+        [
+         -0.003921099943576642
+        ]
+       ]
+      },
+      "Psi": {
+       "re": [
+        1.1732168737563578e-06
+       ],
+       "im": [
+        0.0
+       ]
+      },
+      "U_e": [
+       3.7175081298982127e-16
+      ],
+      "U_m": [
+       1.5601560996618245e-07
+      ]
+     }
+    },
+    {
+     "f_Hz": 10000.0,
+     "L_H": 6.240625855909514e-07,
+     "Psi_abs": 1.1732171512785672e-06,
+     "solver_setup_seconds": 6.190370141,
+     "port_solves_seconds": 22.823883863,
+     "frequency_total_seconds": 30.848516833,
+     "peak_rss_max_rank_bytes": 2197745664.0,
+     "peak_rss_sum_rank_bytes": 17581010944.0,
+     "solver": {
+      "accepted": true,
+      "gauss_law_guard": {
+       "applied": true,
+       "charged_rows": 0.0,
+       "field_fraction": 6.66836120145713e-05,
+       "field_fraction_of_solved": 6.668361186631038e-05,
+       "floating_conductors": 1,
+       "gauss_residual_after": 4.211978954042836e-17,
+       "gauss_residual_before": 2.0343807855715407e-05,
+       "gauss_residual_reduction": 2.0703985908618342e-12,
+       "loads": 0,
+       "pcg_iterations_max": 21,
+       "pcg_relative_residual_max": 3.770124137331964e-14,
+       "rounding_charge_rows_zeroed": 386.0,
+       "seconds": 0.105827391
+      },
+      "gmres_iterations": 139,
+      "gmres_reported_converged": true,
+      "preconditioned_final_norm": 4.5193579410853063e-13,
+      "preconditioned_initial_norm": 0.007012617105070233,
+      "relative_residual": 5.521826632518748e-09,
+      "rhs_norm": 2698.5934273555754,
+      "solve_seconds": 22.823883863,
+      "true_residual_norm": 1.4901165057512063e-05
+     },
+     "gauss_law_guard": {
+      "applied": true,
+      "field_fraction": 6.66836120145713e-05,
+      "gauss_residual_reduction": 2.0703985908618342e-12,
+      "pcg_relative_residual_max": 3.770124137331964e-14,
+      "seconds": 0.105827391
+     },
+     "values": {
+      "Z": {
+       "re": [
+        [
+         -0.0
+        ]
+       ],
+       "im": [
+        [
+         -0.03921100868545569
+        ]
+       ]
+      },
+      "Psi": {
+       "re": [
+        1.1732171512785672e-06
+       ],
+       "im": [
+        0.0
+       ]
+      },
+      "U_e": [
+       3.7175099206187646e-14
+      ],
+      "U_m": [
+       1.5601568357313299e-07
+      ]
+     }
+    },
+    {
+     "f_Hz": 100000.0,
+     "L_H": 6.240773072850785e-07,
+     "Psi_abs": 1.1732449041482586e-06,
+     "solver_setup_seconds": 6.179286521,
+     "port_solves_seconds": 23.729695404,
+     "frequency_total_seconds": 31.738297936,
+     "peak_rss_max_rank_bytes": 2197745664.0,
+     "peak_rss_sum_rank_bytes": 17581010944.0,
+     "solver": {
+      "accepted": true,
+      "gauss_law_guard": {
+       "applied": true,
+       "charged_rows": 0.0,
+       "field_fraction": 7.446548732322476e-07,
+       "field_fraction_of_solved": 7.446548732320442e-07,
+       "floating_conductors": 1,
+       "gauss_residual_after": 5.3428599370097925e-17,
+       "gauss_residual_before": 2.2797531156344898e-07,
+       "gauss_residual_reduction": 2.343613391556749e-10,
+       "loads": 0,
+       "pcg_iterations_max": 20,
+       "pcg_relative_residual_max": 9.444650608082679e-14,
+       "rounding_charge_rows_zeroed": 391.0,
+       "seconds": 0.100170577
+      },
+      "gmres_iterations": 144,
+      "gmres_reported_converged": true,
+      "preconditioned_final_norm": 3.3687828725111878e-12,
+      "preconditioned_initial_norm": 0.05716009269295777,
+      "relative_residual": 3.886163148300632e-09,
+      "rhs_norm": 26985.934273555762,
+      "solve_seconds": 23.729695404,
+      "true_residual_norm": 0.0001048717432963554
+     },
+     "gauss_law_guard": {
+      "applied": true,
+      "field_fraction": 7.446548732322476e-07,
+      "gauss_residual_reduction": 2.343613391556749e-10,
+      "pcg_relative_residual_max": 9.444650608082679e-14,
+      "seconds": 0.100170577
+     },
+     "values": {
+      "Z": {
+       "re": [
+        [
+         -0.0
+        ]
+       ],
+       "im": [
+        [
+         -0.3921193367677805
+        ]
+       ]
+      },
+      "Psi": {
+       "re": [
+        1.1732449041482586e-06
+       ],
+       "im": [
+        0.0
+       ]
+      },
+      "U_e": [
+       3.717688999134641e-12
+      ],
+      "U_m": [
+       1.5602304451056943e-07
+      ]
+     }
+    }
+   ]
+  }
+ },
+ "int32_headroom": {
+  "global_edges": 1387041,
+  "free_edges": 871255,
+  "gathered_K_nonzeros_over_int32": 0.010553734847602312,
+  "gathered_M_nonzeros_over_int32": 0.010553744626489349
+ },
+ "ams_vs_gauged": {
+  "1000.0": {
+   "Z": 1.2431646827772175e-13,
+   "Psi": 1.0233991937812778e-13,
+   "U_e": [
+    -8.670841822322473e-14
+   ],
+   "U_m": [
+    8.337774914934926e-13
+   ]
+  },
+  "10000.0": {
+   "Z": 1.1516745689668153e-12,
+   "Psi": 9.196151073894404e-13,
+   "U_e": [
+    -2.003841537145945e-12
+   ],
+   "U_m": [
+    4.642952688982405e-13
+   ]
+  },
+  "100000.0": {
+   "Z": 2.092076865313156e-12,
+   "Psi": 2.0559544448135627e-12,
+   "U_e": [
+    -4.104494522039204e-12
+   ],
+   "U_m": [
+    -1.7562618026545351e-12
+   ]
+  }
+ }
+}

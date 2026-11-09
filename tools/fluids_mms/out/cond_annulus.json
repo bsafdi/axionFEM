@@ -1,0 +1,155 @@
+{
+ "name": "cond_annulus",
+ "kind": "conduction",
+ "geometry": "axisymmetric",
+ "coords": [
+  "r",
+  "z"
+ ],
+ "description": "exact radial conduction with kappa = 1 + r^2 in a hollow cylinder (no advection, no source)",
+ "box": [
+  "1/2",
+  "1",
+  "0",
+  "1"
+ ],
+ "params": {},
+ "a": {
+  "value": 1.0,
+  "sympy": "1"
+ },
+ "T": {
+  "sympy": "z/4 + log(r) - log(r**2 + 1)/2",
+  "c": "(1.0/4.0)*z + log(r) - 1.0/2.0*log(pow(r, 2) + 1)",
+  "numpy": "(1/4)*z + np.log(r) - 1/2*np.log(r**2 + 1)"
+ },
+ "grad_T": [
+  {
+   "sympy": "-r/(r**2 + 1) + 1/r",
+   "c": "-r/(pow(r, 2) + 1) + 1.0/r",
+   "numpy": "-r/(r**2 + 1) + r**(-1.0)"
+  },
+  {
+   "sympy": "1/4",
+   "c": "1.0/4.0",
+   "numpy": "1/4"
+  }
+ ],
+ "b": [
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "kappa": {
+  "sympy": "r**2 + 1",
+  "c": "pow(r, 2) + 1",
+  "numpy": "r**2 + 1"
+ },
+ "grad_kappa": [
+  {
+   "sympy": "2*r",
+   "c": "2*r",
+   "numpy": "2*r"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "s": {
+  "convective": {
+   "sympy": "-(2*r**2*(-r/(r**2 + 1) + 1/r) + r*(r**2 + 1)*(2*r**2/(r**2 + 1)**2 - 1/(r**2 + 1) - 1/r**2) + (r**2 + 1)*(-r/(r**2 + 1) + 1/r))/r",
+   "c": "-(2*pow(r, 2)*(-r/(pow(r, 2) + 1) + 1.0/r) + r*(pow(r, 2) + 1)*(2*pow(r, 2)/pow(pow(r, 2) + 1, 2) - 1/(pow(r, 2) + 1) - 1/pow(r, 2)) + (pow(r, 2) + 1)*(-r/(pow(r, 2) + 1) + 1.0/r))/r",
+   "numpy": "-(2*r**2*(-r/(r**2 + 1) + r**(-1.0)) + r*(r**2 + 1)*(2*r**2/(r**2 + 1)**2 - 1/(r**2 + 1) - 1/r**2) + (r**2 + 1)*(-r/(r**2 + 1) + r**(-1.0)))/r"
+  },
+  "conservative": {
+   "sympy": "-(2*r**2*(-r/(r**2 + 1) + 1/r) + r*(r**2 + 1)*(2*r**2/(r**2 + 1)**2 - 1/(r**2 + 1) - 1/r**2) + (r**2 + 1)*(-r/(r**2 + 1) + 1/r))/r",
+   "c": "-(2*pow(r, 2)*(-r/(pow(r, 2) + 1) + 1.0/r) + r*(pow(r, 2) + 1)*(2*pow(r, 2)/pow(pow(r, 2) + 1, 2) - 1/(pow(r, 2) + 1) - 1/pow(r, 2)) + (pow(r, 2) + 1)*(-r/(pow(r, 2) + 1) + 1.0/r))/r",
+   "numpy": "-(2*r**2*(-r/(r**2 + 1) + r**(-1.0)) + r*(r**2 + 1)*(2*r**2/(r**2 + 1)**2 - 1/(r**2 + 1) - 1/r**2) + (r**2 + 1)*(-r/(r**2 + 1) + r**(-1.0)))/r"
+  }
+ },
+ "s_no_advection": {
+  "sympy": "-(2*r**2*(-r/(r**2 + 1) + 1/r) + r*(r**2 + 1)*(2*r**2/(r**2 + 1)**2 - 1/(r**2 + 1) - 1/r**2) + (r**2 + 1)*(-r/(r**2 + 1) + 1/r))/r",
+  "c": "-(2*pow(r, 2)*(-r/(pow(r, 2) + 1) + 1.0/r) + r*(pow(r, 2) + 1)*(2*pow(r, 2)/pow(pow(r, 2) + 1, 2) - 1/(pow(r, 2) + 1) - 1/pow(r, 2)) + (pow(r, 2) + 1)*(-r/(pow(r, 2) + 1) + 1.0/r))/r",
+  "numpy": "-(2*r**2*(-r/(r**2 + 1) + r**(-1.0)) + r*(r**2 + 1)*(2*r**2/(r**2 + 1)**2 - 1/(r**2 + 1) - 1/r**2) + (r**2 + 1)*(-r/(r**2 + 1) + r**(-1.0)))/r"
+ },
+ "boundaries": [
+  {
+   "name": "r0",
+   "type": "dirichlet"
+  },
+  {
+   "name": "r1",
+   "type": "dirichlet"
+  },
+  {
+   "name": "z0",
+   "type": "neumann",
+   "q_out": {
+    "sympy": "r**2/4 + 1/4",
+    "c": "(1.0/4.0)*pow(r, 2) + 1.0/4.0",
+    "numpy": "(1/4)*r**2 + 1/4"
+   },
+   "j_out": {
+    "sympy": "r**2/4 + 1/4",
+    "c": "(1.0/4.0)*pow(r, 2) + 1.0/4.0",
+    "numpy": "(1/4)*r**2 + 1/4"
+   },
+   "normal": [
+    0,
+    -1
+   ]
+  },
+  {
+   "name": "z1",
+   "type": "neumann",
+   "q_out": {
+    "sympy": "-r**2/4 - 1/4",
+    "c": "-1.0/4.0*pow(r, 2) - 1.0/4.0",
+    "numpy": "-1/4*r**2 - 1/4"
+   },
+   "j_out": {
+    "sympy": "-r**2/4 - 1/4",
+    "c": "-1.0/4.0*pow(r, 2) - 1.0/4.0",
+    "numpy": "-1/4*r**2 - 1/4"
+   },
+   "normal": [
+    0,
+    1
+   ]
+  }
+ ],
+ "selfcheck": {
+  "status": "pass",
+  "route_AB_convective": 5.153672566227259e-61,
+  "route_AB_conservative": 5.153672566227259e-61,
+  "cartesian_route": 8.041525986822263e-61,
+  "fd_residual_rel": 1.7200726811237164e-10,
+  "fd_teeth_kappa_const": 0.6383056865704765,
+  "bn_r0": [
+   0.0,
+   0.0
+  ],
+  "bn_r1": [
+   0.0,
+   0.0
+  ],
+  "bn_z0": [
+   0.0,
+   0.0
+  ],
+  "bn_z1": [
+   0.0,
+   0.0
+  ]
+ },
+ "generator": "tools/fluids_mms/generate_f4a.py (f4a_fields.py)"
+}

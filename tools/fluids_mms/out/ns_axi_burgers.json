@@ -1,0 +1,286 @@
+{
+ "name": "ns_axi_burgers",
+ "description": "Burgers vortex, alpha = 1, nu = mu = 1/20, rho = 1, Gamma = pi, on (r, z) in [0,1]^2; Dirichlet data from the exact solution on r = 1, z = 0, z = 1; axis conditions on r = 0",
+ "geometry": "axisymmetric",
+ "coords": [
+  "r",
+  "z"
+ ],
+ "domain": {
+  "kind": "rectangle",
+  "c0": 0,
+  "c1": 1,
+  "d0": 0,
+  "d1": 1
+ },
+ "pressure": "mean_zero",
+ "rho": {
+  "sympy": "1",
+  "value": 1.0
+ },
+ "conventions": {
+  "planar": "u = (u_x, u_y); grad_u[i][j] = d u_i / d x_j; sigma_sym = 2 mu eps - p I, sigma_lap = mu G - p I; f = rho (u.grad)u - div sigma_form; traction g = sigma_form n (outward n)",
+  "axisymmetric": "coords (r, z); u = (u_r, u_theta, u_z); grad_u[i][j] = d u_i / d (r, z)_j (component derivatives, NOT the cylindrical gradient tensor); f in the (e_r, e_theta, e_z) frame, f = rho G u - div sigma_form with G and div as in tools/fluids_mms/f2a_fields.py"
+ },
+ "u": [
+  {
+   "sympy": "-r/2",
+   "c": "-1.0/2.0*r",
+   "numpy": "-1/2*r"
+  },
+  {
+   "sympy": "(1 - exp(-5*r**2))/(2*r)",
+   "c": "(1.0/2.0)*(1 - exp(-5*pow(r, 2)))/r",
+   "numpy": "(1/2)*(1 - np.exp(-5*r**2))/r"
+  },
+  {
+   "sympy": "z",
+   "c": "z",
+   "numpy": "z"
+  }
+ ],
+ "p": {
+  "sympy": "-r**2/8 - z**2/2 - 5*Ei(-10*r**2)/4 + 5*Ei(-5*r**2)/4 + 5*log(2)/4 - (1 - exp(-5*r**2))**2/(8*r**2)",
+  "c": null,
+  "numpy": "-1/8*r**2 - 1/2*z**2 - 5/4*sc.expi(-10*r**2) + (5/4)*sc.expi(-5*r**2) + (5/4)*np.log(2) - 1/8*(1 - np.exp(-5*r**2))**2/r**2"
+ },
+ "mu": {
+  "sympy": "1/20",
+  "c": "1.0/20.0",
+  "numpy": "1/20"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "-1/2",
+    "c": "-1.0/2.0",
+    "numpy": "-1/2"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "5*exp(-5*r**2) - (1 - exp(-5*r**2))/(2*r**2)",
+    "c": "5*exp(-5*pow(r, 2)) - 1.0/2.0*(1 - exp(-5*pow(r, 2)))/pow(r, 2)",
+    "numpy": "5*np.exp(-5*r**2) - 1/2*(1 - np.exp(-5*r**2))/r**2"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "1",
+    "c": "1",
+    "numpy": "1"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "f_without_convection": [
+    {
+     "sympy": "-r/4 - 5*(1 - exp(-5*r**2))*exp(-5*r**2)/(2*r) + 5*exp(-5*r**2)/(2*r) - 5*exp(-10*r**2)/(2*r) + (1 - exp(-5*r**2))**2/(4*r**3)",
+     "c": "-1.0/4.0*r - 5.0/2.0*(1 - exp(-5*pow(r, 2)))*exp(-5*pow(r, 2))/r + (5.0/2.0)*exp(-5*pow(r, 2))/r - 5.0/2.0*exp(-10*pow(r, 2))/r + (1.0/4.0)*pow(1 - exp(-5*pow(r, 2)), 2)/pow(r, 3)",
+     "numpy": "-1/4*r - 5/2*(1 - np.exp(-5*r**2))*np.exp(-5*r**2)/r + (5/2)*np.exp(-5*r**2)/r - 5/2*np.exp(-10*r**2)/r + (1/4)*(1 - np.exp(-5*r**2))**2/r**3"
+    },
+    {
+     "sympy": "5*r*exp(-5*r**2)/2 - (exp(-5*r**2)/4 - (1 - exp(-5*r**2))/(20*r**2))/r + exp(-5*r**2)/(4*r) - (1 - exp(-5*r**2))/(20*r**3)",
+     "c": "(5.0/2.0)*r*exp(-5*pow(r, 2)) - ((1.0/4.0)*exp(-5*pow(r, 2)) - 1.0/20.0*(1 - exp(-5*pow(r, 2)))/pow(r, 2))/r + (1.0/4.0)*exp(-5*pow(r, 2))/r - 1.0/20.0*(1 - exp(-5*pow(r, 2)))/pow(r, 3)",
+     "numpy": "(5/2)*r*np.exp(-5*r**2) - ((1/4)*np.exp(-5*r**2) - 1/20*(1 - np.exp(-5*r**2))/r**2)/r + (1/4)*np.exp(-5*r**2)/r - 1/20*(1 - np.exp(-5*r**2))/r**3"
+    },
+    {
+     "sympy": "-z",
+     "c": "-z",
+     "numpy": "-z"
+    }
+   ],
+   "f_without_centrifugal": [
+    {
+     "sympy": "-5*(1 - exp(-5*r**2))*exp(-5*r**2)/(2*r) + 5*exp(-5*r**2)/(2*r) - 5*exp(-10*r**2)/(2*r) + (1 - exp(-5*r**2))**2/(4*r**3)",
+     "c": "-5.0/2.0*(1 - exp(-5*pow(r, 2)))*exp(-5*pow(r, 2))/r + (5.0/2.0)*exp(-5*pow(r, 2))/r - 5.0/2.0*exp(-10*pow(r, 2))/r + (1.0/4.0)*pow(1 - exp(-5*pow(r, 2)), 2)/pow(r, 3)",
+     "numpy": "-5/2*(1 - np.exp(-5*r**2))*np.exp(-5*r**2)/r + (5/2)*np.exp(-5*r**2)/r - 5/2*np.exp(-10*r**2)/r + (1/4)*(1 - np.exp(-5*r**2))**2/r**3"
+    },
+    {
+     "sympy": "-r*(5*exp(-5*r**2) - (1 - exp(-5*r**2))/(2*r**2))/2 + 5*r*exp(-5*r**2)/2 - (1 - exp(-5*r**2))/(4*r) - (exp(-5*r**2)/4 - (1 - exp(-5*r**2))/(20*r**2))/r + exp(-5*r**2)/(4*r) - (1 - exp(-5*r**2))/(20*r**3)",
+     "c": "-1.0/2.0*r*(5*exp(-5*pow(r, 2)) - 1.0/2.0*(1 - exp(-5*pow(r, 2)))/pow(r, 2)) + (5.0/2.0)*r*exp(-5*pow(r, 2)) - 1.0/4.0*(1 - exp(-5*pow(r, 2)))/r - ((1.0/4.0)*exp(-5*pow(r, 2)) - 1.0/20.0*(1 - exp(-5*pow(r, 2)))/pow(r, 2))/r + (1.0/4.0)*exp(-5*pow(r, 2))/r - 1.0/20.0*(1 - exp(-5*pow(r, 2)))/pow(r, 3)",
+     "numpy": "-1/2*r*(5*np.exp(-5*r**2) - 1/2*(1 - np.exp(-5*r**2))/r**2) + (5/2)*r*np.exp(-5*r**2) - 1/4*(1 - np.exp(-5*r**2))/r - ((1/4)*np.exp(-5*r**2) - 1/20*(1 - np.exp(-5*r**2))/r**2)/r + (1/4)*np.exp(-5*r**2)/r - 1/20*(1 - np.exp(-5*r**2))/r**3"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "f_without_coriolis": [
+    {
+     "sympy": "-5*(1 - exp(-5*r**2))*exp(-5*r**2)/(2*r) + 5*exp(-5*r**2)/(2*r) - 5*exp(-10*r**2)/(2*r)",
+     "c": "-5.0/2.0*(1 - exp(-5*pow(r, 2)))*exp(-5*pow(r, 2))/r + (5.0/2.0)*exp(-5*pow(r, 2))/r - 5.0/2.0*exp(-10*pow(r, 2))/r",
+     "numpy": "-5/2*(1 - np.exp(-5*r**2))*np.exp(-5*r**2)/r + (5/2)*np.exp(-5*r**2)/r - 5/2*np.exp(-10*r**2)/r"
+    },
+    {
+     "sympy": "-r*(5*exp(-5*r**2) - (1 - exp(-5*r**2))/(2*r**2))/2 + 5*r*exp(-5*r**2)/2 - (-1/4 + exp(-5*r**2)/4)/r - (1 - exp(-5*r**2))/(4*r) - (exp(-5*r**2)/4 - (1 - exp(-5*r**2))/(20*r**2))/r + exp(-5*r**2)/(4*r) - (1 - exp(-5*r**2))/(20*r**3)",
+     "c": "-1.0/2.0*r*(5*exp(-5*pow(r, 2)) - 1.0/2.0*(1 - exp(-5*pow(r, 2)))/pow(r, 2)) + (5.0/2.0)*r*exp(-5*pow(r, 2)) - (-1.0/4.0 + (1.0/4.0)*exp(-5*pow(r, 2)))/r - 1.0/4.0*(1 - exp(-5*pow(r, 2)))/r - ((1.0/4.0)*exp(-5*pow(r, 2)) - 1.0/20.0*(1 - exp(-5*pow(r, 2)))/pow(r, 2))/r + (1.0/4.0)*exp(-5*pow(r, 2))/r - 1.0/20.0*(1 - exp(-5*pow(r, 2)))/pow(r, 3)",
+     "numpy": "-1/2*r*(5*np.exp(-5*r**2) - 1/2*(1 - np.exp(-5*r**2))/r**2) + (5/2)*r*np.exp(-5*r**2) - (-1/4 + (1/4)*np.exp(-5*r**2))/r - 1/4*(1 - np.exp(-5*r**2))/r - ((1/4)*np.exp(-5*r**2) - 1/20*(1 - np.exp(-5*r**2))/r**2)/r + (1/4)*np.exp(-5*r**2)/r - 1/20*(1 - np.exp(-5*r**2))/r**3"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "f_without_convection": [
+    {
+     "sympy": "-r/4 - 5*(1 - exp(-5*r**2))*exp(-5*r**2)/(2*r) + 5*exp(-5*r**2)/(2*r) - 5*exp(-10*r**2)/(2*r) + (1 - exp(-5*r**2))**2/(4*r**3)",
+     "c": "-1.0/4.0*r - 5.0/2.0*(1 - exp(-5*pow(r, 2)))*exp(-5*pow(r, 2))/r + (5.0/2.0)*exp(-5*pow(r, 2))/r - 5.0/2.0*exp(-10*pow(r, 2))/r + (1.0/4.0)*pow(1 - exp(-5*pow(r, 2)), 2)/pow(r, 3)",
+     "numpy": "-1/4*r - 5/2*(1 - np.exp(-5*r**2))*np.exp(-5*r**2)/r + (5/2)*np.exp(-5*r**2)/r - 5/2*np.exp(-10*r**2)/r + (1/4)*(1 - np.exp(-5*r**2))**2/r**3"
+    },
+    {
+     "sympy": "5*r*exp(-5*r**2)/2 - (exp(-5*r**2)/2 - (1 - exp(-5*r**2))/(10*r**2))/r + exp(-5*r**2)/(2*r) - (1 - exp(-5*r**2))/(10*r**3)",
+     "c": "(5.0/2.0)*r*exp(-5*pow(r, 2)) - ((1.0/2.0)*exp(-5*pow(r, 2)) - 1.0/10.0*(1 - exp(-5*pow(r, 2)))/pow(r, 2))/r + (1.0/2.0)*exp(-5*pow(r, 2))/r - 1.0/10.0*(1 - exp(-5*pow(r, 2)))/pow(r, 3)",
+     "numpy": "(5/2)*r*np.exp(-5*r**2) - ((1/2)*np.exp(-5*r**2) - 1/10*(1 - np.exp(-5*r**2))/r**2)/r + (1/2)*np.exp(-5*r**2)/r - 1/10*(1 - np.exp(-5*r**2))/r**3"
+    },
+    {
+     "sympy": "-z",
+     "c": "-z",
+     "numpy": "-z"
+    }
+   ],
+   "f_without_centrifugal": [
+    {
+     "sympy": "-5*(1 - exp(-5*r**2))*exp(-5*r**2)/(2*r) + 5*exp(-5*r**2)/(2*r) - 5*exp(-10*r**2)/(2*r) + (1 - exp(-5*r**2))**2/(4*r**3)",
+     "c": "-5.0/2.0*(1 - exp(-5*pow(r, 2)))*exp(-5*pow(r, 2))/r + (5.0/2.0)*exp(-5*pow(r, 2))/r - 5.0/2.0*exp(-10*pow(r, 2))/r + (1.0/4.0)*pow(1 - exp(-5*pow(r, 2)), 2)/pow(r, 3)",
+     "numpy": "-5/2*(1 - np.exp(-5*r**2))*np.exp(-5*r**2)/r + (5/2)*np.exp(-5*r**2)/r - 5/2*np.exp(-10*r**2)/r + (1/4)*(1 - np.exp(-5*r**2))**2/r**3"
+    },
+    {
+     "sympy": "-r*(5*exp(-5*r**2) - (1 - exp(-5*r**2))/(2*r**2))/2 + 5*r*exp(-5*r**2)/2 - (1 - exp(-5*r**2))/(4*r) - (exp(-5*r**2)/2 - (1 - exp(-5*r**2))/(10*r**2))/r + exp(-5*r**2)/(2*r) - (1 - exp(-5*r**2))/(10*r**3)",
+     "c": "-1.0/2.0*r*(5*exp(-5*pow(r, 2)) - 1.0/2.0*(1 - exp(-5*pow(r, 2)))/pow(r, 2)) + (5.0/2.0)*r*exp(-5*pow(r, 2)) - 1.0/4.0*(1 - exp(-5*pow(r, 2)))/r - ((1.0/2.0)*exp(-5*pow(r, 2)) - 1.0/10.0*(1 - exp(-5*pow(r, 2)))/pow(r, 2))/r + (1.0/2.0)*exp(-5*pow(r, 2))/r - 1.0/10.0*(1 - exp(-5*pow(r, 2)))/pow(r, 3)",
+     "numpy": "-1/2*r*(5*np.exp(-5*r**2) - 1/2*(1 - np.exp(-5*r**2))/r**2) + (5/2)*r*np.exp(-5*r**2) - 1/4*(1 - np.exp(-5*r**2))/r - ((1/2)*np.exp(-5*r**2) - 1/10*(1 - np.exp(-5*r**2))/r**2)/r + (1/2)*np.exp(-5*r**2)/r - 1/10*(1 - np.exp(-5*r**2))/r**3"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "f_without_coriolis": [
+    {
+     "sympy": "-5*(1 - exp(-5*r**2))*exp(-5*r**2)/(2*r) + 5*exp(-5*r**2)/(2*r) - 5*exp(-10*r**2)/(2*r)",
+     "c": "-5.0/2.0*(1 - exp(-5*pow(r, 2)))*exp(-5*pow(r, 2))/r + (5.0/2.0)*exp(-5*pow(r, 2))/r - 5.0/2.0*exp(-10*pow(r, 2))/r",
+     "numpy": "-5/2*(1 - np.exp(-5*r**2))*np.exp(-5*r**2)/r + (5/2)*np.exp(-5*r**2)/r - 5/2*np.exp(-10*r**2)/r"
+    },
+    {
+     "sympy": "-r*(5*exp(-5*r**2) - (1 - exp(-5*r**2))/(2*r**2))/2 + 5*r*exp(-5*r**2)/2 - (-1/4 + exp(-5*r**2)/4)/r - (1 - exp(-5*r**2))/(4*r) - (exp(-5*r**2)/2 - (1 - exp(-5*r**2))/(10*r**2))/r + exp(-5*r**2)/(2*r) - (1 - exp(-5*r**2))/(10*r**3)",
+     "c": "-1.0/2.0*r*(5*exp(-5*pow(r, 2)) - 1.0/2.0*(1 - exp(-5*pow(r, 2)))/pow(r, 2)) + (5.0/2.0)*r*exp(-5*pow(r, 2)) - (-1.0/4.0 + (1.0/4.0)*exp(-5*pow(r, 2)))/r - 1.0/4.0*(1 - exp(-5*pow(r, 2)))/r - ((1.0/2.0)*exp(-5*pow(r, 2)) - 1.0/10.0*(1 - exp(-5*pow(r, 2)))/pow(r, 2))/r + (1.0/2.0)*exp(-5*pow(r, 2))/r - 1.0/10.0*(1 - exp(-5*pow(r, 2)))/pow(r, 3)",
+     "numpy": "-1/2*r*(5*np.exp(-5*r**2) - 1/2*(1 - np.exp(-5*r**2))/r**2) + (5/2)*r*np.exp(-5*r**2) - (-1/4 + (1/4)*np.exp(-5*r**2))/r - 1/4*(1 - np.exp(-5*r**2))/r - ((1/2)*np.exp(-5*r**2) - 1/10*(1 - np.exp(-5*r**2))/r**2)/r + (1/2)*np.exp(-5*r**2)/r - 1/10*(1 - np.exp(-5*r**2))/r**3"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "axis",
+   "bc": "axis"
+  },
+  {
+   "name": "r1",
+   "bc": "dirichlet"
+  },
+  {
+   "name": "z0",
+   "bc": "dirichlet"
+  },
+  {
+   "name": "z1",
+   "bc": "dirichlet"
+  }
+ ],
+ "exact_solution": true,
+ "exact_ns": true,
+ "extra": {
+  "ptheta": {
+   "sympy": "-5*Ei(-10*r**2)/4 + 5*Ei(-5*r**2)/4 + 5*log(2)/4 - (1 - exp(-5*r**2))**2/(8*r**2)",
+   "c": null,
+   "numpy": "-5/4*sc.expi(-10*r**2) + (5/4)*sc.expi(-5*r**2) + (5/4)*np.log(2) - 1/8*(1 - np.exp(-5*r**2))**2/r**2"
+  }
+ },
+ "constants": {
+  "measure": 1.0,
+  "volume_weighted": 0.5,
+  "p_mean_weighted": 0.32554109364022055,
+  "p_mean_unweighted": 0.20266706181076058,
+  "u_L2_weighted": 0.6450903196765013,
+  "u_max_sampled": 1.2553776053239998,
+  "p_minus_mean_max_abs_sampled": 0.8245385936480357,
+  "p_max_abs_sampled": 0.6166849931615049,
+  "mu_min_sampled": 0.05,
+  "mu_max_sampled": 0.05,
+  "rho": 1.0,
+  "Re_estimate": 25.107552106479996,
+  "f_max_sampled": 2.842170943040401e-14,
+  "convective_term_max_sampled": 1.593044303021672
+ },
+ "selfcheck": {
+  "status": "pass",
+  "route_ab_lap_max_abs": 2.8028617602312845e-60,
+  "route_ab_sym_max_abs": 2.8028617602312845e-60,
+  "fd_residual_lap": 4.791567795463462e-11,
+  "fd_residual_sym": 6.678114083147566e-11,
+  "meridional_curl_convective_max": 0.0,
+  "theta_convective_max": 0.47917722322919454,
+  "dz_centrifugal_max": 0.0,
+  "coriolis_max": 0.3567476015699049
+ }
+}

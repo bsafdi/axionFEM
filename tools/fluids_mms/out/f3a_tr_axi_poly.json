@@ -1,0 +1,288 @@
+{
+ "T": 1.0,
+ "boundaries": [
+  {
+   "kind": "axis",
+   "name": "axis",
+   "normal": [
+    -1,
+    0
+   ],
+   "where": "r = 0"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "r1",
+   "normal": [
+    1,
+    0
+   ],
+   "where": "r = 1"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "z0",
+   "normal": [
+    0,
+    -1
+   ],
+   "where": "z = 0"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "z1",
+   "normal": [
+    0,
+    1
+   ],
+   "where": "z = 1"
+  }
+ ],
+ "box": [
+  0.0,
+  1.0,
+  0.0,
+  1.0
+ ],
+ "constants": {
+  "T": "1",
+  "mu": "1/20",
+  "rho": "5/4"
+ },
+ "coords": [
+  "r",
+  "z",
+  "t"
+ ],
+ "description": "axisymmetric space-exact temporal MMS with swirl (u in P2, p in P1), rho = 5/4, mu = 1/20",
+ "exact_ns": false,
+ "extra": {},
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "numpy": "(15/64)*r**3*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5)*np.cos((5/2)*t + 1/7) + (5/16)*r**3*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - 5/16*r*z**2*np.sin((3/2)*t + 1/6)**2 - 5/12*r*z*np.sin((3/2)*t + 1/6)*np.cos(2*t - 1/2) - 5/4*r*z*np.sin((3/2)*t + 1/6) - 45/32*r*z*np.exp(-1/2*t)*np.sin((3/2)*t - 1/5) - 15/32*r*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (5/16)*r*np.sin(2*t + 1/3)**2 - 5/36*r*np.cos(2*t - 1/2)**2 - 5/6*r*np.cos(2*t - 1/2) + (5/4)*r*np.cos(2*t + 1/3) - 5/4*r + (15/64)*r*np.exp(-1/2*t)*np.sin(t + 2/5)*np.cos((3/2)*t - 1/5)",
+     "sympy": "15*r**3*exp(-t/2)*cos(3*t/2 - 1/5)*cos(5*t/2 + 1/7)/64 + 5*r**3*exp(-t/2)*cos(3*t/2 - 1/5)/16 - 5*r*z**2*sin(3*t/2 + 1/6)**2/16 - 5*r*z*sin(3*t/2 + 1/6)*cos(2*t - 1/2)/12 - 5*r*z*sin(3*t/2 + 1/6)/4 - 45*r*z*exp(-t/2)*sin(3*t/2 - 1/5)/32 - 15*r*z*exp(-t/2)*cos(3*t/2 - 1/5)/32 + 5*r*sin(2*t + 1/3)**2/16 - 5*r*cos(2*t - 1/2)**2/36 - 5*r*cos(2*t - 1/2)/6 + 5*r*cos(2*t + 1/3)/4 - 5*r/4 + 15*r*exp(-t/2)*sin(t + 2/5)*cos(3*t/2 - 1/5)/64"
+    },
+    {
+     "numpy": "(5/32)*r**3*np.sin((3/2)*t + 1/6)*np.cos((5/2)*t + 1/7) + (5/24)*r**3*np.sin((3/2)*t + 1/6) + (15/32)*r*z**2*np.exp(-1/2*t)*np.sin((3/2)*t + 1/6)*np.cos((3/2)*t - 1/5) + (15/16)*r*z*np.cos((3/2)*t + 1/6) + (5/8)*r*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5)*np.cos(2*t - 1/2) + (15/8)*r*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (5/32)*r*np.sin(t + 2/5)*np.sin((3/2)*t + 1/6) - 5/6*r*np.sin(2*t - 1/2) + (5/12)*r*np.sin(2*t + 1/3)*np.cos(2*t - 1/2) + (5/4)*r*np.sin(2*t + 1/3)",
+     "sympy": "5*r**3*sin(3*t/2 + 1/6)*cos(5*t/2 + 1/7)/32 + 5*r**3*sin(3*t/2 + 1/6)/24 + 15*r*z**2*exp(-t/2)*sin(3*t/2 + 1/6)*cos(3*t/2 - 1/5)/32 + 15*r*z*cos(3*t/2 + 1/6)/16 + 5*r*z*exp(-t/2)*cos(3*t/2 - 1/5)*cos(2*t - 1/2)/8 + 15*r*z*exp(-t/2)*cos(3*t/2 - 1/5)/8 + 5*r*sin(t + 2/5)*sin(3*t/2 + 1/6)/32 - 5*r*sin(2*t - 1/2)/6 + 5*r*sin(2*t + 1/3)*cos(2*t - 1/2)/12 + 5*r*sin(2*t + 1/3)/4"
+    },
+    {
+     "numpy": "-25/32*r**2*np.sin((5/2)*t + 1/7) + (45/32)*z**3*np.exp(-t)*np.cos((3/2)*t - 1/5)**2 + (45/32)*z**2*np.exp(-1/2*t)*np.sin((3/2)*t - 1/5) + (45/16)*z**2*np.exp(-1/2*t)*np.sin(2*t + 1/3)*np.cos((3/2)*t - 1/5) + (15/32)*z**2*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (5/4)*z*np.sin(2*t + 1/3)**2 - 5/2*z*np.cos(2*t + 1/3) - 15/32*z*np.exp(-1/2*t)*np.sin(t + 2/5)*np.cos((3/2)*t - 1/5) - 5/16*np.sin(t + 2/5)*np.sin(2*t + 1/3) + (1/2)*np.cos(t + 1/4) + (5/16)*np.cos(t + 2/5) - 1/20*np.cos((5/2)*t + 1/7) - 1/15 + (3/40)*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5)",
+     "sympy": "-25*r**2*sin(5*t/2 + 1/7)/32 + 45*z**3*exp(-t)*cos(3*t/2 - 1/5)**2/32 + 45*z**2*exp(-t/2)*sin(3*t/2 - 1/5)/32 + 45*z**2*exp(-t/2)*sin(2*t + 1/3)*cos(3*t/2 - 1/5)/16 + 15*z**2*exp(-t/2)*cos(3*t/2 - 1/5)/32 + 5*z*sin(2*t + 1/3)**2/4 - 5*z*cos(2*t + 1/3)/2 - 15*z*exp(-t/2)*sin(t + 2/5)*cos(3*t/2 - 1/5)/32 - 5*sin(t + 2/5)*sin(2*t + 1/3)/16 + cos(t + 1/4)/2 + 5*cos(t + 2/5)/16 - cos(5*t/2 + 1/7)/20 - 1/15 + 3*exp(-t/2)*cos(3*t/2 - 1/5)/40"
+    }
+   ],
+   "f_without_convection": [
+    {
+     "numpy": "(5/4)*r*(-9/8*z*np.exp(-1/2*t)*np.sin((3/2)*t - 1/5) - 3/8*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + np.cos(2*t + 1/3))",
+     "sympy": "5*r*(-9*z*exp(-t/2)*sin(3*t/2 - 1/5)/8 - 3*z*exp(-t/2)*cos(3*t/2 - 1/5)/8 + cos(2*t + 1/3))/4"
+    },
+    {
+     "numpy": "(5/4)*r*((3/4)*z*np.cos((3/2)*t + 1/6) - 2/3*np.sin(2*t - 1/2))",
+     "sympy": "5*r*(3*z*cos(3*t/2 + 1/6)/4 - 2*sin(2*t - 1/2)/3)/4"
+    },
+    {
+     "numpy": "-25/32*r**2*np.sin((5/2)*t + 1/7) + (45/32)*z**2*np.exp(-1/2*t)*np.sin((3/2)*t - 1/5) + (15/32)*z**2*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - 5/2*z*np.cos(2*t + 1/3) + (1/2)*np.cos(t + 1/4) + (5/16)*np.cos(t + 2/5) - 1/20*np.cos((5/2)*t + 1/7) - 1/15 + (3/40)*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5)",
+     "sympy": "-25*r**2*sin(5*t/2 + 1/7)/32 + 45*z**2*exp(-t/2)*sin(3*t/2 - 1/5)/32 + 15*z**2*exp(-t/2)*cos(3*t/2 - 1/5)/32 - 5*z*cos(2*t + 1/3)/2 + cos(t + 1/4)/2 + 5*cos(t + 2/5)/16 - cos(5*t/2 + 1/7)/20 - 1/15 + 3*exp(-t/2)*cos(3*t/2 - 1/5)/40"
+    }
+   ],
+   "f_without_time": [
+    {
+     "numpy": "r*((3/4)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (1/2)*np.sin(2*t + 1/3))*((15/16)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (5/8)*np.sin(2*t + 1/3)) + r*(-5/8*z*np.sin((3/2)*t + 1/6) - 5/12*np.cos(2*t - 1/2) - 5/4)*((1/2)*z*np.sin((3/2)*t + 1/6) + (1/3)*np.cos(2*t - 1/2) + 1) + (15/16)*r*(r**2*((1/4)*np.cos((5/2)*t + 1/7) + 1/3) - 3/4*z**2*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - z*np.sin(2*t + 1/3) + (1/4)*np.sin(t + 2/5))*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5)",
+     "sympy": "r*(3*z*exp(-t/2)*cos(3*t/2 - 1/5)/4 + sin(2*t + 1/3)/2)*(15*z*exp(-t/2)*cos(3*t/2 - 1/5)/16 + 5*sin(2*t + 1/3)/8) + r*(-5*z*sin(3*t/2 + 1/6)/8 - 5*cos(2*t - 1/2)/12 - 5/4)*(z*sin(3*t/2 + 1/6)/2 + cos(2*t - 1/2)/3 + 1) + 15*r*(r**2*(cos(5*t/2 + 1/7)/4 + 1/3) - 3*z**2*exp(-t/2)*cos(3*t/2 - 1/5)/4 - z*sin(2*t + 1/3) + sin(t + 2/5)/4)*exp(-t/2)*cos(3*t/2 - 1/5)/16"
+    },
+    {
+     "numpy": "r*((3/4)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (1/2)*np.sin(2*t + 1/3))*((5/8)*z*np.sin((3/2)*t + 1/6) + (5/12)*np.cos(2*t - 1/2) + 5/4) + r*((15/16)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (5/8)*np.sin(2*t + 1/3))*((1/2)*z*np.sin((3/2)*t + 1/6) + (1/3)*np.cos(2*t - 1/2) + 1) + (5/8)*r*(r**2*((1/4)*np.cos((5/2)*t + 1/7) + 1/3) - 3/4*z**2*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - z*np.sin(2*t + 1/3) + (1/4)*np.sin(t + 2/5))*np.sin((3/2)*t + 1/6)",
+     "sympy": "r*(3*z*exp(-t/2)*cos(3*t/2 - 1/5)/4 + sin(2*t + 1/3)/2)*(5*z*sin(3*t/2 + 1/6)/8 + 5*cos(2*t - 1/2)/12 + 5/4) + r*(15*z*exp(-t/2)*cos(3*t/2 - 1/5)/16 + 5*sin(2*t + 1/3)/8)*(z*sin(3*t/2 + 1/6)/2 + cos(2*t - 1/2)/3 + 1) + 5*r*(r**2*(cos(5*t/2 + 1/7)/4 + 1/3) - 3*z**2*exp(-t/2)*cos(3*t/2 - 1/5)/4 - z*sin(2*t + 1/3) + sin(t + 2/5)/4)*sin(3*t/2 + 1/6)/8"
+    },
+    {
+     "numpy": "(5/2)*r**2*((3/4)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (1/2)*np.sin(2*t + 1/3))*((1/4)*np.cos((5/2)*t + 1/7) + 1/3) + (-15/8*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - 5/4*np.sin(2*t + 1/3))*(r**2*((1/4)*np.cos((5/2)*t + 1/7) + 1/3) - 3/4*z**2*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - z*np.sin(2*t + 1/3) + (1/4)*np.sin(t + 2/5)) + (1/2)*np.cos(t + 1/4) - 1/20*np.cos((5/2)*t + 1/7) - 1/15 + (3/40)*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5)",
+     "sympy": "5*r**2*(3*z*exp(-t/2)*cos(3*t/2 - 1/5)/4 + sin(2*t + 1/3)/2)*(cos(5*t/2 + 1/7)/4 + 1/3)/2 + (-15*z*exp(-t/2)*cos(3*t/2 - 1/5)/8 - 5*sin(2*t + 1/3)/4)*(r**2*(cos(5*t/2 + 1/7)/4 + 1/3) - 3*z**2*exp(-t/2)*cos(3*t/2 - 1/5)/4 - z*sin(2*t + 1/3) + sin(t + 2/5)/4) + cos(t + 1/4)/2 - cos(5*t/2 + 1/7)/20 - 1/15 + 3*exp(-t/2)*cos(3*t/2 - 1/5)/40"
+    }
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "numpy": "(15/64)*r**3*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5)*np.cos((5/2)*t + 1/7) + (5/16)*r**3*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - 5/16*r*z**2*np.sin((3/2)*t + 1/6)**2 - 5/12*r*z*np.sin((3/2)*t + 1/6)*np.cos(2*t - 1/2) - 5/4*r*z*np.sin((3/2)*t + 1/6) - 45/32*r*z*np.exp(-1/2*t)*np.sin((3/2)*t - 1/5) - 15/32*r*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (5/16)*r*np.sin(2*t + 1/3)**2 - 5/36*r*np.cos(2*t - 1/2)**2 - 5/6*r*np.cos(2*t - 1/2) + (5/4)*r*np.cos(2*t + 1/3) - 5/4*r + (15/64)*r*np.exp(-1/2*t)*np.sin(t + 2/5)*np.cos((3/2)*t - 1/5)",
+     "sympy": "15*r**3*exp(-t/2)*cos(3*t/2 - 1/5)*cos(5*t/2 + 1/7)/64 + 5*r**3*exp(-t/2)*cos(3*t/2 - 1/5)/16 - 5*r*z**2*sin(3*t/2 + 1/6)**2/16 - 5*r*z*sin(3*t/2 + 1/6)*cos(2*t - 1/2)/12 - 5*r*z*sin(3*t/2 + 1/6)/4 - 45*r*z*exp(-t/2)*sin(3*t/2 - 1/5)/32 - 15*r*z*exp(-t/2)*cos(3*t/2 - 1/5)/32 + 5*r*sin(2*t + 1/3)**2/16 - 5*r*cos(2*t - 1/2)**2/36 - 5*r*cos(2*t - 1/2)/6 + 5*r*cos(2*t + 1/3)/4 - 5*r/4 + 15*r*exp(-t/2)*sin(t + 2/5)*cos(3*t/2 - 1/5)/64"
+    },
+    {
+     "numpy": "(5/32)*r**3*np.sin((3/2)*t + 1/6)*np.cos((5/2)*t + 1/7) + (5/24)*r**3*np.sin((3/2)*t + 1/6) + (15/32)*r*z**2*np.exp(-1/2*t)*np.sin((3/2)*t + 1/6)*np.cos((3/2)*t - 1/5) + (15/16)*r*z*np.cos((3/2)*t + 1/6) + (5/8)*r*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5)*np.cos(2*t - 1/2) + (15/8)*r*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (5/32)*r*np.sin(t + 2/5)*np.sin((3/2)*t + 1/6) - 5/6*r*np.sin(2*t - 1/2) + (5/12)*r*np.sin(2*t + 1/3)*np.cos(2*t - 1/2) + (5/4)*r*np.sin(2*t + 1/3)",
+     "sympy": "5*r**3*sin(3*t/2 + 1/6)*cos(5*t/2 + 1/7)/32 + 5*r**3*sin(3*t/2 + 1/6)/24 + 15*r*z**2*exp(-t/2)*sin(3*t/2 + 1/6)*cos(3*t/2 - 1/5)/32 + 15*r*z*cos(3*t/2 + 1/6)/16 + 5*r*z*exp(-t/2)*cos(3*t/2 - 1/5)*cos(2*t - 1/2)/8 + 15*r*z*exp(-t/2)*cos(3*t/2 - 1/5)/8 + 5*r*sin(t + 2/5)*sin(3*t/2 + 1/6)/32 - 5*r*sin(2*t - 1/2)/6 + 5*r*sin(2*t + 1/3)*cos(2*t - 1/2)/12 + 5*r*sin(2*t + 1/3)/4"
+    },
+    {
+     "numpy": "-25/32*r**2*np.sin((5/2)*t + 1/7) + (45/32)*z**3*np.exp(-t)*np.cos((3/2)*t - 1/5)**2 + (45/32)*z**2*np.exp(-1/2*t)*np.sin((3/2)*t - 1/5) + (45/16)*z**2*np.exp(-1/2*t)*np.sin(2*t + 1/3)*np.cos((3/2)*t - 1/5) + (15/32)*z**2*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (5/4)*z*np.sin(2*t + 1/3)**2 - 5/2*z*np.cos(2*t + 1/3) - 15/32*z*np.exp(-1/2*t)*np.sin(t + 2/5)*np.cos((3/2)*t - 1/5) - 5/16*np.sin(t + 2/5)*np.sin(2*t + 1/3) + (1/2)*np.cos(t + 1/4) + (5/16)*np.cos(t + 2/5) - 1/20*np.cos((5/2)*t + 1/7) - 1/15 + (3/40)*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5)",
+     "sympy": "-25*r**2*sin(5*t/2 + 1/7)/32 + 45*z**3*exp(-t)*cos(3*t/2 - 1/5)**2/32 + 45*z**2*exp(-t/2)*sin(3*t/2 - 1/5)/32 + 45*z**2*exp(-t/2)*sin(2*t + 1/3)*cos(3*t/2 - 1/5)/16 + 15*z**2*exp(-t/2)*cos(3*t/2 - 1/5)/32 + 5*z*sin(2*t + 1/3)**2/4 - 5*z*cos(2*t + 1/3)/2 - 15*z*exp(-t/2)*sin(t + 2/5)*cos(3*t/2 - 1/5)/32 - 5*sin(t + 2/5)*sin(2*t + 1/3)/16 + cos(t + 1/4)/2 + 5*cos(t + 2/5)/16 - cos(5*t/2 + 1/7)/20 - 1/15 + 3*exp(-t/2)*cos(3*t/2 - 1/5)/40"
+    }
+   ],
+   "f_without_convection": [
+    {
+     "numpy": "(5/4)*r*(-9/8*z*np.exp(-1/2*t)*np.sin((3/2)*t - 1/5) - 3/8*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + np.cos(2*t + 1/3))",
+     "sympy": "5*r*(-9*z*exp(-t/2)*sin(3*t/2 - 1/5)/8 - 3*z*exp(-t/2)*cos(3*t/2 - 1/5)/8 + cos(2*t + 1/3))/4"
+    },
+    {
+     "numpy": "(5/4)*r*((3/4)*z*np.cos((3/2)*t + 1/6) - 2/3*np.sin(2*t - 1/2))",
+     "sympy": "5*r*(3*z*cos(3*t/2 + 1/6)/4 - 2*sin(2*t - 1/2)/3)/4"
+    },
+    {
+     "numpy": "-25/32*r**2*np.sin((5/2)*t + 1/7) + (45/32)*z**2*np.exp(-1/2*t)*np.sin((3/2)*t - 1/5) + (15/32)*z**2*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - 5/2*z*np.cos(2*t + 1/3) + (1/2)*np.cos(t + 1/4) + (5/16)*np.cos(t + 2/5) - 1/40*np.cos((5/2)*t + 1/7) - 1/30 + (9/80)*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - ((1/10)*r*((1/4)*np.cos((5/2)*t + 1/7) + 1/3) + (3/80)*r*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5))/r",
+     "sympy": "-25*r**2*sin(5*t/2 + 1/7)/32 + 45*z**2*exp(-t/2)*sin(3*t/2 - 1/5)/32 + 15*z**2*exp(-t/2)*cos(3*t/2 - 1/5)/32 - 5*z*cos(2*t + 1/3)/2 + cos(t + 1/4)/2 + 5*cos(t + 2/5)/16 - cos(5*t/2 + 1/7)/40 - 1/30 + 9*exp(-t/2)*cos(3*t/2 - 1/5)/80 - (r*(cos(5*t/2 + 1/7)/4 + 1/3)/10 + 3*r*exp(-t/2)*cos(3*t/2 - 1/5)/80)/r"
+    }
+   ],
+   "f_without_time": [
+    {
+     "numpy": "r*((3/4)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (1/2)*np.sin(2*t + 1/3))*((15/16)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (5/8)*np.sin(2*t + 1/3)) + r*(-5/8*z*np.sin((3/2)*t + 1/6) - 5/12*np.cos(2*t - 1/2) - 5/4)*((1/2)*z*np.sin((3/2)*t + 1/6) + (1/3)*np.cos(2*t - 1/2) + 1) + (15/16)*r*(r**2*((1/4)*np.cos((5/2)*t + 1/7) + 1/3) - 3/4*z**2*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - z*np.sin(2*t + 1/3) + (1/4)*np.sin(t + 2/5))*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5)",
+     "sympy": "r*(3*z*exp(-t/2)*cos(3*t/2 - 1/5)/4 + sin(2*t + 1/3)/2)*(15*z*exp(-t/2)*cos(3*t/2 - 1/5)/16 + 5*sin(2*t + 1/3)/8) + r*(-5*z*sin(3*t/2 + 1/6)/8 - 5*cos(2*t - 1/2)/12 - 5/4)*(z*sin(3*t/2 + 1/6)/2 + cos(2*t - 1/2)/3 + 1) + 15*r*(r**2*(cos(5*t/2 + 1/7)/4 + 1/3) - 3*z**2*exp(-t/2)*cos(3*t/2 - 1/5)/4 - z*sin(2*t + 1/3) + sin(t + 2/5)/4)*exp(-t/2)*cos(3*t/2 - 1/5)/16"
+    },
+    {
+     "numpy": "r*((3/4)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (1/2)*np.sin(2*t + 1/3))*((5/8)*z*np.sin((3/2)*t + 1/6) + (5/12)*np.cos(2*t - 1/2) + 5/4) + r*((15/16)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (5/8)*np.sin(2*t + 1/3))*((1/2)*z*np.sin((3/2)*t + 1/6) + (1/3)*np.cos(2*t - 1/2) + 1) + (5/8)*r*(r**2*((1/4)*np.cos((5/2)*t + 1/7) + 1/3) - 3/4*z**2*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - z*np.sin(2*t + 1/3) + (1/4)*np.sin(t + 2/5))*np.sin((3/2)*t + 1/6)",
+     "sympy": "r*(3*z*exp(-t/2)*cos(3*t/2 - 1/5)/4 + sin(2*t + 1/3)/2)*(5*z*sin(3*t/2 + 1/6)/8 + 5*cos(2*t - 1/2)/12 + 5/4) + r*(15*z*exp(-t/2)*cos(3*t/2 - 1/5)/16 + 5*sin(2*t + 1/3)/8)*(z*sin(3*t/2 + 1/6)/2 + cos(2*t - 1/2)/3 + 1) + 5*r*(r**2*(cos(5*t/2 + 1/7)/4 + 1/3) - 3*z**2*exp(-t/2)*cos(3*t/2 - 1/5)/4 - z*sin(2*t + 1/3) + sin(t + 2/5)/4)*sin(3*t/2 + 1/6)/8"
+    },
+    {
+     "numpy": "(5/2)*r**2*((3/4)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (1/2)*np.sin(2*t + 1/3))*((1/4)*np.cos((5/2)*t + 1/7) + 1/3) + (-15/8*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - 5/4*np.sin(2*t + 1/3))*(r**2*((1/4)*np.cos((5/2)*t + 1/7) + 1/3) - 3/4*z**2*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - z*np.sin(2*t + 1/3) + (1/4)*np.sin(t + 2/5)) + (1/2)*np.cos(t + 1/4) - 1/40*np.cos((5/2)*t + 1/7) - 1/30 + (9/80)*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - ((1/10)*r*((1/4)*np.cos((5/2)*t + 1/7) + 1/3) + (3/80)*r*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5))/r",
+     "sympy": "5*r**2*(3*z*exp(-t/2)*cos(3*t/2 - 1/5)/4 + sin(2*t + 1/3)/2)*(cos(5*t/2 + 1/7)/4 + 1/3)/2 + (-15*z*exp(-t/2)*cos(3*t/2 - 1/5)/8 - 5*sin(2*t + 1/3)/4)*(r**2*(cos(5*t/2 + 1/7)/4 + 1/3) - 3*z**2*exp(-t/2)*cos(3*t/2 - 1/5)/4 - z*sin(2*t + 1/3) + sin(t + 2/5)/4) + cos(t + 1/4)/2 - cos(5*t/2 + 1/7)/40 - 1/30 + 9*exp(-t/2)*cos(3*t/2 - 1/5)/80 - (r*(cos(5*t/2 + 1/7)/4 + 1/3)/10 + 3*r*exp(-t/2)*cos(3*t/2 - 1/5)/80)/r"
+    }
+   ]
+  }
+ },
+ "geometry": "axisymmetric",
+ "grad_u": [
+  [
+   {
+    "numpy": "(3/4)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (1/2)*np.sin(2*t + 1/3)",
+    "sympy": "3*z*exp(-t/2)*cos(3*t/2 - 1/5)/4 + sin(2*t + 1/3)/2"
+   },
+   {
+    "numpy": "(3/4)*r*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5)",
+    "sympy": "3*r*exp(-t/2)*cos(3*t/2 - 1/5)/4"
+   }
+  ],
+  [
+   {
+    "numpy": "(1/2)*z*np.sin((3/2)*t + 1/6) + (1/3)*np.cos(2*t - 1/2) + 1",
+    "sympy": "z*sin(3*t/2 + 1/6)/2 + cos(2*t - 1/2)/3 + 1"
+   },
+   {
+    "numpy": "(1/2)*r*np.sin((3/2)*t + 1/6)",
+    "sympy": "r*sin(3*t/2 + 1/6)/2"
+   }
+  ],
+  [
+   {
+    "numpy": "2*r*((1/4)*np.cos((5/2)*t + 1/7) + 1/3)",
+    "sympy": "2*r*(cos(5*t/2 + 1/7)/4 + 1/3)"
+   },
+   {
+    "numpy": "-3/2*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - np.sin(2*t + 1/3)",
+    "sympy": "-3*z*exp(-t/2)*cos(3*t/2 - 1/5)/2 - sin(2*t + 1/3)"
+   }
+  ]
+ ],
+ "homogeneous": false,
+ "mu": 0.05,
+ "name": "f3a_tr_axi_poly",
+ "p": {
+  "numpy": "(1/2)*(z - 1/2)*np.cos(t + 1/4)",
+  "sympy": "(z - 1/2)*cos(t + 1/4)/2"
+ },
+ "pressure": "mean_zero",
+ "rho": 1.25,
+ "selfcheck": {
+  "checks": {
+   "axi_parity_and_regularity": {
+    "pass": true,
+    "value": "True / True"
+   },
+   "coriolis_max": {
+    "pass": true,
+    "value": 0.5261744101821267
+   },
+   "div_u_symbolic_zero": {
+    "pass": true,
+    "value": "0"
+   },
+   "dz_centrifugal_max": {
+    "pass": true,
+    "value": 0.7061716285959426
+   },
+   "fd_residual_lap": {
+    "pass": true,
+    "value": 8.943734641775336e-12
+   },
+   "fd_residual_sym": {
+    "pass": true,
+    "value": 1.0385636795007258e-11
+   },
+   "fd_residual_teeth_f_without_convection": {
+    "pass": true,
+    "value": 2.2700968672069664
+   },
+   "fd_residual_teeth_f_without_time": {
+    "pass": true,
+    "value": 1.1456135108083316
+   },
+   "forcing_3d_embedding_lap": {
+    "pass": true,
+    "value": 5.345529420184391e-51
+   },
+   "forcing_3d_embedding_sym": {
+    "pass": true,
+    "value": 5.345529420184391e-51
+   },
+   "forcing_space_degree_lap": {
+    "pass": true,
+    "value": "[3, 3, 3]"
+   },
+   "forcing_space_degree_sym": {
+    "pass": true,
+    "value": "[3, 3, 3]"
+   },
+   "meridional_curl_convective_max": {
+    "pass": true,
+    "value": 0.7061716285959426
+   },
+   "net_boundary_flux": {
+    "pass": true,
+    "value": "0"
+   },
+   "numpy_spelling_vs_sympy_max": {
+    "pass": true,
+    "value": 8.881784197001252e-16
+   },
+   "p_r_weighted_mean_zero": {
+    "pass": true,
+    "value": "0"
+   },
+   "space_degrees_u_le2_p_le1": {
+    "pass": true,
+    "value": "[2, 2, 2] / 1"
+   },
+   "teeth_no_convection_max": {
+    "pass": true,
+    "value": 2.101111189877116
+   },
+   "teeth_no_time_max": {
+    "pass": true,
+    "value": 1.32846425979386
+   }
+  },
+  "status": "pass"
+ },
+ "space_exact": true,
+ "u": [
+  {
+   "numpy": "r*((3/4)*z*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) + (1/2)*np.sin(2*t + 1/3))",
+   "sympy": "r*(3*z*exp(-t/2)*cos(3*t/2 - 1/5)/4 + sin(2*t + 1/3)/2)"
+  },
+  {
+   "numpy": "r*((1/2)*z*np.sin((3/2)*t + 1/6) + (1/3)*np.cos(2*t - 1/2) + 1)",
+   "sympy": "r*(z*sin(3*t/2 + 1/6)/2 + cos(2*t - 1/2)/3 + 1)"
+  },
+  {
+   "numpy": "r**2*((1/4)*np.cos((5/2)*t + 1/7) + 1/3) - 3/4*z**2*np.exp(-1/2*t)*np.cos((3/2)*t - 1/5) - z*np.sin(2*t + 1/3) + (1/4)*np.sin(t + 2/5)",
+   "sympy": "r**2*(cos(5*t/2 + 1/7)/4 + 1/3) - 3*z**2*exp(-t/2)*cos(3*t/2 - 1/5)/4 - z*sin(2*t + 1/3) + sin(t + 2/5)/4"
+  }
+ ]
+}

@@ -1,0 +1,748 @@
+{
+ "id": "chem_crosscode_c3_disk_secondary",
+ "capability": "C3a",
+ "title": "Secondary (linear kinetics) disk electrode vs an independent Legendre series and an independent FE code; Wagner and small-J limits",
+ "physics": "Laplace in z > 0, kinetic disk (linear), insulating plane, counter at infinity",
+ "levels": [
+  "cross_code",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3_current_distribution",
+   "function": "disk_secondary",
+   "check_module": "c3_checks",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "disk": {
+    "Rb_over_r0": "5",
+    "V": "0.1",
+    "kappa": "2.5",
+    "r0": "0.001"
+   },
+   "kappa_note": "kappa = 2.5 S/m: a DtN or an i0 conversion without kappa is visible (-17 % at P1 n = 4); the reported I/(4 kappa r0 V) values are kappa-independent",
+   "kinetics": "linear, alpha_a = alpha_c = 1/2, E_eq = 0; i0 FIXED per J below (no conversion in the runner)",
+   "i0_A_per_m2": {
+    "0.01": 0.6423144780373432,
+    "0.1": 6.423144780373431,
+    "1.0": 64.23144780373431,
+    "10.0": 642.3144780373432,
+    "100.0": 6423.144780373432
+   },
+   "i0_definition": "i0 = J kappa R T / ((alpha_a + alpha_c) F r0), T = 298.15 K, F = 96485.33212, R = 8.314462618",
+   "Js": [
+    "0.01",
+    "0.1",
+    "1.0",
+    "10.0",
+    "100.0"
+   ],
+   "exterior": "half-space even-mode DtN, discretized EXACTLY as follows (two other faithful readings move the per-level values by up to 3.2e-4): for modes n = 0..11, c_n(u) = sum over the outer-boundary facets, sum over the degree-(2k+4) Gauss-Legendre points q of the facet, of w_q |J_q| (r_q / Rb^2) P_2n(z_q / |x_q|) u(x_q), with x_q = (r_q, z_q) the PHYSICAL quadrature point (on the straight P1 facet or on the isoparametric P2 facet) and |J_q| the facet length Jacobian; the bilinear term added to the per-radian stiffness is sum_n kappa Rb (2n+1)(4n+1) c_n(phi) c_n(v), kappa the electrolyte conductivity of the case. Facets are straight for P1; for P2 the outer-arc edge node is the radial projection of the chord midpoint onto rho = Rb (the arc point at the mean polar angle of the two vertices); every other edge node is the straight midpoint. Derivation: phi = sum a_n (Rb/rho)^(2n+1) P_2n(cos th), a_n = (4n+1) int_0^{pi/2} phi P_2n sin th dth (insulating plane z = 0 outside the hemisphere). axi::ElectroProblem's full-sphere map must not be used.",
+   "meshes": {
+    "p2": {
+     "family": "disk_p2_graded",
+     "n": [
+      2,
+      4,
+      8,
+      16,
+      32
+     ],
+     "beta": 3.0,
+     "h_nominal": [
+      0.00025,
+      0.000125,
+      6.25e-05,
+      3.125e-05,
+      1.5625e-05
+     ],
+     "construction": "meshes.disk_graded: polar grid about the origin with radial nodes rho_i (2n uniform intervals on [0, r0], 4n uniform on [r0, Rb]) and angles th_j (4n uniform intervals on [0, pi/2], th from +z); the fan at the origin is the triangles (origin, (1, j), (1, j+1)); every other quad (i, j), (i+1, j), (i+1, j+1), (i, j+1) is split along the diagonal (i, j)-(i+1, j+1) into [(i,j),(i+1,j),(i+1,j+1)] and [(i,j),(i+1,j+1),(i,j+1)]; then x -> e + (x - e)(|x - e|/Rg)^(beta-1) for |x - e| < Rg = r0/2 about the rim e = (r0, 0); a z = 0 facet is disk iff both vertices have r <= r0 (else insulating plane); P2: only the outer-arc edge node curved (radial projection of the chord midpoint), all other edge nodes straight; verified by vertex and connectivity hashes",
+     "levels": [
+      {
+       "name": "p2_2",
+       "n_elements": 184,
+       "hash_scale": 0.001,
+       "vertex_hash": "175bcddcb1b7eb50",
+       "connectivity_hash": "dc5b157d1deae799"
+      },
+      {
+       "name": "p2_4",
+       "n_elements": 752,
+       "hash_scale": 0.001,
+       "vertex_hash": "cb6a6131ea8c6f47",
+       "connectivity_hash": "0d6911ae21e3ecb1"
+      },
+      {
+       "name": "p2_8",
+       "n_elements": 3040,
+       "hash_scale": 0.001,
+       "vertex_hash": "838054130c9452c7",
+       "connectivity_hash": "2fe77cfd5e9c8761"
+      },
+      {
+       "name": "p2_16",
+       "n_elements": 12224,
+       "hash_scale": 0.001,
+       "vertex_hash": "9c39bce47a2bbe58",
+       "connectivity_hash": "2f7741689443967c"
+      },
+      {
+       "name": "p2_32",
+       "n_elements": 49024,
+       "hash_scale": 0.001,
+       "vertex_hash": "31ba752130bc3e34",
+       "connectivity_hash": "42e71916210729a3"
+      }
+     ]
+    }
+   },
+   "points_r_over_r0": [
+    0.0,
+    0.3,
+    0.6,
+    0.9
+   ],
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "J0.01_I_over_primary": {
+    "kind": "scalar",
+    "source": "disk_series",
+    "unit": "1",
+    "value": 0.0077878835915186255,
+    "uncertainty": 6.66654231817887e-15,
+    "uncertainty_kind": "own_estimate",
+    "definition": "I / (4 kappa r0 V), linear kinetics, J = (alpha_a + alpha_c) i0 F r0/(R T kappa)"
+   },
+   "dlfx_J0.01_n2": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.00778812062126506,
+    "output_key": "J0.01_n2",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J0.01_n4": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.007787919709277701,
+    "output_key": "J0.01_n4",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J0.01_n8": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.0077878873694879214,
+    "output_key": "J0.01_n8",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J0.01_n16": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.007787883884511613,
+    "output_key": "J0.01_n16",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J0.01_n32": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.00778788361146802,
+    "output_key": "J0.01_n32",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "J0.1_I_over_primary": {
+    "kind": "scalar",
+    "source": "disk_series",
+    "unit": "1",
+    "value": 0.07240112555235045,
+    "uncertainty": 5.979799988509171e-13,
+    "uncertainty_kind": "own_estimate",
+    "definition": "I / (4 kappa r0 V), linear kinetics, J = (alpha_a + alpha_c) i0 F r0/(R T kappa)"
+   },
+   "dlfx_J0.1_n2": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.07242206592033158,
+    "output_key": "J0.1_n2",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J0.1_n4": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.07240430860416863,
+    "output_key": "J0.1_n4",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J0.1_n8": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.07240145877741765,
+    "output_key": "J0.1_n8",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J0.1_n16": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.07240115139532445,
+    "output_key": "J0.1_n16",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J0.1_n32": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.07240112731181346,
+    "output_key": "J0.1_n32",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "J1.0_I_over_primary": {
+    "kind": "scalar",
+    "source": "disk_series",
+    "unit": "1",
+    "value": 0.42667970594743815,
+    "uncertainty": 2.8368640769826925e-11,
+    "uncertainty_kind": "own_estimate",
+    "definition": "I / (4 kappa r0 V), linear kinetics, J = (alpha_a + alpha_c) i0 F r0/(R T kappa)"
+   },
+   "dlfx_J1.0_n2": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.4275521839439374,
+    "output_key": "J1.0_n2",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J1.0_n4": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.4268096119455561,
+    "output_key": "J1.0_n4",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J1.0_n8": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.4266933999986665,
+    "output_key": "J1.0_n8",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J1.0_n16": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.4266807685986407,
+    "output_key": "J1.0_n16",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J1.0_n32": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.42667977827028614,
+    "output_key": "J1.0_n32",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "J10.0_I_over_primary": {
+    "kind": "scalar",
+    "source": "disk_series",
+    "unit": "1",
+    "value": 0.8586721588125046,
+    "uncertainty": 4.1537440154115757e-10,
+    "uncertainty_kind": "own_estimate",
+    "definition": "I / (4 kappa r0 V), linear kinetics, J = (alpha_a + alpha_c) i0 F r0/(R T kappa)"
+   },
+   "dlfx_J10.0_n2": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.8656649180490772,
+    "output_key": "J10.0_n2",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J10.0_n4": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.8596242618637656,
+    "output_key": "J10.0_n4",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J10.0_n8": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.8587761601040362,
+    "output_key": "J10.0_n8",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J10.0_n16": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.8586803539852523,
+    "output_key": "J10.0_n16",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J10.0_n32": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.8586727200949706,
+    "output_key": "J10.0_n32",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "J100.0_I_over_primary": {
+    "kind": "scalar",
+    "source": "disk_series",
+    "unit": "1",
+    "value": 0.978179525496791,
+    "uncertainty": 4.350261484376006e-09,
+    "uncertainty_kind": "own_estimate",
+    "definition": "I / (4 kappa r0 V), linear kinetics, J = (alpha_a + alpha_c) i0 F r0/(R T kappa)"
+   },
+   "dlfx_J100.0_n2": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.9987846256192116,
+    "output_key": "J100.0_n2",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J100.0_n4": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.9806572467380447,
+    "output_key": "J100.0_n4",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J100.0_n8": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.978464569607913,
+    "output_key": "J100.0_n8",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J100.0_n16": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.9782036831462051,
+    "output_key": "J100.0_n16",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_J100.0_n32": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "1",
+    "value": 0.978181253878126,
+    "output_key": "J100.0_n32",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   }
+  },
+  "tolerance_recipe": {
+   "J0.01_I_over_primary": {
+    "rel": 0.0001
+   },
+   "dlfx_J0.01_n2": {
+    "rel": 1e-09
+   },
+   "dlfx_J0.01_n4": {
+    "rel": 1e-09
+   },
+   "dlfx_J0.01_n8": {
+    "rel": 1e-09
+   },
+   "dlfx_J0.01_n16": {
+    "rel": 1e-09
+   },
+   "dlfx_J0.01_n32": {
+    "rel": 1e-09
+   },
+   "J0.1_I_over_primary": {
+    "rel": 0.0001
+   },
+   "dlfx_J0.1_n2": {
+    "rel": 1e-09
+   },
+   "dlfx_J0.1_n4": {
+    "rel": 1e-09
+   },
+   "dlfx_J0.1_n8": {
+    "rel": 1e-09
+   },
+   "dlfx_J0.1_n16": {
+    "rel": 1e-09
+   },
+   "dlfx_J0.1_n32": {
+    "rel": 1e-09
+   },
+   "J1.0_I_over_primary": {
+    "rel": 0.0001
+   },
+   "dlfx_J1.0_n2": {
+    "rel": 1e-09
+   },
+   "dlfx_J1.0_n4": {
+    "rel": 1e-09
+   },
+   "dlfx_J1.0_n8": {
+    "rel": 1e-09
+   },
+   "dlfx_J1.0_n16": {
+    "rel": 1e-09
+   },
+   "dlfx_J1.0_n32": {
+    "rel": 1e-09
+   },
+   "J10.0_I_over_primary": {
+    "rel": 0.0001
+   },
+   "dlfx_J10.0_n2": {
+    "rel": 1e-09
+   },
+   "dlfx_J10.0_n4": {
+    "rel": 1e-09
+   },
+   "dlfx_J10.0_n8": {
+    "rel": 1e-09
+   },
+   "dlfx_J10.0_n16": {
+    "rel": 1e-09
+   },
+   "dlfx_J10.0_n32": {
+    "rel": 1e-09
+   },
+   "J100.0_I_over_primary": {
+    "rel": 0.0001
+   },
+   "dlfx_J100.0_n2": {
+    "rel": 1e-09
+   },
+   "dlfx_J100.0_n4": {
+    "rel": 1e-09
+   },
+   "dlfx_J100.0_n8": {
+    "rel": 1e-09
+   },
+   "dlfx_J100.0_n16": {
+    "rel": 1e-09
+   },
+   "dlfx_J100.0_n32": {
+    "rel": 1e-09
+   }
+  }
+ },
+ "acceptance": {
+  "functional_convergence": [
+   {
+    "id": "J0.01_conv",
+    "series": "J0.01_I_over_primary",
+    "level": "cross_code",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "order_range": [
+     2.5,
+     4.6
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "J0.1_conv",
+    "series": "J0.1_I_over_primary",
+    "level": "cross_code",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "order_range": [
+     2.5,
+     4.6
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "J1.0_conv",
+    "series": "J1.0_I_over_primary",
+    "level": "cross_code",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "order_range": [
+     2.5,
+     4.6
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "J10.0_conv",
+    "series": "J10.0_I_over_primary",
+    "level": "cross_code",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "order_range": [
+     2.5,
+     4.6
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "J100.0_conv",
+    "series": "J100.0_I_over_primary",
+    "level": "cross_code",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "order_range": [
+     2.5,
+     4.6
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   }
+  ],
+  "comparisons": [
+   {
+    "quantity": "J0.01_I_over_primary",
+    "reference": "J0.01_I_over_primary",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J0.01_n2",
+    "reference": "dlfx_J0.01_n2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J0.01_n4",
+    "reference": "dlfx_J0.01_n4",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J0.01_n8",
+    "reference": "dlfx_J0.01_n8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J0.01_n16",
+    "reference": "dlfx_J0.01_n16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J0.01_n32",
+    "reference": "dlfx_J0.01_n32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J0.1_I_over_primary",
+    "reference": "J0.1_I_over_primary",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J0.1_n2",
+    "reference": "dlfx_J0.1_n2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J0.1_n4",
+    "reference": "dlfx_J0.1_n4",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J0.1_n8",
+    "reference": "dlfx_J0.1_n8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J0.1_n16",
+    "reference": "dlfx_J0.1_n16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J0.1_n32",
+    "reference": "dlfx_J0.1_n32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J1.0_I_over_primary",
+    "reference": "J1.0_I_over_primary",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J1.0_n2",
+    "reference": "dlfx_J1.0_n2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J1.0_n4",
+    "reference": "dlfx_J1.0_n4",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J1.0_n8",
+    "reference": "dlfx_J1.0_n8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J1.0_n16",
+    "reference": "dlfx_J1.0_n16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J1.0_n32",
+    "reference": "dlfx_J1.0_n32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J10.0_I_over_primary",
+    "reference": "J10.0_I_over_primary",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J10.0_n2",
+    "reference": "dlfx_J10.0_n2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J10.0_n4",
+    "reference": "dlfx_J10.0_n4",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J10.0_n8",
+    "reference": "dlfx_J10.0_n8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J10.0_n16",
+    "reference": "dlfx_J10.0_n16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J10.0_n32",
+    "reference": "dlfx_J10.0_n32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J100.0_I_over_primary",
+    "reference": "J100.0_I_over_primary",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J100.0_n2",
+    "reference": "dlfx_J100.0_n2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J100.0_n4",
+    "reference": "dlfx_J100.0_n4",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J100.0_n8",
+    "reference": "dlfx_J100.0_n8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J100.0_n16",
+    "reference": "dlfx_J100.0_n16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "J100.0_n32",
+    "reference": "dlfx_J100.0_n32",
+    "level": "cross_code"
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "J100.0_I_over_primary",
+    "level": "cross_code",
+    "min": 0.97,
+    "max": 1.0
+   },
+   {
+    "quantity": "J0.01_I_over_primary",
+    "level": "cross_code",
+    "min": 0.007785744170981023,
+    "max": 0.007788885763634612
+   },
+   {
+    "quantity": "p2_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 3.141592653589793e-06,
+    "scale_quantity": "p2_measure_scale"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  }
+ }
+}

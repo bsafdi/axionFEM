@@ -1,0 +1,1375 @@
+{
+ "check": "fullwave3d_background",
+ "provenance": {
+  "git_describe": "a11f44e",
+  "git_head": "a11f44efea5a8cc4b0929f14b02c73389d8a0599",
+  "git_diff_sha256": null,
+  "AXF_EXE": {
+   "path": "build3/axf",
+   "mtime": "2026-10-27T13:08:37",
+   "sha256": "0279b972722ae1b6eaa183df7fb6e2692b02497b8e7e1dada5cff00156acb95d"
+  },
+  "libaxionfem": {
+   "path": "build3/libaxionfem.so",
+   "mtime": "2026-10-27T13:08:37",
+   "sha256": "c49d66b86e1860a060bd8e19f2f2f122bfb765c22c8ebd70b46669f2cf585c5e"
+  },
+  "AXF_MESHER": {
+   "path": "build3/axf-mesher",
+   "mtime": "2026-10-27T13:07:50",
+   "sha256": "af4fa35b58fe268ccd14eeb5bf196f6227057ba63f0c9d34b3b70adae1079eda"
+  },
+  "python_core": {
+   "path": "runs/pkg3/axionfem/_core.cpython-312-x86_64-linux-gnu.so",
+   "mtime": "2026-10-27T13:08:37",
+   "sha256": "ae3714b28ed824baa808c5902157fc8100813fb117de79ae858d2436c5f96e46"
+  },
+  "driver": {
+   "path": "benchmarks/fullwave3d_background.py",
+   "mtime": "2026-10-27T13:44:02",
+   "sha256": "4d76ff338cd2c09d6c656cae54dd4bc6edc11baa51db1df77ce077535727ec51"
+  },
+  "date": "2026-10-27"
+ },
+ "R1_m": 0.45,
+ "mesh": {
+  "order": 2,
+  "size": 0.06,
+  "surface_size": 0.02
+ },
+ "design": {
+  "R": 0.2,
+  "H": 0.3,
+  "x": 0.5,
+  "tw": 0.04,
+  "g": 0.02,
+  "tc": 0.02,
+  "tp": 0.02,
+  "NI": 1000000.0,
+  "R_dev": 0.24000000000000002
+ },
+ "coil_field_self_check": {
+  "on_axis_relative_error": 3.7602449663262044e-16,
+  "loop_superposition_relative_error": 1.4191248013987599e-14,
+  "divergence_over_mu0_J": 1.1774549394189647e-09
+ },
+ "models": {
+  "A_grid": {
+   "Psi_MQS": 2.9871146163128064e-09,
+   "L_MQS": 2.506623249818973e-08,
+   "Psi_MQS_reciprocal": 3.0374834926484054e-09,
+   "dofs": 997354,
+   "background": {
+    "exterior": {
+     "continuation_mismatch": 2.9383567054550855e-06,
+     "continuation_radius_m": 2.0,
+     "continuation_samples": 344,
+     "facet_sliver_correction_over_moments": 8.30290767935409e-08,
+     "grid_max_distance_from_domain_center_m": 2.8284271247461903,
+     "n_max": 12,
+     "panels": 128,
+     "quadrature_relative_change_doubled_panels": 8.003749687819443e-09,
+     "radial_nodes": 1024,
+     "scope": "int_{rho > R1} curl E . A_bg dV from the TM m = 0 exterior multipoles (n <= n_max): the grid up to the sphere inscribed in its box (continuation_radius_m), its exterior multipoles beyond (continuation_mismatch: relative rms against the grid where the box reaches farther; 0 samples: none to compare), or, with no such sphere outside R1, the grid over its box; quadrature check on the k -> 0 moments; first-order correction for the slivers between the R1 facets and the sphere"
+    },
+    "form": "Psi part int curl E . A_bg dV / (i omega I) with A_bg = (psi / r) phi_hat over the physical region (perfect conductors, the shell and PML layers excluded), plus the exterior term with a radiating boundary (exterior_term_background)",
+    "grid_edge_A_over_max": 0.013317851338196192,
+    "physical_volume_outside_grid_fraction": 0.0,
+    "type": "grid"
+   },
+   "exterior_term": "included",
+   "exterior_term_background": "included (grid, then its exterior multipoles)",
+   "warnings": [
+    "a background field is present: W_mag and cost exclude the background magnet",
+    "3D full wave: with the background, the MQS Psi (int A_pick . B_lab, background cut at R1) and its reciprocal form int (A_lab + A_bg) . B_pick differ by a factor 1.01686; Psi(omega) tends to the reciprocal form (Psi_over_MQS_reciprocal), Psi_over_MQS divides by the former"
+   ],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 8,
+    "seconds": 815.7079224586487
+   },
+   "rows": [
+    {
+     "f_Hz": 3976120.9660307853,
+     "k_R": 0.020000000000000018,
+     "Psi": [
+      3.0390182510326816e-09,
+      1.265224713431141e-14
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      3.0386815057710664e-09,
+      3.708713203424555e-18
+     ],
+     "Psi_bg_exterior": [
+      3.3674526161514716e-13,
+      1.2648538421107985e-14
+     ],
+     "bg_last_order_fraction": 3.5820266563952356e-15,
+     "Z": [
+      1.960443028473149e-11,
+      -0.6263889523500725
+     ],
+     "L_H": 2.5072903695932438e-08,
+     "residual": 2.323319260342821e-09,
+     "gmres": 343
+    },
+    {
+     "f_Hz": 79522419.32061571,
+     "k_R": 0.40000000000000036,
+     "Psi": [
+      3.7240768985104385e-09,
+      1.2583371075682663e-10
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      3.6107475329918785e-09,
+      1.4523856155405428e-11
+     ],
+     "Psi_bg_exterior": [
+      1.133293655185598e-10,
+      1.1130985460142119e-10
+     ],
+     "bg_last_order_fraction": 3.412072397722511e-15,
+     "Z": [
+      0.0017576775752993704,
+      -14.045755571597523
+     ],
+     "L_H": 2.8110958491685982e-08,
+     "residual": 1.352720427128189e-09,
+     "gmres": 344
+    },
+    {
+     "f_Hz": 159044838.64123142,
+     "k_R": 0.8000000000000007,
+     "Psi": [
+      6.973993711984923e-09,
+      1.983705544361573e-09
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      7.1445248621080865e-09,
+      8.766277724198788e-10
+     ],
+     "Psi_bg_exterior": [
+      -1.7053115012316376e-10,
+      1.1070777719416945e-09
+     ],
+     "bg_last_order_fraction": 3.152986397491796e-15,
+     "Z": [
+      0.35626336335486236,
+      -45.41962738404933
+     ],
+     "L_H": 4.545107073779287e-08,
+     "residual": 1.3962806551685198e-09,
+     "gmres": 377
+    }
+   ]
+  },
+  "A_windings": {
+   "Psi_MQS": 3.037469163216424e-09,
+   "L_MQS": 2.506623249818973e-08,
+   "Psi_MQS_reciprocal": 3.0374691632164362e-09,
+   "dofs": 997354,
+   "background": null,
+   "exterior_term": "included",
+   "exterior_term_background": null,
+   "warnings": [],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 8,
+    "seconds": 818.0489363670349
+   },
+   "rows": [
+    {
+     "f_Hz": 3976120.9660307853,
+     "k_R": 0.020000000000000018,
+     "Psi": [
+      3.0351030375091725e-09,
+      1.2642243292835998e-14
+     ],
+     "Psi_exterior": [
+      2.322672431903182e-10,
+      4.949241212435579e-15
+     ],
+     "Psi_bg_volume": null,
+     "Psi_bg_exterior": null,
+     "bg_last_order_fraction": null,
+     "Z": [
+      1.960443028473149e-11,
+      -0.6263889523500725
+     ],
+     "L_H": 2.5072903695932438e-08,
+     "residual": 2.323319260342821e-09,
+     "gmres": 343
+    },
+    {
+     "f_Hz": 79522419.32061571,
+     "k_R": 0.40000000000000036,
+     "Psi": [
+      3.7193197817733977e-09,
+      1.2573501597596416e-10
+     ],
+     "Psi_exterior": [
+      3.4097956042773494e-10,
+      4.6486680415134215e-11
+     ],
+     "Psi_bg_volume": null,
+     "Psi_bg_exterior": null,
+     "bg_last_order_fraction": null,
+     "Z": [
+      0.0017576775752993704,
+      -14.045755571597523
+     ],
+     "L_H": 2.8110958491685982e-08,
+     "residual": 1.352720427128189e-09,
+     "gmres": 344
+    },
+    {
+     "f_Hz": 159044838.64123142,
+     "k_R": 0.8000000000000007,
+     "Psi": [
+      6.964745057793858e-09,
+      1.9820354427437836e-09
+     ],
+     "Psi_exterior": [
+      6.455590555654492e-10,
+      6.037765377163769e-10
+     ],
+     "Psi_bg_volume": null,
+     "Psi_bg_exterior": null,
+     "bg_last_order_fraction": null,
+     "Z": [
+      0.35626336335486236,
+      -45.41962738404933
+     ],
+     "L_H": 4.545107073779287e-08,
+     "residual": 1.3962806551685198e-09,
+     "gmres": 377
+    }
+   ]
+  },
+  "A_grid_half": {
+   "Psi_MQS": 2.9871146163128064e-09,
+   "L_MQS": 2.506623249818973e-08,
+   "Psi_MQS_reciprocal": 3.0374834926484054e-09,
+   "dofs": 997354,
+   "background": {
+    "exterior": {
+     "continuation_mismatch": 3.1339355584001835e-06,
+     "continuation_radius_m": 1.0,
+     "continuation_samples": 344,
+     "facet_sliver_correction_over_moments": 8.302907565904816e-08,
+     "grid_max_distance_from_domain_center_m": 1.4142135623730951,
+     "n_max": 12,
+     "panels": 128,
+     "quadrature_relative_change_doubled_panels": 1.8083618383906236e-09,
+     "radial_nodes": 1024,
+     "scope": "int_{rho > R1} curl E . A_bg dV from the TM m = 0 exterior multipoles (n <= n_max): the grid up to the sphere inscribed in its box (continuation_radius_m), its exterior multipoles beyond (continuation_mismatch: relative rms against the grid where the box reaches farther; 0 samples: none to compare), or, with no such sphere outside R1, the grid over its box; quadrature check on the k -> 0 moments; first-order correction for the slivers between the R1 facets and the sphere"
+    },
+    "form": "Psi part int curl E . A_bg dV / (i omega I) with A_bg = (psi / r) phi_hat over the physical region (perfect conductors, the shell and PML layers excluded), plus the exterior term with a radiating boundary (exterior_term_background)",
+    "grid_edge_A_over_max": 0.053546833316812814,
+    "physical_volume_outside_grid_fraction": 0.0,
+    "type": "grid"
+   },
+   "exterior_term": "included",
+   "exterior_term_background": "included (grid, then its exterior multipoles)",
+   "warnings": [
+    "a background field is present: W_mag and cost exclude the background magnet",
+    "3D full wave: with the background, the MQS Psi (int A_pick . B_lab, background cut at R1) and its reciprocal form int (A_lab + A_bg) . B_pick differ by a factor 1.01686; Psi(omega) tends to the reciprocal form (Psi_over_MQS_reciprocal), Psi_over_MQS divides by the former"
+   ],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 8,
+    "seconds": 1976.8469018936157
+   },
+   "rows": [
+    {
+     "f_Hz": 3976120.9660307853,
+     "k_R": 0.020000000000000018,
+     "Psi": [
+      3.0390182510253714e-09,
+      1.2652247018231952e-14
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      3.0386815057710664e-09,
+      3.708713203424555e-18
+     ],
+     "Psi_bg_exterior": [
+      3.3674525430493764e-13,
+      1.2648538305028527e-14
+     ],
+     "bg_last_order_fraction": 3.582026738854594e-15,
+     "Z": [
+      1.960443028473149e-11,
+      -0.6263889523500725
+     ],
+     "L_H": 2.5072903695932438e-08,
+     "residual": 2.323319260342821e-09,
+     "gmres": 343
+    },
+    {
+     "f_Hz": 79522419.32061571,
+     "k_R": 0.40000000000000036,
+     "Psi": [
+      3.7240768912065242e-09,
+      1.258337105532963e-10
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      3.6107475329918785e-09,
+      1.4523856155405428e-11
+     ],
+     "Psi_bg_exterior": [
+      1.1332935821464559e-10,
+      1.1130985439789087e-10
+     ],
+     "bg_last_order_fraction": 3.412072517250491e-15,
+     "Z": [
+      0.0017576775752993704,
+      -14.045755571597523
+     ],
+     "L_H": 2.8110958491685982e-08,
+     "residual": 1.352720427128189e-09,
+     "gmres": 344
+    },
+    {
+     "f_Hz": 159044838.64123142,
+     "k_R": 0.8000000000000007,
+     "Psi": [
+      6.973993732557387e-09,
+      1.9837054078397632e-09
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      7.1445248621080865e-09,
+      8.766277724198788e-10
+     ],
+     "Psi_bg_exterior": [
+      -1.7053112955069968e-10,
+      1.1070776354198845e-09
+     ],
+     "bg_last_order_fraction": 3.1529867903049497e-15,
+     "Z": [
+      0.35626336335486236,
+      -45.41962738404933
+     ],
+     "L_H": 4.545107073779287e-08,
+     "residual": 1.3962806551685198e-09,
+     "gmres": 377
+    }
+   ]
+  },
+  "A_grid_R1x1.5": {
+   "Psi_MQS": 3.018754942766321e-09,
+   "L_MQS": 2.5066209411974265e-08,
+   "Psi_MQS_reciprocal": 3.0374832054682606e-09,
+   "dofs": 1119294,
+   "background": {
+    "exterior": {
+     "continuation_mismatch": 2.9383567054550855e-06,
+     "continuation_radius_m": 2.0,
+     "continuation_samples": 344,
+     "facet_sliver_correction_over_moments": 7.82291512259091e-08,
+     "grid_max_distance_from_domain_center_m": 2.8284271247461903,
+     "n_max": 13,
+     "panels": 128,
+     "quadrature_relative_change_doubled_panels": 1.200687712578022e-08,
+     "radial_nodes": 1024,
+     "scope": "int_{rho > R1} curl E . A_bg dV from the TM m = 0 exterior multipoles (n <= n_max): the grid up to the sphere inscribed in its box (continuation_radius_m), its exterior multipoles beyond (continuation_mismatch: relative rms against the grid where the box reaches farther; 0 samples: none to compare), or, with no such sphere outside R1, the grid over its box; quadrature check on the k -> 0 moments; first-order correction for the slivers between the R1 facets and the sphere"
+    },
+    "form": "Psi part int curl E . A_bg dV / (i omega I) with A_bg = (psi / r) phi_hat over the physical region (perfect conductors, the shell and PML layers excluded), plus the exterior term with a radiating boundary (exterior_term_background)",
+    "grid_edge_A_over_max": 0.013317851338196192,
+    "physical_volume_outside_grid_fraction": 0.0,
+    "type": "grid"
+   },
+   "exterior_term": "included",
+   "exterior_term_background": "included (grid, then its exterior multipoles)",
+   "warnings": [
+    "a background field is present: W_mag and cost exclude the background magnet",
+    "3D full wave: with the background, the MQS Psi (int A_pick . B_lab, background cut at R1) and its reciprocal form int (A_lab + A_bg) . B_pick differ by a factor 1.0062; Psi(omega) tends to the reciprocal form (Psi_over_MQS_reciprocal), Psi_over_MQS divides by the former"
+   ],
+   "produced_by": {},
+   "rows": [
+    {
+     "f_Hz": 79522419.32061571,
+     "k_R": 0.4000000000000003,
+     "Psi": [
+      3.724490254484323e-09,
+      1.2598368745765624e-10
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      3.6812314421178242e-09,
+      2.9102003870447963e-11
+     ],
+     "Psi_bg_exterior": [
+      4.325881236649865e-11,
+      9.688168358720828e-11
+     ],
+     "bg_last_order_fraction": 3.4954267730519194e-13,
+     "Z": [
+      0.0017619493067382416,
+      -14.045852326359366
+     ],
+     "L_H": 2.8111152135173526e-08,
+     "residual": 5.082678452269628e-10,
+     "gmres": 337
+    },
+    {
+     "f_Hz": 159044838.64123142,
+     "k_R": 0.8000000000000006,
+     "Psi": [
+      6.976328032308493e-09,
+      1.9860465108225957e-09
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      7.562846680936068e-09,
+      1.5223106931721782e-09
+     ],
+     "Psi_bg_exterior": [
+      -5.86518648627575e-10,
+      4.637358176504174e-10
+     ],
+     "bg_last_order_fraction": 3.206278905083126e-13,
+     "Z": [
+      0.3571326228196577,
+      -45.4225053736323
+     ],
+     "L_H": 4.5453950719766566e-08,
+     "residual": 1.0383008123943122e-09,
+     "gmres": 414
+    }
+   ]
+  },
+  "B_long": {
+   "Psi_MQS": 5.118997913658334e-09,
+   "L_MQS": 2.506623249818973e-08,
+   "Psi_MQS_reciprocal": 5.3830608726014625e-09,
+   "dofs": 997354,
+   "background": {
+    "exterior": {
+     "continuation_mismatch": 6.697988919225659e-06,
+     "continuation_radius_m": 2.0,
+     "continuation_samples": 538,
+     "facet_sliver_correction_over_moments": 6.76690428088703e-08,
+     "grid_max_distance_from_domain_center_m": 3.605551275463989,
+     "n_max": 12,
+     "panels": 128,
+     "quadrature_relative_change_doubled_panels": 2.1216569943450833e-09,
+     "radial_nodes": 1024,
+     "scope": "int_{rho > R1} curl E . A_bg dV from the TM m = 0 exterior multipoles (n <= n_max): the grid up to the sphere inscribed in its box (continuation_radius_m), its exterior multipoles beyond (continuation_mismatch: relative rms against the grid where the box reaches farther; 0 samples: none to compare), or, with no such sphere outside R1, the grid over its box; quadrature check on the k -> 0 moments; first-order correction for the slivers between the R1 facets and the sphere"
+    },
+    "form": "Psi part int curl E . A_bg dV / (i omega I) with A_bg = (psi / r) phi_hat over the physical region (perfect conductors, the shell and PML layers excluded), plus the exterior term with a radiating boundary (exterior_term_background)",
+    "grid_edge_A_over_max": 0.048907303060180256,
+    "physical_volume_outside_grid_fraction": 0.0,
+    "type": "grid"
+   },
+   "exterior_term": "included",
+   "exterior_term_background": "included (grid, then its exterior multipoles)",
+   "warnings": [
+    "a background field is present: W_mag and cost exclude the background magnet",
+    "3D full wave: with the background, the MQS Psi (int A_pick . B_lab, background cut at R1) and its reciprocal form int (A_lab + A_bg) . B_pick differ by a factor 1.05158; Psi(omega) tends to the reciprocal form (Psi_over_MQS_reciprocal), Psi_over_MQS divides by the former"
+   ],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 8,
+    "seconds": 847.9534606933594
+   },
+   "rows": [
+    {
+     "f_Hz": 3976120.9660307853,
+     "k_R": 0.020000000000000018,
+     "Psi": [
+      5.387403564014949e-09,
+      7.589449536871471e-14
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      5.385519210837693e-09,
+      9.804230205575397e-18
+     ],
+     "Psi_bg_exterior": [
+      1.8843531772565014e-12,
+      7.588469113850913e-14
+     ],
+     "bg_last_order_fraction": 2.9066019563488918e-15,
+     "Z": [
+      1.960443028473149e-11,
+      -0.6263889523500725
+     ],
+     "L_H": 2.5072903695932438e-08,
+     "residual": 2.323319260342821e-09,
+     "gmres": 343
+    },
+    {
+     "f_Hz": 79522419.32061571,
+     "k_R": 0.40000000000000036,
+     "Psi": [
+      7.165166496698014e-09,
+      6.82925191112438e-10
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      6.574998824372427e-09,
+      3.814186188395466e-11
+     ],
+     "Psi_bg_exterior": [
+      5.901676723255871e-10,
+      6.447833292284833e-10
+     ],
+     "bg_last_order_fraction": 2.8158572783434975e-15,
+     "Z": [
+      0.0017576775752993704,
+      -14.045755571597523
+     ],
+     "L_H": 2.8110958491685982e-08,
+     "residual": 1.352720427128189e-09,
+     "gmres": 344
+    },
+    {
+     "f_Hz": 159044838.64123142,
+     "k_R": 0.8000000000000007,
+     "Psi": [
+      1.2538505303646404e-08,
+      7.908903196472098e-09
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      1.4015110053285806e-08,
+      2.248376584127009e-09
+     ],
+     "Psi_bg_exterior": [
+      -1.4766047496394025e-09,
+      5.660526612345089e-09
+     ],
+     "bg_last_order_fraction": 2.7415961791018792e-15,
+     "Z": [
+      0.35626336335486236,
+      -45.41962738404933
+     ],
+     "L_H": 4.545107073779287e-08,
+     "residual": 1.3962806551685198e-09,
+     "gmres": 377
+    }
+   ]
+  },
+  "B_long_R1x1.5": {
+   "Psi_MQS": 5.2647866909947686e-09,
+   "L_MQS": 2.5066209411974265e-08,
+   "Psi_MQS_reciprocal": 5.383060565855133e-09,
+   "dofs": 1119294,
+   "background": {
+    "exterior": {
+     "continuation_mismatch": 6.697988919225659e-06,
+     "continuation_radius_m": 2.0,
+     "continuation_samples": 538,
+     "facet_sliver_correction_over_moments": 9.92622676796722e-08,
+     "grid_max_distance_from_domain_center_m": 3.605551275463989,
+     "n_max": 13,
+     "panels": 128,
+     "quadrature_relative_change_doubled_panels": 2.8698325671880287e-09,
+     "radial_nodes": 1024,
+     "scope": "int_{rho > R1} curl E . A_bg dV from the TM m = 0 exterior multipoles (n <= n_max): the grid up to the sphere inscribed in its box (continuation_radius_m), its exterior multipoles beyond (continuation_mismatch: relative rms against the grid where the box reaches farther; 0 samples: none to compare), or, with no such sphere outside R1, the grid over its box; quadrature check on the k -> 0 moments; first-order correction for the slivers between the R1 facets and the sphere"
+    },
+    "form": "Psi part int curl E . A_bg dV / (i omega I) with A_bg = (psi / r) phi_hat over the physical region (perfect conductors, the shell and PML layers excluded), plus the exterior term with a radiating boundary (exterior_term_background)",
+    "grid_edge_A_over_max": 0.048907303060180256,
+    "physical_volume_outside_grid_fraction": 0.0,
+    "type": "grid"
+   },
+   "exterior_term": "included",
+   "exterior_term_background": "included (grid, then its exterior multipoles)",
+   "warnings": [
+    "a background field is present: W_mag and cost exclude the background magnet",
+    "3D full wave: with the background, the MQS Psi (int A_pick . B_lab, background cut at R1) and its reciprocal form int (A_lab + A_bg) . B_pick differ by a factor 1.02247; Psi(omega) tends to the reciprocal form (Psi_over_MQS_reciprocal), Psi_over_MQS divides by the former"
+   ],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 8,
+    "seconds": 1061.2989139556885
+   },
+   "rows": [
+    {
+     "f_Hz": 3976120.9660307853,
+     "k_R": 0.020000000000000014,
+     "Psi": [
+      5.3874067737218595e-09,
+      7.598835330066272e-14
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      5.386061057923641e-09,
+      2.887714461957974e-17
+     ],
+     "Psi_bg_exterior": [
+      1.345715798218649e-12,
+      7.595947615604314e-14
+     ],
+     "bg_last_order_fraction": 3.1937514996803225e-09,
+     "Z": [
+      1.965296910851708e-11,
+      -0.6263882846238822
+     ],
+     "L_H": 2.5072876968394537e-08,
+     "residual": 1.3294725790736583e-09,
+     "gmres": 336
+    },
+    {
+     "f_Hz": 79522419.32061571,
+     "k_R": 0.4000000000000003,
+     "Psi": [
+      7.166534349525148e-09,
+      6.837451072482573e-10
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      6.910697880740749e-09,
+      1.0642379409857896e-10
+     ],
+     "Psi_bg_exterior": [
+      2.558364687843989e-10,
+      5.773213131496783e-10
+     ],
+     "bg_last_order_fraction": 3.202879548480359e-09,
+     "Z": [
+      0.0017619493067382416,
+      -14.045852326359366
+     ],
+     "L_H": 2.8111152135173526e-08,
+     "residual": 5.082678452269628e-10,
+     "gmres": 337
+    },
+    {
+     "f_Hz": 159044838.64123142,
+     "k_R": 0.8000000000000006,
+     "Psi": [
+      1.2542854105425514e-08,
+      7.918462730296903e-09
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      1.599514813876906e-08,
+      5.2435073007634924e-09
+     ],
+     "Psi_bg_exterior": [
+      -3.4522940333435453e-09,
+      2.674955429533411e-09
+     ],
+     "bg_last_order_fraction": 2.924528125669632e-09,
+     "Z": [
+      0.3571326228196577,
+      -45.4225053736323
+     ],
+     "L_H": 4.5453950719766566e-08,
+     "residual": 1.0383008123943122e-09,
+     "gmres": 414
+    }
+   ]
+  },
+  "B_long_narrow_grid": {
+   "Psi_MQS": 5.118997913658334e-09,
+   "L_MQS": 2.506623249818973e-08,
+   "Psi_MQS_reciprocal": 5.3830608726014625e-09,
+   "dofs": 997354,
+   "background": {
+    "exterior": {
+     "continuation_mismatch": 0.22518720685108565,
+     "continuation_radius_m": 0.8,
+     "continuation_samples": 390,
+     "facet_sliver_correction_over_moments": 6.881966355908423e-08,
+     "grid_max_distance_from_domain_center_m": 3.104834939252005,
+     "n_max": 12,
+     "panels": 128,
+     "quadrature_relative_change_doubled_panels": 3.577646856700227e-09,
+     "radial_nodes": 1024,
+     "scope": "int_{rho > R1} curl E . A_bg dV from the TM m = 0 exterior multipoles (n <= n_max): the grid up to the sphere inscribed in its box (continuation_radius_m), its exterior multipoles beyond (continuation_mismatch: relative rms against the grid where the box reaches farther; 0 samples: none to compare), or, with no such sphere outside R1, the grid over its box; quadrature check on the k -> 0 moments; first-order correction for the slivers between the R1 facets and the sphere"
+    },
+    "form": "Psi part int curl E . A_bg dV / (i omega I) with A_bg = (psi / r) phi_hat over the physical region (perfect conductors, the shell and PML layers excluded), plus the exterior term with a radiating boundary (exterior_term_background)",
+    "grid_edge_A_over_max": 0.22322026972650993,
+    "physical_volume_outside_grid_fraction": 0.0,
+    "type": "grid"
+   },
+   "exterior_term": "included",
+   "exterior_term_background": "included (grid, then its exterior multipoles)",
+   "warnings": [
+    "a background field is present: W_mag and cost exclude the background magnet",
+    "3D full wave: with the background, the MQS Psi (int A_pick . B_lab, background cut at R1) and its reciprocal form int (A_lab + A_bg) . B_pick differ by a factor 1.05158; Psi(omega) tends to the reciprocal form (Psi_over_MQS_reciprocal), Psi_over_MQS divides by the former",
+    "3D full wave: beyond the sphere rho = 0.8 m inscribed in the background grid, its exterior multipoles differ from the grid by 0.225187 (rms): the magnet's sources may reach that sphere; extend the grid so that its inscribed sphere encloses them"
+   ],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 8,
+    "seconds": 409.98446345329285
+   },
+   "rows": [
+    {
+     "f_Hz": 159044838.64123142,
+     "k_R": 0.8000000000000007,
+     "Psi": [
+      1.263439278450105e-08,
+      7.893401131110204e-09
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      1.4015110053285806e-08,
+      2.248376584127009e-09
+     ],
+     "Psi_bg_exterior": [
+      -1.3807172687847559e-09,
+      5.645024546983195e-09
+     ],
+     "bg_last_order_fraction": 2.7597701590327483e-15,
+     "Z": [
+      0.35626336335486236,
+      -45.41962738404933
+     ],
+     "L_H": 4.545107073779287e-08,
+     "residual": 1.3962806551685198e-09,
+     "gmres": 377
+    }
+   ]
+  },
+  "C_grid_2ranks": {
+   "Psi_MQS": 2.987107942395179e-09,
+   "L_MQS": 2.5066232498188822e-08,
+   "Psi_MQS_reciprocal": 3.03748349265057e-09,
+   "dofs": 997354,
+   "background": {
+    "exterior": {
+     "continuation_mismatch": 2.9383567054550855e-06,
+     "continuation_radius_m": 2.0,
+     "continuation_samples": 344,
+     "facet_sliver_correction_over_moments": 8.302907679354078e-08,
+     "grid_max_distance_from_domain_center_m": 2.8284271247461903,
+     "n_max": 12,
+     "panels": 128,
+     "quadrature_relative_change_doubled_panels": 8.003749687819443e-09,
+     "radial_nodes": 1024,
+     "scope": "int_{rho > R1} curl E . A_bg dV from the TM m = 0 exterior multipoles (n <= n_max): the grid up to the sphere inscribed in its box (continuation_radius_m), its exterior multipoles beyond (continuation_mismatch: relative rms against the grid where the box reaches farther; 0 samples: none to compare), or, with no such sphere outside R1, the grid over its box; quadrature check on the k -> 0 moments; first-order correction for the slivers between the R1 facets and the sphere"
+    },
+    "form": "Psi part int curl E . A_bg dV / (i omega I) with A_bg = (psi / r) phi_hat over the physical region (perfect conductors, the shell and PML layers excluded), plus the exterior term with a radiating boundary (exterior_term_background)",
+    "grid_edge_A_over_max": 0.013317851338196192,
+    "physical_volume_outside_grid_fraction": 0.0,
+    "type": "grid"
+   },
+   "exterior_term": "included",
+   "exterior_term_background": "included (grid, then its exterior multipoles)",
+   "warnings": [
+    "a background field is present: W_mag and cost exclude the background magnet",
+    "3D full wave: with the background, the MQS Psi (int A_pick . B_lab, background cut at R1) and its reciprocal form int (A_lab + A_bg) . B_pick differ by a factor 1.01686; Psi(omega) tends to the reciprocal form (Psi_over_MQS_reciprocal), Psi_over_MQS divides by the former"
+   ],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 2,
+    "seconds": 923.6795547008514
+   },
+   "rows": [
+    {
+     "f_Hz": 159044838.64123142,
+     "k_R": 0.8000000000000007,
+     "Psi": [
+      6.9739937120223586e-09,
+      1.9837055444118645e-09
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      7.14452486215734e-09,
+      8.766277724543953e-10
+     ],
+     "Psi_bg_exterior": [
+      -1.7053115013498128e-10,
+      1.1070777719574692e-09
+     ],
+     "bg_last_order_fraction": 3.1529864154337175e-15,
+     "Z": [
+      0.3562633632520703,
+      -45.41962738408408
+     ],
+     "L_H": 4.5451070737827647e-08,
+     "residual": 1.0593597165093997e-09,
+     "gmres": 215
+    }
+   ]
+  },
+  "D_uniform_pec": {
+   "Psi_MQS": 1.1686512849108557e-09,
+   "L_MQS": 2.506623249818973e-08,
+   "Psi_MQS_reciprocal": 1.3232395295413464e-09,
+   "dofs": 997354,
+   "background": {
+    "form": "Psi part int curl E . A_bg dV / (i omega I) with A_bg = (psi / r) phi_hat over the physical region (perfect conductors, the shell and PML layers excluded), plus the exterior term with a radiating boundary (exterior_term_background)",
+    "type": "uniform"
+   },
+   "exterior_term": null,
+   "exterior_term_background": "none (closed boundary)",
+   "warnings": [
+    "a background field is present: W_mag and cost exclude the background magnet",
+    "3D full wave: with the background, the MQS Psi (int A_pick . B_lab, background cut at R1) and its reciprocal form int (A_lab + A_bg) . B_pick differ by a factor 1.13228; Psi(omega) tends to the reciprocal form (Psi_over_MQS_reciprocal), Psi_over_MQS divides by the former"
+   ],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 8,
+    "seconds": 184.0209777355194
+   },
+   "rows": [
+    {
+     "f_Hz": 3976120.9660307853,
+     "k_R": 0.020000000000000018,
+     "Psi": [
+      1.3241484158661674e-09,
+      0.0
+     ],
+     "Psi_exterior": null,
+     "Psi_bg_volume": [
+      1.3241484158661674e-09,
+      0.0
+     ],
+     "Psi_bg_exterior": [
+      0.0,
+      0.0
+     ],
+     "bg_last_order_fraction": null,
+     "Z": [
+      -0.0,
+      -0.6263898131587519
+     ],
+     "L_H": 2.507293815211663e-08,
+     "residual": 1.8359226720471042e-09,
+     "gmres": 163
+    }
+   ]
+  },
+  "D_uniform_radiation": {
+   "Psi_MQS": 1.1686512849108557e-09,
+   "L_MQS": 2.506623249818973e-08,
+   "Psi_MQS_reciprocal": 1.3232395295413464e-09,
+   "dofs": 997354,
+   "background": {
+    "form": "Psi part int curl E . A_bg dV / (i omega I) with A_bg = (psi / r) phi_hat over the physical region (perfect conductors, the shell and PML layers excluded), plus the exterior term with a radiating boundary (exterior_term_background)",
+    "type": "uniform"
+   },
+   "exterior_term": "included",
+   "exterior_term_background": "omitted (uniform background: the exterior integral diverges)",
+   "warnings": [
+    "a background field is present: W_mag and cost exclude the background magnet",
+    "3D full wave: with the background, the MQS Psi (int A_pick . B_lab, background cut at R1) and its reciprocal form int (A_lab + A_bg) . B_pick differ by a factor 1.13228; Psi(omega) tends to the reciprocal form (Psi_over_MQS_reciprocal), Psi_over_MQS divides by the former",
+    "3D full wave: the exterior reciprocity term of Psi(omega) is omitted for the uniform background, whose field fills all space, so Psi(omega) depends on the domain radius above the MQS limit; give the magnet's field as a grid to include it"
+   ],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 8,
+    "seconds": 341.94122672080994
+   },
+   "rows": [
+    {
+     "f_Hz": 3976120.9660307853,
+     "k_R": 0.020000000000000018,
+     "Psi": [
+      1.3240000429614467e-09,
+      4.788852693897513e-18
+     ],
+     "Psi_exterior": [
+      0.0,
+      0.0
+     ],
+     "Psi_bg_volume": [
+      1.3240000429614467e-09,
+      4.788852693897513e-18
+     ],
+     "Psi_bg_exterior": [
+      0.0,
+      0.0
+     ],
+     "bg_last_order_fraction": null,
+     "Z": [
+      1.9604429626612197e-11,
+      -0.6263889523501791
+     ],
+     "L_H": 2.5072903695936707e-08,
+     "residual": 2.444468880497501e-09,
+     "gmres": 343
+    }
+   ]
+  },
+  "E_axi_windings": {
+   "Psi_MQS": 3.037484967917509e-09,
+   "L_MQS": 2.5066858235327057e-08,
+   "Psi_MQS_reciprocal": null,
+   "dofs": 10677,
+   "background": null,
+   "exterior_term": "included",
+   "exterior_term_background": null,
+   "warnings": [],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 1,
+    "seconds": 0.6390514373779297
+   },
+   "rows": [
+    {
+     "f_Hz": 3976120.9660307853,
+     "k_R": 0.02,
+     "Psi": [
+      3.0390106371932908e-09,
+      1.2626240837796919e-14
+     ],
+     "Psi_exterior": [
+      3.3605817238109377e-13,
+      1.2622552333505009e-14
+     ],
+     "Psi_bg_volume": null,
+     "Psi_bg_exterior": null,
+     "bg_last_order_fraction": null,
+     "Z": [
+      1.9523191517867154e-11,
+      -0.6264038795715297
+     ],
+     "L_H": 2.507350119814674e-08,
+     "residual": 9.997017960800865e-13,
+     "gmres": null
+    },
+    {
+     "f_Hz": 79522419.32061571,
+     "k_R": 0.4,
+     "Psi": [
+      3.71887112000995e-09,
+      1.2524586440620113e-10
+     ],
+     "Psi_exterior": [
+      1.1291498209595195e-10,
+      1.1083937439223196e-10
+     ],
+     "Psi_bg_volume": null,
+     "Psi_bg_exterior": null,
+     "bg_last_order_fraction": null,
+     "Z": [
+      0.0017436352692376544,
+      -14.029580216173947
+     ],
+     "L_H": 2.8078585384907742e-08,
+     "residual": 1.1610316234636583e-12,
+     "gmres": null
+    },
+    {
+     "f_Hz": 159044838.64123142,
+     "k_R": 0.8,
+     "Psi": [
+      6.9199796423816444e-09,
+      1.9554762943319053e-09
+     ],
+     "Psi_exterior": [
+      -1.654085619122832e-10,
+      1.0944423923791827e-09
+     ],
+     "Psi_bg_volume": null,
+     "Psi_bg_exterior": null,
+     "bg_last_order_fraction": null,
+     "Z": [
+      0.34779965120742695,
+      -45.07273168736309
+     ],
+     "L_H": 4.5103934890213036e-08,
+     "residual": 1.9891012392560317e-12,
+     "gmres": null
+    }
+   ]
+  },
+  "E_axi_grid": {
+   "Psi_MQS": 3.037484780224412e-09,
+   "L_MQS": 2.5066858235326885e-08,
+   "Psi_MQS_reciprocal": null,
+   "dofs": 10677,
+   "background": null,
+   "exterior_term": "omitted (background)",
+   "exterior_term_background": null,
+   "warnings": [
+    "a background field is present: W_mag and cost exclude the background magnet",
+    "full wave: the exterior reciprocity term of Psi(omega) is omitted (external background field), so Psi(omega) depends on mesh.domain_radius above the MQS limit (the MQS Psi does not)"
+   ],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 1,
+    "seconds": 14.712948083877563
+   },
+   "rows": [
+    {
+     "f_Hz": 3976120.9660307853,
+     "k_R": 0.02,
+     "Psi": [
+      3.0386743947599332e-09,
+      3.688507677317472e-18
+     ],
+     "Psi_exterior": null,
+     "Psi_bg_volume": null,
+     "Psi_bg_exterior": null,
+     "bg_last_order_fraction": null,
+     "Z": [
+      1.9523191517867154e-11,
+      -0.6264038795715253
+     ],
+     "L_H": 2.5073501198146566e-08,
+     "residual": 9.997017960800865e-13,
+     "gmres": null
+    },
+    {
+     "f_Hz": 79522419.32061571,
+     "k_R": 0.4,
+     "Psi": [
+      3.6059576317364087e-09,
+      1.4406509826558671e-11
+     ],
+     "Psi_exterior": null,
+     "Psi_bg_volume": null,
+     "Psi_bg_exterior": null,
+     "bg_last_order_fraction": null,
+     "Z": [
+      0.0017436352692376544,
+      -14.029580216173862
+     ],
+     "L_H": 2.807858538490757e-08,
+     "residual": 1.1610316234636583e-12,
+     "gmres": null
+    },
+    {
+     "f_Hz": 159044838.64123142,
+     "k_R": 0.8,
+     "Psi": [
+      7.085402076430059e-09,
+      8.610363350110439e-10
+     ],
+     "Psi_exterior": null,
+     "Psi_bg_volume": null,
+     "Psi_bg_exterior": null,
+     "bg_last_order_fraction": null,
+     "Z": [
+      0.34779965120742695,
+      -45.07273168736292
+     ],
+     "L_H": 4.5103934890212864e-08,
+     "residual": 1.9891012392560317e-12,
+     "gmres": null
+    }
+   ]
+  },
+  "E_axi_uniform_pec": {
+   "Psi_MQS": 1.3232388129427295e-09,
+   "L_MQS": 2.5066858235326885e-08,
+   "Psi_MQS_reciprocal": null,
+   "dofs": 10677,
+   "background": null,
+   "exterior_term": null,
+   "exterior_term_background": null,
+   "warnings": [
+    "a background field is present: W_mag and cost exclude the background magnet"
+   ],
+   "produced_by": {
+    "AXF_EXE": "build3/axf",
+    "ranks": 1,
+    "seconds": 0.38668036460876465
+   },
+   "rows": [
+    {
+     "f_Hz": 3976120.9660307853,
+     "k_R": 0.02,
+     "Psi": [
+      1.3241424798116597e-09,
+      0.0
+     ],
+     "Psi_exterior": null,
+     "Psi_bg_volume": null,
+     "Psi_bg_exterior": null,
+     "bg_last_order_fraction": null,
+     "Z": [
+      0.0,
+      -0.6264047330786661
+     ],
+     "L_H": 2.5073535362067023e-08,
+     "residual": 1.0383974840916242e-12,
+     "gmres": null
+    }
+   ]
+  }
+ },
+ "results": {
+  "A_windings_vs_grid": [
+   {
+    "k_R": 0.020000000000000018,
+    "Psi_grid_vs_windings": 0.0012899771359001408,
+    "Z_grid_vs_windings": 0.0,
+    "Psi_windings": [
+     3.0351030375091725e-09,
+     1.2642243292835998e-14
+    ],
+    "Psi_grid": [
+     3.0390182510326816e-09,
+     1.265224713431141e-14
+    ],
+    "bg_exterior_over_Psi": 0.00011088539023413618
+   },
+   {
+    "k_R": 0.40000000000000036,
+    "Psi_grid_vs_windings": 0.001278573539295019,
+    "Z_grid_vs_windings": 0.0,
+    "Psi_windings": [
+     3.7193197817733977e-09,
+     1.2573501597596416e-10
+    ],
+    "Psi_grid": [
+     3.7240768985104385e-09,
+     1.2583371075682663e-10
+    ],
+    "bg_exterior_over_Psi": 0.04263062655700396
+   },
+   {
+    "k_R": 0.8000000000000007,
+    "Psi_grid_vs_windings": 0.0012978694387644808,
+    "Z_grid_vs_windings": 0.0,
+    "Psi_windings": [
+     6.964745057793858e-09,
+     1.9820354427437836e-09
+    ],
+    "Psi_grid": [
+     6.973993711984923e-09,
+     1.983705544361573e-09
+    ],
+    "bg_exterior_over_Psi": 0.15448787354205895
+   }
+  ],
+  "A_grid_mqs_limit": {
+   "Psi_FW_over_MQS_reciprocal": 1.000505273004554,
+   "Psi_FW_over_MQS": 1.017375843050268,
+   "MQS_reciprocal_over_MQS": 1.0168620501069934,
+   "windings_Psi_FW_over_MQS": 0.999221020674193
+  },
+  "A_grid_extent": [
+   {
+    "k_R": 0.02,
+    "Psi": 2.4057539703317596e-12,
+    "bg_exterior": 2.169586315777711e-08
+   },
+   {
+    "k_R": 0.4,
+    "Psi": 1.9609106166528503e-09,
+    "bg_exterior": 4.599769621251744e-08
+   },
+   {
+    "k_R": 0.8,
+    "Psi": 1.9041529853276544e-08,
+    "bg_exterior": 1.2325582207002503e-07
+   }
+  ],
+  "A_grid_exterior_vs_axisymmetric_windings_exterior": [
+   {
+    "k_R": 0.02,
+    "bg_exterior_3d": [
+     3.3674526161514716e-13,
+     1.2648538421107985e-14
+    ],
+    "exterior_2d": [
+     3.3605817238109377e-13,
+     1.2622552333505009e-14
+    ],
+    "relative": 0.0020445744583570706
+   },
+   {
+    "k_R": 0.4,
+    "bg_exterior_3d": [
+     1.133293655185598e-10,
+     1.1130985460142119e-10
+    ],
+    "exterior_2d": [
+     1.1291498209595195e-10,
+     1.1083937439223196e-10
+    ],
+    "relative": 0.003962389259296914
+   },
+   {
+    "k_R": 0.8,
+    "bg_exterior_3d": [
+     -1.7053115012316376e-10,
+     1.1070777719416945e-09
+    ],
+    "exterior_2d": [
+     -1.654085619122832e-10,
+     1.0944423923791827e-09
+    ],
+    "relative": 0.012317858989989897
+   }
+  ],
+  "B_long_narrow_grid": {
+   "exterior": {
+    "continuation_mismatch": 0.22518720685108565,
+    "continuation_radius_m": 0.8,
+    "continuation_samples": 390,
+    "facet_sliver_correction_over_moments": 6.881966355908423e-08,
+    "grid_max_distance_from_domain_center_m": 3.104834939252005,
+    "n_max": 12,
+    "panels": 128,
+    "quadrature_relative_change_doubled_panels": 3.577646856700227e-09,
+    "radial_nodes": 1024,
+    "scope": "int_{rho > R1} curl E . A_bg dV from the TM m = 0 exterior multipoles (n <= n_max): the grid up to the sphere inscribed in its box (continuation_radius_m), its exterior multipoles beyond (continuation_mismatch: relative rms against the grid where the box reaches farther; 0 samples: none to compare), or, with no such sphere outside R1, the grid over its box; quadrature check on the k -> 0 moments; first-order correction for the slivers between the R1 facets and the sphere"
+   },
+   "warned": true
+  },
+  "A_grid_R1_independence": [
+   {
+    "k_R": 0.4,
+    "Psi": 0.00011800831281523877,
+    "Psi_without_bg_exterior": 0.019933582746932608
+   },
+   {
+    "k_R": 0.8,
+    "Psi": 0.00045595059375633424,
+    "Psi_without_bg_exterior": 0.10688231551153182
+   }
+  ],
+  "B_long_R1_independence": [
+   {
+    "k_R": 0.02,
+    "Psi": 5.96034596361974e-07,
+    "Psi_without_bg_exterior": 0.00010061185654911053,
+    "bg_exterior_over_Psi": [
+     0.00035005369654174027,
+     0.00025018676547432656
+    ]
+   },
+   {
+    "k_R": 0.4,
+    "Psi": 0.00022156818165733165,
+    "Psi_without_bg_exterior": 0.05210149415608886,
+    "bg_exterior_over_Psi": [
+     0.121442024827306,
+     0.08771516292488307
+    ]
+   },
+   {
+    "k_R": 0.8,
+    "Psi": 0.0007084386630934601,
+    "Psi_without_bg_exterior": 0.252950176332367,
+    "bg_exterior_over_Psi": [
+     0.3946145327618364,
+     0.2944295912171912
+    ]
+   }
+  ],
+  "B_long_mqs_limit": {
+   "R1": {
+    "Psi_FW_over_MQS_reciprocal": 1.0008067328330186,
+    "Psi_FW_over_MQS": 1.0524332409230022,
+    "MQS_reciprocal_over_MQS": 1.0515848928632232
+   },
+   "R1x1.5": {
+    "Psi_FW_over_MQS_reciprocal": 1.000807386123462,
+    "Psi_FW_over_MQS": 1.023290608045475,
+    "MQS_reciprocal_over_MQS": 1.0224650839249894
+   }
+  },
+  "C_ranks": {
+   "Psi_2ranks_vs_job_ranks": 8.64681884884779e-12,
+   "Z_2ranks_vs_job_ranks": 2.388934331880467e-12,
+   "ranks": [
+    2,
+    8
+   ]
+  },
+  "D_uniform_pec": {
+   "Psi_FW_over_MQS_reciprocal": 1.00068686455062,
+   "Psi_FW_over_MQS": 1.1330569118119551,
+   "exterior_term_background": "none (closed boundary)",
+   "warned": false
+  },
+  "D_uniform_radiation": {
+   "Psi_FW_over_MQS_reciprocal": 1.0005747360195354,
+   "Psi_FW_over_MQS": 1.1329299510096726,
+   "exterior_term_background": "omitted (uniform background: the exterior integral diverges)",
+   "warned": true
+  },
+  "E_windings_3d_vs_axisymmetric": [
+   {
+    "k_R": 0.02,
+    "Psi": 0.0012858130986096766,
+    "L": -2.3830027150228972e-05
+   },
+   {
+    "k_R": 0.4,
+    "Psi": 0.00017838096847625325,
+    "L": 0.0011529465012023454
+   },
+   {
+    "k_R": 0.8,
+    "Psi": 0.007238419058334487,
+    "L": 0.007696353952815871
+   }
+  ],
+  "E_grid_3d_volume_vs_axisymmetric": [
+   {
+    "k_R": 0.02,
+    "Psi": 2.340168839905157e-06
+   },
+   {
+    "k_R": 0.4,
+    "Psi": 0.001328717835003367
+   },
+   {
+    "k_R": 0.8,
+    "Psi": 0.00856656044754809
+   }
+  ],
+  "E_uniform_pec_3d_vs_axisymmetric": {
+   "Psi_FW": 4.48294243119947e-06,
+   "Psi_MQS_axisymmetric": 1.3232388129427295e-09,
+   "Psi_MQS_3d": 1.1686512849108557e-09,
+   "Psi_MQS_3d_reciprocal": 1.3232395295413464e-09
+  }
+ }
+}

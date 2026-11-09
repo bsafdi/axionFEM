@@ -1,0 +1,147 @@
+{
+ "benchmarks": [
+  "optimistic",
+  "conservative_solenoid"
+ ],
+ "description": "Solenoid magnet with an immersed shorted coaxial pickup (DMRadio-m^3 topology). The winding (inner radius R, thickness tw, height H) produces an axial field that penetrates the coax; the coax walls (copper: transparent to the static field, perfect conductors at RF) have inner radius x R and outer radius R - g. The readout port spans the bottom gap between the conductors; the top is shorted. For a long solenoid the geometry factor is g = (1 - x^2)^2 / (4 ln 1/x), largest at x = 0.534.",
+ "mesh": {
+  "order": 2,
+  "size": 0.35,
+  "surface_size": 0.08,
+  "domain_radius": 3.0
+ },
+ "name": "solenoid_3d",
+ "notes": "generated from template 'solenoid'",
+ "parameters": {
+  "H": 2.0,
+  "NI": 1000000.0,
+  "R": 1.0,
+  "g": "0.005*R",
+  "tc": "0.005*R",
+  "tp": "0.01*R",
+  "tw": "0.01*R",
+  "x": 0.534
+ },
+ "pickup": {
+  "type": "port",
+  "port": "port"
+ },
+ "regions": [
+  {
+   "material": "winding",
+   "name": "winding",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "R",
+        "R+tw"
+       ],
+       "z": [
+        "-H/2",
+        "H/2"
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "material": "copper",
+   "name": "coax_inner",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "x*R-tc",
+        "x*R"
+       ],
+       "z": [
+        "-H/2",
+        "H/2"
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "material": "copper",
+   "name": "coax_outer",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "R-g-tc",
+        "R-g"
+       ],
+       "z": [
+        "-H/2",
+        "H/2"
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "material": "copper",
+   "name": "coax_short",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "x*R-tc",
+        "R-g"
+       ],
+       "z": [
+        "H/2-tc",
+        "H/2"
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "material": "vacuum",
+   "name": "port",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "x*R",
+        "R-g-tc"
+       ],
+       "z": [
+        "-H/2",
+        "-H/2+tp"
+       ]
+      }
+     }
+    }
+   }
+  }
+ ],
+ "schema": "axionfem.design/1",
+ "windings": [
+  {
+   "ampere_turns": "NI",
+   "name": "solenoid",
+   "region": "winding",
+   "type": "azimuthal"
+  }
+ ],
+ "fullwave": {
+  "frequencies": [
+   14314035.477710826,
+   28628070.955421653
+  ]
+ },
+ "symmetry": "3d"
+}

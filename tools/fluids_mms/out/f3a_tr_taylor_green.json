@@ -1,0 +1,159 @@
+{
+ "T": 0.02,
+ "boundaries": [
+  {
+   "kind": "dirichlet",
+   "name": "x0",
+   "normal": [
+    -1,
+    0
+   ],
+   "where": "x = 0"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "x1",
+   "normal": [
+    1,
+    0
+   ],
+   "where": "x = 1"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "y0",
+   "normal": [
+    0,
+    -1
+   ],
+   "where": "y = 0"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "y1",
+   "normal": [
+    0,
+    1
+   ],
+   "where": "y = 1"
+  }
+ ],
+ "box": [
+  0.0,
+  1.0,
+  0.0,
+  1.0
+ ],
+ "constants": {
+  "T": "1/50",
+  "mu": "1/20",
+  "rho": "1"
+ },
+ "coords": [
+  "x",
+  "y",
+  "t"
+ ],
+ "data_only": false,
+ "description": "decaying Taylor-Green vortex translated by (3/10, 3/20), nu = 1/20 (Re = U L / nu = 20), exact Dirichlet data",
+ "exact_ns": true,
+ "extra": {},
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "0",
+     "sympy": "0"
+    }
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "0",
+     "sympy": "0"
+    }
+   ]
+  }
+ },
+ "geometry": "planar",
+ "grad_u": [
+  [
+   {
+    "numpy": "np.pi*np.exp(-1/10*np.pi**2*t)*np.cos(np.pi*(x + 3/10))*np.cos(np.pi*(y + 3/20))",
+    "sympy": "pi*exp(-pi**2*t/10)*cos(pi*(x + 3/10))*cos(pi*(y + 3/20))"
+   },
+   {
+    "numpy": "-np.pi*np.exp(-1/10*np.pi**2*t)*np.sin(np.pi*(x + 3/10))*np.sin(np.pi*(y + 3/20))",
+    "sympy": "-pi*exp(-pi**2*t/10)*sin(pi*(x + 3/10))*sin(pi*(y + 3/20))"
+   }
+  ],
+  [
+   {
+    "numpy": "np.pi*np.exp(-1/10*np.pi**2*t)*np.sin(np.pi*(x + 3/10))*np.sin(np.pi*(y + 3/20))",
+    "sympy": "pi*exp(-pi**2*t/10)*sin(pi*(x + 3/10))*sin(pi*(y + 3/20))"
+   },
+   {
+    "numpy": "-np.pi*np.exp(-1/10*np.pi**2*t)*np.cos(np.pi*(x + 3/10))*np.cos(np.pi*(y + 3/20))",
+    "sympy": "-pi*exp(-pi**2*t/10)*cos(pi*(x + 3/10))*cos(pi*(y + 3/20))"
+   }
+  ]
+ ],
+ "homogeneous": false,
+ "mu": 0.05,
+ "name": "f3a_tr_taylor_green",
+ "p": {
+  "numpy": "((1/4)*np.cos(np.pi*(2*x + 3/5)) + (1/4)*np.cos(np.pi*(2*y + 3/10)))*np.exp(-1/5*np.pi**2*t)",
+  "sympy": "(cos(pi*(2*x + 3/5))/4 + cos(pi*(2*y + 3/10))/4)*exp(-pi**2*t/5)"
+ },
+ "pressure": "mean_zero",
+ "rho": 1.0,
+ "selfcheck": {
+  "checks": {
+   "div_u_symbolic_zero": {
+    "pass": true,
+    "value": "0"
+   },
+   "exact_ns_residual_lap": {
+    "pass": true,
+    "value": 2.6727647100921956e-51
+   },
+   "exact_ns_residual_sym": {
+    "pass": true,
+    "value": 2.6727647100921956e-51
+   },
+   "fd_residual_lap": {
+    "pass": true,
+    "value": 1.26855237425616e-09
+   },
+   "fd_residual_sym": {
+    "pass": true,
+    "value": 1.2687221458603422e-09
+   },
+   "numpy_spelling_vs_sympy_max": {
+    "pass": true,
+    "value": 5.551115123125783e-16
+   }
+  },
+  "status": "pass"
+ },
+ "space_exact": false,
+ "u": [
+  {
+   "numpy": "np.exp(-1/10*np.pi**2*t)*np.sin(np.pi*(x + 3/10))*np.cos(np.pi*(y + 3/20))",
+   "sympy": "exp(-pi**2*t/10)*sin(pi*(x + 3/10))*cos(pi*(y + 3/20))"
+  },
+  {
+   "numpy": "-np.exp(-1/10*np.pi**2*t)*np.sin(np.pi*(y + 3/20))*np.cos(np.pi*(x + 3/10))",
+   "sympy": "-exp(-pi**2*t/10)*sin(pi*(y + 3/20))*cos(pi*(x + 3/10))"
+  }
+ ]
+}

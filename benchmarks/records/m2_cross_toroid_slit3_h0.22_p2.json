@@ -1,0 +1,78 @@
+{
+  "case": "toroid_slit3_h0.22",
+  "slit_deg": 3.0,
+  "order_3d": 2,
+  "seconds_2d": 2.317079544067383,
+  "seconds_3d": 7252.926822423935,
+  "dofs_3d": 1643758,
+  "elements_3d": 254778,
+  "open_boundary": "infinity shell",
+  "domain_radius": 3.0015196052763615,
+  "timing_3d": {
+    "mesh_s": 160.137638081,
+    "pickup_s": 2326.011548546,
+    "post_s": 22.2720216179996,
+    "setup_s": 80.761413637,
+    "static_s": 4663.652898952,
+    "total_s": 7252.835522116
+  },
+  "solver_3d": {
+    "max_relative_residual": 6.293212306830269e-08,
+    "pcg_iterations_total": 2400
+  },
+  "warnings_3d": [],
+  "Psi_SI_H_T_m2": {
+    "2d": 5.212513778550046e-08,
+    "3d": 5.314540567424932e-08,
+    "rel_diff": 0.019573432936472034
+  },
+  "L_p_H": {
+    "2d": 4.253043339273464e-07,
+    "3d": 4.318972598258563e-07,
+    "rel_diff": 0.015501666389405103
+  },
+  "W_mag_J": {
+    "2d": 57330.08859351358,
+    "3d": 57276.82785475125,
+    "rel_diff": -0.0009290189509379967
+  },
+  "g_factor": {
+    "2d": 0.05335763864892286,
+    "3d": 0.054670952136802266,
+    "rel_diff": 0.024613410959218283
+  },
+  "bodies_3d_static": [
+    {
+      "betti1": 1,
+      "elements": 41453,
+      "generators": [
+        {
+          "azimuthal_period": -4.2634902563905666e-08,
+          "constraint": "net current",
+          "fluxoid_coefficient": 0.12246576855071795,
+          "net_current_A": 9.030224989992064e-08
+        }
+      ],
+      "names": [
+        "sheath"
+      ]
+    }
+  ],
+  "bodies_3d_pickup": [
+    {
+      "betti1": 1,
+      "elements": 41453,
+      "generators": [
+        {
+          "azimuthal_period": -4.2634902563905666e-08,
+          "constraint": "fixed fluxoid",
+          "fluxoid_coefficient": 0.0,
+          "net_current_A": 4.2116492793558344e-07
+        }
+      ],
+      "names": [
+        "sheath"
+      ]
+    }
+  ]
+}

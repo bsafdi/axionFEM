@@ -1,0 +1,10 @@
+# Tools to build the documentation website (mkdocs.yml).  Not needed to use axionFEM.
+#   pip install -r docs/requirements.txt && mkdocs build --strict
+# The API reference is read by static analysis: axionFEM itself (and its
+# compiled core) need not be installed.
+mkdocs>=1.6,<2
+mkdocs-material>=9.5,<10
+mkdocstrings[python]>=0.26
+mkdocs-gen-files>=0.5
+mkdocs-jupyter>=0.25
+ruff>=0.4  # formats the API signatures

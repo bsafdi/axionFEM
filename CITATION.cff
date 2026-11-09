@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: >-
+  If you use axionFEM, please cite it using the metadata in this file, and also cite
+  J. N. Benabou, J. W. Foster, B. R. Safdi, to appear (2026).
+  Please also cite the papers whose methods or benchmarks you rely on, and MFEM.
+type: software
+title: axionFEM
+abstract: >-
+  axionFEM is a finite-element package for designing and evaluating axion dark-matter
+  detectors. It covers lumped-element detectors from the field solve to the scan reach
+  (magnetoquasistatics, full wave, readout circuits, mechanics and heat conduction,
+  optimization). Cavity haloscopes, SRF heterodyne cavities, dc SQUID readout chains,
+  incompressible flow and electrochemistry are beta modules. A C++17 core built on MFEM
+  performs the solves; a Python API, a command line, an interactive 3D viewer and an MCP
+  server for AI assistants sit on top.
+authors:
+  - given-names: Joshua N.
+    family-names: Benabou
+  - given-names: Joshua W.
+    family-names: Foster
+  - given-names: Benjamin R.
+    family-names: Safdi
+version: 0.1.0
+date-released: 2026-11-09
+license: BSD-3-Clause
+repository-code: https://github.com/bsafdi/axionFEM
+url: https://bsafdi.github.io/axionFEM/
+keywords:
+  - axion
+  - dark matter
+  - finite element
+  - electromagnetics
+  - haloscope
+  - lumped-element detector
+  - MFEM

@@ -1,0 +1,212 @@
+{
+ "schema": "axionfem.design/1",
+ "name": "toroid_small_shield_epoxy10",
+ "symmetry": "3d",
+ "notes": "ASSUMED-geometry variant of toroid_small_shield_epoxy.json for the paper's 10 % case (Figs. 2, 3, S1, S2), whose COMSOL file was not provided: same lining construction with half the thickness, 1.125 cm (sq3 side .45-.0225), i.e. (0.45^2-0.4275^2)/0.45^2 = 9.75 % of the interior. Everything else identical to the 19 % replica.",
+ "regions": [
+  {
+   "name": "sheath",
+   "material": "superconductor",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "frame": {
+       "r": [
+        0.5,
+        1.0
+       ],
+       "z": [
+        0.0,
+        0.5
+       ],
+       "thickness": 0.025
+      }
+     },
+     "angles": [
+      0,
+      355
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "epoxy",
+   "material": "tachyon_100g",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "frame": {
+       "r": [
+        0.525,
+        0.975
+       ],
+       "z": [
+        0.025,
+        0.475
+       ],
+       "thickness": 0.01125
+      }
+     },
+     "angles": [
+      0,
+      355
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "bridge",
+   "material": "superconductor",
+   "surface_size": 0.0003,
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        1.0,
+        1.0002
+       ],
+       "z": [
+        0.24,
+        0.241
+       ]
+      }
+     },
+     "angles": [
+      354,
+      361
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "port",
+   "material": "vacuum",
+   "surface_size": 0.0001,
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        1.0,
+        1.0002
+       ],
+       "z": [
+        0.24,
+        0.241
+       ]
+      }
+     },
+     "angles": [
+      357.0,
+      357.01
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  }
+ ],
+ "pickup": {
+  "type": "port",
+  "port": "port",
+  "toward": [
+   0.052248809176828365,
+   0.9986340981258368,
+   0.0
+  ]
+ },
+ "fullwave": {
+  "frequencies": [
+   20000000.0
+  ],
+  "boundary": "pec",
+  "source": {
+   "kind": "toroidal_box",
+   "B0_T": 1.0,
+   "r_m": [
+    0.525,
+    0.975
+   ],
+   "z_m": [
+    0.025,
+    0.475
+   ],
+   "phi_deg": [
+    0,
+    355
+   ],
+   "profile": "uniform"
+  },
+  "rf_only": true
+ },
+ "mesh": {
+  "order": 2,
+  "size": 0.1,
+  "surface_size": 0.02,
+  "domain_radius": 1.65,
+  "remove_pec": true,
+  "domain_solid": {
+   "cylinder": {
+    "base": [
+     0,
+     0,
+     -0.25
+    ],
+    "axis": [
+     0,
+     0,
+     1.0
+    ],
+    "radius": 1.5
+   }
+  },
+  "threads": 16
+ },
+ "materials": {
+  "tachyon_100g": {
+   "kind": "linear",
+   "mu_r": 1.0,
+   "eps_r": 3.05333,
+   "tan_delta": 0.0021
+  }
+ }
+}

@@ -1,0 +1,368 @@
+{
+ "check": "strumpack_compression_check",
+ "f_Hz": 75414800.0,
+ "rows": [
+  {
+   "name": "blr_1e-3",
+   "refused": true,
+   "gmres_iterations_total": 601,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 0.001,
+    "type": "blr",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "solver_line": "[axf] 3D full wave port 0 f = 7.54148e+07 Hz: |Psi|/Psi_MQS = 0, L/L_MQS = 0, R = -0 ohm (601 GMRES iterations; true residual 9.71687; solve 3839.33 s)",
+   "maxrss": "30.18G   01:08:32",
+   "wall_seconds": 4112.0
+  },
+  {
+   "name": "blr_1e-5",
+   "refused": true,
+   "gmres_iterations_total": 601,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 1e-05,
+    "type": "blr",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "solver_line": "[axf] 3D full wave port 0 f = 7.54148e+07 Hz: |Psi|/Psi_MQS = 0, L/L_MQS = 0, R = -0 ohm (601 GMRES iterations; true residual 322.259; solve 11848.3 s)",
+   "maxrss": "32.24G   03:25:15",
+   "wall_seconds": 12314.9
+  },
+  {
+   "name": "dist0_32x1",
+   "backend": "STRUMPACK",
+   "factor_ranks": 1,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 0.0001,
+    "type": "none",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "factor_nonzeros": 4683849768,
+   "factor_seconds": 480.701140859,
+   "gmres_iterations": 2,
+   "true_relative_residual": 1.187368573445151e-07,
+   "accepted": true,
+   "Z": [
+    -0.0,
+    -14919.946579963424
+   ],
+   "Psi": [
+    3.718564816681212e-06,
+    0.0
+   ],
+   "maxrss": "46.30G   00:10:35",
+   "wall_seconds": 697.0,
+   "layout": {
+    "mpi_ranks": 32,
+    "AXF_FW_STRUMPACK_DIST": "0",
+    "threads_per_rank": 1,
+    "AXF_EXE": "build3/axf",
+    "source": "sacct (written after the run)"
+   },
+   "Z_rel_to_none": 6.351618138068435e-09,
+   "Psi_rel_to_none": 6.351805795119533e-09
+  },
+  {
+   "name": "dist0_4x8",
+   "backend": "STRUMPACK",
+   "factor_ranks": 1,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 0.0001,
+    "type": "none",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "factor_nonzeros": 4702294928,
+   "factor_seconds": 145.451770524,
+   "gmres_iterations": 2,
+   "true_relative_residual": 1.139410684465043e-07,
+   "accepted": true,
+   "Z": [
+    -0.0,
+    -14919.946568364965
+   ],
+   "Psi": [
+    3.7185648137916315e-06,
+    0.0
+   ],
+   "maxrss": "49.99G   00:07:19",
+   "wall_seconds": 498.1,
+   "layout": {
+    "mpi_ranks": 4,
+    "threads_per_rank": 8,
+    "AXF_FW_STRUMPACK_DIST": "0",
+    "AXF_EXE": "build3/axf"
+   },
+   "Z_rel_to_none": 5.57423877379762e-09,
+   "Psi_rel_to_none": 5.57473704977115e-09
+  },
+  {
+   "name": "dist0_8x4",
+   "backend": "STRUMPACK",
+   "factor_ranks": 1,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 0.0001,
+    "type": "none",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "factor_nonzeros": 4671999164,
+   "factor_seconds": 211.236168095,
+   "gmres_iterations": 2,
+   "true_relative_residual": 1.1505561029129694e-07,
+   "accepted": true,
+   "Z": [
+    -0.0,
+    -14919.946519937223
+   ],
+   "Psi": [
+    3.7185648017201313e-06,
+    0.0
+   ],
+   "maxrss": "48.71G   00:07:01",
+   "wall_seconds": 479.5,
+   "layout": {
+    "mpi_ranks": 8,
+    "threads_per_rank": 4,
+    "AXF_FW_STRUMPACK_DIST": "0",
+    "AXF_EXE": "build3/axf"
+   },
+   "Z_rel_to_none": 2.32839988549737e-09,
+   "Psi_rel_to_none": 2.3284576694268898e-09
+  },
+  {
+   "name": "dist1_2x32",
+   "backend": "STRUMPACK MPI (distributed)",
+   "factor_ranks": 64,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 0.0001,
+    "type": "none",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "factor_nonzeros": 4660531568,
+   "factor_seconds": 99.789662746,
+   "gmres_iterations": 2,
+   "true_relative_residual": 1.2186762094872308e-07,
+   "accepted": true,
+   "Z": [
+    -0.0,
+    -14919.946562319989
+   ],
+   "Psi": [
+    3.7185648122816737e-06,
+    0.0
+   ],
+   "maxrss": "3.08G   00:03:46",
+   "wall_seconds": 286.0,
+   "layout": {
+    "mpi_ranks": 64,
+    "AXF_FW_STRUMPACK_DIST": "1",
+    "threads_per_rank": 1,
+    "AXF_EXE": "build3/axf",
+    "source": "sacct (written after the run)"
+   },
+   "Z_rel_to_none": 5.169078034768525e-09,
+   "Psi_rel_to_none": 5.168677760303849e-09
+  },
+  {
+   "name": "dist1_32x1",
+   "backend": "STRUMPACK MPI (distributed)",
+   "factor_ranks": 32,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 0.0001,
+    "type": "none",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "factor_nonzeros": 4683810556,
+   "factor_seconds": 130.86519916,
+   "gmres_iterations": 2,
+   "true_relative_residual": 1.2222097632924595e-07,
+   "accepted": true,
+   "Z": [
+    -0.0,
+    -14919.946502015262
+   ],
+   "Psi": [
+    3.7185647972535e-06,
+    0.0
+   ],
+   "maxrss": "4.84G   00:04:21",
+   "wall_seconds": 321.0,
+   "layout": {
+    "mpi_ranks": 32,
+    "AXF_FW_STRUMPACK_DIST": "1",
+    "threads_per_rank": 1,
+    "AXF_EXE": "build3/axf",
+    "source": "sacct (written after the run)"
+   },
+   "Z_rel_to_none": 1.1271917878627163e-09,
+   "Psi_rel_to_none": 1.1272869057711086e-09
+  },
+  {
+   "name": "dist1_4x8",
+   "backend": "STRUMPACK MPI (distributed)",
+   "factor_ranks": 4,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 0.0001,
+    "type": "none",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "factor_nonzeros": 4686501104,
+   "factor_seconds": 113.727783501,
+   "gmres_iterations": 2,
+   "true_relative_residual": 1.245565371662922e-07,
+   "accepted": true,
+   "Z": [
+    -0.0,
+    -14919.946496669385
+   ],
+   "Psi": [
+    3.718564795921323e-06,
+    0.0
+   ],
+   "maxrss": "17.39G   00:06:41",
+   "wall_seconds": 460.7,
+   "layout": {
+    "mpi_ranks": 4,
+    "threads_per_rank": 8,
+    "AXF_FW_STRUMPACK_DIST": "1",
+    "AXF_EXE": "build3/axf"
+   },
+   "Z_rel_to_none": 7.68887749969647e-10,
+   "Psi_rel_to_none": 7.690365938468652e-10
+  },
+  {
+   "name": "dist1_8x4",
+   "backend": "STRUMPACK MPI (distributed)",
+   "factor_ranks": 8,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 0.0001,
+    "type": "none",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "factor_nonzeros": 4724783660,
+   "factor_seconds": 102.644100225,
+   "gmres_iterations": 2,
+   "true_relative_residual": 1.2067646401091312e-07,
+   "accepted": true,
+   "Z": [
+    -0.0,
+    -14919.946526526652
+   ],
+   "Psi": [
+    3.7185648033628776e-06,
+    0.0
+   ],
+   "maxrss": "10.44G   00:04:56",
+   "wall_seconds": 357.3,
+   "layout": {
+    "mpi_ranks": 8,
+    "threads_per_rank": 4,
+    "AXF_FW_STRUMPACK_DIST": "1",
+    "AXF_EXE": "build3/axf"
+   },
+   "Z_rel_to_none": 2.770052218705565e-09,
+   "Psi_rel_to_none": 2.7702265714726454e-09
+  },
+  {
+   "name": "none",
+   "backend": "STRUMPACK",
+   "factor_ranks": 1,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 0.0001,
+    "type": "none",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "factor_nonzeros": 4683849768,
+   "factor_seconds": 489.154692846,
+   "gmres_iterations": 2,
+   "true_relative_residual": 1.1649811404924572e-07,
+   "accepted": true,
+   "Z": [
+    -0.0,
+    -14919.94648519762
+   ],
+   "Psi": [
+    3.7185647930616106e-06,
+    0.0
+   ],
+   "maxrss": "46.30G   00:10:09",
+   "wall_seconds": 652.0,
+   "layout": {
+    "description": "32 ranks x 1 thread"
+   },
+   "Z_rel_to_none": 0.0,
+   "Psi_rel_to_none": 0.0
+  },
+  {
+   "name": "none_4x8",
+   "backend": "STRUMPACK",
+   "factor_ranks": 1,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 0.0001,
+    "type": "none",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "factor_nonzeros": 4702294928,
+   "factor_seconds": 169.219539775,
+   "gmres_iterations": 2,
+   "true_relative_residual": 1.153470456981734e-07,
+   "accepted": true,
+   "Z": [
+    -0.0,
+    -14919.946452940128
+   ],
+   "Psi": [
+    3.718564785022255e-06,
+    0.0
+   ],
+   "maxrss": "50.64G   00:07:50",
+   "wall_seconds": 542.6,
+   "layout": {
+    "description": "4 ranks x 8 threads"
+   },
+   "Z_rel_to_none": 2.162038077897814e-09,
+   "Psi_rel_to_none": 2.161951228024502e-09
+  },
+  {
+   "name": "none_8x4",
+   "backend": "STRUMPACK",
+   "factor_ranks": 1,
+   "compression": {
+    "min_sep_size": -1,
+    "rel_tol": 0.0001,
+    "type": "none",
+    "variables": "AXF_FW_STRUMPACK_COMPRESSION (none|blr), _TOL, _MIN_SEP"
+   },
+   "factor_nonzeros": 4671999164,
+   "factor_seconds": 212.867838817,
+   "gmres_iterations": 2,
+   "true_relative_residual": 1.1481467408569947e-07,
+   "accepted": true,
+   "Z": [
+    -0.0,
+    -14919.946553333342
+   ],
+   "Psi": [
+    3.718564810042475e-06,
+    0.0
+   ],
+   "maxrss": "48.97G   00:06:18",
+   "wall_seconds": 417.3,
+   "layout": {
+    "description": "8 ranks x 4 threads"
+   },
+   "Z_rel_to_none": 4.566753742483202e-09,
+   "Psi_rel_to_none": 4.566510355328776e-09
+  }
+ ]
+}

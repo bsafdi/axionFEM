@@ -1,0 +1,23 @@
+{
+  "check": "sphere",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 15:16",
+  "a_m": 0.5,
+  "C_F": 5.56325027535102e-11,
+  "C_exact_F": 5.563250277239594e-11,
+  "relative_error": -3.3947311628423904e-10,
+  "checks": {
+    "identity_symmetry_relative": 0.0,
+    "identity_energy_max_relative_difference": 3.089892824124831e-14,
+    "identity_energy_superposition_relative": 3.089892824124831e-14,
+    "identity_exterior_monopole_max_relative_difference": 8.050895803403014e-10,
+    "identity_floating_solve_max_difference_V": null,
+    "discretization_charge_gauss_max_relative_difference": 7.450129219383652e-07,
+    "discretization_exterior_flux_max_relative_difference": 1.3569401737476078e-06,
+    "min_slack_relative": 1.0,
+    "off_diagonal_signs_ok": true
+  },
+  "warnings": [],
+  "pass": true,
+  "headline": "C = 5.563250275e-11 F (exact 5.563250277e-11), rel err -3.4e-10"
+}

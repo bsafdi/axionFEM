@@ -1,0 +1,121 @@
+{
+ "id": "patch_gls_consistency",
+ "capability": "F5",
+ "title": "Patch test: an exact P1 solution is reproduced to round-off (consistency of every stabilization term, variable viscosity, time term)",
+ "physics": "P1-representable exact solution of Stokes / Oseen / Navier-Stokes (steady and BDF1/BDF2) with variable mu on distorted and strongly graded meshes: residual-based GLS terms vanish on the exact solution only if R_m is exactly the strong residual (body force, convection, time derivative, grad p, grad mu terms)",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f5_gls",
+   "function": "patch_consistency",
+   "check_module": "f5_gls_check",
+   "cost": "short",
+   "timeout_s": 1200
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P1",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "formulation": "Equal-order continuous P1/P1 (u, p) on affine triangles, nodal basis, constant density rho, viscosity mu(x) (analytic with gradient, or a P1 nodal field with its element-wise gradient). Residual R_u,a = sum_K int [ rho (u_t + (w.grad)u).N_a e_i + a_visc(mu;u)(N_a e_i) - p d_i N_a - f_i N_a + tau_supg rho ((w.grad N_a) R_i) + tau_c rho (div u) d_i N_a ], R_p,a = sum_K int [ (div u) N_a + (tau_pspg/rho) grad N_a. R ] with the strong residual R = rho (u_t + (w.grad)u) + grad p - div sigma_visc(u; mu) - f (second derivatives of a P1 u vanish; grad mu KEPT: lap: sum_j d_j mu d_j u_i, sym: sum_j d_j mu (d_j u_i + d_i u_j)), w = u (Navier-Stokes), a given field (Oseen) or 0 (Stokes: convective and SUPG terms absent); a_visc lap = mu grad u : grad v, sym = mu (grad u + grad u^T) : grad v; BDF1 u_t = (u - u^{n-1})/dt or BDF2 (3u - 4u^{n-1} + u^{n-2})/(2 dt), constant step; tau_supg = [ (2/dt)^2 + CG w.G w + C_I (mu/rho)^2 G:G ]^(-1/2), tau_pspg = [ CG w.G w + C_I (mu/rho)^2 G:G ]^(-1/2) (NO dt term), tau_c = 1/(tau_pspg tr G), G_ij = sum_k dz_k/dx_i dz_k/dx_j with z the coordinates of the EQUILATERAL reference triangle of edge 1 (invariant under vertex renumbering), C_I = 36, CG = 1 (the (2/dt)^2 term only when dt is given). Every element integral by the pinned 6-point degree-4 rule f5_gls_check.rule_points() (the Galerkin terms of P1 data are polynomials of degree <= 3; tau is not polynomial). The continuity row carries the POSITIVE sign (div u) q. The Newton Jacobian is the exact derivative of this residual INCLUDING d tau / d state. Reference implementation: f5_gls_check.residual (numpy), agreeing with the independent NGSolve assembly to 3e-16.",
+   "stabilization": {
+    "family": "GLS-type residual-based: SUPG + PSPG + LSIC",
+    "tau": "Shakib-type, from the element metric tensor G (docs/guides/fluids.md, stabilized equal-order elements)",
+    "C_I": 36.0,
+    "CG": 1.0,
+    "quadrature": "6-point degree-4 rule, f5_gls_check.rule_points()"
+   },
+   "quadrature_error_norms": 10,
+   "nonlinear_solver": {
+    "start": "Stokes solution (GLS-stabilized, w = 0) with the Dirichlet data, then Newton with the exact Jacobian (d tau included) and an Armijo backtracking line search on the dual-norm merit (sufficient decrease 1e-4, lambda = 1, 1/2,..., 1/64); a continuation in the viscosity (or Re) is allowed: whatever path is used, the solution is that of the steady discrete equations",
+    "newton_rtol": 1e-12,
+    "newton_maxit": 40,
+    "linear_solver": "direct sparse LU",
+    "history": "solver.history = [{kind, residual, step}] with the relative residual after each step"
+   },
+   "dirichlet_data": "P1 nodal interpolation of the fixed callables at the boundary vertices",
+   "patch": {
+    "u": "(1 + t) (A (x, y) + b), A = [[0.4, 0.7], [0.5, -0.4]], b = (0.3, -0.2) (div u = 0)",
+    "p": "(1 + t) (0.8 x - 0.6 y + 0.1)",
+    "mu": "0.02 (1 + 0.3 x - 0.2 y) (linear: grad mu != 0)",
+    "rho": 1.25,
+    "f": "from the strong equations: rho (u_t + (u.grad)u) + grad p - div sigma_visc (quadratic polynomial, integrated exactly by the pinned rule); f5_gls_check.Patch is the reference implementation",
+    "representability": "u and p are P1 functions: the discrete solution must equal the exact one to round-off on every mesh, for Stokes, Oseen (w = exact u) and Navier-Stokes, steady, and transient (BDF1 and BDF2, u linear in t so the discrete time derivative is exact; exact history)"
+   },
+   "meshes": {
+    "distorted_k2": {
+     "family": "distorted",
+     "construction": "f2a_ns_check.distorted_unit(2)"
+    },
+    "graded": {
+     "family": "graded",
+     "construction": "f5_gls_check.graded_mesh(8, 8, 100.0): 8 x 8 cells, geometric row heights with ratio 100 (aspect up to ~800), corner cells flipped"
+    }
+   },
+   "modes": [
+    "stokes",
+    "oseen",
+    "ns"
+   ],
+   "viscous_forms": [
+    "lap",
+    "sym"
+   ],
+   "transient": {
+    "dt": 0.1,
+    "steps": 3,
+    "bdf": [
+     1,
+     2
+    ],
+    "history": "the exact nodal values at t_{n-1}, t_{n-2}"
+   },
+   "pressure": "mean-zero (nullspace detected); compared mean-free"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "patch_err_u_steady_max",
+    "level": "mms",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "patch_err_p_steady_max",
+    "level": "mms",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "patch_err_u_transient_max",
+    "level": "mms",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "patch_err_p_transient_max",
+    "level": "mms",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "nullspace_detected",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

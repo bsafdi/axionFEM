@@ -1,0 +1,520 @@
+{
+ "check": "finite_band_circuit",
+ "axionfem_version": "0.1.0",
+ "date": "2026-10-06 14:31",
+ "pickup": {
+  "Psi_SI_H_T_m2": 0.000125663706212,
+  "L_p_H": 1.25663706212e-06,
+  "note": "toy B of scan_and_signal.md Sec. 8: Psi = 100 T m^3, L_p = 1 m"
+ },
+ "spec": {
+  "band_Hz": [
+   120900.0,
+   399999.99999999994
+  ],
+  "n_settings": 600,
+  "n_targets": 120,
+  "noise_grid": {
+   "half_widths": 60.0,
+   "decades": 3.0,
+   "points_per_decade": 48.0,
+   "band_points": 200,
+   "band_margin": 4.0,
+   "points": 605
+  },
+  "Q_first": 10000.00000044575,
+  "Q_last": 10000.000000501726,
+  "xi_first": 0.0029011370008634406,
+  "T_eff_K": 0.03,
+  "eta_A_eff": 9.999999999999998,
+  "participation_first": 0.9999999999554251,
+  "dw2x_over_w0_first": 0.17910736346701334,
+  "dw2x_over_w0_last": 0.05413595758255811,
+  "lp_t_total_s": 6917457498.156437,
+  "lp_t_total_yr": 219.20100065139417,
+  "lp_min_coverage": 1.0,
+  "lp_settings_used": 102,
+  "local_t_total_s": 5898962508.446636,
+  "lp_over_local": 1.1726566304246608,
+  "local_coverage_min": 0.36393353715218496,
+  "local_coverage_interior": [
+   1.0544501876675052,
+   1.1250405865169606
+  ],
+  "narrow_line_max_rel_dev": 7.82469472455638e-05,
+  "reduced": {},
+  "convergence": {},
+  "g95_GeV_first": 9.135105495466742e-20,
+  "g95_GeV_last": 3.0223674095837024e-19,
+  "s_max": 0.0013703089598723886,
+  "reference": {
+   "t_local_formula_s": 5898562688.035148,
+   "t_LP_s": 6921920637.860694,
+   "LP_over_local": 1.1734927649241333,
+   "coverage_min": 0.36914139557097214,
+   "coverage_interior": [
+    1.051197041777141,
+    1.1252005172016852
+   ],
+   "narrow_line_max_abs_dev": 6.532773956169358e-05,
+   "n_settings_used": 89,
+   "fw_over_f0_at_fa": 0.17910736347499703
+  },
+  "vs_reference": {
+   "local_time_rel": 6.778268412732658e-05,
+   "LP_time_rel": -0.0006447834261267271,
+   "LP_over_local_rel": -0.0007125178138840393,
+   "coverage_min_rel": -0.014108031451557701,
+   "fw_over_f0_rel": -4.457489932718772e-11
+  },
+  "seconds": 69.0026547908783
+ },
+ "highQ": {
+  "band_Hz": [
+   120900.0,
+   399999.99999999994
+  ],
+  "n_settings": 32,
+  "n_targets": 48,
+  "noise_grid": {
+   "half_widths": 60.0,
+   "decades": 3.0,
+   "points_per_decade": 48.0,
+   "band_points": 200,
+   "band_margin": 4.0,
+   "points": 635
+  },
+  "Q_first": 959504.06818221,
+  "Q_last": 987404.197173541,
+  "xi_first": 1.7722072132341046e-06,
+  "T_eff_K": 0.01637022116947273,
+  "eta_A_eff": 0.09999999999999998,
+  "participation_first": 0.794183436680528,
+  "dw2x_over_w0_first": 0.10185897626291318,
+  "dw2x_over_w0_last": 0.021896266506147358,
+  "lp_t_total_s": 592361.0491481924,
+  "lp_t_total_yr": 0.01877078894301824,
+  "lp_min_coverage": 1.0,
+  "lp_settings_used": 32,
+  "local_t_total_s": 490458.04228316416,
+  "lp_over_local": 1.2077710998287492,
+  "local_coverage_min": 0.4158939409682437,
+  "local_coverage_interior": [
+   0.4824968236347117,
+   2.0897831609066353
+  ],
+  "narrow_line_max_rel_dev": 9.36236563146009e-05,
+  "reduced": {
+   "kernel_max_rel_dev": 0.019477139588813364,
+   "kernel_rms_rel_dev": 0.008628954757077086,
+   "kernel_on_resonance_max_rel_dev": 4.771443012918652e-07,
+   "t_total_ratio_reduced_over_exact": 1.0010395962673773,
+   "min_coverage_of_reduced_schedule": 0.9943527053288701,
+   "g95_same_schedule_max_rel_dev": 0.0016863773813304839,
+   "g95_own_schedule_max_rel_dev": 0.0033928876954062437,
+   "reduced_R_exp": 0.0
+  },
+  "convergence": {
+   "noise_grid_halved_max_rel_dev": 0.004309145799318959,
+   "band_grid_halved_max_rel_dev": 0.0007735554878032236,
+   "n_v_halved_max_rel_dev": 7.288958325801786e-11
+  },
+  "g95_GeV_first": 9.135105495466652e-20,
+  "g95_GeV_last": 3.0223674095836817e-19,
+  "s_max": 0.2097500991615899,
+  "seconds": 13.6935555934906
+ },
+ "radiation": {
+  "Q_rad_at_f_min": 1000.0,
+  "band_Hz": [
+   10000000.0,
+   30000000.0
+  ],
+  "R_exp_0": {
+   "band_Hz": [
+    10000000.000000002,
+    29999999.999999996
+   ],
+   "n_settings": 32,
+   "n_targets": 48,
+   "noise_grid": {
+    "half_widths": 60.0,
+    "decades": 3.0,
+    "points_per_decade": 48.0,
+    "band_points": 400,
+    "band_margin": 4.0,
+    "points": 859
+   },
+   "Q_first": 1000.0000000421275,
+   "Q_last": 37.03703703921451,
+   "xi_first": 0.7898761057398668,
+   "T_eff_K": 0.030000000000000006,
+   "eta_A_eff": 9.999999999999998,
+   "participation_first": 0.9999999999578727,
+   "dw2x_over_w0_first": 0.021859620407515844,
+   "dw2x_over_w0_last": 0.2101032219591502,
+   "lp_t_total_s": 4093.179046479471,
+   "lp_t_total_yr": 0.00012970501706338476,
+   "lp_min_coverage": 1.0,
+   "lp_settings_used": 31,
+   "local_t_total_s": 3421.6806602518373,
+   "lp_over_local": 1.1962481169058632,
+   "local_coverage_min": 0.47924180866899696,
+   "local_coverage_interior": [
+    0.47924180866899696,
+    1.823980630803436
+   ],
+   "narrow_line_max_rel_dev": 9.173160563069604e-05,
+   "reduced": {
+    "kernel_max_rel_dev": 0.2823315898121401,
+    "kernel_rms_rel_dev": 0.09868551414540708,
+    "kernel_on_resonance_max_rel_dev": 2.829620170397007e-06,
+    "t_total_ratio_reduced_over_exact": 1.0025619486381938,
+    "min_coverage_of_reduced_schedule": 0.839427685981448,
+    "g95_same_schedule_max_rel_dev": 0.027508810384607063,
+    "g95_own_schedule_max_rel_dev": 0.045413153464122336,
+    "reduced_R_exp": 0.0
+   },
+   "convergence": {
+    "noise_grid_halved_max_rel_dev": 0.004368968818216912,
+    "band_grid_halved_max_rel_dev": 0.0010088580055667151,
+    "n_v_halved_max_rel_dev": 2.054467707068852e-12
+   },
+   "g95_GeV_first": 7.55591852395931e-18,
+   "g95_GeV_last": 2.2667755571877932e-17,
+   "s_max": 0.06634488210694944,
+   "seconds": 11.39165449142456
+  },
+  "R_exp_4": {
+   "band_Hz": [
+    10000000.000000002,
+    29999999.999999996
+   ],
+   "n_settings": 32,
+   "n_targets": 48,
+   "noise_grid": {
+    "half_widths": 60.0,
+    "decades": 3.0,
+    "points_per_decade": 48.0,
+    "band_points": 400,
+    "band_margin": 4.0,
+    "points": 859
+   },
+   "Q_first": 1000.0000000421275,
+   "Q_last": 37.03703703921451,
+   "xi_first": 0.7898761057398668,
+   "T_eff_K": 0.030000000000000006,
+   "eta_A_eff": 9.999999999999998,
+   "participation_first": 0.9999999999578727,
+   "dw2x_over_w0_first": 0.021859620407515844,
+   "dw2x_over_w0_last": 0.2101032219591502,
+   "lp_t_total_s": 4093.179046479471,
+   "lp_t_total_yr": 0.00012970501706338476,
+   "lp_min_coverage": 1.0,
+   "lp_settings_used": 31,
+   "local_t_total_s": 3421.6806602518373,
+   "lp_over_local": 1.1962481169058632,
+   "local_coverage_min": 0.47924180866899696,
+   "local_coverage_interior": [
+    0.47924180866899696,
+    1.823980630803436
+   ],
+   "narrow_line_max_rel_dev": 9.173160563069604e-05,
+   "reduced": {
+    "kernel_max_rel_dev": 0.0010875028417431931,
+    "kernel_rms_rel_dev": 0.0003474782947093401,
+    "kernel_on_resonance_max_rel_dev": 8.786387639680981e-08,
+    "t_total_ratio_reduced_over_exact": 0.9999898701060926,
+    "min_coverage_of_reduced_schedule": 0.9999281469485293,
+    "g95_same_schedule_max_rel_dev": 2.4529509817239337e-05,
+    "g95_own_schedule_max_rel_dev": 3.3922631402782955e-05,
+    "reduced_R_exp": 4.0
+   },
+   "convergence": {},
+   "g95_GeV_first": 7.55591852395931e-18,
+   "g95_GeV_last": 2.2667755571877932e-17,
+   "s_max": 0.06634488210694944,
+   "seconds": 4.890274286270142
+  }
+ },
+ "tap": {
+  "f_SR_Hz": 500000.0,
+  "C_par_F": 8.062883603910636e-08,
+  "resolution_study": [
+   {
+    "band_points": 200,
+    "points": 659,
+    "kernel_max_rel_dev": 0.6347498588571188,
+    "kernel_on_resonance_max_rel_dev": 2.3758080960334382e-06,
+    "g95_same_schedule_max_rel_dev": 0.2853637556036861,
+    "t_total_ratio_reduced_over_exact": 1.1778764796566112,
+    "band_grid_halved_max_rel_dev": 3.2437892824488763,
+    "noise_grid_halved_max_rel_dev": 0.004605868826773385
+   },
+   {
+    "band_points": 400,
+    "points": 859,
+    "kernel_max_rel_dev": 0.29243157095839667,
+    "kernel_on_resonance_max_rel_dev": 2.3758080960334382e-06,
+    "g95_same_schedule_max_rel_dev": 0.0900858909701372,
+    "t_total_ratio_reduced_over_exact": 1.066710416754443,
+    "band_grid_halved_max_rel_dev": 1.5104374687905073,
+    "noise_grid_halved_max_rel_dev": 0.004605868826773385
+   },
+   {
+    "band_points": 800,
+    "points": 1259,
+    "kernel_max_rel_dev": 0.08767955208298994,
+    "kernel_on_resonance_max_rel_dev": 2.3758080960334382e-06,
+    "g95_same_schedule_max_rel_dev": 0.023145281840482035,
+    "t_total_ratio_reduced_over_exact": 1.0189503223214542,
+    "band_grid_halved_max_rel_dev": 0.29158800388339845,
+    "noise_grid_halved_max_rel_dev": 0.004605868826773385
+   }
+  ],
+  "direct_N_V": [
+   {
+    "f0_Hz": 120900.0,
+    "M_eff_over_M": 0.9415327600000001,
+    "tap_ratio_1_minus_w02LC": 0.94153276,
+    "L_eff_over_L_p": 1.0000000000470632,
+    "N_V_reduction_resid": 2.220446049250313e-16,
+    "max_N_V_rel_dev_over_line": 1.4070898755047523e-06
+   },
+   {
+    "f0_Hz": 250000.0,
+    "M_eff_over_M": 0.7499999999999999,
+    "tap_ratio_1_minus_w02LC": 0.75,
+    "L_eff_over_L_p": 1.000000000054777,
+    "N_V_reduction_resid": 0.0,
+    "max_N_V_rel_dev_over_line": 7.506325746531317e-06
+   },
+   {
+    "f0_Hz": 400000.0,
+    "M_eff_over_M": 0.36000000000000004,
+    "tap_ratio_1_minus_w02LC": 0.36,
+    "L_eff_over_L_p": 1.0000000000485803,
+    "N_V_reduction_resid": 0.0,
+    "max_N_V_rel_dev_over_line": 3.8628913479721305e-05
+   }
+  ]
+ },
+ "lowQ_300": {
+  "R_exp_0": {
+   "band_Hz": [
+    120900.0,
+    399999.99999999994
+   ],
+   "n_settings": 24,
+   "n_targets": 60,
+   "noise_grid": {
+    "half_widths": 60.0,
+    "decades": 3.0,
+    "points_per_decade": 48.0,
+    "band_points": 200,
+    "band_margin": 4.0,
+    "points": 551
+   },
+   "Q_first": 300.0000000133725,
+   "Q_last": 545.680079725421,
+   "xi_first": 0.0096704566695448,
+   "T_eff_K": 0.03,
+   "eta_A_eff": 9.999999999999998,
+   "participation_first": 0.9999999999554249,
+   "dw2x_over_w0_first": 5.970245448900445,
+   "dw2x_over_w0_last": 0.992082350019351,
+   "lp_t_total_s": 3073193644322.3794,
+   "lp_t_total_yr": 97383.6300708032,
+   "lp_min_coverage": 1.0,
+   "lp_settings_used": 1,
+   "local_t_total_s": 176521842881.4979,
+   "lp_over_local": 17.40970745691493,
+   "local_coverage_min": 0.05001106538466291,
+   "local_coverage_interior": [
+    NaN,
+    NaN
+   ],
+   "narrow_line_max_rel_dev": 6.729664548066339e-06,
+   "reduced": {
+    "kernel_max_rel_dev": 0.30402026541518434,
+    "kernel_rms_rel_dev": 0.18289846982225758,
+    "kernel_on_resonance_max_rel_dev": 3.4491459532937085e-07,
+    "t_total_ratio_reduced_over_exact": 1.1840585385947069,
+    "min_coverage_of_reduced_schedule": 1.0760518488858641,
+    "g95_same_schedule_max_rel_dev": 0.06011943761571392,
+    "g95_own_schedule_max_rel_dev": 0.021346448166419618,
+    "reduced_R_exp": 0.0
+   },
+   "convergence": {
+    "noise_grid_halved_max_rel_dev": 0.00040821774953647694,
+    "band_grid_halved_max_rel_dev": 0.0006922954239804158,
+    "n_v_halved_max_rel_dev": 6.8833827526759706e-15
+   },
+   "g95_GeV_first": 9.13510549546681e-20,
+   "g95_GeV_last": 7.648235905922226e-20,
+   "s_max": 3.7327925077850497e-06,
+   "seconds": 6.035644769668579
+  },
+  "R_exp_0.5": {
+   "band_Hz": [
+    120900.0,
+    399999.99999999994
+   ],
+   "n_settings": 24,
+   "n_targets": 60,
+   "noise_grid": {
+    "half_widths": 60.0,
+    "decades": 3.0,
+    "points_per_decade": 48.0,
+    "band_points": 200,
+    "band_margin": 4.0,
+    "points": 551
+   },
+   "Q_first": 300.0000000133725,
+   "Q_last": 545.680079725421,
+   "xi_first": 0.0096704566695448,
+   "T_eff_K": 0.03,
+   "eta_A_eff": 9.999999999999998,
+   "participation_first": 0.9999999999554249,
+   "dw2x_over_w0_first": 5.970245448900445,
+   "dw2x_over_w0_last": 0.992082350019351,
+   "lp_t_total_s": 3073193644322.3794,
+   "lp_t_total_yr": 97383.6300708032,
+   "lp_min_coverage": 1.0,
+   "lp_settings_used": 1,
+   "local_t_total_s": 176521842881.4979,
+   "lp_over_local": 17.40970745691493,
+   "local_coverage_min": 0.05001106538466291,
+   "local_coverage_interior": [
+    NaN,
+    NaN
+   ],
+   "narrow_line_max_rel_dev": 6.729664548066339e-06,
+   "reduced": {
+    "kernel_max_rel_dev": 0.0003474884038638937,
+    "kernel_rms_rel_dev": 7.478122988747971e-05,
+    "kernel_on_resonance_max_rel_dev": 2.195475357069654e-09,
+    "t_total_ratio_reduced_over_exact": 0.9999745005025343,
+    "min_coverage_of_reduced_schedule": 0.9999745005025342,
+    "g95_same_schedule_max_rel_dev": 2.179915411870681e-05,
+    "g95_own_schedule_max_rel_dev": 1.5424317121981446e-05,
+    "reduced_R_exp": 0.5
+   },
+   "convergence": {},
+   "g95_GeV_first": 9.13510549546681e-20,
+   "g95_GeV_last": 7.648235905922226e-20,
+   "s_max": 3.7327925077850497e-06,
+   "seconds": 2.70851469039917
+  },
+  "Q_ref": 300.0
+ },
+ "lowQ_1000": {
+  "R_exp_0": {
+   "band_Hz": [
+    120900.0,
+    399999.99999999994
+   ],
+   "n_settings": 24,
+   "n_targets": 60,
+   "noise_grid": {
+    "half_widths": 60.0,
+    "decades": 3.0,
+    "points_per_decade": 48.0,
+    "band_points": 200,
+    "band_margin": 4.0,
+    "points": 576
+   },
+   "Q_first": 1000.0000000445748,
+   "Q_last": 1818.9335990896304,
+   "xi_first": 0.0096704566695448,
+   "T_eff_K": 0.03,
+   "eta_A_eff": 9.999999999999998,
+   "participation_first": 0.9999999999554251,
+   "dw2x_over_w0_first": 1.791073634670134,
+   "dw2x_over_w0_last": 0.2976247050050048,
+   "lp_t_total_s": 315787529204.80743,
+   "lp_t_total_yr": 10006.70295601717,
+   "lp_min_coverage": 1.0000000000000002,
+   "lp_settings_used": 1,
+   "local_t_total_s": 52956552864.51424,
+   "lp_over_local": 5.963143598351813,
+   "local_coverage_min": 0.12822566745153433,
+   "local_coverage_interior": [
+    NaN,
+    NaN
+   ],
+   "narrow_line_max_rel_dev": 1.1176526001133169e-05,
+   "reduced": {
+    "kernel_max_rel_dev": 0.21575792426339047,
+    "kernel_rms_rel_dev": 0.10837773574819029,
+    "kernel_on_resonance_max_rel_dev": 3.496312415141034e-07,
+    "t_total_ratio_reduced_over_exact": 1.0526711647590177,
+    "min_coverage_of_reduced_schedule": 1.0362052432426248,
+    "g95_same_schedule_max_rel_dev": 0.04421036992083105,
+    "g95_own_schedule_max_rel_dev": 0.04407200279718482,
+    "reduced_R_exp": 0.0
+   },
+   "convergence": {
+    "noise_grid_halved_max_rel_dev": 0.0006842492437694192,
+    "band_grid_halved_max_rel_dev": 0.0013825335463411026,
+    "n_v_halved_max_rel_dev": 3.231082068566593e-12
+   },
+   "g95_GeV_first": 9.135105495466809e-20,
+   "g95_GeV_last": 1.0330770986177991e-19,
+   "s_max": 2.270155010330785e-05,
+   "seconds": 6.283707141876221
+  },
+  "R_exp_0.5": {
+   "band_Hz": [
+    120900.0,
+    399999.99999999994
+   ],
+   "n_settings": 24,
+   "n_targets": 60,
+   "noise_grid": {
+    "half_widths": 60.0,
+    "decades": 3.0,
+    "points_per_decade": 48.0,
+    "band_points": 200,
+    "band_margin": 4.0,
+    "points": 576
+   },
+   "Q_first": 1000.0000000445748,
+   "Q_last": 1818.9335990896304,
+   "xi_first": 0.0096704566695448,
+   "T_eff_K": 0.03,
+   "eta_A_eff": 9.999999999999998,
+   "participation_first": 0.9999999999554251,
+   "dw2x_over_w0_first": 1.791073634670134,
+   "dw2x_over_w0_last": 0.2976247050050048,
+   "lp_t_total_s": 315787529204.80743,
+   "lp_t_total_yr": 10006.70295601717,
+   "lp_min_coverage": 1.0000000000000002,
+   "lp_settings_used": 1,
+   "local_t_total_s": 52956552864.51424,
+   "lp_over_local": 5.963143598351813,
+   "local_coverage_min": 0.12822566745153433,
+   "local_coverage_interior": [
+    NaN,
+    NaN
+   ],
+   "narrow_line_max_rel_dev": 1.1176526001133169e-05,
+   "reduced": {
+    "kernel_max_rel_dev": 0.0005738994910025053,
+    "kernel_rms_rel_dev": 9.623149914313322e-05,
+    "kernel_on_resonance_max_rel_dev": 6.912120653623788e-09,
+    "t_total_ratio_reduced_over_exact": 0.999972383371513,
+    "min_coverage_of_reduced_schedule": 0.9999723833715131,
+    "g95_same_schedule_max_rel_dev": 9.703390429383063e-06,
+    "g95_own_schedule_max_rel_dev": 7.069989262920018e-06,
+    "reduced_R_exp": 0.5
+   },
+   "convergence": {},
+   "g95_GeV_first": 9.135105495466809e-20,
+   "g95_GeV_last": 1.0330770986177991e-19,
+   "s_max": 2.270155010330785e-05,
+   "seconds": 2.7930471897125244
+  },
+  "Q_ref": 1000.0
+ }
+}

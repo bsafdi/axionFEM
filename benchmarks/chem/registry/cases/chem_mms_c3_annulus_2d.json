@@ -1,0 +1,473 @@
+{
+ "id": "chem_mms_c3_annulus_2d",
+ "capability": "C3a",
+ "title": "MMS on curved kinetic electrodes (non-radial field on a quarter annulus), affine P1 and isoparametric P2",
+ "physics": "as chem_mms_c3_bv_2d; anode on the inner arc, cathode on the outer arc, manufactured flux on theta = 0, pi/2",
+ "levels": [
+  "mms",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3_current_distribution",
+   "function": "mms_annulus",
+   "check_module": "c3_checks",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "field": {
+    "path": "benchmarks/chem/casedata/c3/mms_bvann.json",
+    "sha256": "5b0fc354e36a9895882878741e2acff756306600e2ab8e880013845279b29d16"
+   },
+   "meshes": {
+    "p1": {
+     "family": "bvann_p1",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625,
+      7.8125e-05
+     ],
+     "construction": "meshes.annulus_sector(N, 2N, r1 = 0.005, r2 = 0.01, 0, pi/2): polar map of rect(N, 2N); P2 nodes by the exact map",
+     "levels": [
+      {
+       "name": "p1_4",
+       "n_elements": 64,
+       "hash_scale": 0.01,
+       "vertex_hash": "aecfa34bc5bd251b",
+       "connectivity_hash": "f91824875658766e"
+      },
+      {
+       "name": "p1_8",
+       "n_elements": 256,
+       "hash_scale": 0.01,
+       "vertex_hash": "7ed08f31ddf1c303",
+       "connectivity_hash": "6b3d2aadf07fef99"
+      },
+      {
+       "name": "p1_16",
+       "n_elements": 1024,
+       "hash_scale": 0.01,
+       "vertex_hash": "a0097e7d95b24454",
+       "connectivity_hash": "7f12e8b6bbd56ce5"
+      },
+      {
+       "name": "p1_32",
+       "n_elements": 4096,
+       "hash_scale": 0.01,
+       "vertex_hash": "3d63c3fd6f5683ba",
+       "connectivity_hash": "fe5a1aab39062535"
+      },
+      {
+       "name": "p1_64",
+       "n_elements": 16384,
+       "hash_scale": 0.01,
+       "vertex_hash": "db31ba91418f454c",
+       "connectivity_hash": "eb93d47e4ebdbd34"
+      }
+     ]
+    },
+    "p2": {
+     "family": "bvann_p2",
+     "N": [
+      2,
+      4,
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.0025,
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625
+     ],
+     "construction": "meshes.annulus_sector(N, 2N, r1 = 0.005, r2 = 0.01, 0, pi/2): polar map of rect(N, 2N); P2 nodes by the exact map",
+     "levels": [
+      {
+       "name": "p2_2",
+       "n_elements": 16,
+       "hash_scale": 0.01,
+       "vertex_hash": "d272ded17cf20dcb",
+       "connectivity_hash": "ccd9c067a4f14e0f"
+      },
+      {
+       "name": "p2_4",
+       "n_elements": 64,
+       "hash_scale": 0.01,
+       "vertex_hash": "aecfa34bc5bd251b",
+       "connectivity_hash": "f91824875658766e"
+      },
+      {
+       "name": "p2_8",
+       "n_elements": 256,
+       "hash_scale": 0.01,
+       "vertex_hash": "7ed08f31ddf1c303",
+       "connectivity_hash": "6b3d2aadf07fef99"
+      },
+      {
+       "name": "p2_16",
+       "n_elements": 1024,
+       "hash_scale": 0.01,
+       "vertex_hash": "a0097e7d95b24454",
+       "connectivity_hash": "7f12e8b6bbd56ce5"
+      },
+      {
+       "name": "p2_32",
+       "n_elements": 4096,
+       "hash_scale": 0.01,
+       "vertex_hash": "3d63c3fd6f5683ba",
+       "connectivity_hash": "fe5a1aab39062535"
+      }
+     ]
+    }
+   },
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "bv_sym_p1_ann_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2 over the discrete domain",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0006463662987489657,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p1_ann_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.4075265862129188,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p1_ann_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on the inner arc (curved electrode, phi varies along it)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.1239458636669886,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_ann_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2 over the discrete domain",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0006463662987489657,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_ann_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.4075265862129188,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_ann_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on the inner arc (curved electrode, phi varies along it)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.1239458636669886,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p1_ann_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2 over the discrete domain",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0006463662987489657,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p1_ann_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.4075265862129188,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p1_ann_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on the inner arc (curved electrode, phi varies along it)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.1239458636669886,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p2_ann_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2 over the discrete domain",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0006463662987489657,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p2_ann_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.4075265862129188,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p2_ann_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on the inner arc (curved electrode, phi varies along it)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.1239458636669886,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "bv_sym_p1_ann_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 2.86,
+    "scale_quantity": "bv_sym_p1_ann_I_scale"
+   },
+   {
+    "quantity": "bv_sym_p2_ann_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 2.85,
+    "scale_quantity": "bv_sym_p2_ann_I_scale"
+   },
+   {
+    "quantity": "bv_asym_p1_ann_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 2.86,
+    "scale_quantity": "bv_asym_p1_ann_I_scale"
+   },
+   {
+    "quantity": "bv_asym_p2_ann_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 2.85,
+    "scale_quantity": "bv_asym_p2_ann_I_scale"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  }
+ }
+}

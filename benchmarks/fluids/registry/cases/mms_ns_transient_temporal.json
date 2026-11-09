@@ -1,0 +1,2376 @@
+{
+ "id": "mms_ns_transient_temporal",
+ "capability": "F3a",
+ "title": "Temporal MMS with space-exact fields (u and p): BDF1 (negative control) and BDF2, Newton per step and semi-implicit, constant and variable (cyclic) steps, planar and axisymmetric with swirl",
+ "physics": "rho (du/dt + (u.grad)u) - div sigma_form = f, div u = 0 with u(t) in P2 and p(t) in P1 for every t (non-polynomial in t; non-Beltrami; axisymmetric with swirl, centrifugal and Coriolis terms non-zero): the error is purely temporal",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f3a_transient",
+   "function": "temporal_mms",
+   "check_module": "f3a_transient_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "mms_data": {
+    "planar": {
+     "path": "tools/fluids_mms/out/f3a_tr_sq_poly.json",
+     "sha256": "4fbda743f4b46e0a60fec4af3e1282cf7ea3912abb2ce881c05a7ae6c6f5192e"
+    },
+    "axisymmetric": {
+     "path": "tools/fluids_mms/out/f3a_tr_axi_poly.json",
+     "sha256": "ad6c0139e30934ab71aeea2c358b34cde0bc36b67f0cf4edd1dc0dc9332b1040"
+    }
+   },
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "rho": 1.25,
+   "mu": 0.05,
+   "T": 1.0,
+   "mesh": {
+    "builder": "structured",
+    "N": 8,
+    "h_nominal": 0.125,
+    "construction": "f1a_stokes_check.structured_mesh(8) on [0,1]^2 in (x, y) or (r, z) (the fixed F1a base mesh); one mesh for every level: the fields are space-exact"
+   },
+   "dt_levels": {
+    "uniform": [
+     0.025,
+     0.0125,
+     0.00625,
+     0.003125,
+     0.0015625
+    ],
+    "cyclic": [
+     0.025,
+     0.0125,
+     0.00625,
+     0.003125,
+     0.0015625
+    ]
+   },
+   "N_steps": [
+    40,
+    80,
+    160,
+    320,
+    640
+   ],
+   "step_function": {
+    "uniform": {
+     "kind": "uniform"
+    },
+    "cyclic": {
+     "kind": "cyclic",
+     "pattern": [
+      1.0,
+      1.25,
+      0.8,
+      1.1,
+      0.9
+     ],
+     "construction": "step sizes proportional to the pattern repeated N/5 times, scaled to sum to T"
+    },
+    "builder": "f3a_transient_check.time_grid(spec, T, N)"
+   },
+   "variants": [
+    {
+     "order": 1,
+     "scheme": "newton",
+     "grid": "uniform"
+    },
+    {
+     "order": 1,
+     "scheme": "semi",
+     "grid": "uniform"
+    },
+    {
+     "order": 2,
+     "scheme": "newton",
+     "grid": "uniform"
+    },
+    {
+     "order": 2,
+     "scheme": "semi",
+     "grid": "uniform"
+    },
+    {
+     "order": 2,
+     "scheme": "newton",
+     "grid": "cyclic"
+    },
+    {
+     "order": 2,
+     "scheme": "semi",
+     "grid": "cyclic"
+    }
+   ],
+   "forms": [
+    "lap",
+    "sym"
+   ],
+   "time_scheme": {
+    "bdf": "BDF of order k on the actual step sequence, omega_n = dt_n / dt_{n-1}: BDF1 (u^n - u^{n-1}) / dt_n; BDF2 [(1 + 2 w)/(1 + w) u^n - (1 + w) u^{n-1} + w^2/(1 + w) u^{n-2}] / dt_n (f3a_transient_check.bdf_coefficients); the momentum equation, the load f(t_n), Dirichlet data g(t_n) and traction data at t_n; p^n is the Lagrange multiplier of div u^n = 0 (no pressure time derivative, no pressure extrapolation)",
+    "starter": "BDF2 starts with ONE BDF1 step of the same size from the initial state (fixed for the cross-code case X1; any starter with local error O(dt^2) passes the order items)",
+    "newton": "Newton per step: the fully implicit BDF system (convection c(u^n; u^n, v)) solved by Newton to the fixed newton_rtol 1e-12 (dual norm, relative to the step's lifted residual)",
+    "semi": "semi-implicit (linearly implicit): c(w; u^n, v) with the extrapolated advecting velocity w = u^{n-1} (BDF1) or w = (1 + omega_n) u^{n-1} - omega_n u^{n-2} (BDF2; f3a_transient_check.extrapolation_coefficients); one linear solve per step",
+    "convection": "standard form c(w; u, v) = rho ((w. grad) u, v) (F2a; the skew form only if the F2a/F3a notes offer it: not proposed here)",
+    "initial_data": "u_h(t_0) is DISCRETELY DIVERGENCE-FREE and takes the nodal Dirichlet data at t_0 (projection of the initial data); the L2 (Leray) projection is the reference choice, any projection that is discretely divergence-free and O(h^3)-accurate in L2 passes (mms_ns_transient_initial)",
+    "dirichlet_data": "P2 Lagrange NODAL interpolation of the fixed callables at t_n (vertices and edge midpoints); at an axis node u_r = u_theta = 0 beats the data (F2a shared-node rule)",
+    "quadrature_requirement": "As F2a: the convective trilinear form, the mass form and every load integral are integrated EXACTLY for the polynomial integrands of P2 on affine triangles (degree >= 5 planar, >= 6 axisymmetric); the r-weighted viscous form in axisymmetry by a rule of degree >= 6. The mass matrix is the CONSISTENT one. The space-exact temporal MMS, the energy identities and the cross-code values assume it."
+   },
+   "newton_rtol": 1e-12,
+   "boundaries": {
+    "planar": "Dirichlet on all four edges (exact data, zero net flux)",
+    "axisymmetric": "Dirichlet on r = 1, z = 0, z = 1; axis conditions u_r = u_theta = 0 on r = 0, u_z natural"
+   },
+   "pressure": "constant-pressure nullspace (all-Dirichlet): errors mean-free (r-weighted means in axisymmetry)",
+   "sensitivity_run": {
+    "series": "planar_lap_bdf2_newton_uniform_uL2_T",
+    "newton_rtol_tight": 1e-14,
+    "level": "finest"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "planar_lap_bdf1_newton_uniform_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf1_newton_uniform_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf1_newton_uniform_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf1_semi_uniform_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf1_semi_uniform_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf1_semi_uniform_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf2_newton_uniform_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf2_newton_uniform_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf2_newton_uniform_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf2_semi_uniform_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf2_semi_uniform_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf2_semi_uniform_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_lap_bdf2_newton_cyclic_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "planar_lap_bdf2_newton_cyclic_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "planar_lap_bdf2_newton_cyclic_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "planar_lap_bdf2_semi_cyclic_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "planar_lap_bdf2_semi_cyclic_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "planar_lap_bdf2_semi_cyclic_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "planar_sym_bdf1_newton_uniform_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf1_newton_uniform_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf1_newton_uniform_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf1_semi_uniform_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf1_semi_uniform_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf1_semi_uniform_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf2_newton_uniform_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf2_newton_uniform_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf2_newton_uniform_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf2_semi_uniform_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf2_semi_uniform_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf2_semi_uniform_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "planar_sym_bdf2_newton_cyclic_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "planar_sym_bdf2_newton_cyclic_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "planar_sym_bdf2_newton_cyclic_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "planar_sym_bdf2_semi_cyclic_uL2_T",
+    "level": "mms",
+    "norm": "||u_h(T) - u(T)||_L2 (f3a_transient_check.errors, degree-10 rule)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "planar_sym_bdf2_semi_cyclic_uL2max",
+    "level": "mms",
+    "norm": "max over all steps n >= 1 of ||u_h(t_n) - u(t_n)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.00476,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "planar_sym_bdf2_semi_cyclic_pL2m_T",
+    "level": "mms",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.442671,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_lap_bdf1_newton_uniform_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf1_newton_uniform_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf1_newton_uniform_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf1_newton_uniform_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf1_newton_uniform_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf1_semi_uniform_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf1_semi_uniform_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf1_semi_uniform_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf1_semi_uniform_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf1_semi_uniform_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf2_newton_uniform_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf2_newton_uniform_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf2_newton_uniform_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf2_newton_uniform_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf2_newton_uniform_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf2_semi_uniform_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf2_semi_uniform_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf2_semi_uniform_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf2_semi_uniform_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf2_semi_uniform_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_lap_bdf2_newton_cyclic_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_lap_bdf2_newton_cyclic_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_lap_bdf2_newton_cyclic_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_lap_bdf2_newton_cyclic_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_lap_bdf2_newton_cyclic_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_lap_bdf2_semi_cyclic_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_lap_bdf2_semi_cyclic_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_lap_bdf2_semi_cyclic_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_lap_bdf2_semi_cyclic_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_lap_bdf2_semi_cyclic_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_sym_bdf1_newton_uniform_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf1_newton_uniform_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf1_newton_uniform_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf1_newton_uniform_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf1_newton_uniform_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf1_semi_uniform_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf1_semi_uniform_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf1_semi_uniform_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf1_semi_uniform_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf1_semi_uniform_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf2_newton_uniform_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf2_newton_uniform_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf2_newton_uniform_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf2_newton_uniform_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf2_newton_uniform_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf2_semi_uniform_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf2_semi_uniform_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf2_semi_uniform_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf2_semi_uniform_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf2_semi_uniform_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.uniform",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "axi_sym_bdf2_newton_cyclic_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_sym_bdf2_newton_cyclic_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_sym_bdf2_newton_cyclic_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_sym_bdf2_newton_cyclic_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_sym_bdf2_newton_cyclic_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_sym_bdf2_semi_cyclic_uL2w_T",
+    "level": "mms",
+    "norm": "r-weighted ||u_h(T) - u(T)|| (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_sym_bdf2_semi_cyclic_uL2wmax",
+    "level": "mms",
+    "norm": "max over the steps of the r-weighted velocity error",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_sym_bdf2_semi_cyclic_pL2mw_T",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_sym_bdf2_semi_cyclic_uL2_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED velocity error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.66342,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "axi_sym_bdf2_semi_cyclic_pL2m_unw_T",
+    "level": "mms",
+    "norm": "UNWEIGHTED mean-free pressure error at T",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.cyclic",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0788178,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "variable_step": true,
+    "step_function_from": "step_function",
+    "max_step_ratio": 1.45
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   }
+  ],
+  "solver_sensitivity": [
+   {
+    "quantity": "planar_lap_bdf2_newton_uniform_uL2_T_finest",
+    "tight_quantity": "planar_lap_bdf2_newton_uniform_uL2_T_finest_tight",
+    "level": "mms",
+    "rel_max": 0.0001
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

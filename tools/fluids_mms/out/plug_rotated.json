@@ -1,0 +1,343 @@
+{
+ "name": "plug_rotated",
+ "description": "Plug flow u = U0 e_s in the channel 0<s<2, 0<t<1 rotated by 30 deg; slip on both walls, Dirichlet inflow, do-nothing outflow (both forms: grad u = 0, p = 0).",
+ "domain": {
+  "kind": "rotated_rect",
+  "theta": "pi/6",
+  "s": [
+   0,
+   2
+  ],
+  "t": [
+   0,
+   1
+  ]
+ },
+ "pressure": "determined",
+ "conventions": {
+  "G_ij": "d u_i / d x_j",
+  "sigma_sym": "2 mu eps(u) - p I",
+  "sigma_lap": "mu G - p I",
+  "f": "-div sigma_form - gamma grad div u (= -div sigma_form for these fields)",
+  "traction": "g = sigma_form n, n the outward unit normal",
+  "grad_div": "gamma (div u_h, div v); gamma in viscosity units, not scaled by mu"
+ },
+ "u": [
+  {
+   "sympy": "sqrt(3)/2",
+   "c": "(1.0/2.0)*sqrt(3)",
+   "numpy": "(1/2)*np.sqrt(3)"
+  },
+  {
+   "sympy": "1/2",
+   "c": "1.0/2.0",
+   "numpy": "1/2"
+  }
+ ],
+ "p": {
+  "sympy": "0",
+  "c": "0",
+  "numpy": "0"
+ },
+ "mu": {
+  "sympy": "1",
+  "c": "1",
+  "numpy": "1"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "t0",
+   "bc": "slip",
+   "normal": [
+    {
+     "sympy": "1/2",
+     "c": "1.0/2.0",
+     "numpy": "1/2"
+    },
+    {
+     "sympy": "-sqrt(3)/2",
+     "c": "-1.0/2.0*sqrt(3)",
+     "numpy": "-1/2*np.sqrt(3)"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "sqrt(3)*t/2",
+     "c": "(1.0/2.0)*sqrt(3)*t",
+     "numpy": "(1/2)*np.sqrt(3)*t"
+    },
+    "y": {
+     "sympy": "t/2",
+     "c": "(1.0/2.0)*t",
+     "numpy": "(1/2)*t"
+    },
+    "range": [
+     0,
+     2
+    ]
+   }
+  },
+  {
+   "name": "t1",
+   "bc": "slip",
+   "normal": [
+    {
+     "sympy": "-1/2",
+     "c": "-1.0/2.0",
+     "numpy": "-1/2"
+    },
+    {
+     "sympy": "sqrt(3)/2",
+     "c": "(1.0/2.0)*sqrt(3)",
+     "numpy": "(1/2)*np.sqrt(3)"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "sqrt(3)*t/2 - 1/2",
+     "c": "(1.0/2.0)*sqrt(3)*t - 1.0/2.0",
+     "numpy": "(1/2)*np.sqrt(3)*t - 1/2"
+    },
+    "y": {
+     "sympy": "t/2 + sqrt(3)/2",
+     "c": "(1.0/2.0)*t + (1.0/2.0)*sqrt(3)",
+     "numpy": "(1/2)*t + (1/2)*np.sqrt(3)"
+    },
+    "range": [
+     0,
+     2
+    ]
+   }
+  },
+  {
+   "name": "s0",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "-sqrt(3)/2",
+     "c": "-1.0/2.0*sqrt(3)",
+     "numpy": "-1/2*np.sqrt(3)"
+    },
+    {
+     "sympy": "-1/2",
+     "c": "-1.0/2.0",
+     "numpy": "-1/2"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "-t/2",
+     "c": "-1.0/2.0*t",
+     "numpy": "-1/2*t"
+    },
+    "y": {
+     "sympy": "sqrt(3)*t/2",
+     "c": "(1.0/2.0)*sqrt(3)*t",
+     "numpy": "(1/2)*np.sqrt(3)*t"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "s2",
+   "bc": "do_nothing",
+   "normal": [
+    {
+     "sympy": "sqrt(3)/2",
+     "c": "(1.0/2.0)*sqrt(3)",
+     "numpy": "(1/2)*np.sqrt(3)"
+    },
+    {
+     "sympy": "1/2",
+     "c": "1.0/2.0",
+     "numpy": "1/2"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "-t/2 + sqrt(3)",
+     "c": "-1.0/2.0*t + sqrt(3)",
+     "numpy": "-1/2*t + np.sqrt(3)"
+    },
+    "y": {
+     "sympy": "sqrt(3)*t/2 + 1",
+     "c": "(1.0/2.0)*sqrt(3)*t + 1",
+     "numpy": "(1/2)*np.sqrt(3)*t + 1"
+    },
+    "range": [
+     0,
+     1
+    ]
+   },
+   "traction": {
+    "lap": [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    "sym": [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   }
+  }
+ ],
+ "extra": {
+  "do_nothing_form": "both",
+  "cross_bc_exempt": "plug flow has sigma = 0 everywhere, so every edge satisfies do-nothing; a do-nothing inlet would leave the problem singular (caught by the solver gate), not silently exact"
+ },
+ "constants": {
+  "area": 2.0,
+  "p_mean": 0.0,
+  "u_L2": 1.414213562373095,
+  "grad_u_L2": 0.0,
+  "p_minus_mean_L2": 0.0,
+  "u_max_sampled": 0.9999999999999999,
+  "p_max_abs_sampled": 0.0,
+  "p_minus_mean_max_abs_sampled": 0.0,
+  "mu_min_sampled": 1.0,
+  "mu_max_sampled": 1.0
+ },
+ "selfcheck": {
+  "fd_residual_lap": 1.5777218104420236e-27,
+  "fd_residual_sym": 2.3665827156630354e-27,
+  "net_boundary_flux": 0.0,
+  "harness_ns_residual_fd": {
+   "momentum_max": 2.220446049250313e-08,
+   "divergence_max": 0.0,
+   "scale": 2.220446049250313e-08,
+   "momentum_rel": 1.0
+  },
+  "status": "pass"
+ }
+}

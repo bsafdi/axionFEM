@@ -1,0 +1,2191 @@
+{
+ "name": "stern_multipost_1603",
+ "title": "Stern et al. multi-post and regulating-vane TM010-like cavities (COMSOL trade study)",
+ "benchmark_rank": "6",
+ "citations": [
+  {
+   "arxiv": "1603.06990",
+   "authors_short": "I. Stern et al.",
+   "journal": "Rev. Sci. Instrum. 86, 123305 (2015)",
+   "items_used": [
+    "Table I",
+    "Fig. 6a",
+    "Fig. 6b",
+    "Fig. 7a",
+    "Fig. 7b",
+    "Eqs. 17-26 (FoM normalization)"
+   ]
+  }
+ ],
+ "software": {
+  "code": "COMSOL Multiphysics",
+  "version": "4.2",
+  "solver_type": "3D eigenmode",
+  "boundary": "impedance boundary condition (copper walls, posts, vanes)",
+  "mesh_notes": "~20k tetrahedra per model (text p.4); authors note convergence difficulties near field transitions may exaggerate bumps"
+ },
+ "geometry": {
+  "units": "mm",
+  "description": "Right circular cylinder R = 50 mm, d = 250 mm (aspect d/R = 5); metal posts or vanes run the full length with no end gaps. N_stat stationary + N_mov moving posts; moving posts rotate rigidly about the cavity axis on a circle of radius R_MOV, stationary posts on radius R_STAT, all posts of diameter POST_DIA (Table I). Vanes: \"inner vane rounds\" at R_INNER, \"outer vane rounds\" at R_OUTER, \"vane angle\" between the vane sides (teardrop/wedge shape, inset Fig. 7b).",
+  "parameters": {
+   "R": {
+    "value": 50.0,
+    "unit": "mm",
+    "source": "text p.4"
+   },
+   "d": {
+    "value": 250.0,
+    "unit": "mm",
+    "source": "text p.4"
+   },
+   "end_gaps": {
+    "value": 0.0,
+    "unit": "mm",
+    "source": "text p.4 (\"without any air gaps\")"
+   },
+   "post_and_vane_dims": {
+    "value": "see reference_values.tables (Table I), ratios to R",
+    "unit": "",
+    "source": "Table I p.4"
+   },
+   "moving_post_angle_range": {
+    "value": null,
+    "unit": "deg",
+    "source": "not given",
+    "note": "only endpoint sketches in Fig. 4/Fig. 5; see gaps"
+   },
+   "angular_phase_stationary_vs_moving": {
+    "value": null,
+    "unit": "deg",
+    "source": "not given; Figs. 4-5 show equal spacing within each set"
+   },
+   "vane_round_radii": {
+    "value": null,
+    "unit": "mm",
+    "source": "not given",
+    "note": "inferred r_round = R_x * sin(vane_angle/2) if sides are radial"
+   }
+  }
+ },
+ "materials": {
+  "walls_posts_vanes": {
+   "material": "copper",
+   "sigma_S_per_m": null,
+   "temperature_K": 300,
+   "source": "Fig. 6/7 captions \"temperature of 300 K\"; sigma not stated; the FoM check does not constrain it (5.8e7-6.0e7 S/m depending on the Lambda0 rounding, see fom_consistency_check); use 5.8e7"
+  }
+ },
+ "conditions": {
+  "temperature_K": 300,
+  "B0_T": null,
+  "B0_direction": "z (cavity axis)",
+  "field_map": "uniform (implicit, form factor Eq. 3)"
+ },
+ "conventions": {
+  "form_factor_definition": "C = |int B0.E dV|^2 / (B0^2 V int eps |E|^2 dV) (Eq. 3, uniform B0 || z); C0 = 0.692 for the empty TM010 reference. V convention (full cylinder vs vacuum excluding posts) NOT stated - see gaps; report C both ways",
+  "Q_definition": "Q0 = omega U / P_loss (Eq. 9), impedance BC; plotted for R = 5 cm, d = 25 cm, 300 K. Scale Q as R^(1/2) (normal skin) or R^(2/3) (ASE)",
+  "notes": "Lambda = f*R (GHz m), scalable; figure of merit F (Eq. 18) compares to an empty cylinder of equal TM010 frequency and equal height d = 25 cm"
+ },
+ "reference_values": {
+  "tables": [
+   {
+    "source": "Table I p.4",
+    "description": "Scalable geometry of the best designs (all rotate about the cavity axis)",
+    "simulated": false,
+    "columns": [
+     "design",
+     "n_stationary",
+     "n_moving",
+     "R_MOV/R",
+     "R_STAT/R",
+     "POST_DIA/R"
+    ],
+    "units": [
+     "",
+     "",
+     "",
+     "",
+     "",
+     ""
+    ],
+    "rows": [
+     [
+      "A",
+      2,
+      2,
+      0.413,
+      0.413,
+      0.35
+     ],
+     [
+      "B",
+      2,
+      2,
+      0.425,
+      0.425,
+      0.3
+     ],
+     [
+      "C",
+      2,
+      2,
+      0.454,
+      0.454,
+      0.35
+     ],
+     [
+      "D",
+      3,
+      3,
+      0.375,
+      0.625,
+      0.25
+     ],
+     [
+      "E",
+      3,
+      3,
+      0.375,
+      0.75,
+      0.375
+     ],
+     [
+      "F",
+      3,
+      3,
+      0.4,
+      0.675,
+      0.275
+     ],
+     [
+      "G",
+      3,
+      3,
+      0.4,
+      0.8,
+      0.3
+     ],
+     [
+      "H",
+      4,
+      3,
+      0.45,
+      0.45,
+      0.2
+     ],
+     [
+      "J",
+      4,
+      3,
+      0.525,
+      0.525,
+      0.175
+     ],
+     [
+      "K",
+      4,
+      4,
+      0.55,
+      0.55,
+      0.2
+     ]
+    ]
+   },
+   {
+    "source": "Table I p.4 (regulating vanes)",
+    "simulated": false,
+    "description": "Vane designs; vane angle in units of pi rad",
+    "columns": [
+     "design",
+     "n_stationary",
+     "n_moving",
+     "R_INNER/R",
+     "R_OUTER/R",
+     "vane_angle_over_pi"
+    ],
+    "units": [
+     "",
+     "",
+     "",
+     "",
+     "",
+     ""
+    ],
+    "rows": [
+     [
+      "L",
+      2,
+      2,
+      0.25,
+      0.8,
+      0.15
+     ],
+     [
+      "M",
+      2,
+      2,
+      0.3,
+      0.7,
+      0.15
+     ],
+     [
+      "N",
+      3,
+      3,
+      0.3,
+      0.6,
+      0.05
+     ]
+    ]
+   }
+  ],
+  "curves": [
+   {
+    "source": "Fig. 6a (top panel)",
+    "description": "unloaded Q (300 K copper, d = 25 cm, R = 5 cm) vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "Q0",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design A",
+      "points": [
+       [
+        0.23561,
+        16996.9
+       ],
+       [
+        0.24082,
+        16893.7
+       ],
+       [
+        0.25223,
+        16707.9
+       ],
+       [
+        0.26464,
+        16398.3
+       ],
+       [
+        0.27779,
+        15882.4
+       ],
+       [
+        0.28821,
+        14602.7
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design B",
+      "points": [
+       [
+        0.21452,
+        16604.7
+       ],
+       [
+        0.21898,
+        16501.5
+       ],
+       [
+        0.2294,
+        16006.2
+       ],
+       [
+        0.24057,
+        15737.9
+       ],
+       [
+        0.25273,
+        15448.9
+       ],
+       [
+        0.26563,
+        15036.1
+       ],
+       [
+        0.27556,
+        14128.0
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design C",
+      "points": [
+       [
+        0.22593,
+        16542.8
+       ],
+       [
+        0.2304,
+        16419.0
+       ],
+       [
+        0.2366,
+        16336.4
+       ],
+       [
+        0.24975,
+        16109.4
+       ],
+       [
+        0.2639,
+        15820.4
+       ],
+       [
+        0.28002,
+        15696.6
+       ],
+       [
+        0.28548,
+        15325.1
+       ],
+       [
+        0.29541,
+        14396.3
+       ]
+      ],
+      "occluded_point_indices": []
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 7,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        320.0,
+        0.25
+       ],
+       [
+        521.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        11.5,
+        20000.0
+       ],
+       [
+        496.0,
+        10000.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.0005,
+     "uncertainty_y": 41.0,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig6.png",
+     "overlay_png": "stern_multipost_1603_fig6_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 6a (middle panel)",
+    "description": "form factor C010-like vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "C",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design A",
+      "points": [
+       [
+        0.23561,
+        0.438
+       ],
+       [
+        0.24132,
+        0.4277
+       ],
+       [
+        0.25248,
+        0.407
+       ],
+       [
+        0.26464,
+        0.3905
+       ],
+       [
+        0.2773,
+        0.4008
+       ],
+       [
+        0.28821,
+        0.5971
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design B",
+      "points": [
+       [
+        0.21452,
+        0.4917
+       ],
+       [
+        0.21923,
+        0.4835
+       ],
+       [
+        0.2294,
+        0.5103
+       ],
+       [
+        0.24057,
+        0.4917
+       ],
+       [
+        0.25273,
+        0.4835
+       ],
+       [
+        0.26538,
+        0.5103
+       ],
+       [
+        0.27556,
+        0.6921
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design C",
+      "points": [
+       [
+        0.22568,
+        0.4401
+       ],
+       [
+        0.23065,
+        0.4318
+       ],
+       [
+        0.2366,
+        0.4194
+       ],
+       [
+        0.24975,
+        0.3988
+       ],
+       [
+        0.2639,
+        0.376
+       ],
+       [
+        0.27978,
+        0.3574
+       ],
+       [
+        0.28548,
+        0.3864
+       ],
+       [
+        0.29541,
+        0.5909
+       ]
+      ],
+      "occluded_point_indices": []
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 7,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        320.0,
+        0.25
+       ],
+       [
+        521.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        522.0,
+        1.0
+       ],
+       [
+        1006.0,
+        0.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.0005,
+     "uncertainty_y": 0.0041,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig6.png",
+     "overlay_png": "stern_multipost_1603_fig6_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 6a (bottom panel)",
+    "description": "figure of merit F (Eq. 18) vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "FoM",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design A",
+      "points": [
+       [
+        0.23586,
+        1.5093
+       ],
+       [
+        0.24107,
+        1.5249
+       ],
+       [
+        0.25248,
+        1.5561
+       ],
+       [
+        0.26464,
+        1.5997
+       ],
+       [
+        0.27754,
+        1.7025
+       ],
+       [
+        0.28821,
+        2.1199
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design B",
+      "points": [
+       [
+        0.21476,
+        1.4377
+       ],
+       [
+        0.21948,
+        1.4533
+       ],
+       [
+        0.22965,
+        1.5623
+       ],
+       [
+        0.24082,
+        1.6059
+       ],
+       [
+        0.25298,
+        1.6776
+       ],
+       [
+        0.26563,
+        1.8022
+       ],
+       [
+        0.27556,
+        2.1542
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design C",
+      "points": [
+       [
+        0.22593,
+        1.4377
+       ],
+       [
+        0.23089,
+        1.4533
+       ],
+       [
+        0.2366,
+        1.472
+       ],
+       [
+        0.24975,
+        1.5125
+       ],
+       [
+        0.26414,
+        1.5561
+       ],
+       [
+        0.28027,
+        1.6184
+       ],
+       [
+        0.28573,
+        1.715
+       ],
+       [
+        0.29541,
+        2.1636
+       ]
+      ],
+      "occluded_point_indices": []
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 7,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        320.0,
+        0.25
+       ],
+       [
+        521.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        1032.0,
+        2.5
+       ],
+       [
+        1513.5,
+        1.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.0005,
+     "uncertainty_y": 0.0062,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig6.png",
+     "overlay_png": "stern_multipost_1603_fig6_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 6b (top panel)",
+    "description": "unloaded Q (300 K copper, d = 25 cm, R = 5 cm) vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "Q0",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design D",
+      "points": [
+       [
+        0.23543,
+        16014.5
+       ],
+       [
+        0.25123,
+        14937.9
+       ],
+       [
+        0.2779,
+        13861.3
+       ],
+       [
+        0.29074,
+        13405.8
+       ],
+       [
+        0.29642,
+        13240.2
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design E",
+      "points": [
+       [
+        0.23963,
+        16470.0
+       ],
+       [
+        0.24432,
+        16221.5
+       ],
+       [
+        0.25148,
+        15621.1
+       ],
+       [
+        0.26185,
+        14751.6
+       ],
+       [
+        0.27469,
+        13716.4
+       ],
+       [
+        0.28753,
+        12577.6
+       ],
+       [
+        0.29444,
+        11956.5
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design F",
+      "points": [
+       [
+        0.23716,
+        15538.3
+       ],
+       [
+        0.25321,
+        14544.5
+       ],
+       [
+        0.28284,
+        12908.9
+       ],
+       [
+        0.30185,
+        11853.0
+       ],
+       [
+        0.30778,
+        11438.9
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design G",
+      "points": [
+       [
+        0.24123,
+        16211.2
+       ],
+       [
+        0.24605,
+        15869.6
+       ],
+       [
+        0.25321,
+        15320.9
+       ],
+       [
+        0.26346,
+        14420.3
+       ],
+       [
+        0.27691,
+        13240.2
+       ],
+       [
+        0.29148,
+        11853.0
+       ],
+       [
+        0.29963,
+        11045.5
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design H",
+      "points": [
+       [
+        0.23741,
+        12308.5
+       ],
+       [
+        0.25,
+        12329.2
+       ],
+       [
+        0.26506,
+        12184.3
+       ],
+       [
+        0.27864,
+        11832.3
+       ],
+       [
+        0.28506,
+        11646.0
+       ]
+      ],
+      "occluded_point_indices": []
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 7,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        981.0,
+        0.25
+       ],
+       [
+        1183.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        11.5,
+        20000.0
+       ],
+       [
+        494.5,
+        10000.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.00049,
+     "uncertainty_y": 41.0,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig6.png",
+     "overlay_png": "stern_multipost_1603_fig6_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 6b (middle panel)",
+    "description": "form factor C010-like vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "C",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design D",
+      "points": [
+       [
+        0.23528,
+        0.5574
+       ],
+       [
+        0.25133,
+        0.5574
+       ],
+       [
+        0.2779,
+        0.5553
+       ],
+       [
+        0.29062,
+        0.5781
+       ],
+       [
+        0.29617,
+        0.5926
+       ]
+      ],
+      "occluded_point_indices": [
+       2
+      ]
+     },
+     {
+      "label": "design E",
+      "points": [
+       [
+        0.23968,
+        0.5462
+       ],
+       [
+        0.24422,
+        0.5485
+       ],
+       [
+        0.26195,
+        0.5404
+       ],
+       [
+        0.27457,
+        0.5568
+       ],
+       [
+        0.2879,
+        0.6019
+       ],
+       [
+        0.29407,
+        0.6474
+       ]
+      ],
+      "occluded_point_indices": [],
+      "missing_points": [
+       {
+        "x": 0.2515,
+        "y": null,
+        "note": "Fig. 6b C panel shows 6 design-E markers vs 7 in the Q and F panels; the marker at Lambda ~0.2515 (Q/F panels: native x px 985-987) is not visible in the C panel (re-inspected at 10x on a 10 px grid: only the D circle, F triangle and G square are there) - fully hidden under them or not plotted; not recoverable. Expected C ~0.54-0.55 by interpolation of its neighbours (not a measurement)"
+       }
+      ]
+     },
+     {
+      "label": "design F",
+      "points": [
+       [
+        0.23709,
+        0.5615
+       ],
+       [
+        0.25296,
+        0.5388
+       ],
+       [
+        0.28296,
+        0.5367
+       ],
+       [
+        0.3021,
+        0.5822
+       ],
+       [
+        0.30778,
+        0.6091
+       ]
+      ],
+      "occluded_point_indices": [
+       0,
+       1
+      ]
+     },
+     {
+      "label": "design G",
+      "points": [
+       [
+        0.24146,
+        0.5574
+       ],
+       [
+        0.24612,
+        0.5388
+       ],
+       [
+        0.25272,
+        0.5231
+       ],
+       [
+        0.26358,
+        0.5231
+       ],
+       [
+        0.27691,
+        0.5367
+       ],
+       [
+        0.2916,
+        0.5853
+       ],
+       [
+        0.29963,
+        0.6153
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design H",
+      "points": [
+       [
+        0.23741,
+        0.607
+       ],
+       [
+        0.24951,
+        0.6112
+       ],
+       [
+        0.26531,
+        0.6194
+       ],
+       [
+        0.27877,
+        0.6691
+       ],
+       [
+        0.28481,
+        0.698
+       ]
+      ],
+      "occluded_point_indices": []
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 7,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        981.0,
+        0.25
+       ],
+       [
+        1183.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        522.0,
+        1.0
+       ],
+       [
+        1005.5,
+        0.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.00049,
+     "uncertainty_y": 0.0041,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig6.png",
+     "overlay_png": "stern_multipost_1603_fig6_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 6b (bottom panel)",
+    "description": "figure of merit F (Eq. 18) vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "FoM",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design D",
+      "points": [
+       [
+        0.23526,
+        1.6759
+       ],
+       [
+        0.25114,
+        1.7717
+       ],
+       [
+        0.27785,
+        1.9366
+       ],
+       [
+        0.29062,
+        2.0584
+       ],
+       [
+        0.29637,
+        2.125
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design E",
+      "points": [
+       [
+        0.23914,
+        1.7137
+       ],
+       [
+        0.24373,
+        1.7426
+       ],
+       [
+        0.25099,
+        1.7624
+       ],
+       [
+        0.26153,
+        1.8154
+       ],
+       [
+        0.27519,
+        1.9081
+       ],
+       [
+        0.28753,
+        2.045
+       ],
+       [
+        0.2937,
+        2.1498
+       ]
+      ],
+      "occluded_point_indices": [
+       2
+      ]
+     },
+     {
+      "label": "design F",
+      "points": [
+       [
+        0.23741,
+        1.6942
+       ],
+       [
+        0.25343,
+        1.7426
+       ],
+       [
+        0.28279,
+        1.9081
+       ],
+       [
+        0.30235,
+        2.0956
+       ],
+       [
+        0.30778,
+        2.1715
+       ]
+      ],
+      "occluded_point_indices": [
+       0
+      ]
+     },
+     {
+      "label": "design G",
+      "points": [
+       [
+        0.24126,
+        1.7252
+       ],
+       [
+        0.24602,
+        1.7271
+       ],
+       [
+        0.25343,
+        1.7379
+       ],
+       [
+        0.26365,
+        1.7977
+       ],
+       [
+        0.27716,
+        1.8771
+       ],
+       [
+        0.2916,
+        2.0227
+       ],
+       [
+        0.29914,
+        2.1002
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design H",
+      "points": [
+       [
+        0.23756,
+        1.6694
+       ],
+       [
+        0.24975,
+        1.7469
+       ],
+       [
+        0.26519,
+        1.8833
+       ],
+       [
+        0.27889,
+        2.0506
+       ],
+       [
+        0.28526,
+        2.1405
+       ]
+      ],
+      "occluded_point_indices": [
+       1
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 7,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        981.0,
+        0.25
+       ],
+       [
+        1183.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        1032.0,
+        2.5
+       ],
+       [
+        1516.0,
+        1.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.00049,
+     "uncertainty_y": 0.0062,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig6.png",
+     "overlay_png": "stern_multipost_1603_fig6_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 7a (top panel)",
+    "description": "unloaded Q (300 K copper, d = 25 cm, R = 5 cm) vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "Q0",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design I",
+      "points": [
+       [
+        0.23221,
+        14041.5
+       ],
+       [
+        0.25236,
+        13419.7
+       ],
+       [
+        0.27848,
+        12155.4
+       ],
+       [
+        0.28818,
+        11906.7
+       ],
+       [
+        0.29714,
+        10663.2
+       ],
+       [
+        0.30112,
+        10145.1
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design J",
+      "points": [
+       [
+        0.23868,
+        12963.7
+       ],
+       [
+        0.25784,
+        13813.5
+       ],
+       [
+        0.27649,
+        13025.9
+       ],
+       [
+        0.29863,
+        11761.7
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design K",
+      "points": [
+       [
+        0.20858,
+        17695.3
+       ],
+       [
+        0.24348,
+        17647.7
+       ],
+       [
+        0.26903,
+        16072.5
+       ]
+      ],
+      "occluded_point_indices": []
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 8,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        320.5,
+        0.25
+       ],
+       [
+        521.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        10.5,
+        20000.0
+       ],
+       [
+        493.0,
+        10000.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.0005,
+     "uncertainty_y": 41.0,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig7.png",
+     "overlay_png": "stern_multipost_1603_fig7_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 7a (middle panel)",
+    "description": "form factor C010-like vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "C",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design I",
+      "points": [
+       [
+        0.23246,
+        0.5975
+       ],
+       [
+        0.25261,
+        0.5674
+       ],
+       [
+        0.27866,
+        0.5835
+       ],
+       [
+        0.28818,
+        0.5835
+       ],
+       [
+        0.29689,
+        0.7019
+       ],
+       [
+        0.30087,
+        0.7714
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design J",
+      "points": [
+       [
+        0.23886,
+        0.5313
+       ],
+       [
+        0.25791,
+        0.5313
+       ],
+       [
+        0.27642,
+        0.5152
+       ],
+       [
+        0.29838,
+        0.5486
+       ],
+       [
+        0.3158,
+        0.7401
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design K",
+      "points": [
+       [
+        0.20883,
+        0.4848
+       ],
+       [
+        0.24366,
+        0.3643
+       ],
+       [
+        0.26878,
+        0.5814
+       ]
+      ],
+      "occluded_point_indices": []
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 8,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        320.5,
+        0.25
+       ],
+       [
+        521.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        520.5,
+        1.0
+       ],
+       [
+        999.5,
+        0.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.0005,
+     "uncertainty_y": 0.0042,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig7.png",
+     "overlay_png": "stern_multipost_1603_fig7_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 7a (bottom panel)",
+    "description": "figure of merit F (Eq. 18) vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "FoM",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design I",
+      "points": [
+       [
+        0.23246,
+        1.656
+       ],
+       [
+        0.25261,
+        1.7453
+       ],
+       [
+        0.27873,
+        1.9237
+       ],
+       [
+        0.28818,
+        1.9881
+       ],
+       [
+        0.29714,
+        2.1935
+       ],
+       [
+        0.30104,
+        2.3046
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design J",
+      "points": [
+       [
+        0.23886,
+        1.5763
+       ],
+       [
+        0.25816,
+        1.7369
+       ],
+       [
+        0.27642,
+        1.8253
+       ],
+       [
+        0.29838,
+        1.9965
+       ],
+       [
+        0.31597,
+        2.373
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design K",
+      "points": [
+       [
+        0.20866,
+        1.4052
+       ],
+       [
+        0.24348,
+        1.4413
+       ],
+       [
+        0.26878,
+        1.9756
+       ]
+      ],
+      "occluded_point_indices": []
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 8,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        320.5,
+        0.25
+       ],
+       [
+        521.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        1026.5,
+        2.5
+       ],
+       [
+        1508.5,
+        1.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.0005,
+     "uncertainty_y": 0.0062,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig7.png",
+     "overlay_png": "stern_multipost_1603_fig7_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 7b (top panel)",
+    "description": "unloaded Q (300 K copper, d = 25 cm, R = 5 cm) vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "Q0",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design L",
+      "points": [
+       [
+        0.2063,
+        18933.7
+       ],
+       [
+        0.22235,
+        19223.6
+       ],
+       [
+        0.23222,
+        19368.5
+       ],
+       [
+        0.25765,
+        19223.6
+       ],
+       [
+        0.2658,
+        19285.7
+       ],
+       [
+        0.27494,
+        19078.7
+       ],
+       [
+        0.28481,
+        18871.6
+       ],
+       [
+        0.29148,
+        18706.0
+       ],
+       [
+        0.2937,
+        18623.2
+       ],
+       [
+        0.29543,
+        18374.7
+       ],
+       [
+        0.29593,
+        18043.5
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design M",
+      "points": [
+       [
+        0.20333,
+        18374.7
+       ],
+       [
+        0.21123,
+        18499.0
+       ],
+       [
+        0.25593,
+        18354.0
+       ],
+       [
+        0.27296,
+        18084.9
+       ],
+       [
+        0.28926,
+        17732.9
+       ],
+       [
+        0.29321,
+        17111.8
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design N",
+      "points": [
+       [
+        0.21667,
+        11490.7
+       ],
+       [
+        0.25247,
+        13436.9
+       ],
+       [
+        0.26889,
+        13126.3
+       ],
+       [
+        0.28802,
+        12474.1
+       ],
+       [
+        0.30309,
+        10817.8
+       ]
+      ],
+      "occluded_point_indices": []
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 8,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        980.0,
+        0.25
+       ],
+       [
+        1182.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        10.5,
+        20000.0
+       ],
+       [
+        493.5,
+        10000.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.00049,
+     "uncertainty_y": 41.0,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig7.png",
+     "overlay_png": "stern_multipost_1603_fig7_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 7b (middle panel)",
+    "description": "form factor C010-like vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "C",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design L",
+      "points": [
+       [
+        0.20654,
+        0.4704
+       ],
+       [
+        0.22227,
+        0.4033
+       ],
+       [
+        0.2323,
+        0.3723
+       ],
+       [
+        0.25783,
+        0.2998
+       ],
+       [
+        0.26605,
+        0.2805
+       ],
+       [
+        0.27486,
+        0.2634
+       ],
+       [
+        0.28494,
+        0.2495
+       ],
+       [
+        0.29156,
+        0.2412
+       ],
+       [
+        0.2939,
+        0.248
+       ],
+       [
+        0.29568,
+        0.3199
+       ],
+       [
+        0.29593,
+        0.4551
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design M",
+      "points": [
+       [
+        0.20351,
+        0.4793
+       ],
+       [
+        0.21116,
+        0.4497
+       ],
+       [
+        0.25617,
+        0.3193
+       ],
+       [
+        0.27304,
+        0.2847
+       ],
+       [
+        0.28951,
+        0.2805
+       ],
+       [
+        0.29353,
+        0.4896
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design N",
+      "points": [
+       [
+        0.21686,
+        0.6284
+       ],
+       [
+        0.2523,
+        0.4331
+       ],
+       [
+        0.26894,
+        0.4965
+       ],
+       [
+        0.2881,
+        0.5331
+       ],
+       [
+        0.30309,
+        0.7174
+       ]
+      ],
+      "occluded_point_indices": []
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 8,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        980.0,
+        0.25
+       ],
+       [
+        1182.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        518.5,
+        1.0
+       ],
+       [
+        1001.5,
+        0.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.00049,
+     "uncertainty_y": 0.0041,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig7.png",
+     "overlay_png": "stern_multipost_1603_fig7_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 7b (bottom panel)",
+    "description": "figure of merit F (Eq. 18) vs Lambda = f*R, simulation points (markers) only; dashed lines in the figure are spline guides",
+    "x": {
+     "label": "Lambda = f * R",
+     "unit": "GHz m"
+    },
+    "y": {
+     "label": "FoM",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "design L",
+      "points": [
+       [
+        0.20617,
+        1.3866
+       ],
+       [
+        0.22222,
+        1.4006
+       ],
+       [
+        0.2321,
+        1.4121
+       ],
+       [
+        0.25765,
+        1.4255
+       ],
+       [
+        0.26575,
+        1.4301
+       ],
+       [
+        0.27457,
+        1.4317
+       ],
+       [
+        0.28457,
+        1.441
+       ],
+       [
+        0.29123,
+        1.4525
+       ],
+       [
+        0.29346,
+        1.4814
+       ],
+       [
+        0.29543,
+        1.6894
+       ],
+       [
+        0.29543,
+        2.0109
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design M",
+      "points": [
+       [
+        0.20309,
+        1.3649
+       ],
+       [
+        0.21123,
+        1.3804
+       ],
+       [
+        0.25588,
+        1.4425
+       ],
+       [
+        0.27247,
+        1.4565
+       ],
+       [
+        0.28914,
+        1.5342
+       ],
+       [
+        0.29296,
+        2.0388
+       ]
+      ],
+      "occluded_point_indices": []
+     },
+     {
+      "label": "design N",
+      "points": [
+       [
+        0.21667,
+        1.4907
+       ],
+       [
+        0.25222,
+        1.5295
+       ],
+       [
+        0.26889,
+        1.7391
+       ],
+       [
+        0.2879,
+        1.927
+       ],
+       [
+        0.30284,
+        2.2748
+       ]
+      ],
+      "occluded_point_indices": []
+     }
+    ],
+    "digitization": {
+     "method": "native embedded RGB bitmap (1270x1582 px, no resampling); axes calibrated from detected frame + labelled ticks (x: 0.25, 0.30; y: frame top/bottom = labelled limits); marker centres read by eye on 3-9x zoomed crops with a 10 px grid (digitize/stern_multipost_1603_manual.json) and cross-checked against an automatic ring-coverage marker detector: 194 of the 256 points were also found automatically, rms difference 0.9 px per axis, max 3.3 px",
+     "page": 8,
+     "clip_bbox_pt": "whole embedded image",
+     "axis_calibration": {
+      "x": [
+       [
+        980.0,
+        0.25
+       ],
+       [
+        1182.5,
+        0.3
+       ]
+      ],
+      "y": [
+       [
+        1026.5,
+        2.5
+       ],
+       [
+        1509.5,
+        1.0
+       ]
+      ],
+      "log": false
+     },
+     "uncertainty_x": 0.00049,
+     "uncertainty_y": 0.0062,
+     "uncertainty_basis": "+-2 px (marker-centre reading 1 px rms + calibration 1 px); occluded points (listed) +-3 px; markers are ~12 px wide so overlapping series were separated by colour/shape by eye",
+     "figure_png": "stern_multipost_1603_fig7.png",
+     "overlay_png": "stern_multipost_1603_fig7_overlay.png",
+     "script": "digitize/stern_multipost_1603_digitize.py"
+    }
+   }
+  ],
+  "fom_consistency_check": {
+   "formula": "F = (Lambda/Lambda0) * sqrt(C/C0) * (Q/Q_ref)^(1/4), Lambda0 = x01 c/(2 pi) = 0.11474 GHz m (printed as 0.115 on p.5), C0 = 0.692, Q_ref = (R0/delta)/(1 + R0/d) for an empty cylinder of radius R0 = x01 c/(2 pi f), height d = 0.25 m, same delta (reconstruction of Eqs. 17-26; the extracted PDF text of these equations is garbled)",
+   "n_points": 82,
+   "sigma_fit_S_per_m": 59300000.0,
+   "sigma_fit_with_printed_Lambda0_0p115_S_per_m": 58200000.0,
+   "rms_rel_residual_at_fit": 0.0025,
+   "max_rel_residual_at_fit": 0.0096,
+   "mean_rel_residual_sigma_5p8e7": 0.0027,
+   "mean_rel_residual_sigma_5p8e7_Lambda0_0p115": 0.00043,
+   "conclusion": "the digitized F is reproduced from the digitized Q and C to 0.25% rms, confirming the formula reconstruction and the digitization. sigma is NOT constrained by this check: F ~ sigma^(-1/8), so the fitted sigma is degenerate with the rounding of Lambda0 - exact Lambda0 gives sigma_fit = 5.93e+07 S/m, the printed Lambda0 = 0.115 gives 5.82e+07 S/m (mean residual at 5.8e7: +0.27% vs +0.04%). Treat sigma as 5.8e7-6.0e7 S/m; recommended 5.8e7 with Lambda0 = 0.115"
+  }
+ },
+ "measured_values": {
+  "note": "none: the paper has no measurements"
+ },
+ "gaps": [
+  {
+   "parameter": "moving-post / vane rotation range (start and end angle) and the angular phase between stationary and moving sets",
+   "issue": "only the end configurations are sketched (Fig. 4, Fig. 5 insets); no angles are given",
+   "proposal": "parametrize by the relative rotation angle phi of the moving set; sweep phi over its full geometric range (from contact/minimum clearance to the symmetric position) at ~1 deg steps, track TM010-like by overlap, then compare along Lambda (both Q, C and F are plotted vs Lambda, so the unknown phi mapping drops out); use the digitized Lambda_min/Lambda_max of each design to locate the endpoints"
+  },
+  {
+   "parameter": "vane shape (round radii, whether the sides are radial)",
+   "issue": "only R_INNER, R_OUTER and the side angle are given",
+   "proposal": "assume a teardrop: two circles centred at R_INNER and R_OUTER tangent to two straight sides that meet at the axis with opening angle (vane_angle*pi); check against the Fig. 5d-f / Fig. 7b inset images; vane designs are lower priority"
+  },
+  {
+   "parameter": "copper conductivity / surface resistance",
+   "issue": "not stated; the FoM check is degenerate with the Lambda0 rounding, so it does not pin sigma",
+   "proposal": "use sigma = 5.8e7 S/m (300 K); the plausible range 5.8e7-6.0e7 moves Q by <= 1.7% (Q ~ sqrt(sigma)) - carry that as a Q systematic"
+  },
+  {
+   "parameter": "form-factor volume convention (V in Eq. 3)",
+   "issue": "Eq. 3 divides by \"V\" without saying whether V is the full cylinder (pi R^2 d) or the vacuum volume excluding the posts/vanes. The posts occupy a large area fraction: A 12.2%, B 9.0%, C 12.2%, D 9.4%, E 21.1%, F 11.3%, G 13.5%, H 7.0%, J 5.4%, K 8.0% of pi R^2, so the two conventions differ by that factor (C_vac = C_full / (1 - a))",
+   "proposal": "axionFEM must report C both ways (C_full with V = pi R^2 d, C_vac with V = vacuum volume) for every Stern design; neither is preferred a priori. C0 = 0.692 (empty cylinder) does not discriminate. If one convention matches across designs with very different area fractions (D 9% vs E 21%), record it here"
+  },
+  {
+   "parameter": "geometry of the \"6 Post Design H\" in Fig. 6b",
+   "issue": "Table I has no 6-post design H (see inconsistencies)",
+   "proposal": "skip this series; it has no geometry"
+  }
+ ],
+ "inconsistencies": [
+  {
+   "description": "Design labels differ between Table I and Figs. 6-7",
+   "evidence": "Table I lists post designs A-H, J, K (no I): H = 4 stationary + 3 moving (7 posts). Fig. 6b plots \"6 Post Design H\" (5 six-post series D-H while the table has 4: D-G); Fig. 7a plots \"7 Post Design I\" and \"7 Post Design J\" and \"8 Post Design K\".",
+   "proposal": "map Table H (7-post) -> Fig. 7a \"Design I\"; Table J -> Fig. 7a J; Table K -> Fig. 7a K; Fig. 6b \"H\" has no geometry. Do not use I/H/K as a benchmark before checking this (see also the Fig. 7a inset vs Table I K item)"
+  },
+  {
+   "description": "Fig. 7a 8-post inset geometry vs Table I design K",
+   "evidence": "the Fig. 7a inset (p.8, the only 8-post design, i.e. K) shows two rings of 4 posts at ~0.31 R and ~0.65 R with post diameter ~0.2 R (re-measured on the embedded bitmap: inner posts ~26 px, outer ~55 px from the centre of an ~85 px radius disk, posts ~18 px across), but Table I gives K = R_MOV/R = R_STAT/R = 0.55, POST_DIA/R = 0.20 (one ring). The Fig. 6b 6-post inset measures 0.37/0.64/0.24 R = Table I design D (0.375/0.625/0.25), so the insets are drawn to scale and the K mismatch is real",
+   "proposal": "treat the design K geometry as uncertain (Table I and the inset disagree); do not use K (nor I/H) as a benchmark until the geometry is resolved; if used, run both the Table I and the inset geometry"
+  },
+  {
+   "description": "Some Fig. 7a design J points fall below the Q axis limit",
+   "evidence": "the last J point (Lambda ~0.316) is outside the Q panel (Q < 10,000) but present in the C and F panels",
+   "proposal": "use C/F at that point only; Q for it is not recoverable"
+  },
+  {
+   "description": "the earlier literature survey check",
+   "evidence": "its summary (R = 5 cm, H = 25 cm, COMSOL 4.2, ~20k tets, Table I A = 2/2/0.413/0.413/0.350, ten post + three vane designs) matches the PDF",
+   "proposal": "none"
+  }
+ ],
+ "solver_class": {
+  "axisymmetric_2d_possible": false,
+  "needs_3d": false,
+  "reason": "posts/vanes are off-axis, so no axisymmetry; but they run the full height with no gaps, so the TM010-like mode is z-invariant: f and C follow from a 2D scalar Helmholtz problem for Ez on the cross-section (Dirichlet on all metal), and Q adds the analytic end-cap term 1/Q = 1/Q_wall + delta/d. A 3D extruded mesh also works (the paper used 3D). axionFEM currently has no 2D planar scalar solver -> 3D unless one is added"
+ },
+ "priority": "P2",
+ "priority_reason": "tuning-angle mapping unknown, label inconsistencies (H/I, K inset vs table) and C volume convention unknown (posts 9-21% of the area); curves digitized to ~0.5% of full scale; good test of multi-rod mode tracking (A-G, J, L-N), not of absolute accuracy",
+ "readme_row": {
+  "quantities": "Q0, C, FoM vs Lambda=f*R: 14 digitized series (13 Table I designs + the geometry-less Fig. 6b \"H\"), 256 points (241 excluding \"H\"); Table I geometry ratios",
+  "geometry_complete": "no",
+  "axisym_2d": "no (2D cross-section scalar Helmholtz would suffice: z-invariant)",
+  "needs_3d": "yes for axionFEM today"
+ }
+}

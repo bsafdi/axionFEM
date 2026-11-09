@@ -1,0 +1,401 @@
+{
+ "constants": {
+  "mu_max_sampled": 2.162095735087555,
+  "mu_min_sampled": 1.3693656142197095,
+  "p_max_abs_sampled": 0.0,
+  "p_mean": 0.0,
+  "p_minus_mean_max_abs_sampled": 0.0,
+  "u_max_sampled": 1.0,
+  "volume": 0.9999999999999999
+ },
+ "conventions": {
+  "G_ij": "d u_i / d x_j",
+  "f": "-div sigma_form - gamma grad div u (gamma-independent: div u = 0)",
+  "frame": "expressions in LOCAL coordinates x_loc = R^T (x - c); u_phys = R u_loc, grad_phys = R G_loc R^T, sigma_phys = R sigma_loc R^T, f_phys = R f_loc",
+  "sigma_lap": "mu G - p I",
+  "sigma_sym": "2 mu eps(u) - p I",
+  "traction": "g = sigma_form n, n the outward unit normal"
+ },
+ "description": "T4 patch: uniform flow along the slip-symmetry edge (in P2: exact to round-off)",
+ "domain": {
+  "kind": "rotated unit cube"
+ },
+ "extra": {
+  "cross_bc_exempt": "a uniform tangential flow also satisfies slip on x0 (u.n = 0, zero traction); the MMS velocity field carries the attribute test"
+ },
+ "faces": [
+  {
+   "bc": "dirichlet",
+   "fixed": [
+    0,
+    "0"
+   ],
+   "name": "x0",
+   "normal_local": [
+    "-1",
+    "0",
+    "0"
+   ],
+   "notes": ""
+  },
+  {
+   "bc": "symmetry",
+   "fixed": [
+    0,
+    "1"
+   ],
+   "name": "x1",
+   "normal_local": [
+    "1",
+    "0",
+    "0"
+   ],
+   "notes": ""
+  },
+  {
+   "bc": "dirichlet",
+   "fixed": [
+    1,
+    "0"
+   ],
+   "name": "y0",
+   "normal_local": [
+    "0",
+    "-1",
+    "0"
+   ],
+   "notes": ""
+  },
+  {
+   "bc": "dirichlet",
+   "fixed": [
+    1,
+    "1"
+   ],
+   "name": "y1",
+   "normal_local": [
+    "0",
+    "1",
+    "0"
+   ],
+   "notes": ""
+  },
+  {
+   "bc": "slip",
+   "fixed": [
+    2,
+    "0"
+   ],
+   "name": "z0",
+   "normal_local": [
+    "0",
+    "0",
+    "-1"
+   ],
+   "notes": ""
+  },
+  {
+   "bc": "dirichlet",
+   "fixed": [
+    2,
+    "1"
+   ],
+   "name": "z1",
+   "normal_local": [
+    "0",
+    "0",
+    "1"
+   ],
+   "notes": ""
+  }
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "c": "0",
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "c": "0",
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "c": "0",
+     "numpy": "0",
+     "sympy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     }
+    ],
+    [
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     }
+    ],
+    [
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     }
+    ]
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "c": "0",
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "c": "0",
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "c": "0",
+     "numpy": "0",
+     "sympy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     }
+    ],
+    [
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     }
+    ],
+    [
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "c": "0",
+      "numpy": "0",
+      "sympy": "0"
+     }
+    ]
+   ]
+  }
+ },
+ "frame": {
+  "R": [
+   [
+    "193/257",
+    "-840/4369",
+    "2760/4369"
+   ],
+   [
+    "120/257",
+    "3631/4369",
+    "-1320/4369"
+   ],
+   [
+    "-120/257",
+    "2280/4369",
+    "3119/4369"
+   ]
+  ],
+  "R_float": [
+   [
+    0.7509727626459144,
+    -0.19226367589837492,
+    0.6317235065232318
+   ],
+   [
+    0.4669260700389105,
+    0.8310826276035707,
+    -0.30212863355458913
+   ],
+   [
+    -0.4669260700389105,
+    0.5218585488670177,
+    0.7138933394369421
+   ]
+  ],
+  "c": [
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "grad_u": [
+  [
+   {
+    "c": "0",
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "c": "0",
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "c": "0",
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ],
+  [
+   {
+    "c": "0",
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "c": "0",
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "c": "0",
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ],
+  [
+   {
+    "c": "0",
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "c": "0",
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "c": "0",
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ]
+ ],
+ "mu": {
+  "c": "(1.0/5.0)*pow(z, 2)*pow(x - 1, 2) + (1.0/2.0)*sin(-3.0/5.0*y + (4.0/5.0)*pow(z, 2) + (11.0/10.0)*pow(x - 1, 2) + 3.0/10.0) + 3.0/2.0",
+  "numpy": "(1/5)*z**2*(x - 1)**2 + (1/2)*np.sin(-3/5*y + (4/5)*z**2 + (11/10)*(x - 1)**2 + 3/10) + 3/2",
+  "sympy": "z**2*(x - 1)**2/5 + sin(-3*y/5 + 4*z**2/5 + 11*(x - 1)**2/10 + 3/10)/2 + 3/2"
+ },
+ "name": "f1c_rot_slip_patch",
+ "p": {
+  "c": "0",
+  "numpy": "0",
+  "sympy": "0"
+ },
+ "pressure": "mean_zero",
+ "selfcheck": {
+  "div_u_symbolic_zero": true,
+  "div_u_zero": true,
+  "emitted_roundtrip_lap": 0.0,
+  "emitted_roundtrip_sym": 0.0,
+  "fd_residual_lap": 0.0,
+  "fd_residual_sym": 0.0,
+  "net_boundary_flux": 0.0,
+  "numpy_spelling_lap": 0.0,
+  "numpy_spelling_sym": 0.0,
+  "routes_agree_lap_gamma0": 0.0,
+  "routes_agree_lap_gamma1": 0.0,
+  "routes_agree_sym_gamma0": 0.0,
+  "routes_agree_sym_gamma1": 0.0,
+  "status": "PASS",
+  "x1_symmetry_lap_own": 0.0,
+  "x1_symmetry_sym_own": 0.0,
+  "z0_slip_lap_own": 0.0,
+  "z0_slip_sym_own": 0.0
+ },
+ "u": [
+  {
+   "c": "0",
+   "numpy": "0",
+   "sympy": "0"
+  },
+  {
+   "c": "1",
+   "numpy": "1",
+   "sympy": "1"
+  },
+  {
+   "c": "0",
+   "numpy": "0",
+   "sympy": "0"
+  }
+ ]
+}

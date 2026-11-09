@@ -1,0 +1,67 @@
+{
+ "case": "xcode_stokes_axi_cavity_swirl",
+ "code": "NGSolve",
+ "diagnostics": {
+  "lap_N128": {
+   "ndof": 211972,
+   "nodal_defect": 0.0,
+   "relres": 1.5659680405178531e-15
+  },
+  "lap_N16": {
+   "ndof": 3204,
+   "nodal_defect": 0.0,
+   "relres": 4.414438987610839e-16
+  },
+  "lap_N32": {
+   "ndof": 13060,
+   "nodal_defect": 0.0,
+   "relres": 7.100303820350926e-16
+  },
+  "lap_N64": {
+   "ndof": 52740,
+   "nodal_defect": 0.0,
+   "relres": 1.1167939265832279e-15
+  },
+  "sym_N128": {
+   "ndof": 211972,
+   "nodal_defect": 0.0,
+   "relres": 1.7229218411303397e-15
+  },
+  "sym_N16": {
+   "ndof": 3204,
+   "nodal_defect": 0.0,
+   "relres": 5.275211656727689e-16
+  },
+  "sym_N32": {
+   "ndof": 13060,
+   "nodal_defect": 0.0,
+   "relres": 7.955625113302936e-16
+  },
+  "sym_N64": {
+   "ndof": 52740,
+   "nodal_defect": 0.0,
+   "relres": 1.1994912557724347e-15
+  }
+ },
+ "format": "axionfem.fluids.xcode_output/1",
+ "quantities": {
+  "lap_Diss_N128": 0.4076075356520145,
+  "lap_Diss_N16": 0.40764445023872015,
+  "lap_Diss_N32": 0.4076106086140465,
+  "lap_Diss_N64": 0.407607758788691,
+  "lap_Ekin_N128": 0.005095494684496358,
+  "lap_Ekin_N16": 0.0050957075155794165,
+  "lap_Ekin_N32": 0.0050955091001601725,
+  "lap_Ekin_N64": 0.0050954955634350055,
+  "sym_Diss_N128": 0.40760753864138305,
+  "sym_Diss_N16": 0.4076555687364276,
+  "sym_Diss_N32": 0.4076113506090722,
+  "sym_Diss_N64": 0.4076078061530699,
+  "sym_Ekin_N128": 0.005095494704776396,
+  "sym_Ekin_N16": 0.005095779296370261,
+  "sym_Ekin_N32": 0.005095514046851422,
+  "sym_Ekin_N64": 0.005095495883088845
+ },
+ "seconds": null,
+ "version": "6.2.2608"
+}

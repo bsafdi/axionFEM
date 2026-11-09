@@ -1,0 +1,205 @@
+{
+ "name": "annulus_lap",
+ "description": "Curved free-slip wall: annulus 1<r<2, inner cylinder rotating at Omega=1, outer free slip. The two forms have DIFFERENT exact solutions (sym: rigid rotation; lap: A r + B/r). Needs isoparametric P2 geometry (Babuska-paradox control).",
+ "domain": {
+  "kind": "annulus",
+  "r": [
+   1,
+   2
+  ]
+ },
+ "pressure": "mean_zero",
+ "conventions": {
+  "G_ij": "d u_i / d x_j",
+  "sigma_sym": "2 mu eps(u) - p I",
+  "sigma_lap": "mu G - p I",
+  "f": "-div sigma_form - gamma grad div u (= -div sigma_form for these fields)",
+  "traction": "g = sigma_form n, n the outward unit normal",
+  "grad_div": "gamma (div u_h, div v); gamma in viscosity units, not scaled by mu"
+ },
+ "u": [
+  {
+   "sympy": "-y*(1/5 + 4/(5*(x**2 + y**2)))",
+   "c": "-y*(1.0/5.0 + (4.0/5.0)/(pow(x, 2) + pow(y, 2)))",
+   "numpy": "-y*(1/5 + (4/5)/(x**2 + y**2))"
+  },
+  {
+   "sympy": "x*(1/5 + 4/(5*(x**2 + y**2)))",
+   "c": "x*(1.0/5.0 + (4.0/5.0)/(pow(x, 2) + pow(y, 2)))",
+   "numpy": "x*(1/5 + (4/5)/(x**2 + y**2))"
+  }
+ ],
+ "p": {
+  "sympy": "0",
+  "c": "0",
+  "numpy": "0"
+ },
+ "mu": {
+  "sympy": "1",
+  "c": "1",
+  "numpy": "1"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "8*x*y/(5*(x**2 + y**2)**2)",
+    "c": "(8.0/5.0)*x*y/pow(pow(x, 2) + pow(y, 2), 2)",
+    "numpy": "(8/5)*x*y/(x**2 + y**2)**2"
+   },
+   {
+    "sympy": "8*y**2/(5*(x**2 + y**2)**2) - 1/5 - 4/(5*(x**2 + y**2))",
+    "c": "(8.0/5.0)*pow(y, 2)/pow(pow(x, 2) + pow(y, 2), 2) - 1.0/5.0 - (4.0/5.0)/(pow(x, 2) + pow(y, 2))",
+    "numpy": "(8/5)*y**2/(x**2 + y**2)**2 - 1/5 - (4/5)/(x**2 + y**2)"
+   }
+  ],
+  [
+   {
+    "sympy": "-8*x**2/(5*(x**2 + y**2)**2) + 1/5 + 4/(5*(x**2 + y**2))",
+    "c": "-8.0/5.0*pow(x, 2)/pow(pow(x, 2) + pow(y, 2), 2) + 1.0/5.0 + (4.0/5.0)/(pow(x, 2) + pow(y, 2))",
+    "numpy": "-8/5*x**2/(x**2 + y**2)**2 + 1/5 + (4/5)/(x**2 + y**2)"
+   },
+   {
+    "sympy": "-8*x*y/(5*(x**2 + y**2)**2)",
+    "c": "-8.0/5.0*x*y/pow(pow(x, 2) + pow(y, 2), 2)",
+    "numpy": "-8/5*x*y/(x**2 + y**2)**2"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "32*x**2*y/(5*(x**2 + y**2)**3) + 32*y**3/(5*(x**2 + y**2)**3) - 32*y/(5*(x**2 + y**2)**2)",
+     "c": "(32.0/5.0)*pow(x, 2)*y/pow(pow(x, 2) + pow(y, 2), 3) + (32.0/5.0)*pow(y, 3)/pow(pow(x, 2) + pow(y, 2), 3) - 32.0/5.0*y/pow(pow(x, 2) + pow(y, 2), 2)",
+     "numpy": "(32/5)*x**2*y/(x**2 + y**2)**3 + (32/5)*y**3/(x**2 + y**2)**3 - 32/5*y/(x**2 + y**2)**2"
+    },
+    {
+     "sympy": "-32*x**3/(5*(x**2 + y**2)**3) - 32*x*y**2/(5*(x**2 + y**2)**3) + 32*x/(5*(x**2 + y**2)**2)",
+     "c": "-32.0/5.0*pow(x, 3)/pow(pow(x, 2) + pow(y, 2), 3) - 32.0/5.0*x*pow(y, 2)/pow(pow(x, 2) + pow(y, 2), 3) + (32.0/5.0)*x/pow(pow(x, 2) + pow(y, 2), 2)",
+     "numpy": "-32/5*x**3/(x**2 + y**2)**3 - 32/5*x*y**2/(x**2 + y**2)**3 + (32/5)*x/(x**2 + y**2)**2"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "8*x*y/(5*(x**2 + y**2)**2)",
+      "c": "(8.0/5.0)*x*y/pow(pow(x, 2) + pow(y, 2), 2)",
+      "numpy": "(8/5)*x*y/(x**2 + y**2)**2"
+     },
+     {
+      "sympy": "8*y**2/(5*(x**2 + y**2)**2) - 1/5 - 4/(5*(x**2 + y**2))",
+      "c": "(8.0/5.0)*pow(y, 2)/pow(pow(x, 2) + pow(y, 2), 2) - 1.0/5.0 - (4.0/5.0)/(pow(x, 2) + pow(y, 2))",
+      "numpy": "(8/5)*y**2/(x**2 + y**2)**2 - 1/5 - (4/5)/(x**2 + y**2)"
+     }
+    ],
+    [
+     {
+      "sympy": "-8*x**2/(5*(x**2 + y**2)**2) + 1/5 + 4/(5*(x**2 + y**2))",
+      "c": "-8.0/5.0*pow(x, 2)/pow(pow(x, 2) + pow(y, 2), 2) + 1.0/5.0 + (4.0/5.0)/(pow(x, 2) + pow(y, 2))",
+      "numpy": "-8/5*x**2/(x**2 + y**2)**2 + 1/5 + (4/5)/(x**2 + y**2)"
+     },
+     {
+      "sympy": "-8*x*y/(5*(x**2 + y**2)**2)",
+      "c": "-8.0/5.0*x*y/pow(pow(x, 2) + pow(y, 2), 2)",
+      "numpy": "-8/5*x*y/(x**2 + y**2)**2"
+     }
+    ]
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "r1",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "-x",
+     "c": "-x",
+     "numpy": "-x"
+    },
+    {
+     "sympy": "-y",
+     "c": "-y",
+     "numpy": "-y"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "cos(t)",
+     "c": "cos(t)",
+     "numpy": "np.cos(t)"
+    },
+    "y": {
+     "sympy": "sin(t)",
+     "c": "sin(t)",
+     "numpy": "np.sin(t)"
+    },
+    "range": [
+     0,
+     "2*pi"
+    ]
+   }
+  },
+  {
+   "name": "r2",
+   "bc": "slip",
+   "normal": [
+    {
+     "sympy": "x/2",
+     "c": "(1.0/2.0)*x",
+     "numpy": "(1/2)*x"
+    },
+    {
+     "sympy": "y/2",
+     "c": "(1.0/2.0)*y",
+     "numpy": "(1/2)*y"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "2*cos(t)",
+     "c": "2*cos(t)",
+     "numpy": "2*np.cos(t)"
+    },
+    "y": {
+     "sympy": "2*sin(t)",
+     "c": "2*sin(t)",
+     "numpy": "2*np.sin(t)"
+    },
+    "range": [
+     0,
+     "2*pi"
+    ]
+   }
+  }
+ ],
+ "extra": {
+  "slip_other_form_nonzero": true,
+  "cross_bc_exempt": "closed-form patch: rigid rotation satisfies slip on r = 1 too; the curved MMS annulus_mms_* carries the attribute test"
+ },
+ "constants": {
+  "area": 9.42477796076938,
+  "p_mean": 0.0,
+  "u_L2": 2.597251805103185,
+  "grad_u_L2": 1.941625912555701,
+  "p_minus_mean_L2": 0.0,
+  "u_max_sampled": 0.9994007992007995,
+  "p_max_abs_sampled": 0.0,
+  "p_minus_mean_max_abs_sampled": 0.0,
+  "mu_min_sampled": 1.0,
+  "mu_max_sampled": 1.0
+ },
+ "selfcheck": {
+  "fd_residual_lap": 3.7856061341212666e-10,
+  "net_boundary_flux": 0.0,
+  "harness_ns_residual_fd": {
+   "momentum_max": 7.771561172376096e-08,
+   "divergence_max": 1.583122521964242e-08,
+   "scale": 7.771561172376096e-08,
+   "momentum_rel": 1.0
+  },
+  "status": "pass"
+ }
+}

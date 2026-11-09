@@ -1,0 +1,68 @@
+{
+ "axionfem_version": "0.1.0",
+ "date": "2026-10-06 15:02",
+ "check": "mechanics_sc_pressure",
+ "geometry": {
+  "a_m": 0.5,
+  "shell_length_m": 8.0,
+  "solenoid_length_m": 12.0,
+  "ampere_turns": 1000000.0
+ },
+ "reference": "zero-field-cooled tube inside a solenoid: external Maxwell pressure p = B^2/2 mu0. EXACT thick-wall Lame with free ends, k = -p b^2/(b^2 - a^2): sigma_tt = k(1 + a^2/r^2), sigma_rr = k(1 - a^2/r^2), thickness mean -p b/t exactly. The membrane form -p Rm/t is kept as the leading-order comparison. The axial load is cross-checked against the independent surface-force post-processing in results['forces']",
+ "rows": [
+  {
+   "t_over_R": 0.04,
+   "t_m": 0.02,
+   "B_bore_T": 1.9523079044330397e-15,
+   "B_outside_T": 0.10449497353770955,
+   "p_Pa": 4344.611433083736,
+   "err_hoop_exact_thick_wall": 0.00012393612886163474,
+   "err_sigma_rr_over_p": 0.00654797412929068,
+   "hoop_exact_mean_Pa": -112959.89726017715,
+   "hoop_exact_mean_rel": -7.763049183684423e-05,
+   "hoop_Pa": -112951.128127795,
+   "hoop_thin_shell_Pa": -110787.59154363527,
+   "hoop_rel": 0.019528690478911592,
+   "applied_Fz_N": -152.88380906762174,
+   "force_postprocessing_Fz_N": -153.16142582858592,
+   "Fz_rel": -0.0018125762375369447,
+   "equilibrium_Fz_round_off": 4.911395015936976e-13
+  },
+  {
+   "t_over_R": 0.02,
+   "t_m": 0.01,
+   "B_bore_T": 2.0537117632271433e-15,
+   "B_outside_T": 0.10449265804399703,
+   "p_Pa": 4344.418891592836,
+   "err_hoop_exact_thick_wall": 3.4585973170964124e-05,
+   "err_sigma_rr_over_p": 0.0032752375581921534,
+   "hoop_exact_mean_Pa": -221565.36347123465,
+   "hoop_exact_mean_rel": -1.6886585670561338e-05,
+   "hoop_Pa": -221561.62198874276,
+   "hoop_thin_shell_Pa": -219393.1540254382,
+   "hoop_rel": 0.00988393631942186,
+   "applied_Fz_N": 96.73044415952302,
+   "force_postprocessing_Fz_N": 96.6087995945005,
+   "Fz_rel": 0.0012591458079709295,
+   "equilibrium_Fz_round_off": 2.4584804745603374e-13
+  },
+  {
+   "t_over_R": 0.01,
+   "t_m": 0.005,
+   "B_bore_T": 2.1155793434625784e-15,
+   "B_outside_T": 0.10448464590584802,
+   "p_Pa": 4343.752686894708,
+   "err_hoop_exact_thick_wall": 3.370868435426111e-05,
+   "err_sigma_rr_over_p": 0.001642466913816808,
+   "hoop_exact_mean_Pa": -438719.0213763655,
+   "hoop_exact_mean_rel": 2.0705042094615322e-05,
+   "hoop_Pa": -438728.1050721708,
+   "hoop_thin_shell_Pa": -436547.1450329181,
+   "hoop_rel": 0.004995932430363892,
+   "applied_Fz_N": -60.118970005992374,
+   "force_postprocessing_Fz_N": -60.1337856098985,
+   "Fz_rel": -0.0002463773693252014,
+   "equilibrium_Fz_round_off": 3.767602239040512e-12
+  }
+ ]
+}

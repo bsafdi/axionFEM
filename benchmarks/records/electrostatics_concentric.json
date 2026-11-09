@@ -1,0 +1,45 @@
+{
+  "check": "concentric",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:54",
+  "a_m": 0.3,
+  "b_m": 0.5,
+  "c_m": 0.6,
+  "computed_F": {
+    "C_inner_inner": 8.34487539490901e-11,
+    "C_inner_outer": -8.344875394909274e-11,
+    "C_outer_outer": 1.5020775725014033e-10
+  },
+  "exact_F": {
+    "C_inner_inner": 8.34487541585939e-11,
+    "C_inner_outer": -8.34487541585939e-11,
+    "C_outer_outer": 1.5020775748546903e-10
+  },
+  "relative_error": {
+    "C_inner_inner": -2.5105684198223344e-09,
+    "C_inner_outer": -2.51053666744383e-09,
+    "C_outer_outer": -1.5666880015530182e-09
+  },
+  "pair": {
+    "C_a_to_ground_others_floating_F": 6.675900330104759e-11,
+    "C_b_to_ground_others_floating_F": -2.6495628995839168e-24,
+    "C_mutual_others_floating_F": 8.344875394909274e-11,
+    "C_mutual_others_grounded_F": 8.344875394909274e-11,
+    "a": "outer",
+    "b": "inner"
+  },
+  "checks": {
+    "identity_symmetry_relative": 2.581364100181114e-16,
+    "identity_energy_max_relative_difference": 1.641747569264802e-14,
+    "identity_energy_superposition_relative": 7.918497617109938e-14,
+    "identity_exterior_monopole_max_relative_difference": 3.57827745066936e-10,
+    "identity_floating_solve_max_difference_V": 9.869882688917642e-14,
+    "discretization_charge_gauss_max_relative_difference": 3.2940491961049502e-06,
+    "discretization_exterior_flux_max_relative_difference": 5.742818841690187e-07,
+    "min_slack_relative": -3.175077846219664e-14,
+    "off_diagonal_signs_ok": true
+  },
+  "warnings": [],
+  "pass": true,
+  "headline": "C11 8.34487539e-11 F, C12 -8.34487539e-11 F, C22 1.50207757e-10 F; worst rel err 2.5e-09"
+}

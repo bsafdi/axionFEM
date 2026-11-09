@@ -1,0 +1,219 @@
+{
+ "params": {
+  "mu": 0.5,
+  "sigma": 2.0,
+  "G": 1.0,
+  "r1": 1.0,
+  "r2": 2.0,
+  "variants": {
+   "radial_ins_m5": {
+    "field": "radial",
+    "C": 2.5,
+    "E_z": 0.5,
+    "potential": "insulating"
+   },
+   "radial_gnd_m5": {
+    "field": "radial",
+    "C": 2.5,
+    "E_z": 0.5,
+    "potential": "grounded"
+   },
+   "radial_ins_m20": {
+    "field": "radial",
+    "C": 10.0,
+    "E_z": 0.5,
+    "potential": "insulating"
+   },
+   "azimuthal_cond": {
+    "field": "azimuthal",
+    "C": 2.0,
+    "E_z": 0.5,
+    "V": 0.25,
+    "potential": "dirichlet"
+   },
+   "azimuthal_slide_ins": {
+    "field": "azimuthal",
+    "C": 2.0,
+    "E_z": 0.5,
+    "W": 0.5,
+    "potential": "insulating"
+   }
+  }
+ },
+ "radial": {
+  "radial_ins_m5": {
+   "m": "5.00000000000000000000000000000",
+   "n": "5.09901951359278483002822410902",
+   "Q": "0.7433326191638626316704345804948110363535",
+   "L_theta": "1.840380643860148798610877971028424163012",
+   "Q_symbolic_integral": "0.743332619163862631670434580495",
+   "w_mid": "0.1135178495045082062206713739967423758742",
+   "u_t_mid": "0.1851675031502778255393578608809411581426",
+   "residuals_40digit": {
+    "mom_x": 1.2938158758247024e-172,
+    "mom_y": 2.587631751649405e-172,
+    "mom_z": 0.0,
+    "continuity": 8.08634922390439e-174,
+    "charge": 0.0
+   },
+   "J_dot_n_on_circles": "0",
+   "numpy_vs_mpmath": {
+    "w": 4.875555711770785e-16,
+    "u_t": 2.992406408167759e-16,
+    "Q": 0.0,
+    "L_theta": 3.6195436905807493e-16
+   },
+   "fd_route": 9.227529851330019e-11
+  },
+  "radial_gnd_m5": {
+   "m": "5.00000000000000000000000000000",
+   "n": "5.09901951359278483002822410902",
+   "Q": "0.7433326191638626316704345804948110363535",
+   "L_theta": "1.840380643860148798610877971028424163012",
+   "Q_symbolic_integral": "0.743332619163862631670434580495",
+   "w_mid": "0.1135178495045082062206713739967423758742",
+   "u_t_mid": "0.1851675031502778255393578608809411581426",
+   "residuals_40digit": {
+    "mom_x": 1.2938158758247024e-172,
+    "mom_y": 2.587631751649405e-172,
+    "mom_z": 0.0,
+    "continuity": 8.08634922390439e-174,
+    "charge": 0.0
+   },
+   "J_dot_n_on_circles": "0",
+   "numpy_vs_mpmath": {
+    "w": 4.875555711770785e-16,
+    "u_t": 2.992406408167759e-16,
+    "Q": 0.0,
+    "L_theta": 3.6195436905807493e-16
+   },
+   "fd_route": 9.227529851330019e-11
+  },
+  "radial_ins_m20": {
+   "m": "20.0000000000000000000000000000",
+   "n": "20.0249843945007857276972121483",
+   "Q": "0.09415805343087584293738682813278823170953",
+   "L_theta": "0.9413362764925665195334869148694723602016",
+   "Q_symbolic_integral": "0.0941580534308758429373868281328",
+   "w_mid": "0.01129805266543395289727051280258450577013",
+   "u_t_mid": "0.07467026525975913470617714851840438758854",
+   "residuals_40digit": {
+    "mom_x": 8.280421605278095e-171,
+    "mom_y": 1.035052700659762e-171,
+    "mom_z": 0.0,
+    "continuity": 1.0107936529880487e-174,
+    "charge": 0.0
+   },
+   "J_dot_n_on_circles": "0",
+   "numpy_vs_mpmath": {
+    "w": 2.466031941975973e-16,
+    "u_t": 1.7103817333116645e-16,
+    "Q": 0.0,
+    "L_theta": 0.0
+   },
+   "fd_route": 1.3470451606028878e-10
+  }
+ },
+ "azimuthal": {
+  "azimuthal_cond": {
+   "K": "-0.849237464993246809143018770628",
+   "Q": "0.3405982197086162313389652152556526040438",
+   "I_wall": "-5.335916362352006769843147547510894488396",
+   "w_mid": "0.05432507050578743183756924661943461021806",
+   "phi_mid": "0.1540000507424368118697326647770842472644",
+   "residuals_40digit": {
+    "mom_x": 0.0,
+    "mom_y": 0.0,
+    "mom_z": 3.234539689561756e-173,
+    "continuity": 0.0,
+    "charge": 8.08634922390439e-174
+   },
+   "w_closed": "log((2**((1 - r**2)*(4*log(2)**2 + 3))*r**(12*log(2)**2 + 9)*(2**(1 - log(4))*r**(-1 + log(4)))**log(r**30))**(1/(2*(4*log(2)**2 + 3)*log(2))))",
+   "phi_closed": "(40*(1 - log(4))*log(r)**3 - 6*(log(2**(10 - log(1048576))) + 4*log(2)**2 + 3)*log(r)**2 + log(2**(2*(r**2 - 1)*(4*log(2)**2 + 3))*r**(-15 - 16*log(2)**3 + log(262144))))/(4*(4*log(2)**2 + 3)*log(2))",
+   "numpy_vs_mpmath": {
+    "w": 3.755643935089239e-15,
+    "phi": 1.1102230246251565e-15,
+    "Q": 1.6298133113774916e-16,
+    "I_wall": 0.0,
+    "K": 1.3073175294191538e-16
+   },
+   "fd_route": 5.257790869350742e-10
+  },
+  "azimuthal_slide_ins": {
+   "K": "0",
+   "Q": "3.411635911426037310562066577083384158383",
+   "I_wall": "0.0",
+   "w_mid": "0.4599625007211561814537389439478165087598",
+   "phi_mid": "-0.4231120998104545403248509985716875288021",
+   "residuals_40digit": {
+    "mom_x": 0.0,
+    "mom_y": 0.0,
+    "mom_z": 0.0,
+    "continuity": 0.0,
+    "charge": 0.0
+   },
+   "w_closed": "-r**2/2 + log(r)/log(2) + 1",
+   "phi_closed": "r**2/2 - log(r)**2/log(2) - 2*log(r) - 1/2",
+   "numpy_vs_mpmath": {
+    "w": 3.5778401372392655e-16,
+    "phi": 3.8320449769844015e-16,
+    "Q": 2.603379852830994e-16,
+    "I_wall": 0.0,
+    "K": 0.0
+   },
+   "fd_route": 7.063516438421402e-10
+  }
+ },
+ "derivation": {
+  "radial_derivation": {
+   "field": {
+    "div_B": "0",
+    "curl_B": [
+     "0",
+     "0",
+     "0"
+    ]
+   },
+   "odes": {
+    "mom_r": "Derivative(p(r), r)",
+    "mom_t": "(-mu*r**2*Derivative(u_t(r), (r, 2)) - r*(C*E_z*sigma + mu*Derivative(u_t(r), r)) + (C**2*sigma + mu)*u_t(r))/r**2",
+    "mom_z": "C**2*sigma*w(r)/r**2 - G - mu*sin(theta)**2*Derivative(w(r), (r, 2)) - mu*cos(theta)**2*Derivative(w(r), (r, 2)) - mu*sin(theta)**2*Derivative(w(r), r)/r - mu*cos(theta)**2*Derivative(w(r), r)/r",
+    "charge": "sigma*(-r*Derivative(phi(r), (r, 2)) - Derivative(phi(r), r))/r",
+    "continuity": "0"
+   },
+   "J_r": "-sigma*Derivative(phi(r), r)",
+   "phi_general": "C1 + C2*log(r)",
+   "euler_odes": {
+    "z": "-G*r**2/mu + m**2*w(r) - r**2*Derivative(w(r), (r, 2)) - r*Derivative(w(r), r)",
+    "theta": "m**2*u_t(r) - r**2*Derivative(u_t(r), (r, 2)) - r*Derivative(u_t(r), r) + u_t(r) - E_z*m**2*r/C"
+   },
+   "w_general": "C1/r**m + C2*r**m + G*r**2*r**(-m - 2)*(-r**(2*m)*Piecewise((-r**(2 - m)/(m - 2), Ne(m, 2)), (log(r), True)) + r**(m + 2)/(m + 2))/(2*m*mu)",
+   "u_t_general": "C1/r**(sqrt(m**2 + 1)) + C2*r**(sqrt(m**2 + 1)) + E_z*r/C",
+   "mom_r_with_solution": "Derivative(p(r), r)"
+  },
+  "azimuthal_derivation": {
+   "field": {
+    "div_B": "0",
+    "curl_B": [
+     "0",
+     "0",
+     "0"
+    ]
+   },
+   "odes": {
+    "mom_r": "C*E_z*sigma/r + Derivative(p(r), r)",
+    "mom_t": "0",
+    "mom_z": "(C*sigma*(C*w(r) + r*Derivative(phi(r), r)) - G*r**2 - mu*r*(r*Derivative(w(r), (r, 2)) + Derivative(w(r), r)))/r**2",
+    "charge": "sigma*(-C*Derivative(w(r), r) - r*Derivative(phi(r), (r, 2)) - Derivative(phi(r), r))/r"
+   },
+   "J_r": "-sigma*(C*w(r) + r*Derivative(phi(r), r))/r",
+   "phi_prime": "(-C*sigma*w(r) - K)/(r*sigma)",
+   "w_general": "(-C*K*log(r)**2/2 - G*r**2/4 + mu*(C1 + C2*log(r)))/mu",
+   "mom_r_with_solution": "C*E_z*sigma/r + Derivative(p(r), r)"
+  }
+ },
+ "check_module_sha256": "e5e5d0a80f832bc6c7ccb739c2bd8b7a90bdd66b36910494152f9c4d1663e20f",
+ "sympy": "1.14.0",
+ "mpmath": "1.3.0",
+ "numpy": "2.5.3"
+}

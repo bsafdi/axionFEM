@@ -1,0 +1,382 @@
+{
+ "id": "analytic_shercliff_duct_2d",
+ "capability": "F13a",
+ "title": "Shercliff duct (all walls insulating), Ha sweep 0-1000: series reference; conservation identities; spurious core current",
+ "physics": "Fully developed square-duct flow w(x, y) e_z driven by G_z, B = (0, B0, 0), 2.5D inductionless",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f13a_mhd",
+   "function": "shercliff_duct",
+   "check_module": "f13a_mhd_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "formulation": "2.5D planar inductionless MHD (u = (u_x, u_y, u_z) independent of z; J = sigma(-grad phi + E_z e_z + u x B); Lorentz force J x B; conservative potential equation (J, grad psi) = <j_n, psi> - (q, psi))",
+   "element": {
+    "velocity": "P2 (all three components)",
+    "pressure": "P1",
+    "potential": "P2 Lagrange",
+    "geometry": "affine (straight-sided)"
+   },
+   "viscous_form": "lap (mu constant: both forms coincide with Dirichlet data)",
+   "quadrature_error_norms": 10,
+   "dirichlet_data": "P2 Lagrange NODAL interpolation of the fixed callables (velocity and potential)",
+   "solver": {
+    "kind": "direct sparse LU (Newton for rho > 0)",
+    "tight": "same, plus 2 steps of iterative refinement / Newton to 1e-14 (vacuous for a direct linear solve; meaningful for an iterative path)"
+   },
+   "shared_node_rule": "At a node shared by several boundary attributes: (1) velocity Dirichlet beats every natural velocity condition; potential Dirichlet beats insulation and normal-current data; (2) between Dirichlet attributes the fixed data AGREE at shared nodes (one exact callable per MMS field; the Hartmann/duct data vanish or are consistent at the corners), checked by dirichlet_shared_node_mismatch, so the result is independent of attribute order.",
+   "series_magnitude_keys": {
+    "uL2": "u_magnitude",
+    "uH1": "u_magnitude",
+    "divL2": "u_magnitude",
+    "pL2": "p_magnitude",
+    "phiL2": "phi_magnitude",
+    "phiH1": "phi_magnitude",
+    "JL2": "J_magnitude"
+   },
+   "meshes": {
+    "duct": {
+     "family": "duct_Ha<Ha>",
+     "Ha": [
+      0.0,
+      10.0,
+      100.0,
+      1000.0
+     ],
+     "k": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "h_nominal": [
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "f13a_mhd_check.duct_mesh(Ha, k): base 16 x 16 cells on [-1, 1]^2, y nodes graded_nodes(16, 1, 1/Ha) (first interval = Hartmann-layer thickness), x nodes graded_nodes(16, 1, 1/sqrt(Ha)) (side layers); uniform for Ha = 0; corner cells flipped (Taylor-Hood condition); k red refinements (NESTED: the grading is fixed by the base mesh)",
+     "h_definition": "h_nominal = 1/(16 * 2^k) (computational, base intervals halved per refinement); h_max reported"
+    }
+   },
+   "physical": {
+    "mu": 0.5,
+    "sigma": 2.0,
+    "G_z": 1.0,
+    "a": 1.0,
+    "L": 1.0,
+    "B": "(0, B0, 0), B0 = Ha/2",
+    "E_z": 0.0
+   },
+   "Ha": [
+    0.0,
+    10.0,
+    100.0,
+    1000.0
+   ],
+   "boundaries": {
+    "velocity": "Dirichlet u = 0 on all walls",
+    "potential": "insulating on all walls (potential up to a constant)"
+   },
+   "probes": {
+    "center": [
+     0.0,
+     0.0
+    ],
+    "side": [
+     [
+      1.0,
+      0.0
+     ],
+     [
+      -1.0,
+      0.0
+     ]
+    ]
+   },
+   "scaling_identity": {
+    "Ha": 100.0,
+    "k": 1,
+    "pair": "(sigma, B0) and (4 sigma, B0/2)"
+   },
+   "core": {
+    "half_widths": [
+     0.5,
+     0.5
+    ],
+    "quadrature_degree": 6,
+    "exact_J": "f13a_mhd_check.core_J_exact('shercliff', mu, sigma, B0, G) (fixed with the check module)"
+   },
+   "identities_at_Ha0": "every identity returns 0 when J_h = 0 identically (B = 0); the Ha = 0 rows enter only the power balance and the axial-momentum identity",
+   "identity_definitions": "f13a_mhd_check: cancelling-term normalization"
+  }
+ },
+ "reference": {
+  "quantities": {
+   "Ha0_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 1.1246161196412294,
+    "uncertainty": 1.1e-13,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "analytic_reference.json: shercliff.Ha0.Q"
+   },
+   "Ha0_w_center": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.5893708262521108,
+    "uncertainty": 5.9e-14,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "analytic_reference.json: shercliff.Ha0.w_center"
+   },
+   "Ha10_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.521569516615384,
+    "uncertainty": 5.2e-14,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "analytic_reference.json: shercliff.Ha10.Q"
+   },
+   "Ha10_w_center": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.19468510395833172,
+    "uncertainty": 1.9e-14,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "analytic_reference.json: shercliff.Ha10.w_center"
+   },
+   "Ha10_dphi_side": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": -1.3637323475248322,
+    "uncertainty": 1.4e-13,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "analytic_reference.json: shercliff.Ha10.dphi_side"
+   },
+   "Ha100_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.07243519155431476,
+    "uncertainty": 7.2e-15,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "analytic_reference.json: shercliff.Ha100.Q"
+   },
+   "Ha100_w_center": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.01999999999973013,
+    "uncertainty": 2e-15,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "analytic_reference.json: shercliff.Ha100.w_center"
+   },
+   "Ha100_dphi_side": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": -1.8306904312401056,
+    "uncertainty": 1.8e-13,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "analytic_reference.json: shercliff.Ha100.dphi_side"
+   },
+   "Ha1000_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.007776827676743982,
+    "uncertainty": 7.8e-16,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "analytic_reference.json: shercliff.Ha1000.Q"
+   },
+   "Ha1000_w_center": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.001999999999999989,
+    "uncertainty": 2e-16,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "analytic_reference.json: shercliff.Ha1000.w_center"
+   },
+   "Ha1000_dphi_side": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": -1.9504590794998775,
+    "uncertainty": 2e-13,
+    "uncertainty_kind": "own_estimate",
+    "unit": "1",
+    "locator": "analytic_reference.json: shercliff.Ha1000.dphi_side"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "Ha0_Q_h_finest",
+    "reference": "Ha0_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-06
+    }
+   },
+   {
+    "quantity": "Ha0_w_center_h_finest",
+    "reference": "Ha0_w_center",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-07
+    }
+   },
+   {
+    "quantity": "Ha10_Q_h_finest",
+    "reference": "Ha10_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-05
+    }
+   },
+   {
+    "quantity": "Ha10_w_center_h_finest",
+    "reference": "Ha10_w_center",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-05
+    }
+   },
+   {
+    "quantity": "Ha10_dphi_side_h_finest",
+    "reference": "Ha10_dphi_side",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-05
+    }
+   },
+   {
+    "quantity": "Ha100_Q_h_finest",
+    "reference": "Ha100_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0003
+    }
+   },
+   {
+    "quantity": "Ha100_w_center_h_finest",
+    "reference": "Ha100_w_center",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-05
+    }
+   },
+   {
+    "quantity": "Ha100_dphi_side_h_finest",
+    "reference": "Ha100_dphi_side",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0001
+    }
+   },
+   {
+    "quantity": "Ha1000_Q_h_finest",
+    "reference": "Ha1000_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0003
+    }
+   },
+   {
+    "quantity": "Ha1000_w_center_h_finest",
+    "reference": "Ha1000_w_center",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0001
+    }
+   },
+   {
+    "quantity": "Ha1000_dphi_side_h_finest",
+    "reference": "Ha1000_dphi_side",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0003
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "lorentz_joule_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "power_balance_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axial_momentum_residual_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "weak_current_residual_rel_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "weak_current_residual_rel_Ha1000_max",
+    "level": "conservation",
+    "abs_max": 1e-07
+   },
+   {
+    "quantity": "net_current_rel_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "phi_nullspace_detected",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "Ha0_phi_spread_max",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "scaling_sigma_B_u_rel",
+    "level": "analytic",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "scaling_sigma_B_phi_rel",
+    "level": "analytic",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "Ha100_core_current_rel_finest",
+    "level": "conservation",
+    "abs_max": 0.001
+   },
+   {
+    "quantity": "Ha1000_core_current_rel_finest",
+    "level": "conservation",
+    "abs_max": 3e-05
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-09,
+   "residual_key": "relative_residual_unscaled_euclid"
+  }
+ }
+}

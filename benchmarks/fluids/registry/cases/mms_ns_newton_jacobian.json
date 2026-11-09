@@ -1,0 +1,229 @@
+{
+ "id": "mms_ns_newton_jacobian",
+ "capability": "F2a",
+ "title": "Jacobian Taylor tests of the NS residual (planar and axisymmetric with swirl, both viscous and both convective forms)",
+ "physics": "R(x + e d) - R(x) - e J d = e^2 c(d; d,.) exactly for the quadratic NS residual",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f2a_ns",
+   "function": "jacobian_taylor",
+   "check_module": "f2a_ns_check",
+   "cost": "short",
+   "timeout_s": 1200
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine"
+   },
+   "fields": {
+    "planar": {
+     "path": "tools/fluids_mms/out/ns_sq_dirichlet.json",
+     "sha256": "55b34bbbfe9b5e3078fd6cebd5d6afde60058f30e468b81463018d225e7bee0a"
+    },
+    "axisymmetric": {
+     "path": "tools/fluids_mms/out/ns_axi_dirichlet.json",
+     "sha256": "a0be27b37708ff4138e6e9305f376ac5c4229a02f9dedcb84f33303a3f1d44a9"
+    }
+   },
+   "meshes": {
+    "structured": {
+     "N": [
+      8
+     ],
+     "h_nominal": [
+      0.125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(8)"
+    }
+   },
+   "variants": [
+    [
+     "lap",
+     "standard"
+    ],
+    [
+     "sym",
+     "standard"
+    ],
+    [
+     "lap",
+     "skew"
+    ],
+    [
+     "sym",
+     "skew"
+    ]
+   ],
+   "taylor": {
+    "eps": [
+     1.0,
+     0.31622776601683794,
+     0.1,
+     0.03162277660168379,
+     0.01,
+     0.0031622776601683794,
+     0.001,
+     0.00031622776601683794,
+     0.0001
+    ],
+    "seed": 20261101,
+    "rng": "numpy.random.Generator(PCG64(20261101)).standard_normal(n_free) twice: first the state perturbation (scaled by 0.1), then the direction",
+    "state": "Newton solution of the planar / axisymmetric MMS at N = 8 plus 0.1 x the first normal vector (velocity AND pressure free DOFs)",
+    "vectors": "R(x), R(x + e d) and J(x) d over the free DOFs, in the solver's basis, from the public API"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "taylor_slope_r2_planar_lap_standard",
+    "level": "mms",
+    "min": 1.95,
+    "max": 2.05
+   },
+   {
+    "quantity": "taylor_r2_over_eps2_spread_planar_lap_standard",
+    "level": "mms",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "taylor_slope_r1_planar_lap_standard",
+    "level": "mms",
+    "min": 0.95,
+    "max": 1.05
+   },
+   {
+    "quantity": "taylor_slope_r2_planar_sym_standard",
+    "level": "mms",
+    "min": 1.95,
+    "max": 2.05
+   },
+   {
+    "quantity": "taylor_r2_over_eps2_spread_planar_sym_standard",
+    "level": "mms",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "taylor_slope_r1_planar_sym_standard",
+    "level": "mms",
+    "min": 0.95,
+    "max": 1.05
+   },
+   {
+    "quantity": "taylor_slope_r2_planar_lap_skew",
+    "level": "mms",
+    "min": 1.95,
+    "max": 2.05
+   },
+   {
+    "quantity": "taylor_r2_over_eps2_spread_planar_lap_skew",
+    "level": "mms",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "taylor_slope_r1_planar_lap_skew",
+    "level": "mms",
+    "min": 0.95,
+    "max": 1.05
+   },
+   {
+    "quantity": "taylor_slope_r2_planar_sym_skew",
+    "level": "mms",
+    "min": 1.95,
+    "max": 2.05
+   },
+   {
+    "quantity": "taylor_r2_over_eps2_spread_planar_sym_skew",
+    "level": "mms",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "taylor_slope_r1_planar_sym_skew",
+    "level": "mms",
+    "min": 0.95,
+    "max": 1.05
+   },
+   {
+    "quantity": "taylor_slope_r2_axi_lap_standard",
+    "level": "mms",
+    "min": 1.95,
+    "max": 2.05
+   },
+   {
+    "quantity": "taylor_r2_over_eps2_spread_axi_lap_standard",
+    "level": "mms",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "taylor_slope_r1_axi_lap_standard",
+    "level": "mms",
+    "min": 0.95,
+    "max": 1.05
+   },
+   {
+    "quantity": "taylor_slope_r2_axi_sym_standard",
+    "level": "mms",
+    "min": 1.95,
+    "max": 2.05
+   },
+   {
+    "quantity": "taylor_r2_over_eps2_spread_axi_sym_standard",
+    "level": "mms",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "taylor_slope_r1_axi_sym_standard",
+    "level": "mms",
+    "min": 0.95,
+    "max": 1.05
+   },
+   {
+    "quantity": "taylor_slope_r2_axi_lap_skew",
+    "level": "mms",
+    "min": 1.95,
+    "max": 2.05
+   },
+   {
+    "quantity": "taylor_r2_over_eps2_spread_axi_lap_skew",
+    "level": "mms",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "taylor_slope_r1_axi_lap_skew",
+    "level": "mms",
+    "min": 0.95,
+    "max": 1.05
+   },
+   {
+    "quantity": "taylor_slope_r2_axi_sym_skew",
+    "level": "mms",
+    "min": 1.95,
+    "max": 2.05
+   },
+   {
+    "quantity": "taylor_r2_over_eps2_spread_axi_sym_skew",
+    "level": "mms",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "taylor_slope_r1_axi_sym_skew",
+    "level": "mms",
+    "min": 0.95,
+    "max": 1.05
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

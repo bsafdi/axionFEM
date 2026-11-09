@@ -1,0 +1,22 @@
+{
+  "schema": "axionfem.design/1",
+  "name": "pickup_capacitance",
+  "description": "Parasitic capacitance of a superconducting pickup ring inside a closed shield can, with a dielectric support. No magnet: the 'electrostatics' section alone drives the solve. The ring is fully screened by the can, so C_ring,ring = -C_ring,can and the diagonal-dominance slack of the ring vanishes; the can keeps its capacitance to infinity.",
+  "parameters": {"Rs": 0.3, "ts": 0.005, "Rr": 0.15, "br": 0.01, "td": 0.01, "eps_d": 3.0},
+  "materials": {
+    "g10": {"kind": "linear", "eps_r": "eps_d", "density": 1800.0}
+  },
+  "regions": [
+    {"name": "can",
+     "shape": {"difference": [{"rect": {"r": [0, "Rs"], "z": ["-Rs", "Rs"]}},
+                              {"rect": {"r": [0, "Rs-ts"], "z": ["-Rs+ts", "Rs-ts"]}}]},
+     "material": "nb",
+     "notes": "closed shield can (no wall on the axis)"},
+    {"name": "ring", "shape": {"disk": {"center": ["Rr", 0], "radius": "br"}}, "material": "nb",
+     "notes": "pickup ring (torus)"},
+    {"name": "support", "shape": {"rect": {"r": ["Rr-2*br", "Rr+2*br"], "z": ["-br-td", "-br"]}},
+     "material": "g10", "notes": "dielectric support under the ring"}
+  ],
+  "electrostatics": {"boundary": "open", "notes": "ring-to-shield and shield-to-infinity capacitance"},
+  "mesh": {"order": 3, "size": 0.02, "surface_size": 0.002}
+}

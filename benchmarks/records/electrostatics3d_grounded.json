@@ -1,0 +1,26 @@
+{
+  "check": "grounded",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:18",
+  "a_m": 0.3,
+  "domain_radius_m": 1.0,
+  "C_F": 4.769025020578677e-11,
+  "C_exact_F": 4.7685002376339374e-11,
+  "relative_error": 0.0001100519908960873,
+  "checks": {
+    "symmetry_relative": 0.0,
+    "energy_max_relative_difference": 2.303613938502015e-14,
+    "charge_gauss_max_relative_difference": 0.011897875246596789,
+    "exterior_monopole_max_relative_difference": 0.0,
+    "energy_superposition_relative": 3.1591503368249e-14,
+    "mixed_potential_max_relative_difference": 8.338873985527655e-16,
+    "floating_max_relative_charge": null,
+    "min_slack_relative": 1.0,
+    "off_diagonal_signs_ok": true,
+    "max_relative_residual": 2.9076980573130288e-15,
+    "dofs": 56337
+  },
+  "warnings": [],
+  "pass": true,
+  "headline": "C = 4.76902502e-11 F (exact 4.76850024e-11), rel err +1.10e-04"
+}

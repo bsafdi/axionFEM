@@ -1,0 +1,184 @@
+{
+ "id": "chem_time_prothero_robinson",
+ "capability": "C1a",
+ "title": "Prothero-Robinson: non-stiff and stiff-limit orders (stage order)",
+ "physics": "scalar problem through the generic interface",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "time_prothero_robinson",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "pr": {
+    "g": "sin(t + 1/4) + 3/2 + t/5",
+    "lambdas": {
+     "nonstiff": -1.0,
+     "stiff": -100000.0
+    },
+    "t_end": 2.0,
+    "dt_levels": [
+     0.25,
+     0.125,
+     0.0625,
+     0.03125,
+     0.015625
+    ],
+    "start": "exact"
+   },
+   "onestep": {
+    "p": 3,
+    "q": 2
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "pr_nonstiff_bdf1",
+    "level": "mms",
+    "norm": "max_n |y_n - g(t_n)| / max|g|, lambda = -1",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "pr.dt_levels",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "pr_stiff_bdf1",
+    "level": "mms",
+    "norm": "same, lambda = -1e5",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "pr.dt_levels",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "pr_nonstiff_bdf2",
+    "level": "mms",
+    "norm": "max_n |y_n - g(t_n)| / max|g|, lambda = -1",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "pr.dt_levels",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "pr_stiff_bdf2",
+    "level": "mms",
+    "norm": "same, lambda = -1e5",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "pr.dt_levels",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "pr_nonstiff_onestep",
+    "level": "mms",
+    "norm": "lambda = -1",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "pr.dt_levels",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "pr_stiff_onestep",
+    "level": "mms",
+    "norm": "lambda = -1e5",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "pr.dt_levels",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  }
+ }
+}

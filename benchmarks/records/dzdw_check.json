@@ -1,0 +1,1171 @@
+{
+ "check": "dzdw_check",
+ "date": "2026-10-29 14:56",
+ "build": "build17",
+ "provenance": {
+  "commit": "387235f233a4e03ef0ec405ef927319a696f9ce8",
+  "dirty": false,
+  "source_sha256": {
+   "cpp/src/model3d_fullwave.cpp": "a36aeac6b8d093293f1cc7f47ffc86cb921064e14aa5571eb21af4c829505e48",
+   "cpp/src/axi_fullwave.cpp": "e7dc935e109b16091c76c78c938147a045fa8287009aaeadadf67092aff3800d",
+   "cpp/src/pml.cpp": "c7c83c5ca80c3a25b3995202cfe9bb30a50b3a07a5609a2fdb54adc717779032"
+  }
+ },
+ "d": 0.001,
+ "steps": [
+  -2,
+  -1,
+  0,
+  1,
+  2
+ ],
+ "gates": {
+  "energy_identity": 1e-09,
+  "richardson_im": 1e-06,
+  "richardson_re": 0.0001,
+  "simpson": 1e-07,
+  "exterior_share_min": 0.001,
+  "richardson_scaled": 1e-06,
+  "simpson_scaled": 1e-06
+ },
+ "cases": {
+  "closed": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 1000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": 5.735282982582745e-12,
+     "dZ_seconds": 0.115127031
+    },
+    {
+     "f_Hz": 12000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": 6.0714459153921e-12,
+     "dZ_seconds": 0.116619539
+    }
+   ],
+   "gates_missed": [],
+   "pass": true
+  },
+  "lossy": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 11976000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.191146951
+    },
+    {
+     "f_Hz": 11988000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.190846697
+    },
+    {
+     "f_Hz": 12000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.189026341
+    },
+    {
+     "f_Hz": 12011999.999999998,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.189412996
+    },
+    {
+     "f_Hz": 12024000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.1901352
+    }
+   ],
+   "f0_Hz": 12000000.0,
+   "exact_dZ_H": {
+    "re": [
+     [
+      5.3975472260478284e-11,
+      5.3934809782197825e-11
+     ],
+     [
+      5.3934809643367295e-11,
+      5.389815768989786e-11
+     ]
+    ],
+    "im": [
+     [
+      -5.016574461550999e-07,
+      -4.922671372081176e-07
+     ],
+     [
+      -4.922671372093598e-07,
+      -5.016780559289544e-07
+     ]
+    ]
+   },
+   "fd_d_minus_exact": {
+    "re": 5.689409729552752e-07,
+    "im": 4.4765978280424986e-08
+   },
+   "richardson_minus_exact": {
+    "re": 9.225566373025372e-09,
+    "im": 6.341100661061488e-11
+   },
+   "truncation_ratio_median": 3.9966287621409373,
+   "simpson_residual": {
+    "re": 9.11855923149623e-09,
+    "im": 5.0522553285025046e-11
+   },
+   "richardson_scaled": 6.341479059581909e-11,
+   "simpson_scaled": 5.0527149028810734e-11,
+   "Z_ohm": {
+    "re": [
+     [
+      0.0012904032153828598,
+      0.001289360723355166
+     ],
+     [
+      0.001289360733822738,
+      0.0012884189672249748
+     ]
+    ],
+    "im": [
+     [
+      -35.281713232448965,
+      -34.57030675824974
+     ],
+     [
+      -34.570306758156086,
+      -35.275743260285104
+     ]
+    ]
+   },
+   "richardson_H": {
+    "re": [
+     [
+      5.397547260803426e-11,
+      5.393480996590678e-11
+     ],
+     [
+      5.39348101413216e-11,
+      5.389815802372057e-11
+     ]
+    ],
+    "im": [
+     [
+      -5.016574461869118e-07,
+      -4.922671372277654e-07
+     ],
+     [
+      -4.922671372401184e-07,
+      -5.016780559476928e-07
+     ]
+    ]
+   },
+   "scope": "exact per frequency from the port fields (reciprocity): dZ/dw = Z^T/w - (i/w) e^T A'(w) e; volume mass and loss terms plus the radiating exterior; X = -Im Z, so dX/dw = -Im dZ/dw; exact up to the solve residual",
+   "gates_missed": [],
+   "pass": true
+  },
+  "conducting": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 11976000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.198710098
+    },
+    {
+     "f_Hz": 11988000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.220355598
+    },
+    {
+     "f_Hz": 12000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.218007354
+    },
+    {
+     "f_Hz": 12011999.999999998,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.223680761
+    },
+    {
+     "f_Hz": 12024000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.193867287
+    }
+   ],
+   "f0_Hz": 12000000.0,
+   "exact_dZ_H": {
+    "re": [
+     [
+      2.1966522594354534e-09,
+      2.1940510597615363e-09
+     ],
+     [
+      2.1940510594050554e-09,
+      2.1916763512112485e-09
+     ]
+    ],
+    "im": [
+     [
+      -5.033415019869565e-07,
+      -4.939502595082034e-07
+     ],
+     [
+      -4.939502595086909e-07,
+      -5.033602511554341e-07
+     ]
+    ]
+   },
+   "fd_d_minus_exact": {
+    "re": 4.723038205319303e-07,
+    "im": 4.4339538921706303e-08
+   },
+   "richardson_minus_exact": {
+    "re": 1.0241755601288453e-09,
+    "im": 5.168735129367755e-11
+   },
+   "truncation_ratio_median": 3.9980642083439113,
+   "simpson_residual": {
+    "re": 9.951810163653972e-10,
+    "im": 3.8991668474904e-11
+   },
+   "richardson_scaled": 5.187974066282385e-11,
+   "simpson_scaled": 3.9232413010967943e-11,
+   "Z_ohm": {
+    "re": [
+     [
+      0.04992885778479922,
+      0.049860415901264055
+     ],
+     [
+      0.04986041592814227,
+      0.049799741714508926
+     ]
+    ],
+    "im": [
+     [
+      -35.33481675408351,
+      -34.62336566703171
+     ],
+     [
+      -34.62336566699496,
+      -35.3287581296303
+     ]
+    ]
+   },
+   "richardson_H": {
+    "re": [
+     [
+      2.196652261295434e-09,
+      2.1940510610399456e-09
+     ],
+     [
+      2.194051061654813e-09,
+      2.1916763528778007e-09
+     ]
+    ],
+    "im": [
+     [
+      -5.0334150201275e-07,
+      -4.939502595104811e-07
+     ],
+     [
+      -4.939502595347082e-07,
+      -5.033602511582855e-07
+     ]
+    ]
+   },
+   "scope": "exact per frequency from the port fields (reciprocity): dZ/dw = Z^T/w - (i/w) e^T A'(w) e; volume mass and loss terms plus the radiating exterior; X = -Im Z, so dX/dw = -Im dZ/dw; exact up to the solve residual",
+   "gates_missed": [],
+   "pass": true
+  },
+  "radiating": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 49900000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.114777861
+    },
+    {
+     "f_Hz": 49950000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.114053385
+    },
+    {
+     "f_Hz": 50000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.113786982
+    },
+    {
+     "f_Hz": 50049999.99999999,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.114889851
+    },
+    {
+     "f_Hz": 50100000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.114883311
+    }
+   ],
+   "f0_Hz": 50000000.0,
+   "exact_dZ_H": {
+    "re": [
+     [
+      1.1440293192411587e-06,
+      1.1449587940622233e-06
+     ],
+     [
+      1.144958794062386e-06,
+      1.1458972436283305e-06
+     ]
+    ],
+    "im": [
+     [
+      -9.994330356608698e-06,
+      -9.993780336640718e-06
+     ],
+     [
+      -9.993780336645672e-06,
+      -1.001164433303634e-05
+     ]
+    ]
+   },
+   "fd_d_minus_exact": {
+    "re": 7.871195730661222e-05,
+    "im": 3.139261455564278e-05
+   },
+   "richardson_minus_exact": {
+    "re": 1.6064621292828167e-08,
+    "im": 3.849290155305246e-09
+   },
+   "truncation_ratio_median": 4.000385848376,
+   "simpson_residual": {
+    "re": 2.62833077238144e-09,
+    "im": 6.314502288697581e-10
+   },
+   "richardson_scaled": 4.238223260678643e-09,
+   "simpson_scaled": 6.949168576350131e-10,
+   "Z_ohm": {
+    "re": [
+     [
+      23.235682089540397,
+      23.253047114491455
+     ],
+     [
+      23.253047114439998,
+      23.27106951060797
+     ]
+    ],
+    "im": [
+     [
+      -513.7391033083977,
+      -511.1774708818382
+     ],
+     [
+      -511.17747088028506,
+      -514.336938483006
+     ]
+    ]
+   },
+   "richardson_H": {
+    "re": [
+     [
+      1.144029300883684e-06,
+      1.1449587756735425e-06
+     ],
+     [
+      1.1449587756851638e-06,
+      1.1458972252199252e-06
+     ]
+    ],
+    "im": [
+     [
+      -9.994330318276098e-06,
+      -9.993780298171313e-06
+     ],
+     [
+      -9.993780298242572e-06,
+      -1.0011644294498615e-05
+     ]
+    ]
+   },
+   "scope": "exact per frequency from the port fields (reciprocity): dZ/dw = Z^T/w - (i/w) e^T A'(w) e; volume mass and loss terms plus the radiating exterior; X = -Im Z, so dX/dw = -Im dZ/dw; exact up to the solve residual",
+   "exterior_share": {
+    "TE": 0.010669072011506102,
+    "TM": 0.028341174639478574
+   },
+   "gates_missed": [],
+   "pass": true
+  },
+  "radiating_high": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 299400000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.131259105
+    },
+    {
+     "f_Hz": 299700000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.13062827
+    },
+    {
+     "f_Hz": 300000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.130374586
+    },
+    {
+     "f_Hz": 300299999.99999994,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.130147852
+    },
+    {
+     "f_Hz": 300600000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.130789353
+    }
+   ],
+   "f0_Hz": 300000000.0,
+   "exact_dZ_H": {
+    "re": [
+     [
+      -4.046465402173161e-08,
+      -4.300253192087794e-08
+     ],
+     [
+      -4.3002531920822564e-08,
+      -3.926172280175785e-08
+     ]
+    ],
+    "im": [
+     [
+      -2.301433337325458e-08,
+      -5.2933615349768765e-09
+     ],
+     [
+      -5.293361534989688e-09,
+      -2.417912519424433e-08
+     ]
+    ]
+   },
+   "fd_d_minus_exact": {
+    "re": 3.146538428721062e-06,
+    "im": 1.2144080786134217e-05
+   },
+   "richardson_minus_exact": {
+    "re": 2.6530152123885684e-09,
+    "im": 2.453368593569164e-09
+   },
+   "truncation_ratio_median": 3.999337542877833,
+   "simpson_residual": {
+    "re": 9.264840419082186e-10,
+    "im": 1.483484735170456e-09
+   },
+   "richardson_scaled": 2.5551360881248507e-09,
+   "simpson_scaled": 8.561268966042747e-10,
+   "Z_ohm": {
+    "re": [
+     [
+      28.61330130855835,
+      27.355427509469948
+     ],
+     [
+      27.35542750936563,
+      28.19336201349125
+     ]
+    ],
+    "im": [
+     [
+      40.158909616324735,
+      61.922330591840364
+     ],
+     [
+      61.92233059186395,
+      38.225356868881256
+     ]
+    ]
+   },
+   "richardson_H": {
+    "re": [
+     [
+      -4.04646541282925e-08,
+      -4.3002532003440444e-08
+     ],
+     [
+      -4.3002532034908935e-08,
+      -3.9261722873884185e-08
+     ]
+    ],
+    "im": [
+     [
+      -2.3014333397898505e-08,
+      -5.293361594297183e-09
+     ],
+     [
+      -5.293361568640081e-09,
+      -2.4179125223226283e-08
+     ]
+    ]
+   },
+   "scope": "exact per frequency from the port fields (reciprocity): dZ/dw = Z^T/w - (i/w) e^T A'(w) e; volume mass and loss terms plus the radiating exterior; X = -Im Z, so dX/dw = -Im dZ/dw; exact up to the solve residual",
+   "exterior_share": {
+    "TE": 0.045451946213233084,
+    "TM": 0.10721392567878141
+   },
+   "gates_missed": [],
+   "pass": true
+  },
+  "tem_pec": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 169660000.0,
+     "has_dZ": true,
+     "vs_energy_identity": 6.360111556794541e-13,
+     "dZ_seconds": 0.00259625
+    },
+    {
+     "f_Hz": 169830000.0,
+     "has_dZ": true,
+     "vs_energy_identity": 5.984377271530703e-13,
+     "dZ_seconds": 0.002374193
+    },
+    {
+     "f_Hz": 170000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": 6.092454604519804e-13,
+     "dZ_seconds": 0.002376697
+    },
+    {
+     "f_Hz": 170169999.99999997,
+     "has_dZ": true,
+     "vs_energy_identity": 4.575512651074363e-13,
+     "dZ_seconds": 0.002390949
+    },
+    {
+     "f_Hz": 170340000.0,
+     "has_dZ": true,
+     "vs_energy_identity": 7.27315755962488e-13,
+     "dZ_seconds": 0.002383387
+    }
+   ],
+   "f0_Hz": 170000000.0,
+   "exact_dZ_H": {
+    "re": [
+     [
+      0.0
+     ]
+    ],
+    "im": [
+     [
+      -8.143672477851967e-07
+     ]
+    ]
+   },
+   "fd_d_minus_exact": {
+    "re": 0.0,
+    "im": 4.174296367909262e-06
+   },
+   "richardson_minus_exact": {
+    "re": 0.0,
+    "im": 1.9579583730747405e-10
+   },
+   "truncation_ratio_median": 4.000140715303883,
+   "simpson_residual": {
+    "re": 0.0,
+    "im": 9.40130397017155e-11
+   },
+   "richardson_scaled": 1.9579583734581005e-10,
+   "simpson_scaled": 9.40130397017155e-11,
+   "Z_ohm": {
+    "re": [
+     [
+      -0.0
+     ]
+    ],
+    "im": [
+     [
+      -343.2358898028329
+     ]
+    ]
+   },
+   "richardson_H": {
+    "re": [
+     [
+      0.0
+     ]
+    ],
+    "im": [
+     [
+      -8.143672476257469e-07
+     ]
+    ]
+   },
+   "scope": "exact per frequency from the port fields (reciprocity): dZ/dw = Z^T/w - (i/w) e^T A'(w) e; volume mass and loss terms plus the radiating exterior; X = -Im Z, so dX/dw = -Im dZ/dw; exact up to the solve residual",
+   "gates_missed": [],
+   "pass": true
+  },
+  "tem_scattering": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 169660000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004695757
+    },
+    {
+     "f_Hz": 169830000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004337776
+    },
+    {
+     "f_Hz": 170000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004410916
+    },
+    {
+     "f_Hz": 170169999.99999997,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004325607
+    },
+    {
+     "f_Hz": 170340000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004331396
+    }
+   ],
+   "f0_Hz": 170000000.0,
+   "exact_dZ_H": {
+    "re": [
+     [
+      -4.6165343274569797e-14
+     ]
+    ],
+    "im": [
+     [
+      1.2923579386017503e-14
+     ]
+    ]
+   },
+   "fd_d_minus_exact": {
+    "re": 0.0007422347930835838,
+    "im": 0.0010240754437367086
+   },
+   "richardson_minus_exact": {
+    "re": 0.0009890194697277014,
+    "im": 0.0014863802938787196
+   },
+   "truncation_ratio_median": 0.12767905575224947,
+   "simpson_residual": {
+    "re": 0.000744238485440958,
+    "im": 0.0010219929856367313
+   },
+   "richardson_scaled": 2.8089122073258006e-10,
+   "simpson_scaled": 2.085675986275259e-10,
+   "Z_ohm": {
+    "re": [
+     [
+      188.3651473041166
+     ]
+    ],
+    "im": [
+     [
+      5.228697000048809e-06
+     ]
+    ]
+   },
+   "richardson_H": {
+    "re": [
+     [
+      -4.6119684851244584e-14
+     ]
+    ],
+    "im": [
+     [
+      1.290437003229175e-14
+     ]
+    ]
+   },
+   "scope": "exact per frequency from the port fields (reciprocity): dZ/dw = Z^T/w - (i/w) e^T A'(w) e; volume mass and loss terms plus the radiating exterior; X = -Im Z, so dX/dw = -Im dZ/dw; exact up to the solve residual; A' also holds d beta/dw of the Robin boundary groups (scattering)",
+   "gates_missed": [],
+   "pass": true
+  },
+  "tem_impedance": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 169660000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004905705
+    },
+    {
+     "f_Hz": 169830000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004504869
+    },
+    {
+     "f_Hz": 170000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004491218
+    },
+    {
+     "f_Hz": 170169999.99999997,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004502224
+    },
+    {
+     "f_Hz": 170340000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004525971
+    }
+   ],
+   "f0_Hz": 170000000.0,
+   "exact_dZ_H": {
+    "re": [
+     [
+      -1.2024166109190854e-11
+     ]
+    ],
+    "im": [
+     [
+      5.821652224957518e-11
+     ]
+    ]
+   },
+   "fd_d_minus_exact": {
+    "re": 3.7900791724460757e-06,
+    "im": 9.034112872835353e-07
+   },
+   "richardson_minus_exact": {
+    "re": 2.853459183256873e-06,
+    "im": 2.9568143534957693e-07
+   },
+   "truncation_ratio_median": 2.5501175277354085,
+   "simpson_residual": {
+    "re": 2.7155799991940674e-06,
+    "im": 2.4483124511760567e-07
+   },
+   "richardson_scaled": 2.1760778910045857e-10,
+   "simpson_scaled": 2.0196949155351204e-10,
+   "Z_ohm": {
+    "re": [
+     [
+      188.4219642899652
+     ]
+    ],
+    "im": [
+     [
+      0.01656549033061448
+     ]
+    ]
+   },
+   "richardson_H": {
+    "re": [
+     [
+      -1.2024131798723649e-11
+     ]
+    ],
+    "im": [
+     [
+      5.821650503603032e-11
+     ]
+    ]
+   },
+   "scope": "exact per frequency from the port fields (reciprocity): dZ/dw = Z^T/w - (i/w) e^T A'(w) e; volume mass and loss terms plus the radiating exterior; X = -Im Z, so dX/dw = -Im dZ/dw; exact up to the solve residual; A' also holds d beta/dw of the Robin boundary groups (impedance, scattering)",
+   "gates_missed": [],
+   "pass": true
+  },
+  "tem_impedance_Zs": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 169660000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004618801
+    },
+    {
+     "f_Hz": 169830000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004245977
+    },
+    {
+     "f_Hz": 170000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004251816
+    },
+    {
+     "f_Hz": 170169999.99999997,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004286097
+    },
+    {
+     "f_Hz": 170340000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.00422801
+    }
+   ],
+   "f0_Hz": 170000000.0,
+   "exact_dZ_H": {
+    "re": [
+     [
+      8.947905258710996e-07
+     ]
+    ],
+    "im": [
+     [
+      -3.376148878165966e-07
+     ]
+    ]
+   },
+   "fd_d_minus_exact": {
+    "re": 3.3308318993340606e-06,
+    "im": 1.3089485169063673e-05
+   },
+   "richardson_minus_exact": {
+    "re": 1.3872417615200979e-10,
+    "im": 1.938421299771149e-10
+   },
+   "truncation_ratio_median": 4.000069600456609,
+   "simpson_residual": {
+    "re": 1.5339568286456676e-10,
+    "im": 7.688558934686602e-12
+   },
+   "richardson_scaled": 1.467268588573471e-10,
+   "simpson_scaled": 1.435454409598795e-10,
+   "Z_ohm": {
+    "re": [
+     [
+      267.0994227793101
+     ]
+    ],
+    "im": [
+     [
+      -315.2960063251972
+     ]
+    ]
+   },
+   "richardson_H": {
+    "re": [
+     [
+      8.947905257469705e-07
+     ]
+    ],
+    "im": [
+     [
+      -3.3761488788204056e-07
+     ]
+    ]
+   },
+   "scope": "exact per frequency from the port fields (reciprocity): dZ/dw = Z^T/w - (i/w) e^T A'(w) e; volume mass and loss terms plus the radiating exterior; X = -Im Z, so dX/dw = -Im dZ/dw; exact up to the solve residual; A' also holds d beta/dw of the Robin boundary groups (impedance)",
+   "gates_missed": [],
+   "pass": true
+  },
+  "tem_sheet": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 169660000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004527914
+    },
+    {
+     "f_Hz": 169830000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004362203
+    },
+    {
+     "f_Hz": 170000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004337575
+    },
+    {
+     "f_Hz": 170169999.99999997,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004342722
+    },
+    {
+     "f_Hz": 170340000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.004332087
+    }
+   ],
+   "f0_Hz": 170000000.0,
+   "exact_dZ_H": {
+    "re": [
+     [
+      5.525435004967803e-09
+     ]
+    ],
+    "im": [
+     [
+      -4.795041859329414e-08
+     ]
+    ]
+   },
+   "fd_d_minus_exact": {
+    "re": 9.748019659379582e-08,
+    "im": 2.4132237572972794e-08
+   },
+   "richardson_minus_exact": {
+    "re": 5.982070493610042e-10,
+    "im": 6.384046607270174e-11
+   },
+   "truncation_ratio_median": 3.9967681509541055,
+   "simpson_residual": {
+    "re": 2.3249368336120248e-10,
+    "im": 4.28838260919623e-11
+   },
+   "richardson_scaled": 7.419418202883182e-11,
+   "simpson_scaled": 3.993014395879837e-11,
+   "Z_ohm": {
+    "re": [
+     [
+      42.33365200095448
+     ]
+    ],
+    "im": [
+     [
+      -49.137251113304956
+     ]
+    ]
+   },
+   "richardson_H": {
+    "re": [
+     [
+      5.525435001662449e-09
+     ]
+    ],
+    "im": [
+     [
+      -4.795041859635532e-08
+     ]
+    ]
+   },
+   "scope": "exact per frequency from the port fields (reciprocity): dZ/dw = Z^T/w - (i/w) e^T A'(w) e; volume mass and loss terms plus the radiating exterior; X = -Im Z, so dX/dw = -Im dZ/dw; exact up to the solve residual; A' also holds d beta/dw of the Robin boundary groups (scattering, sheet)",
+   "gates_missed": [],
+   "pass": true
+  },
+  "tem_pml": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 169660000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.010450649
+    },
+    {
+     "f_Hz": 169830000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.010436216
+    },
+    {
+     "f_Hz": 170000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.01046526
+    },
+    {
+     "f_Hz": 170169999.99999997,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.010394203
+    },
+    {
+     "f_Hz": 170340000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.010466903
+    }
+   ],
+   "f0_Hz": 170000000.0,
+   "exact_dZ_H": {
+    "re": [
+     [
+      5.864088450803647e-09
+     ]
+    ],
+    "im": [
+     [
+      -3.3057370448651477e-08
+     ]
+    ]
+   },
+   "fd_d_minus_exact": {
+    "re": 4.827385147997039e-08,
+    "im": 6.813753812967278e-07
+   },
+   "richardson_minus_exact": {
+    "re": 9.556359236565582e-09,
+    "im": 1.1592992865035711e-07
+   },
+   "truncation_ratio_median": 3.4897788097789975,
+   "simpson_residual": {
+    "re": 4.937246231475372e-08,
+    "im": 1.2062533271911662e-07
+   },
+   "richardson_scaled": 2.3925155094554305e-08,
+   "simpson_scaled": 2.4957020824523625e-08,
+   "Z_ohm": {
+    "re": [
+     [
+      171.06465835085248
+     ]
+    ],
+    "im": [
+     [
+      -4.088974022294273
+     ]
+    ]
+   },
+   "richardson_H": {
+    "re": [
+     [
+      5.864088394764311e-09
+     ]
+    ],
+    "im": [
+     [
+      -3.305736661631288e-08
+     ]
+    ]
+   },
+   "scope": "exact per frequency from the port fields (reciprocity): dZ/dw = Z^T/w - (i/w) e^T A'(w) e; volume mass and loss terms plus the radiating exterior; X = -Im Z, so dX/dw = -Im dZ/dw; exact up to the solve residual; A' also holds d/dw of the PML layers' stretched tensors",
+   "gates_missed": [],
+   "pass": true
+  },
+  "tem_pml_fixed": {
+   "returncode": 0,
+   "rows": [
+    {
+     "f_Hz": 169660000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.010406471
+    },
+    {
+     "f_Hz": 169830000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.011241325
+    },
+    {
+     "f_Hz": 170000000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.011115895
+    },
+    {
+     "f_Hz": 170169999.99999997,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.011141915
+    },
+    {
+     "f_Hz": 170340000.0,
+     "has_dZ": true,
+     "vs_energy_identity": null,
+     "dZ_seconds": 0.011204269
+    }
+   ],
+   "f0_Hz": 170000000.0,
+   "exact_dZ_H": {
+    "re": [
+     [
+      -2.7136448550932195e-08
+     ]
+    ],
+    "im": [
+     [
+      -3.938695673710942e-08
+     ]
+    ]
+   },
+   "fd_d_minus_exact": {
+    "re": 5.886424599326327e-06,
+    "im": 1.4898616462461168e-06
+   },
+   "richardson_minus_exact": {
+    "re": 1.0878768151394827e-06,
+    "im": 1.192269606635319e-07
+   },
+   "truncation_ratio_median": 3.484431922445141,
+   "simpson_residual": {
+    "re": 1.4731406041225301e-06,
+    "im": 4.8227781661786014e-08
+   },
+   "richardson_scaled": 1.8151832260293055e-07,
+   "simpson_scaled": 2.430221313443225e-07,
+   "Z_ohm": {
+    "re": [
+     [
+      175.8999910982311
+     ]
+    ],
+    "im": [
+     [
+      -0.46973379144283184
+     ]
+    ]
+   },
+   "richardson_H": {
+    "re": [
+     [
+      -2.713641902981897e-08
+     ]
+    ],
+    "im": [
+     [
+      -3.938695204112228e-08
+     ]
+    ]
+   },
+   "scope": "exact per frequency from the port fields (reciprocity): dZ/dw = Z^T/w - (i/w) e^T A'(w) e; volume mass and loss terms plus the radiating exterior; X = -Im Z, so dX/dw = -Im dZ/dw; exact up to the solve residual; A' also holds d/dw of the PML layers' stretched tensors",
+   "gates_missed": [],
+   "pass": true
+  }
+ },
+ "pass": true
+}

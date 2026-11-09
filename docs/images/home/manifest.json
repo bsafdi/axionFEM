@@ -1,0 +1,756 @@
+{
+ "schema": "axionfem.homepage_figures/1",
+ "axionfem_version": "0.1.0",
+ "build_info": {
+  "version": "0.1.0",
+  "source_dirty": "false",
+  "git_dirty": false,
+  "mfem": "4.10.0",
+  "mpi": true,
+  "openmp": true,
+  "metis": true,
+  "strumpack": true,
+  "strumpack_version": "8.0.0",
+  "fluids": true,
+  "engine_3d": true,
+  "device": "cpu",
+  "gpu_backend": ""
+ },
+ "checkout_dirty": false,
+ "generator": "docs/images/make_homepage_figures.py",
+ "generator_sha256": "ed75f8bab55f3ad9d67318308dff5df436c61870ff6331e8af38b7f8f4c1c59b",
+ "figures": {
+  "hero": {
+   "title": "Toroidal lumped-element detector",
+   "files": [
+    "hero_toroid_light.png",
+    "hero_toroid_dark.png"
+   ],
+   "design": {
+    "template": "toroid",
+    "parameters": {
+     "H": 2.0,
+     "NI": 1000000.0,
+     "R": 2.0,
+     "f": 0.04,
+     "g": 0.01,
+     "ts": 0.01,
+     "tw": 0.02,
+     "y": 0.6
+    },
+    "note": "the quick-start toroid: af.template('toroid', R=2.0, H=2.0).set(y=0.6)"
+   },
+   "solve": {
+    "kind": "axisymmetric magnetoquasistatic",
+    "order": 3,
+    "mesh": {
+     "order": 2,
+     "size": "max(R, H)/30",
+     "surface_size": "min(ts, g, tw)"
+    },
+    "dofs": 193129
+   },
+   "render": {
+    "renderer": "C++ (axionfem.render)",
+    "view": "3d",
+    "quantity": "Bmag",
+    "cutaway_deg": 280.0,
+    "elev_deg": 20.0,
+    "azim_deg": -50.0,
+    "scene": {
+     "subdiv": 2,
+     "contours": 16
+    },
+    "mask": "|B| below 1e-9 of its peak (the field-free bore and exterior) is left uncoloured",
+    "masked_max_over_peak": 2.61e-16
+   },
+   "check": [
+    {
+     "quantity": "Psi [H T m^2]",
+     "order2": 3.088269e-07,
+     "order3": 3.088257e-07,
+     "rel_diff": 4.05e-06
+    },
+    {
+     "quantity": "L_p [H]",
+     "order2": 1.458482e-06,
+     "order3": 1.458483e-06,
+     "rel_diff": -1.08e-06
+    },
+    {
+     "quantity": "B_max [T]",
+     "order2": 0.1666667,
+     "order3": 0.1666667,
+     "rel_diff": 0.0
+    }
+   ],
+   "numbers": {
+    "R_m": 2.0,
+    "H_m": 2.0,
+    "NI_A": 1000000.0,
+    "Psi_SI_H_T_m2": 3.088257e-07,
+    "L_p_H": 1.458483e-06,
+    "B_max_T": 0.1666667
+   },
+   "seconds": 15.7,
+   "status": "validated",
+   "generated_with": {
+    "axionfem_version": "0.1.0",
+    "generator_sha256": "ed75f8bab55f3ad9d67318308dff5df436c61870ff6331e8af38b7f8f4c1c59b",
+    "checkout_dirty": false
+   }
+  },
+  "cavity": {
+   "title": "Cavity haloscope",
+   "files": [
+    "card_cavity_light.png",
+    "card_cavity_dark.png"
+   ],
+   "design": {
+    "builder": "axionfem.cavity_xsec.xsec_design",
+    "parameters": {
+     "R_m": 0.21,
+     "rod_radius_m": 0.0254,
+     "pivot_m": 0.122,
+     "arm_m": 0.057,
+     "angle_deg": 120.0,
+     "length_m": 1.01
+    },
+    "rod_center_m": [
+     0.0935,
+     0.04936345
+    ],
+    "walls": "builtin copper (cold copper, anomalous skin effect)",
+    "note": "illustrative rod position in a 210 mm copper cavity"
+   },
+   "solve": {
+    "kind": "cross-section eigenmodes (symmetry xsec)",
+    "order": 2,
+    "h_m": 0.0021,
+    "surface_size_m": 0.00084,
+    "dofs": 168080,
+    "modes": 6
+   },
+   "check": [
+    {
+     "quantity": "f mode 0 [Hz]",
+     "h=R/70": 625437600.0,
+     "h=R/100": 625437600.0,
+     "rel_diff": 1.21e-08
+    },
+    {
+     "quantity": "f mode 1 [Hz]",
+     "h=R/70": 882890800.0,
+     "h=R/100": 882890800.0,
+     "rel_diff": 8.21e-09
+    },
+    {
+     "quantity": "f mode 2 [Hz]",
+     "h=R/70": 1017300000.0,
+     "h=R/100": 1017300000.0,
+     "rel_diff": 1.48e-08
+    },
+    {
+     "quantity": "C mode 0",
+     "h=R/70": 0.6162517,
+     "h=R/100": 0.6162517,
+     "rel_diff": -1.21e-08
+    },
+    {
+     "quantity": "TM010-like vs method of particular solutions",
+     "f_mps_Hz": 625437600.0,
+     "C_mps": 0.6162517,
+     "rel_diff_f": 2.83e-10,
+     "rel_diff_C": 1.12e-08
+    }
+   ],
+   "numbers": {
+    "R_mm": 210.0,
+    "rod_diameter_mm": 50.8,
+    "f_Hz": [
+     625437600.0,
+     882890800.0,
+     1017300000.0
+    ],
+    "C": [
+     0.6163,
+     6.725e-22,
+     0.02479
+    ],
+    "Q0": [
+     308500.0,
+     412500.0,
+     361000.0
+    ],
+    "f_mps_Hz": 625437600.0,
+    "C_mps": 0.6162517
+   },
+   "seconds": 36.6,
+   "status": "beta",
+   "generated_with": {
+    "axionfem_version": "0.1.0",
+    "generator_sha256": "ed75f8bab55f3ad9d67318308dff5df436c61870ff6331e8af38b7f8f4c1c59b",
+    "checkout_dirty": false
+   }
+  },
+  "srf": {
+   "title": "SRF heterodyne cavity",
+   "files": [
+    "card_srf_light.png",
+    "card_srf_dark.png"
+   ],
+   "design": {
+    "builder": "axionfem.srf.cylinder_pair_design",
+    "pair": "TE012/TM013",
+    "source": "R. Lasenby, Phys. Rev. D 102, 015008 (2020), arXiv:1912.11056 (the 60 L cylinder)",
+    "R_m": 0.2,
+    "L_m": 0.4709768,
+    "L_over_R": 2.354884,
+    "V_m3": 0.05918469,
+    "wall": "closed cylinder (pillbox)"
+   },
+   "solve": {
+    "kind": "axisymmetric eigenmodes",
+    "order": 3,
+    "h_m": 0.005,
+    "dofs": 64618,
+    "modes": 8
+   },
+   "check": [
+    {
+     "quantity": "eta_10",
+     "h=R/30": 0.4385988,
+     "h=R/40": 0.4385961,
+     "rel_diff": 6.17e-06
+    },
+    {
+     "quantity": "f_pump_Hz",
+     "h=R/30": 1113907000.0,
+     "h=R/40": 1113907000.0,
+     "rel_diff": 9.42e-12
+    },
+    {
+     "quantity": "f_signal_Hz",
+     "h=R/30": 1113907000.0,
+     "h=R/40": 1113907000.0,
+     "rel_diff": 8.88e-12
+    },
+    {
+     "quantity": "eta_10 and f against the closed forms (axionfem.srf.cylinder_pair)",
+     "eta_10_closed_form": 0.4385929,
+     "f_closed_form_Hz": 1113907000.0,
+     "rel_diff_eta": 7.43e-06,
+     "rel_diff_f_pump": 2.08e-12,
+     "rel_diff_f_signal": 1.95e-12
+    },
+    {
+     "quantity": "eta_10^2 against the published C01",
+     "published_C01": 0.19,
+     "eta_10_squared": 0.1924
+    }
+   ],
+   "numbers": {
+    "eta_10": 0.4386,
+    "eta_10_squared": 0.1924,
+    "f_pump_Hz": 1113907000.0,
+    "f_signal_Hz": 1113907000.0,
+    "splitting_Hz": -0.000147,
+    "pump": "TE012",
+    "signal": "TM013",
+    "overlap_peak": 3.67,
+    "R_cm": 20.0,
+    "L_cm": 47.1,
+    "L_over_R": 2.355,
+    "V_L": 59.2,
+    "published_C01": 0.19,
+    "eta_10_closed_form": 0.4386
+   },
+   "seconds": 13.5,
+   "status": "beta",
+   "generated_with": {
+    "axionfem_version": "0.1.0",
+    "generator_sha256": "ed75f8bab55f3ad9d67318308dff5df436c61870ff6331e8af38b7f8f4c1c59b",
+    "checkout_dirty": false
+   }
+  },
+  "readout": {
+   "title": "Readout and SQUID chains",
+   "files": [
+    "card_readout_light.png",
+    "card_readout_dark.png"
+   ],
+   "design": {
+    "pickup": "the hero toroid (L_p and Psi of the third-order solve)",
+    "readout": "axionfem.circuit.series_readout: pickup with its loss, tuning capacitor, SQUID input coil",
+    "parameters": {
+     "f0_Hz": 1000000.0,
+     "Q": 1000000.0,
+     "T_K": 0.03,
+     "L_in_H": 2e-09,
+     "chain": "C1+low+RT",
+     "sign": 1.0
+    },
+    "squid": "axionfem.squid.chain('C1+low+RT') of arXiv:2504.20398 at its scan-optimal mutual inductance",
+    "sign": "s = +1 or -1, the sign of the imprecision-backaction correlation; the source gives only its magnitude, so the side of resonance on which the total noise has its minimum is a convention (parameters.sign is the s drawn)"
+   },
+   "solve": {
+    "kind": "circuit noise model (no discretization); toroid inputs from the hero solve",
+    "plotted": "noise referred to an EMF in the pickup, divided by the thermal noise of the pickup loss"
+   },
+   "check": [
+    {
+     "quantity": "thermal-limited band [Hz]",
+     "toroid order2": 182.0156,
+     "toroid order3": 182.0156,
+     "rel_diff": -7.38e-10
+    },
+    {
+     "quantity": "minimum total / thermal",
+     "toroid order2": 1.50083,
+     "toroid order3": 1.50083,
+     "rel_diff": 4.92e-10
+    },
+    {
+     "quantity": "loaded Q",
+     "toroid order2": 1001371.0,
+     "toroid order3": 1001371.0,
+     "rel_diff": 1.49e-09
+    },
+    {
+     "quantity": "correlation sign s (convention): the drawn s against the opposite s",
+     "s_drawn": 1.0,
+     "s_opposite": -1.0,
+     "x_min_Hz": {
+      "drawn": 52.0,
+      "opposite": -52.0
+     },
+     "N_min_over_thermal": {
+      "drawn": 1.501,
+      "opposite": 1.501
+     },
+     "band_Hz": {
+      "drawn": [
+       -91.0,
+       91.0
+      ],
+      "opposite": [
+       -91.0,
+       91.0
+      ]
+     },
+     "eta": {
+      "drawn": 9.707,
+      "opposite": 9.707
+     }
+    }
+   ],
+   "numbers": {
+    "f0_Hz": 1000000.0,
+    "Q": 1000000.0,
+    "T_K": 0.03,
+    "eta": 9.707,
+    "M_H": 2.897e-10,
+    "band_Hz": 182.0,
+    "band_lo_Hz": -91.0,
+    "band_hi_Hz": 91.0,
+    "linewidth_Hz": 0.999,
+    "backaction_over_thermal": 0.829,
+    "x_min_Hz": 52.0,
+    "x_min_opposite_sign_Hz": -52.0,
+    "sign": 1.0,
+    "N_min_over_thermal": 1.5
+   },
+   "seconds": 3.7,
+   "status": "beta",
+   "generated_with": {
+    "axionfem_version": "0.1.0",
+    "generator_sha256": "ed75f8bab55f3ad9d67318308dff5df436c61870ff6331e8af38b7f8f4c1c59b",
+    "checkout_dirty": false
+   }
+  },
+  "mech": {
+   "title": "Mechanics",
+   "files": [
+    "card_mech_light.png",
+    "card_mech_dark.png"
+   ],
+   "design": {
+    "doc": "solenoid_winding_stress (built in this script)",
+    "parameters": {
+     "R": 0.3,
+     "tw": 0.12,
+     "H": 0.48,
+     "NI": 3200000.0
+    },
+    "material": "builtin 'winding' (smeared isotropic impregnated coil: E = 80 GPa, nu = 0.3)",
+    "note": "an illustrative winding, free-standing; loads: its own Lorentz force J x B"
+   },
+   "solve": {
+    "kind": "axisymmetric magnetostatics + small-strain elasticity",
+    "order": 3,
+    "dofs": 260566
+   },
+   "render": {
+    "renderer": "C++ (axionfem.render)",
+    "view": "3d",
+    "cutaway_deg": 270.0,
+    "elev_deg": 22.0,
+    "azim_deg": -55.0,
+    "quantity": "von Mises stress sampled from the mechanics solution on the scene mesh (MPa)",
+    "lines": "static field lines (contours of psi = r A_phi): white over the cut planes and walls; in the light variant, where they cross the open bore, the theme's muted ink",
+    "vmax_MPa": 60.0
+   },
+   "check": [
+    {
+     "quantity": "peak von Mises stress [Pa]",
+     "order2": 59696860.0,
+     "order3": 59695950.0,
+     "rel_diff": 1.52e-05
+    },
+    {
+     "quantity": "peak hoop stress [Pa]",
+     "order2": 47408800.0,
+     "order3": 47409290.0,
+     "rel_diff": -1.03e-05
+    },
+    {
+     "quantity": "peak |B| [T]",
+     "order2": 5.876635,
+     "order3": 5.876619,
+     "rel_diff": 2.69e-06
+    }
+   ],
+   "numbers": {
+    "R_m": 0.3,
+    "tw_m": 0.12,
+    "H_m": 0.48,
+    "NI_A": 3200000.0,
+    "B_max_T": 5.88,
+    "vm_max_MPa": 59.7,
+    "hoop_max_MPa": 47.4,
+    "u_max_mm": 0.2,
+    "vm_max_at_m": {
+     "r_m": 0.3,
+     "z_m": -8.05e-16
+    }
+   },
+   "seconds": 35.8,
+   "status": "validated",
+   "generated_with": {
+    "axionfem_version": "0.1.0",
+    "generator_sha256": "ed75f8bab55f3ad9d67318308dff5df436c61870ff6331e8af38b7f8f4c1c59b",
+    "checkout_dirty": false
+   }
+  },
+  "reach": {
+   "title": "Reach across mass",
+   "files": [
+    "card_reach_light.png",
+    "card_reach_dark.png"
+   ],
+   "design": {
+    "source": "axionfem.haloscope presets: published cavity, magnet, receiver and scan parameters of each run; a few are inferred from stated numbers or assumed where a paper does not state them (marked INFERRED / ASSUMED in axionfem.haloscope_presets)",
+    "runs": [
+     "ADMX_1A",
+     "CAPP_12TB",
+     "HAYSTAC_2021",
+     "HAYSTAC_2023",
+     "TASEH_2022",
+     "HAYSTAC_2017",
+     "ORGAN_Q_2025",
+     "QUAX_2019",
+     "QUAX_2021"
+    ]
+   },
+   "solve": {
+    "kind": "haloscope sensitivity model (closed form; no FEM)"
+   },
+   "check": [
+    {
+     "quantity": "recomputed / published limit",
+     "per_run": {
+      "ADMX_1A": 0.749,
+      "CAPP_12TB": 0.997,
+      "HAYSTAC_2021": 1.06,
+      "HAYSTAC_2023": 1.01,
+      "TASEH_2022": 1.08,
+      "HAYSTAC_2017": 1.15,
+      "ORGAN_Q_2025": 0.833,
+      "QUAX_2019": 0.931,
+      "QUAX_2021": 1.01
+     },
+     "note": "no discretization: the comparison with the published limit is the check"
+    }
+   ],
+   "numbers": {
+    "n_runs": 9,
+    "ratio_min": 0.749,
+    "ratio_max": 1.15,
+    "rows": [
+     {
+      "name": "ADMX_1A",
+      "family": "ADMX",
+      "label": "ADMX 1A",
+      "f_Hz": 660000000.0,
+      "m_ueV": 2.73,
+      "g": 2.435e-16,
+      "g_pub": 3.25e-16,
+      "ratio": 0.7491
+     },
+     {
+      "name": "CAPP_12TB",
+      "family": "CAPP",
+      "label": "CAPP 12TB",
+      "f_Hz": 1100000000.0,
+      "m_ueV": 4.549,
+      "g": 6.123e-16,
+      "g_pub": 6.14e-16,
+      "ratio": 0.9973
+     },
+     {
+      "name": "HAYSTAC_2021",
+      "family": "HAYSTAC",
+      "label": "HAYSTAC 2021",
+      "f_Hz": 4140000000.0,
+      "m_ueV": 17.12,
+      "g": 1.328e-14,
+      "g_pub": 1.249e-14,
+      "ratio": 1.063
+     },
+     {
+      "name": "HAYSTAC_2023",
+      "family": "HAYSTAC",
+      "label": "HAYSTAC 2023",
+      "f_Hz": 4490000000.0,
+      "m_ueV": 18.57,
+      "g": 1.444e-14,
+      "g_pub": 1.431e-14,
+      "ratio": 1.009
+     },
+     {
+      "name": "TASEH_2022",
+      "family": "TASEH",
+      "label": "TASEH 2022",
+      "f_Hz": 4750000000.0,
+      "m_ueV": 19.64,
+      "g": 8.848e-14,
+      "g_pub": 8.2e-14,
+      "ratio": 1.079
+     },
+     {
+      "name": "HAYSTAC_2017",
+      "family": "HAYSTAC",
+      "label": "HAYSTAC 2017",
+      "f_Hz": 5750000000.0,
+      "m_ueV": 23.78,
+      "g": 2.33e-14,
+      "g_pub": 2.026e-14,
+      "ratio": 1.15
+     },
+     {
+      "name": "ORGAN_Q_2025",
+      "family": "ORGAN",
+      "label": "ORGAN Q 2025",
+      "f_Hz": 6250000000.0,
+      "m_ueV": 25.85,
+      "g": 2.332e-13,
+      "g_pub": 2.8e-13,
+      "ratio": 0.8328
+     },
+     {
+      "name": "QUAX_2019",
+      "family": "QUAX",
+      "label": "QUAX 2019",
+      "f_Hz": 9067000000.0,
+      "m_ueV": 37.5,
+      "g": 9.588e-13,
+      "g_pub": 1.03e-12,
+      "ratio": 0.9309
+     },
+     {
+      "name": "QUAX_2021",
+      "family": "QUAX",
+      "label": "QUAX 2021",
+      "f_Hz": 10400000000.0,
+      "m_ueV": 43.02,
+      "g": 7.714e-14,
+      "g_pub": 7.66e-14,
+      "ratio": 1.007
+     }
+    ]
+   },
+   "seconds": 1.3,
+   "status": "beta",
+   "generated_with": {
+    "axionfem_version": "0.1.0",
+    "generator_sha256": "ed75f8bab55f3ad9d67318308dff5df436c61870ff6331e8af38b7f8f4c1c59b",
+    "checkout_dirty": false
+   }
+  },
+  "fluids": {
+   "title": "Fluids",
+   "files": [
+    "card_fluids_light.png",
+    "card_fluids_dark.png"
+   ],
+   "design": {
+    "problem": "differentially heated square cavity, de Vahl Davis scaling (natconv_cavity_parameters)",
+    "parameters": {
+     "Ra": 100000.0,
+     "Pr": 0.71
+    },
+    "mesh": "cosine (Chebyshev) spacing toward the walls",
+    "boundary": "no slip; left wall T0 + dT/2, right wall T0 - dT/2, top and bottom adiabatic"
+   },
+   "solve": {
+    "kind": "steady Boussinesq, Taylor-Hood P2/P1 with P2 temperature, Newton with Ra continuation 1e3 -> 1e4 -> 1e5, one MPI rank",
+    "mesh": "64x64",
+    "dofs": 54148,
+    "newton_iterations": 15,
+    "relative_residual": 3.2e-15
+   },
+   "check": [
+    {
+     "quantity": "Nu (hot wall)",
+     "48x48": 4.521856,
+     "64x64": 4.521753,
+     "rel_diff": 2.29e-05
+    },
+    {
+     "quantity": "Nu hot vs cold wall (energy balance)",
+     "Nu_hot": 4.521753,
+     "Nu_cold": 4.521753,
+     "rel_diff": -3.61e-14
+    }
+   ],
+   "numbers": {
+    "Ra": 100000.0,
+    "Pr": 0.71,
+    "Nu": 4.522,
+    "u_max_alpha_over_L": 68.7,
+    "streamlines": "contours of the stream function at 8 % ... 92 % of its extremum"
+   },
+   "seconds": 43.0,
+   "status": "beta",
+   "generated_with": {
+    "axionfem_version": "0.1.0",
+    "generator_sha256": "ed75f8bab55f3ad9d67318308dff5df436c61870ff6331e8af38b7f8f4c1c59b",
+    "checkout_dirty": false
+   }
+  },
+  "chem": {
+   "title": "Chemistry",
+   "files": [
+    "card_chem_light.png",
+    "card_chem_dark.png"
+   ],
+   "design": {
+    "problem": "primary current distribution on a disk electrode in an insulating plane (Newman)",
+    "parameters": {
+     "r0_m": 0.001,
+     "V": 0.1,
+     "kappa_S_m": 1.0,
+     "Rb_over_r0": 5.0,
+     "beta": 3.0,
+     "order": 2,
+     "meshes": [
+      8,
+      16
+     ]
+    },
+    "mesh": "axionfem.chem.meshes.disk_graded, graded toward the disk edge; half-space exterior map"
+   },
+   "solve": {
+    "kind": "axisymmetric electrolyte potential, P2",
+    "dofs": 24705
+   },
+   "check": [
+    {
+     "quantity": "I [A]",
+     "n=8": 0.000400411,
+     "n=16": 0.0004000547,
+     "rel_diff": 0.000891
+    },
+    {
+     "quantity": "I vs Newman 4 kappa r0 V",
+     "I_newman_A": 0.0004,
+     "rel_diff": 0.000137
+    }
+   ],
+   "numbers": {
+    "I_over_newman_minus_1": 0.000137,
+    "lines": "equal steps of current between lines"
+   },
+   "seconds": 5.2,
+   "status": "beta",
+   "generated_with": {
+    "axionfem_version": "0.1.0",
+    "generator_sha256": "ed75f8bab55f3ad9d67318308dff5df436c61870ff6331e8af38b7f8f4c1c59b",
+    "checkout_dirty": false
+   }
+  },
+  "social": {
+   "title": "Social preview",
+   "files": [
+    "social_preview.png"
+   ],
+   "design": {
+    "composition": "dark hero (hero_toroid_dark.png) with the icon, the wordmark and the tagline"
+   },
+   "check": [],
+   "numbers": {},
+   "seconds": 0.8,
+   "generated_with": {
+    "axionfem_version": "0.1.0",
+    "generator_sha256": "ed75f8bab55f3ad9d67318308dff5df436c61870ff6331e8af38b7f8f4c1c59b",
+    "checkout_dirty": false
+   }
+  },
+  "logo": {
+   "title": "Logo and favicon",
+   "files": [
+    "../logo/axionfem_icon.svg",
+    "../logo/favicon.svg",
+    "../logo/axionfem_wordmark_light.svg",
+    "../logo/axionfem_wordmark_dark.svg",
+    "../logo/axionfem_icon_512.png",
+    "../logo/favicon-32.png",
+    "../logo/apple-touch-icon.png"
+   ],
+   "design": {
+    "concept": "the quick-start toroid cut open through its axis: the cut faces carry |B| ~ 1/r on viridis (inner leg r = yR to outer leg r = R, y = 0.6)",
+    "slab_stops": [
+     [
+      0.0,
+      "#fde725"
+     ],
+     [
+      0.25,
+      "#a0da39"
+     ],
+     [
+      0.5,
+      "#5cc863"
+     ],
+     [
+      0.75,
+      "#35b779"
+     ],
+     [
+      1.0,
+      "#22a884"
+     ]
+    ],
+    "font": "DejaVu Sans (bundled with matplotlib), converted to paths"
+   },
+   "check": [],
+   "numbers": {},
+   "seconds": 0.1,
+   "generated_with": {
+    "axionfem_version": "0.1.0",
+    "generator_sha256": "ed75f8bab55f3ad9d67318308dff5df436c61870ff6331e8af38b7f8f4c1c59b",
+    "checkout_dirty": false
+   }
+  }
+ }
+}

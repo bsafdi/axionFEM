@@ -1,0 +1,151 @@
+# axionFEM: Python packaging.  See docs/install.md for the build matrix.
+#
+# The wheels are *sequential*: a serial MFEM and METIS, no MPI, no hypre (a
+# wheel on PyPI cannot require a system MPI).  The 3D engine therefore is not in
+# the wheels; its entry points raise an error that says how to get a build that
+# has it (cpp/src/model3d_nompi.cpp).  Everything else -- the axisymmetric
+# engine, the full-wave solver, scan reach and cost metric, the viewer, the widget, the CLI and
+# the MCP server -- is complete.
+[build-system]
+requires = [
+  "scikit-build-core>=0.9",
+  "nanobind>=2.0",
+  # Builds axf-mesher against the upstream gmsh headers and library.  gmsh is
+  # GPL and is NOT redistributed in our wheels: see [project.optional-dependencies]
+  # and docs/install.md, "Licensing of each wheel".
+  # The mesher links libgmsh by SONAME (libgmsh.so.4.15, libgmsh.4.15.dylib), so the
+  # minor version is pinned here, in the mesh/all extras and in the auditwheel
+  # --exclude below; tests/test_packaging.py checks that they agree.
+  "gmsh>=4.15,<4.16",
+]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "axionfem"
+# Keep in step with CMakeLists.txt project(VERSION) and axf::kVersion in
+# cpp/include/axionfem/core.hpp; tests/test_packaging.py checks that.
+version = "0.1.0"
+description = "Finite-element simulation for axion dark-matter detectors: lumped-element detectors from the field solve to the scan reach, with beta modules for cavity haloscopes, SRF heterodyne cavities, dc SQUID readout, incompressible flow and electrochemistry"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Joshua N. Benabou" },
+  { name = "Joshua W. Foster" },
+  { name = "Benjamin R. Safdi" },
+]
+keywords = ["axion", "dark matter", "finite element", "electromagnetics", "haloscope", "lumped-element detector", "MFEM"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: MacOS :: MacOS X",
+  "Programming Language :: C++",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = ["numpy>=1.23", "scipy>=1.10"]
+
+[project.optional-dependencies]
+# The mesher is a separate program that links the GPL gmsh library, which we do
+# not redistribute: this extra installs it from gmsh's own PyPI wheel, the same
+# minor version the wheel was built against (build-system.requires).
+mesh = ["gmsh>=4.15,<4.16"]
+notebook = ["anywidget>=0.9", "ipython>=8"]
+plots = ["matplotlib>=3.6"]
+# effective-circuit drawings: Circuit/Readout/MultiportCircuit/Chain .draw() (axionfem.draw)
+draw = ["schemdraw>=0.19", "matplotlib>=3.6"]
+mcp = ["mcp>=2.0"]
+test = ["pytest>=7", "jsonschema>=4", "scipy>=1.10"]
+all = [
+  "gmsh>=4.15,<4.16",
+  "anywidget>=0.9",
+  "ipython>=8",
+  "matplotlib>=3.6",
+  "mcp>=2.0",
+  "schemdraw>=0.19",
+]
+
+[project.urls]
+Homepage = "https://bsafdi.github.io/axionFEM/"
+Documentation = "https://bsafdi.github.io/axionFEM/"
+Repository = "https://github.com/bsafdi/axionFEM"
+Issues = "https://github.com/bsafdi/axionFEM/issues"
+Changelog = "https://github.com/bsafdi/axionFEM/blob/main/CHANGELOG.md"
+
+[project.scripts]
+axf = "axionfem._cli:main"
+axionfem-mcp = "axionfem.mcp_server:main"
+
+# --------------------------------------------------------------------- build
+[tool.scikit-build]
+minimum-version = "0.9"
+build-dir = "build/skbuild-{wheel_tag}"
+wheel.packages = ["python/axionfem"]
+wheel.license-files = ["LICENSE", "viewer/vendor/LICENSE-three.txt", "third_party/licenses/*"]
+cmake.version = ">=3.20"
+cmake.build-type = "Release"
+ninja.make-fallback = true
+sdist.exclude = [
+  "/third_party/src", "/third_party/build*", "/third_party/install*",
+  "/build*", "/runs", "/docs/references/*.pdf", "/.venv",
+]
+
+[tool.scikit-build.cmake.define]
+# AUTO follows the MFEM that AXIONFEM_DEPS / AXF_DEPS points at: the wheel
+# builds use the serial stack from scripts/build_deps_wheel.sh, so AXF_MPI
+# resolves to OFF and the 3D stub is compiled.
+AXF_MPI = "AUTO"
+AXF_OPENMP = "AUTO"
+AXF_BUILD_TESTS = "OFF"
+AXF_BUILD_MESHER = "ON"
+AXF_BUNDLE_LIBS = "ON"
+
+# --------------------------------------------------------------------- wheels
+[tool.cibuildwheel]
+build = "cp310-* cp311-* cp312-* cp313-*"
+skip = "*-musllinux_* pp*"
+build-frontend = "build"
+# The serial MFEM is built once per platform and reused by every Python version.
+before-all = "bash scripts/build_deps_wheel.sh"
+test-extras = ["test", "mesh"]
+# Fast tests only: no 3D (not in the wheel) and no long solves.
+test-command = "python -m pytest -q {project}/tests/test_widget.py {project}/tests/test_viewer.py {project}/tests/test_packaging.py {project}/tests/test_circuits.py -p no:cacheprovider"
+environment-pass = ["AXF_WHEEL_DEPS"]
+
+[tool.cibuildwheel.linux]
+manylinux-x86_64-image = "manylinux_2_28"
+archs = ["x86_64"]
+# libgmsh from the gmsh wheel links the FLTK/OpenGL GUI, so axf-mesher does not
+# link (nor run) without these, display or not: the image lacks GLU, Xcursor and
+# Xinerama.  They are needed to build and test the wheel and are not shipped in it.
+before-all = "dnf install -y mesa-libGLU mesa-libGL libX11 libXext libXrender libXcursor libXfixes libXft libXinerama fontconfig && bash scripts/build_deps_wheel.sh"
+environment = { AXF_WHEEL_DEPS = "/opt/axf-deps", AXIONFEM_DEPS = "/opt/axf-deps", AXF_DEPS_SRC = "/opt/axf-src", NPROC = "4" }
+# auditwheel grafts the remaining system libraries (libgomp, libstdc++ when the
+# policy requires it) next to the ones CMake already bundled in axionfem/_libs.
+# libgmsh is excluded: it is GPL and comes from the gmsh wheel at run time
+# (axionfem[mesh]).  Without --exclude, auditwheel stops ("required library
+# libgmsh.so.4.15 could not be located") or, if it found it, would ship it.
+repair-wheel-command = "auditwheel repair --exclude libgmsh.so.4.15 -w {dest_dir} {wheel}"
+
+[tool.cibuildwheel.macos]
+environment = { AXF_WHEEL_DEPS = "/tmp/axf-deps", AXIONFEM_DEPS = "/tmp/axf-deps", AXF_DEPS_SRC = "/tmp/axf-src", MACOSX_DEPLOYMENT_TARGET = "11.0", NPROC = "3" }
+# libgmsh is excluded as on Linux.  delocate applies --exclude only to libraries
+# it has located, and axf-mesher's @rpath/libgmsh points outside the wheel, so
+# missing dependencies must be ignored too; the wheel's own tests (import, the
+# mesher found) and the smoke job check what delocate no longer does.
+repair-wheel-command = "delocate-wheel --require-archs {delocate_archs} --exclude libgmsh --ignore-missing-dependencies -w {dest_dir} -v {wheel}"
+
+# --------------------------------------------------------------------- tools
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "fast: pure-Python checks that need no build and run in seconds on a login node (`pytest -m fast`)",
+]
+filterwarnings = ["error::DeprecationWarning:axionfem.*"]

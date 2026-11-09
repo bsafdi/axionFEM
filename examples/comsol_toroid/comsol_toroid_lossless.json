@@ -1,0 +1,123 @@
+{
+ "schema": "axionfem.design/1",
+ "name": "comsol_toroid_lossless",
+ "symmetry": "3d",
+ "notes": "COMSOL cross-check: the arXiv:2211.00008 fiducial toroid (r 0.5-1 m, h 0.5 m, 2.5 cm PEC walls) with a planar 2 cm slit read out through a small box port at the bottom of the outer wall, inside a closed PEC sphere of radius 1.5 m; axion source B_phi = 1 T filling the cavity (toroidal_box). Lossless.",
+ "regions": [
+  {
+   "name": "sheath",
+   "material": "superconductor",
+   "solid": {
+    "difference": [
+     {
+      "revolve": {
+       "profile": {
+        "frame": {
+         "r": [
+          0.5,
+          1.0
+         ],
+         "z": [
+          -0.25,
+          0.25
+         ],
+         "thickness": 0.025
+        }
+       },
+       "angles": [
+        0,
+        360
+       ],
+       "center": [
+        0,
+        0,
+        0
+       ],
+       "axis": [
+        0,
+        0,
+        1
+       ]
+      }
+     },
+     {
+      "box": {
+       "min": [
+        0.45,
+        -0.01,
+        -0.3
+       ],
+       "max": [
+        1.05,
+        0.01,
+        0.3
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "name": "port",
+   "material": "vacuum",
+   "surface_size": 0.005,
+   "solid": {
+    "box": {
+     "min": [
+      0.975,
+      -0.01,
+      -0.25
+     ],
+     "max": [
+      1.0,
+      0.01,
+      -0.2
+     ]
+    }
+   }
+  }
+ ],
+ "pickup": {
+  "type": "port",
+  "port": "port",
+  "toward": [
+   0,
+   1,
+   0
+  ]
+ },
+ "fullwave": {
+  "frequencies": [
+   1000000.0,
+   5000000.0,
+   10000000.0,
+   15000000.0,
+   20000000.0,
+   25000000.0,
+   30000000.0,
+   40000000.0,
+   50000000.0,
+   60000000.0
+  ],
+  "boundary": "pec",
+  "source": {
+   "kind": "toroidal_box",
+   "B0_T": 1.0,
+   "r_m": [
+    0.525,
+    0.975
+   ],
+   "z_m": [
+    -0.225,
+    0.225
+   ],
+   "profile": "uniform"
+  }
+ },
+ "mesh": {
+  "order": 2,
+  "size": 0.12,
+  "surface_size": 0.03,
+  "domain_radius": 1.5
+ }
+}

@@ -1,0 +1,422 @@
+{
+ "schema": "axionfem.srf_2d_smooth/1",
+ "status": "beta",
+ "cell": "PROJECTX_650_B09 x axial factor 0.86, tubes 50 mm x 100 mm, wall='smooth'",
+ "peak_definition": "largest normal |E| / tangential |B| over the Gauss points of the wall faces (evaluated in the cavity element), B0 = volume rms",
+ "rows": [
+  {
+   "f_pump_Hz": 1416517240.8782277,
+   "f_signal_Hz": 1416535465.9099436,
+   "splitting_Hz": 18225.031715869904,
+   "xi_pump": 7.6430176994993575,
+   "xi_signal": 7.643116035217383,
+   "eta_10": 0.44924344303983543,
+   "Bpk_over_B0": 1.463615326576644,
+   "Epk_over_cB0": 1.8503592080433657,
+   "B_equator_over_B0": 1.4043830101095665,
+   "G_pump_ohm": 524.4757709023777,
+   "G_signal_ohm": 604.4527934409901,
+   "A_over_V23": 6.182226879593851,
+   "V_m3": 0.017062847339431482,
+   "order": 2,
+   "h_over_Req": 0.1,
+   "wall": "smooth",
+   "seconds": 3.9386892318725586,
+   "Bpk_over_B0_face_rms": 1.4618097006296844,
+   "Epk_over_cB0_face_rms": 1.8379364387929973,
+   "Et_max_over_cB0": 0.10095184127511156,
+   "pump_peaks_at_rz": {
+    "B": [
+     0.07705831251854081,
+     0.07444383048442316
+    ],
+    "E": [
+     0.05202978141658214,
+     -0.084275695630023
+    ]
+   },
+   "checks": {
+    "int_E1^2 (1 expected)": 0.9989863157790206,
+    "int_E0^2 (1 expected)": 0.9998064521198498,
+    "c^2 int B0^2 (1 expected at resonance)": 0.9993032144850907,
+    "c^2 int B1^2 (1 expected)": 0.9998756535638457,
+    "n_wall_points": 696,
+    "subdiv": 4,
+    "volume_contour_vs_solver": 6.1711600274350076e-09
+   },
+   "mesh": {
+    "elements": 5819,
+    "nodes": null,
+    "order": 2
+   }
+  },
+  {
+   "f_pump_Hz": 1416512015.113588,
+   "f_signal_Hz": 1416532049.3160768,
+   "splitting_Hz": 20034.202488660812,
+   "xi_pump": 7.642989560842731,
+   "xi_signal": 7.643097658196546,
+   "eta_10": 0.4492166315454849,
+   "Bpk_over_B0": 1.4640071014839398,
+   "Epk_over_cB0": 1.851982382637461,
+   "B_equator_over_B0": 1.404123088195102,
+   "G_pump_ohm": 524.4741043753471,
+   "G_signal_ohm": 604.4726541262983,
+   "A_over_V23": 6.182226786265218,
+   "V_m3": 0.017062847725809793,
+   "order": 2,
+   "h_over_Req": 0.05,
+   "wall": "smooth",
+   "seconds": 3.1728179454803467,
+   "Bpk_over_B0_face_rms": 1.461815150052115,
+   "Epk_over_cB0_face_rms": 1.833474909681741,
+   "Et_max_over_cB0": 0.05825580998742529,
+   "pump_peaks_at_rz": {
+    "B": [
+     0.0777880238641324,
+     -0.07435746468291574
+    ],
+    "E": [
+     0.05217265393903089,
+     -0.08410792426667107
+    ]
+   },
+   "checks": {
+    "int_E1^2 (1 expected)": 0.999469389276332,
+    "int_E0^2 (1 expected)": 0.9998997589753736,
+    "c^2 int B0^2 (1 expected at resonance)": 0.9996316469180948,
+    "c^2 int B1^2 (1 expected)": 0.999935962306741,
+    "n_wall_points": 1290,
+    "subdiv": 4,
+    "volume_contour_vs_solver": -1.6473261310601117e-08
+   },
+   "mesh": {
+    "elements": 11158,
+    "nodes": null,
+    "order": 2
+   }
+  },
+  {
+   "f_pump_Hz": 1416510626.9638941,
+   "f_signal_Hz": 1416530851.316652,
+   "splitting_Hz": 20224.352757930756,
+   "xi_pump": 7.642982037180384,
+   "xi_signal": 7.643091160516207,
+   "eta_10": 0.4492168104370944,
+   "Bpk_over_B0": 1.4640060062600475,
+   "Epk_over_cB0": 1.8468235762918346,
+   "B_equator_over_B0": 1.403942852106144,
+   "G_pump_ohm": 524.4742065336139,
+   "G_signal_ohm": 604.4774290284721,
+   "A_over_V23": 6.182226840792658,
+   "V_m3": 0.017062847500067493,
+   "order": 2,
+   "h_over_Req": 0.025,
+   "wall": "smooth",
+   "seconds": 5.250126600265503,
+   "Bpk_over_B0_face_rms": 1.4636298165523363,
+   "Epk_over_cB0_face_rms": 1.8388724843757853,
+   "Et_max_over_cB0": 0.049972742480805216,
+   "pump_peaks_at_rz": {
+    "B": [
+     0.07772235262613604,
+     0.07436494759563742
+    ],
+    "E": [
+     0.05277127030959775,
+     -0.08346460303042129
+    ]
+   },
+   "checks": {
+    "int_E1^2 (1 expected)": 0.999859379236137,
+    "int_E0^2 (1 expected)": 0.9999686884991315,
+    "c^2 int B0^2 (1 expected at resonance)": 0.9998809146858695,
+    "c^2 int B1^2 (1 expected)": 0.9999822364808469,
+    "n_wall_points": 2490,
+    "subdiv": 4,
+    "volume_contour_vs_solver": -3.2432130314674623e-09
+   },
+   "mesh": {
+    "elements": 23259,
+    "nodes": null,
+    "order": 2
+   }
+  },
+  {
+   "f_pump_Hz": 1416510412.4785008,
+   "f_signal_Hz": 1416530706.33732,
+   "splitting_Hz": 20293.858819246292,
+   "xi_pump": 7.642980872149753,
+   "xi_signal": 7.643090370515181,
+   "eta_10": 0.4492115840804253,
+   "Bpk_over_B0": 1.4640072554571317,
+   "Epk_over_cB0": 1.84349085781039,
+   "B_equator_over_B0": 1.4038818188444973,
+   "G_pump_ohm": 524.4740635501878,
+   "G_signal_ohm": 604.4784133329704,
+   "A_over_V23": 6.1822268533214535,
+   "V_m3": 0.01706284744819858,
+   "order": 2,
+   "h_over_Req": 0.0125,
+   "wall": "smooth",
+   "seconds": 13.090006828308105,
+   "Bpk_over_B0_face_rms": 1.4639552237197258,
+   "Epk_over_cB0_face_rms": 1.8421951709892912,
+   "Et_max_over_cB0": 0.024519217804937637,
+   "pump_peaks_at_rz": {
+    "B": [
+     0.07775736963807661,
+     -0.07436094045223181
+    ],
+    "E": [
+     0.052793754251023416,
+     0.08344217723969041
+    ]
+   },
+   "checks": {
+    "int_E1^2 (1 expected)": 0.9999646790772956,
+    "int_E0^2 (1 expected)": 0.999991609967203,
+    "c^2 int B0^2 (1 expected at resonance)": 0.9999667949584239,
+    "c^2 int B1^2 (1 expected)": 0.9999954474651725,
+    "n_wall_points": 4956,
+    "subdiv": 4,
+    "volume_contour_vs_solver": -2.0333867922772697e-10
+   },
+   "mesh": {
+    "elements": 52878,
+    "nodes": null,
+    "order": 2
+   }
+  },
+  {
+   "f_pump_Hz": 1416510384.8061597,
+   "f_signal_Hz": 1416530692.157098,
+   "splitting_Hz": 20307.35093832016,
+   "xi_pump": 7.642980722353154,
+   "xi_signal": 7.643090293517197,
+   "eta_10": 0.44920953246085943,
+   "Bpk_over_B0": 1.4640070750659004,
+   "Epk_over_cB0": 1.8428982057140353,
+   "B_equator_over_B0": 1.403864683208751,
+   "G_pump_ohm": 524.4740323683925,
+   "G_signal_ohm": 604.4785332794344,
+   "A_over_V23": 6.182226854108644,
+   "V_m3": 0.01706284744493963,
+   "order": 2,
+   "h_over_Req": 0.00625,
+   "wall": "smooth",
+   "seconds": 41.87487316131592,
+   "Bpk_over_B0_face_rms": 1.4639922179863094,
+   "Epk_over_cB0_face_rms": 1.8425825747139015,
+   "Et_max_over_cB0": 0.012015012744173641,
+   "pump_peaks_at_rz": {
+    "B": [
+     0.07769841111640327,
+     -0.0743676833077262
+    ],
+    "E": [
+     0.052513888011795844,
+     0.08373114426910636
+    ]
+   },
+   "checks": {
+    "int_E1^2 (1 expected)": 0.9999911607417469,
+    "int_E0^2 (1 expected)": 0.9999978457230558,
+    "c^2 int B0^2 (1 expected at resonance)": 0.9999912827214652,
+    "c^2 int B1^2 (1 expected)": 0.9999988380752143,
+    "n_wall_points": 9720,
+    "subdiv": 4,
+    "volume_contour_vs_solver": -1.234168323094309e-11
+   },
+   "mesh": {
+    "elements": 131653,
+    "nodes": null,
+    "order": 2
+   }
+  },
+  {
+   "f_pump_Hz": 1416510840.8550441,
+   "f_signal_Hz": 1416530763.2115333,
+   "splitting_Hz": 19922.35648918152,
+   "xi_pump": 7.642983167275461,
+   "xi_signal": 7.6430906611476646,
+   "eta_10": 0.44924336591278186,
+   "Bpk_over_B0": 1.4640046838072596,
+   "Epk_over_cB0": 1.8462404459911275,
+   "B_equator_over_B0": 1.4043523003820613,
+   "G_pump_ohm": 524.4746470570071,
+   "G_signal_ohm": 604.4774407292624,
+   "A_over_V23": 6.182226879593903,
+   "V_m3": 0.01706284733943127,
+   "order": 3,
+   "h_over_Req": 0.1,
+   "wall": "smooth",
+   "seconds": 1.8728663921356201,
+   "Bpk_over_B0_face_rms": 1.4618351289956961,
+   "Epk_over_cB0_face_rms": 1.8360013806772446,
+   "Et_max_over_cB0": 0.04358514086201835,
+   "pump_peaks_at_rz": {
+    "B": [
+     0.07776940228304526,
+     0.0743595687206498
+    ],
+    "E": [
+     0.05204221230732086,
+     -0.08426101431843187
+    ]
+   },
+   "checks": {
+    "int_E1^2 (1 expected)": 0.9989820737973607,
+    "int_E0^2 (1 expected)": 0.9992791332848555,
+    "c^2 int B0^2 (1 expected at resonance)": 0.999297837706249,
+    "c^2 int B1^2 (1 expected)": 0.9993375403966309,
+    "n_wall_points": 812,
+    "subdiv": 4,
+    "volume_contour_vs_solver": 6.171172461932883e-09
+   },
+   "mesh": {
+    "elements": 5819,
+    "nodes": null,
+    "order": 3
+   }
+  },
+  {
+   "f_pump_Hz": 1416510454.9428728,
+   "f_signal_Hz": 1416530704.6496181,
+   "splitting_Hz": 20249.706745386124,
+   "xi_pump": 7.642981142722548,
+   "xi_signal": 7.643090402859854,
+   "eta_10": 0.4492167024195324,
+   "Bpk_over_B0": 1.4640080880977584,
+   "Epk_over_cB0": 1.8483413690670052,
+   "B_equator_over_B0": 1.4041183683446536,
+   "G_pump_ohm": 524.4741067319837,
+   "G_signal_ohm": 604.478320780983,
+   "A_over_V23": 6.182226786265094,
+   "V_m3": 0.017062847725810307,
+   "order": 3,
+   "h_over_Req": 0.05,
+   "wall": "smooth",
+   "seconds": 3.4017350673675537,
+   "Bpk_over_B0_face_rms": 1.4618234229435205,
+   "Epk_over_cB0_face_rms": 1.833565197728663,
+   "Et_max_over_cB0": 0.02396928188178679,
+   "pump_peaks_at_rz": {
+    "B": [
+     0.07776247841954469,
+     0.07436036871353581
+    ],
+    "E": [
+     0.05218600289828252,
+     -0.08409274319753056
+    ]
+   },
+   "checks": {
+    "int_E1^2 (1 expected)": 0.9994680632870454,
+    "int_E0^2 (1 expected)": 0.9996161346899463,
+    "c^2 int B0^2 (1 expected at resonance)": 0.9996301559771388,
+    "c^2 int B1^2 (1 expected)": 0.9996444315275057,
+    "n_wall_points": 1505,
+    "subdiv": 4,
+    "volume_contour_vs_solver": -1.6473291397645085e-08
+   },
+   "mesh": {
+    "elements": 11158,
+    "nodes": null,
+    "order": 3
+   }
+  },
+  {
+   "f_pump_Hz": 1416510386.8599682,
+   "f_signal_Hz": 1416530693.0981097,
+   "splitting_Hz": 20306.238141536713,
+   "xi_pump": 7.642980741665865,
+   "xi_signal": 7.643090306825777,
+   "eta_10": 0.4492167692452706,
+   "Bpk_over_B0": 1.4640035430805294,
+   "Epk_over_cB0": 1.8451589715002696,
+   "B_equator_over_B0": 1.4039422737837635,
+   "G_pump_ohm": 524.4740299140291,
+   "G_signal_ohm": 604.4784972471444,
+   "A_over_V23": 6.182226840792759,
+   "V_m3": 0.017062847500067077,
+   "order": 3,
+   "h_over_Req": 0.025,
+   "wall": "smooth",
+   "seconds": 7.227508783340454,
+   "Bpk_over_B0_face_rms": 1.4636313934222533,
+   "Epk_over_cB0_face_rms": 1.8387778746782932,
+   "Et_max_over_cB0": 0.01990957206094452,
+   "pump_peaks_at_rz": {
+    "B": [
+     0.0776559017233917,
+     -0.07437257827410096
+    ],
+    "E": [
+     0.05278107111359307,
+     -0.08345478425101976
+    ]
+   },
+   "checks": {
+    "int_E1^2 (1 expected)": 0.9998592418860054,
+    "int_E0^2 (1 expected)": 0.999880950059344,
+    "c^2 int B0^2 (1 expected at resonance)": 0.9998807897056651,
+    "c^2 int B1^2 (1 expected)": 0.9998828908103664,
+    "n_wall_points": 2905,
+    "subdiv": 4,
+    "volume_contour_vs_solver": -3.2431886065609206e-09
+   },
+   "mesh": {
+    "elements": 23259,
+    "nodes": null,
+    "order": 3
+   }
+  },
+  {
+   "f_pump_Hz": 1416510381.2313213,
+   "f_signal_Hz": 1416530690.8286188,
+   "splitting_Hz": 20309.59729743004,
+   "xi_pump": 7.6429807035511015,
+   "xi_signal": 7.643090286835699,
+   "eta_10": 0.4492115766108919,
+   "Bpk_over_B0": 1.4640064777921182,
+   "Epk_over_cB0": 1.8430904075131251,
+   "B_equator_over_B0": 1.4038818907686634,
+   "G_pump_ohm": 524.474027510777,
+   "G_signal_ohm": 604.4785472927227,
+   "A_over_V23": 6.182226853321625,
+   "V_m3": 0.017062847448197874,
+   "order": 3,
+   "h_over_Req": 0.0125,
+   "wall": "smooth",
+   "seconds": 20.347361087799072,
+   "Bpk_over_B0_face_rms": 1.4639555595906235,
+   "Epk_over_cB0_face_rms": 1.842187075710335,
+   "Et_max_over_cB0": 0.00946193761230751,
+   "pump_peaks_at_rz": {
+    "B": [
+     0.07768820179723156,
+     -0.07436885624431146
+    ],
+    "E": [
+     0.052737753884007185,
+     0.08349861458567259
+    ]
+   },
+   "checks": {
+    "int_E1^2 (1 expected)": 0.9999646688393112,
+    "int_E0^2 (1 expected)": 0.9999679935271583,
+    "c^2 int B0^2 (1 expected at resonance)": 0.9999667863730999,
+    "c^2 int B1^2 (1 expected)": 0.9999675168086462,
+    "n_wall_points": 5782,
+    "subdiv": 4,
+    "volume_contour_vs_solver": -2.0329726790890845e-10
+   },
+   "mesh": {
+    "elements": 52878,
+    "nodes": null,
+    "order": 3
+   }
+  }
+ ]
+}

@@ -1,0 +1,1013 @@
+{
+ "id": "analytic_stokes_sphere_3d",
+ "capability": "F1c",
+ "title": "Stokes flow past a sphere in 3D (exact far field on r = 4, and the concentric container), hex Q2/Q1 and tet P2/P1 on isoparametric cubed-sphere shells; drag against the closed forms",
+ "physics": "a = 1, mu = 37/100, U = 1 along z, shell 1 < r < 4 (the set-up of F1b's S1); BODY condition u = 0 on r = 1; r = 4: the exact unbounded field (drag 111 pi/50) or u = U e_z (concentric spheres, drag 12617 pi/2700)",
+ "levels": [
+  "analytic"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1c_stokes",
+   "function": "sphere_drag_3d",
+   "check_module": "f1c_stokes_check",
+   "cost": "long",
+   "timeout_s": 14000
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2 (tet) / Q2 (hex)",
+    "pressure": "P1 / Q1",
+    "geometry": "affine (cube, duct); isoparametric P2/Q2 with the fixed nodes (sphere)"
+   },
+   "ranks": 16,
+   "solver": {
+    "kind": "as mms_stokes_3d"
+   },
+   "forms": [
+    "sym",
+    "lap"
+   ],
+   "meshes": {
+    "sphere_hex": {
+     "family": "sphere_hex",
+     "n": [
+      2,
+      4,
+      8,
+      16
+     ],
+     "h_nominal": [
+      0.5,
+      0.25,
+      0.125,
+      0.0625
+     ],
+     "construction": "f1c_stokes_check.sphere_shell(n, 'hex'): cubed-sphere shell 1 < r < 4, 6 patches x n x n x n parametric cells (equiangular, geometric radial spacing), Q2 geometry with 27 nodes per element at the exact images of REF_Q2_HEX",
+     "h_definition": "h_nominal = 1/n (parametric)"
+    },
+    "sphere_tet": {
+     "family": "sphere_tet",
+     "n": [
+      2,
+      4,
+      8,
+      16
+     ],
+     "h_nominal": [
+      0.5,
+      0.25,
+      0.125,
+      0.0625
+     ],
+     "construction": "f1c_stokes_check.sphere_shell(n, 'tet'): the same parametric cells split into 6 Kuhn tetrahedra each (conforming across patches), P2 geometry with 10 nodes per element at the exact images of REF_P2_TET",
+     "h_definition": "h_nominal = 1/n (parametric)"
+    }
+   },
+   "fields": {
+    "unbounded": {
+     "path": "tools/fluids_mms/out/f1c_sphere_unbounded.json",
+     "sha256": "11fab3ded71a8b264261f01e0f669689ea3710b9a4b82dcb5fffff4d0dd0265a"
+    },
+    "concentric": {
+     "path": "tools/fluids_mms/out/f1c_sphere_concentric.json",
+     "sha256": "c9ca843875ed1cca9745c133e5a3b47e0b63f2b2535e1362ea685fae93eb2e51"
+    }
+   },
+   "geometry_input": "curved elements from the fixed node arrays f1c_stokes_check.sphere_shell(n, kind).X (10-node P2 tets / 27-node Q2 hexes, basix node order); the solver's element map must equal it (geometry_defect)",
+   "traction_variant": {
+    "name": "S1T",
+    "inner": "u = 0 (body condition) on r = 1",
+    "outer": "g = sigma_form(exact unbounded field)(x) x/|x| on r = 4 (vector data; the solver never needs a normal); pressure determined (raw pL2), nullspace_detected = 0",
+    "forms": [
+     "sym",
+     "lap"
+    ]
+   },
+   "quadrature_assumed": "viscous, divergence and grad-div rules exact to degree >= 4 on curved P2 tetrahedra and >= 3^3 Gauss on Q2 hexahedra (2^3 Gauss on curved Q2 has hourglass modes)",
+   "drag": "f1c_stokes_check.drag_sums (Babuska-Miller volume residual with the P2/Q2 test function equal to e_z at the sphere nodes, sym form) from the solution; the API's sol.reaction is reported alongside",
+   "shared_node_rule": "At a velocity node shared by several boundary attributes (edges and corners of the cube, the slip-symmetry edge of T4): (1) Dirichlet beats every natural condition and every slip/symmetry constraint; (2) between Dirichlet attributes the fixed data AGREE (one exact callable per field; checked: dirichlet_shared_node_mismatch_max), so no precedence is needed and the result is independent of attribute order; (3) at a node on two slip/symmetry faces BOTH normal constraints are imposed (u along the common edge only); (4) no periodic boundaries in F1c.",
+   "boundary_faces": {
+    "body": "r = 1",
+    "outer": "r = 4",
+    "predicate": "a node lies on a face iff its coordinate equals the face value to 1e-12 (|r - R| < 1e-9 for the spheres)"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "drag_unbounded": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 6.974335690969341,
+    "unit": "N",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "locator": "closed form"
+   },
+   "drag_concentric": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 14.680546114941638,
+    "unit": "N",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "locator": "closed form"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "hex_traction_sym_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.616028,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_traction_sym_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1(Omega) seminorm over all nine gradient components, same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.616028,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_traction_sym_pL2",
+    "level": "analytic",
+    "norm": "||p_h - p||_L2(Omega) (pressure determined by a natural boundary)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.46107,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_traction_lap_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.616028,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_traction_lap_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1(Omega) seminorm over all nine gradient components, same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.616028,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_traction_lap_pL2",
+    "level": "analytic",
+    "norm": "||p_h - p||_L2(Omega) (pressure determined by a natural boundary)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.46107,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_traction_sym_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.616028,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "allow_superconvergence": true,
+    "max_order": 3.5
+   },
+   {
+    "series": "tet_traction_sym_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1(Omega) seminorm over all nine gradient components, same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.616028,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_traction_sym_pL2",
+    "level": "analytic",
+    "norm": "||p_h - p||_L2(Omega) (pressure determined by a natural boundary)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.46107,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_traction_lap_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.616028,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_traction_lap_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1(Omega) seminorm over all nine gradient components, same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.616028,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_traction_lap_pL2",
+    "level": "analytic",
+    "norm": "||p_h - p||_L2(Omega) (pressure determined by a natural boundary)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.46107,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_unbounded_sym_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.804879,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_unbounded_sym_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1(Omega) seminorm over all nine gradient components, same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.804879,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_unbounded_sym_pL2m",
+    "level": "analytic",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.46107,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_unbounded_lap_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.804879,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_unbounded_lap_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1(Omega) seminorm over all nine gradient components, same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.804879,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_unbounded_lap_pL2m",
+    "level": "analytic",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.46107,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_concentric_sym_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.194975,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "hex_geometry_volume_err",
+    "level": "analytic",
+    "norm": "| |Omega_h| - 84 pi |: the volume of the solver's element map by the check module's quadrature (sum of |det J| w; no solve)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 263.893783,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_unbounded_sym_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.804879,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_unbounded_sym_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1(Omega) seminorm over all nine gradient components, same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.804879,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_unbounded_sym_pL2m",
+    "level": "analytic",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.46107,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_unbounded_lap_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.804879,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_unbounded_lap_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1(Omega) seminorm over all nine gradient components, same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.804879,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_unbounded_lap_pL2m",
+    "level": "analytic",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.46107,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_concentric_sym_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.194975,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "tet_geometry_volume_err",
+    "level": "analytic",
+    "norm": "| |Omega_h| - 84 pi |: the volume of the solver's element map by the check module's quadrature (sum of |det J| w; no solve)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 263.893783,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "functional_convergence": [
+   {
+    "id": "hex_traction_drag",
+    "series": "hex_traction_drag",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4.0,
+    "gci_cap_rel": 0.001
+   },
+   {
+    "id": "hex_unbounded_lap_Lres_drag",
+    "series": "hex_unbounded_lap_Lres_drag",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4.0,
+    "gci_cap_rel": 0.001
+   },
+   {
+    "id": "tet_traction_drag",
+    "series": "tet_traction_drag",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4.0,
+    "gci_cap_rel": 0.001
+   },
+   {
+    "id": "tet_unbounded_lap_Lres_drag",
+    "series": "tet_unbounded_lap_Lres_drag",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4.0,
+    "gci_cap_rel": 0.001
+   },
+   {
+    "id": "hex_unbounded_drag",
+    "series": "hex_unbounded_drag",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_hex.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4.0,
+    "gci_cap_rel": 0.001
+   },
+   {
+    "id": "tet_unbounded_drag",
+    "series": "tet_unbounded_drag",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4.0,
+    "gci_cap_rel": 0.001
+   },
+   {
+    "id": "tet_concentric_drag",
+    "series": "tet_concentric_drag",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sphere_tet.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4.0,
+    "gci_cap_rel": 0.001
+   }
+  ],
+  "comparisons": [
+   {
+    "quantity": "hex_traction_drag_finest",
+    "reference": "drag_unbounded",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-07
+    }
+   },
+   {
+    "quantity": "tet_traction_drag_finest",
+    "reference": "drag_unbounded",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 9.3e-07
+    }
+   },
+   {
+    "quantity": "hex_unbounded_drag_finest",
+    "reference": "drag_unbounded",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 4.8e-06
+    }
+   },
+   {
+    "quantity": "hex_concentric_drag_finest",
+    "reference": "drag_concentric",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1.6e-06
+    }
+   },
+   {
+    "quantity": "tet_unbounded_drag_finest",
+    "reference": "drag_unbounded",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3.7e-05
+    }
+   },
+   {
+    "quantity": "tet_concentric_drag_finest",
+    "reference": "drag_concentric",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3.3e-05
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "geometry_defect_max",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "api_reaction_vs_check_drag_rel_finest",
+    "level": "analytic",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "nullspace_detected",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "mesh_verify_failures",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "api_th_check_disagreements",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "comm_size_mismatch_runs",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "partition_failures",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "shared_dofs_min_runs",
+    "level": "analytic",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

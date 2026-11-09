@@ -1,0 +1,27 @@
+{
+  "check": "dielectric",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:17",
+  "a_m": 0.3,
+  "b_m": 0.5,
+  "eps_r": 4.0,
+  "C_F": 4.768724748333023e-11,
+  "C_exact_F": 4.7685002376339374e-11,
+  "relative_error": 4.708203583891901e-05,
+  "checks": {
+    "symmetry_relative": 0.0,
+    "energy_max_relative_difference": 1.4506208270813886e-06,
+    "charge_gauss_max_relative_difference": 0.011859343578212335,
+    "exterior_monopole_max_relative_difference": 0.003972989405006934,
+    "energy_superposition_relative": 1.4506208955767219e-06,
+    "mixed_potential_max_relative_difference": 1.876364788348397e-15,
+    "floating_max_relative_charge": null,
+    "min_slack_relative": 1.0,
+    "off_diagonal_signs_ok": true,
+    "max_relative_residual": 2.555936310475786e-14,
+    "dofs": 189461
+  },
+  "warnings": [],
+  "pass": true,
+  "headline": "C = 4.76872475e-11 F (exact 4.76850024e-11), rel err +4.71e-05"
+}

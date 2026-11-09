@@ -1,0 +1,540 @@
+[
+ {
+  "file": "Shielded_Toroid/Small_Shield.mph",
+  "checks": [
+   {
+    "check": "emw domains",
+    "ok": true,
+    "got": [
+     1,
+     6
+    ],
+    "expected": [
+     1,
+     6
+    ]
+   },
+   {
+    "check": "PEC sheet boundaries",
+    "ok": true,
+    "got": [
+     121,
+     122,
+     124,
+     125
+    ],
+    "expected": [
+     121,
+     122,
+     124,
+     125
+    ]
+   },
+   {
+    "check": "port boundaries",
+    "ok": true,
+    "got": [
+     123
+    ],
+    "expected": [
+     123
+    ]
+   },
+   {
+    "check": "port length (along the current)",
+    "ok": true,
+    "got": 0.00017453292497788102,
+    "expected": 0.00017453292519943296
+   },
+   {
+    "check": "port width",
+    "ok": true,
+    "got": 0.0010000000000000009,
+    "expected": 0.001
+   },
+   {
+    "check": "Zref",
+    "ok": true,
+    "got": 50.0,
+    "expected": 50.0
+   },
+   {
+    "check": "Je -> source",
+    "ok": true,
+    "got": {
+     "kind": "toroidal_box",
+     "B0_T": 1.0,
+     "r_m": [
+      0.5249887743909495,
+      0.9750009750000003
+     ],
+     "z_m": [
+      0.024999024999999942,
+      0.4750009750000002
+     ],
+     "profile": "uniform",
+     "domains": [
+      6
+     ]
+    },
+    "expected": {
+     "kind": "toroidal_box",
+     "B0_T": 1.0,
+     "domains": [
+      6
+     ]
+    }
+   },
+   {
+    "check": "study std2 frequencies",
+    "ok": true,
+    "got": [
+     100000.0,
+     10000000.0,
+     100
+    ],
+    "expected": [
+     100000.0,
+     10000000.0,
+     100
+    ]
+   },
+   {
+    "check": "study std3 frequencies",
+    "ok": true,
+    "got": [
+     300000000.0,
+     300000000.0,
+     1
+    ],
+    "expected": [
+     300000000.0,
+     300000000.0,
+     1
+    ]
+   },
+   {
+    "check": "mesh route volume, domain 1 (curved)",
+    "ok": true,
+    "got": 5.906844850689353,
+    "expected": 5.906848687218309
+   },
+   {
+    "check": "mesh route volume, domain 6 (curved)",
+    "ok": true,
+    "got": 0.9410046705308558,
+    "expected": 0.9410051745205678
+   },
+   {
+    "check": "replay route used",
+    "ok": true,
+    "got": "replay",
+    "expected": "replay"
+   },
+   {
+    "check": "replay volume, domain 1",
+    "ok": true,
+    "got": 5.906848676556234,
+    "expected": 5.906848687218309
+   },
+   {
+    "check": "replay volume, domain 6",
+    "ok": true,
+    "got": 0.9410051745205672,
+    "expected": 0.9410051745205678
+   }
+  ],
+  "straight_volume_rel": {
+   "1": -0.0024222306776519043,
+   "6": -0.00012823416176988012
+  },
+  "replay_regions": [
+   "domain_1",
+   "domain_6",
+   "pec_1",
+   "pec_2",
+   "pec_3",
+   "pec_4",
+   "pec_5",
+   "pec_6",
+   "pec_7",
+   "pec_8",
+   "sheet_pec_rev2_ls1",
+   "port_rev3_ls1"
+  ],
+  "ok": true
+ },
+ {
+  "file": "Toroid_With_Epoxy/Small_Shield.mph",
+  "checks": [
+   {
+    "check": "emw domains",
+    "ok": true,
+    "got": [
+     1,
+     3,
+     4
+    ],
+    "expected": [
+     1,
+     3,
+     4
+    ]
+   },
+   {
+    "check": "PEC sheet boundaries",
+    "ok": true,
+    "got": [
+     61,
+     62,
+     64,
+     65
+    ],
+    "expected": [
+     61,
+     62,
+     64,
+     65
+    ]
+   },
+   {
+    "check": "port boundaries",
+    "ok": true,
+    "got": [
+     63
+    ],
+    "expected": [
+     63
+    ]
+   },
+   {
+    "check": "port length (along the current)",
+    "ok": true,
+    "got": 0.00017453292497786717,
+    "expected": 0.00017453292519943296
+   },
+   {
+    "check": "port width",
+    "ok": true,
+    "got": 0.0010000000000000009,
+    "expected": 0.001
+   },
+   {
+    "check": "Zref",
+    "ok": true,
+    "got": 50.0,
+    "expected": 50.0
+   },
+   {
+    "check": "Je -> source",
+    "ok": true,
+    "got": {
+     "kind": "toroidal_box",
+     "B0_T": 1.0,
+     "r_m": [
+      0.524988938207759,
+      0.9750009750000006
+     ],
+     "z_m": [
+      0.02499902499999994,
+      0.4750009750000003
+     ],
+     "profile": "uniform",
+     "domains": [
+      3,
+      4
+     ]
+    },
+    "expected": {
+     "kind": "toroidal_box",
+     "B0_T": 1.0,
+     "domains": [
+      3,
+      4
+     ]
+    }
+   },
+   {
+    "check": "material eps' (650 MHz)",
+    "ok": true,
+    "got": 3.049,
+    "expected": 3.0489964499999997
+   },
+   {
+    "check": "material tan delta",
+    "ok": true,
+    "got": 0.0021,
+    "expected": 0.0021
+   },
+   {
+    "check": "study std5 frequencies",
+    "ok": true,
+    "got": [
+     650000000.0,
+     650000000.0,
+     1
+    ],
+    "expected": [
+     650000000.0,
+     650000000.0,
+     1
+    ]
+   },
+   {
+    "check": "mesh route volume, domain 1 (curved)",
+    "ok": true,
+    "got": 5.906847824038037,
+    "expected": 5.906848687218309
+   },
+   {
+    "check": "mesh route volume, domain 3 (curved)",
+    "ok": true,
+    "got": 0.1787909165801981,
+    "expected": 0.1787909831589078
+   },
+   {
+    "check": "mesh route volume, domain 4 (curved)",
+    "ok": true,
+    "got": 0.7622137630131222,
+    "expected": 0.76221419136166
+   },
+   {
+    "check": "replay route used",
+    "ok": true,
+    "got": "replay",
+    "expected": "replay"
+   },
+   {
+    "check": "replay volume, domain 1",
+    "ok": true,
+    "got": 5.9068486765562325,
+    "expected": 5.906848687218309
+   },
+   {
+    "check": "replay volume, domain 3",
+    "ok": true,
+    "got": 0.17879098315890787,
+    "expected": 0.1787909831589078
+   },
+   {
+    "check": "replay volume, domain 4",
+    "ok": true,
+    "got": 0.7622141913616599,
+    "expected": 0.76221419136166
+   }
+  ],
+  "straight_volume_rel": {
+   "1": -0.0005314295004025249,
+   "3": -8.184714994030617e-05,
+   "4": -4.771599683150995e-07
+  },
+  "replay_regions": [
+   "domain_1",
+   "domain_3",
+   "domain_4",
+   "pec_1",
+   "sheet_pec_rev2_ls1",
+   "port_rev3_ls1"
+  ],
+  "ok": true
+ },
+ {
+  "file": "Shielded_Solenoid/Model_File.mph",
+  "checks": [
+   {
+    "check": "emw domains",
+    "ok": true,
+    "got": [
+     1,
+     3,
+     4,
+     5
+    ],
+    "expected": [
+     1,
+     3,
+     4,
+     5
+    ]
+   },
+   {
+    "check": "PEC sheet boundaries",
+    "ok": true,
+    "got": [
+     74,
+     75,
+     76,
+     78,
+     81,
+     82,
+     83,
+     84
+    ],
+    "expected": [
+     74,
+     75,
+     76,
+     78,
+     81,
+     82,
+     83,
+     84
+    ]
+   },
+   {
+    "check": "port boundaries",
+    "ok": true,
+    "got": [
+     79,
+     80
+    ],
+    "expected": [
+     79,
+     80
+    ]
+   },
+   {
+    "check": "port length (along the current)",
+    "ok": true,
+    "got": 0.0004999999999998339,
+    "expected": 0.0005
+   },
+   {
+    "check": "port width",
+    "ok": true,
+    "got": 0.001,
+    "expected": 0.001
+   },
+   {
+    "check": "Zref",
+    "ok": true,
+    "got": 50.0,
+    "expected": 50.0
+   },
+   {
+    "check": "Je -> source",
+    "ok": true,
+    "got": {
+     "kind": "uniform",
+     "B_T": [
+      0.0,
+      0.0,
+      1.0
+     ],
+     "domains": [
+      5
+     ]
+    },
+    "expected": {
+     "kind": "uniform",
+     "B_T": [
+      0,
+      0,
+      1
+     ],
+     "domains": [
+      5
+     ]
+    }
+   },
+   {
+    "check": "study std2 frequencies",
+    "ok": true,
+    "got": [
+     5000000.0,
+     25000000.0,
+     20001
+    ],
+    "expected": [
+     5000000.0,
+     25000000.0,
+     20001
+    ]
+   },
+   {
+    "check": "study std3 frequencies",
+    "ok": true,
+    "got": [
+     5000000.0,
+     5000000.0,
+     1
+    ],
+    "expected": [
+     5000000.0,
+     5000000.0,
+     1
+    ]
+   },
+   {
+    "check": "mesh route volume, domain 5 (curved)",
+    "ok": true,
+    "got": 1.1780932648778921,
+    "expected": 1.1780972450961724
+   },
+   {
+    "check": "mesh route volume, domain 4 (curved)",
+    "ok": true,
+    "got": 0.0011780909034527663,
+    "expected": 0.0011780972450961735
+   },
+   {
+    "check": "mesh route volume, domain 3 (curved)",
+    "ok": true,
+    "got": 3.074839098237639,
+    "expected": 3.0748338097010097
+   },
+   {
+    "check": "mesh route volume, domain 1 (curved)",
+    "ok": true,
+    "got": 12.959070456913624,
+    "expected": 12.959069696057897
+   },
+   {
+    "check": "replay route used",
+    "ok": true,
+    "got": "replay",
+    "expected": "replay"
+   },
+   {
+    "check": "replay volume, domain 5",
+    "ok": true,
+    "got": 1.1780972450961726,
+    "expected": 1.1780972450961724
+   },
+   {
+    "check": "replay volume, domain 4",
+    "ok": true,
+    "got": 0.0011780972450960853,
+    "expected": 0.0011780972450961735
+   },
+   {
+    "check": "replay volume, domain 3",
+    "ok": true,
+    "got": 3.07483380970101,
+    "expected": 3.0748338097010097
+   },
+   {
+    "check": "replay volume, domain 1",
+    "ok": true,
+    "got": 12.959069691057898,
+    "expected": 12.959069696057897
+   }
+  ],
+  "straight_volume_rel": {
+   "5": -0.006157740304407522,
+   "4": 2.7189538609473374e-05,
+   "3": -0.00024464646939492685,
+   "1": -0.00045740041825725886
+  },
+  "replay_regions": [
+   "domain_1",
+   "domain_3",
+   "domain_4",
+   "domain_5",
+   "pec_1",
+   "sheet_pec_wp1_r1",
+   "port_wp1_r1_r2"
+  ],
+  "ok": true
+ }
+]

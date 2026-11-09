@@ -1,0 +1,774 @@
+{
+ "case": "closed cylinder a = 0.1 m, L = 0.2 m; STRUMPACK shift-invert Lanczos, ND2",
+ "window": [
+  {
+   "h_m": 0.02,
+   "target_f_Hz": 2100000000.0,
+   "modes_requested": 17,
+   "analytic_in_window": 17,
+   "dofs": 25674,
+   "seconds": 6.263005256652832,
+   "diag": {
+    "requested": 17,
+    "returned": 17,
+    "converged": true,
+    "max_relative_residual": 2.4307562047556703e-11,
+    "max_mass_overlap": 1.863093013199091e-15
+   },
+   "solver": {
+    "completeness_check": {
+     "missing_in_window": 0,
+     "missing_ritz_estimate": 0.0,
+     "near_degenerate_outside_window": 0,
+     "nearest_distance_over_halfwidth": 1.1241160867525573,
+     "note": "heuristic: a short Lanczos run on the M-orthogonal complement of the returned modes (fresh start vector); a Ritz value with |lambda - sigma| below the returned window's half-width is a mode the main run missed; one within 1e-4 (in k^2) of a returned mode but outside the window is the partner of a near-degenerate pair cut by the window edge. Ritz values approach from outside the window, so a clean check is evidence, not a proof, of completeness",
+     "ritz_values_checked": 20,
+     "steps": 20,
+     "window_halfwidth_k2": 624.1876659275722
+    },
+    "converged": true,
+    "factor_nonzeros": 10233388,
+    "factorization_seconds": 0.653749542,
+    "h1_free_dofs": 3659.0,
+    "inertia": {
+     "accurate": false,
+     "negative": null,
+     "positive": null,
+     "scope": "discrete factor only; a justified curl-free kernel count is required before inferring a pole bound; no continuum certification",
+     "status": "BACKEND_INERTIA_SELF_CHECK_FAILED",
+     "zero": null
+    },
+    "kernel_ritz_values_discarded": 0,
+    "kernel_threshold_lambda_over_sigma": 1e-06,
+    "lanczos_seconds": 2.015441024,
+    "lanczos_steps": 55,
+    "max_steps": 162,
+    "method": "shift_invert",
+    "note": "STRUMPACK LU of A - sigma M (rank 0), M-inner-product Lanczos with full reorthogonalization; Lanczos vectors are deflated against discrete gradients; lambda ~ 0 Ritz values (curl kernel, e.g. floating conductors) are discarded",
+    "restarts_after_invariant_subspace": 0,
+    "ritz_estimates": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     8.555270545623186e-42,
+     1.673718545801575e-41,
+     2.195974939134179e-40,
+     1.6537708534146465e-35,
+     5.867602965272414e-27,
+     3.74225996322101e-27,
+     6.723904439043425e-18,
+     8.144888825260895e-18,
+     3.8629851858053483e-19,
+     3.0249076649541936e-21,
+     1.9796727850927057e-22,
+     1.3029807803683408e-12,
+     7.178413433273481e-14
+    ],
+    "ritz_tolerance": 1e-09,
+    "seconds": 3.266720311,
+    "shift_k2_per_m2": 1937.1217630134834,
+    "solves": 77,
+    "target_f_Hz": 2100000000.0
+   },
+   "modes": [
+    {
+     "name": "TE112(cos)",
+     "f_Hz": 1737586442.2291834,
+     "f_exact_Hz": 1737422437.0142186,
+     "rel": 9.439570450497925e-05,
+     "residual_true": 2.119103719169228e-13,
+     "divergence_fraction": 6.655540497447298e-31,
+     "rayleigh_ratio_minus_1": -6.661338147750939e-15
+    },
+    {
+     "name": "TE112(sin)",
+     "f_Hz": 1737595054.1936276,
+     "f_exact_Hz": 1737422437.0142186,
+     "rel": 9.935245207581822e-05,
+     "residual_true": 1.2513393333644116e-13,
+     "divergence_fraction": 1.5410189061442015e-31,
+     "rayleigh_ratio_minus_1": 1.1102230246251565e-15
+    },
+    {
+     "name": "TM110(cos)",
+     "f_Hz": 1828445995.7672489,
+     "f_exact_Hz": 1828239173.2568905,
+     "rel": 0.00011312661569862215,
+     "residual_true": 1.2031834940839054e-13,
+     "divergence_fraction": 1.7262555410859037e-31,
+     "rayleigh_ratio_minus_1": -1.4432899320127035e-15
+    },
+    {
+     "name": "TM110(sin)",
+     "f_Hz": 1828496457.0838633,
+     "f_exact_Hz": 1828239173.2568905,
+     "rel": 0.00014072766339112697,
+     "residual_true": 8.698018386029183e-14,
+     "divergence_fraction": 1.4475087478102045e-31,
+     "rayleigh_ratio_minus_1": -7.771561172376096e-16
+    },
+    {
+     "name": "TM012",
+     "f_Hz": 1887835526.2004125,
+     "f_exact_Hz": 1887716270.058464,
+     "rel": 6.317482337792057e-05,
+     "residual_true": 1.8922003733970687e-13,
+     "divergence_fraction": 8.607116156612945e-31,
+     "rayleigh_ratio_minus_1": -5.329070518200751e-15
+    },
+    {
+     "name": "TE011",
+     "f_Hz": 1976069762.2357295,
+     "f_exact_Hz": 1975899911.772241,
+     "rel": 8.596106638614209e-05,
+     "residual_true": 6.064140387200272e-14,
+     "divergence_fraction": 1.256007593880344e-31,
+     "rayleigh_ratio_minus_1": -5.551115123125783e-16
+    },
+    {
+     "name": "TM111(cos)",
+     "f_Hz": 1976106267.2501392,
+     "f_exact_Hz": 1975899911.772241,
+     "rel": 0.00010443619976330254,
+     "residual_true": 2.452093277520207e-13,
+     "divergence_fraction": 1.715886913579801e-30,
+     "rayleigh_ratio_minus_1": 5.10702591327572e-15
+    },
+    {
+     "name": "TM111(sin)",
+     "f_Hz": 1976466861.0064974,
+     "f_exact_Hz": 1975899911.772241,
+     "rel": 0.0002869321623419907,
+     "residual_true": 5.461705068751664e-14,
+     "divergence_fraction": 1.5085083095787874e-31,
+     "rayleigh_ratio_minus_1": 2.220446049250313e-16
+    },
+    {
+     "name": "TE212(cos)",
+     "f_Hz": 2090881739.04567,
+     "f_exact_Hz": 2090588041.9807816,
+     "rel": 0.00014048538449018544,
+     "residual_true": 3.2296975080868675e-14,
+     "divergence_fraction": 9.820113722359881e-32,
+     "rayleigh_ratio_minus_1": 6.661338147750939e-16
+    },
+    {
+     "name": "TE212(sin)",
+     "f_Hz": 2090903177.5641882,
+     "f_exact_Hz": 2090588041.9807816,
+     "rel": 0.00015074016357052855,
+     "residual_true": 2.7864868001706213e-14,
+     "divergence_fraction": 9.843855410416691e-32,
+     "rayleigh_ratio_minus_1": 1.1102230246251565e-15
+    },
+    {
+     "name": "TE311(cos)",
+     "f_Hz": 2140259482.3961554,
+     "f_exact_Hz": 2140063441.8377547,
+     "rel": 9.160502187377517e-05,
+     "residual_true": 5.2250410037119825e-14,
+     "divergence_fraction": 1.713624133838854e-31,
+     "rayleigh_ratio_minus_1": 6.661338147750939e-16
+    },
+    {
+     "name": "TE311(sin)",
+     "f_Hz": 2140283779.098323,
+     "f_exact_Hz": 2140063441.8377547,
+     "rel": 0.0001029582844418453,
+     "residual_true": 4.205710154906791e-14,
+     "divergence_fraction": 1.4056015144868655e-31,
+     "rayleigh_ratio_minus_1": 1.7763568394002505e-15
+    },
+    {
+     "name": "TE012",
+     "f_Hz": 2364508769.256405,
+     "f_exact_Hz": 2364179862.33558,
+     "rel": 0.00013912093832835204,
+     "residual_true": 1.0088812905341982e-13,
+     "divergence_fraction": 8.165694719546896e-31,
+     "rayleigh_ratio_minus_1": 1.7763568394002505e-15
+    },
+    {
+     "name": "TM112(cos)",
+     "f_Hz": 2364548550.906463,
+     "f_exact_Hz": 2364179862.33558,
+     "rel": 0.00015594776723926174,
+     "residual_true": 9.060186995984931e-14,
+     "divergence_fraction": 6.916453459462216e-31,
+     "rayleigh_ratio_minus_1": 4.440892098500626e-16
+    },
+    {
+     "name": "TM112(sin)",
+     "f_Hz": 2365058469.3051753,
+     "f_exact_Hz": 2364179862.33558,
+     "rel": 0.00037163287937302947,
+     "residual_true": 1.1598434249976246e-13,
+     "divergence_fraction": 1.8640098293515404e-30,
+     "rayleigh_ratio_minus_1": -3.885780586188048e-15
+    },
+    {
+     "name": "TE113(cos)",
+     "f_Hz": 2414705836.0607185,
+     "f_exact_Hz": 2413969067.364572,
+     "rel": 0.00030521049590359617,
+     "residual_true": 2.4307562047556703e-11,
+     "divergence_fraction": 1.0271313965177465e-31,
+     "rayleigh_ratio_minus_1": 8.881784197001252e-16
+    },
+    {
+     "name": "TE113(sin)",
+     "f_Hz": 2414748242.797497,
+     "f_exact_Hz": 2413969067.364572,
+     "rel": 0.0003227777205012661,
+     "residual_true": 1.3261687374414126e-12,
+     "divergence_fraction": 3.3844458216644813e-31,
+     "rayleigh_ratio_minus_1": -8.881784197001252e-16
+    }
+   ],
+   "vs_ame": [
+    {
+     "f_Hz": 1737586442.2291834,
+     "rel_vs_ame": -1.1579626146840383e-13
+    },
+    {
+     "f_Hz": 1737595054.1936276,
+     "rel_vs_ame": -1.4155343563970746e-13
+    },
+    {
+     "f_Hz": 1828445995.7672489,
+     "rel_vs_ame": -4.1744385725905886e-13
+    },
+    {
+     "f_Hz": 1828496457.0838633,
+     "rel_vs_ame": -3.002598170098736e-12
+    },
+    {
+     "f_Hz": 1887835526.2004125,
+     "rel_vs_ame": -3.363864742311762e-12
+    },
+    {
+     "f_Hz": 1976069762.2357295,
+     "rel_vs_ame": -6.485639947317878e-08
+    }
+   ]
+  },
+  {
+   "h_m": 0.01,
+   "target_f_Hz": 2100000000.0,
+   "modes_requested": 17,
+   "analytic_in_window": 17,
+   "dofs": 176002,
+   "seconds": 49.71321988105774,
+   "diag": {
+    "requested": 17,
+    "returned": 17,
+    "converged": true,
+    "max_relative_residual": 2.5222282967318762e-08,
+    "max_mass_overlap": 2.040034807748725e-15
+   },
+   "solver": {
+    "completeness_check": {
+     "missing_in_window": 0,
+     "missing_ritz_estimate": 0.0,
+     "near_degenerate_outside_window": 0,
+     "nearest_distance_over_halfwidth": 1.1249161869177353,
+     "note": "heuristic: a short Lanczos run on the M-orthogonal complement of the returned modes (fresh start vector); a Ritz value with |lambda - sigma| below the returned window's half-width is a mode the main run missed; one within 1e-4 (in k^2) of a returned mode but outside the window is the partner of a near-degenerate pair cut by the window edge. Ritz values approach from outside the window, so a clean check is evidence, not a proof, of completeness",
+     "ritz_values_checked": 20,
+     "steps": 20,
+     "window_halfwidth_k2": 622.6649780437597
+    },
+    "converged": true,
+    "factor_nonzeros": 160504636,
+    "factorization_seconds": 11.652273325,
+    "h1_free_dofs": 30066.0,
+    "inertia": {
+     "accurate": false,
+     "negative": null,
+     "positive": null,
+     "scope": "discrete factor only; a justified curl-free kernel count is required before inferring a pole bound; no continuum certification",
+     "status": "BACKEND_INERTIA_SELF_CHECK_FAILED",
+     "zero": null
+    },
+    "kernel_ritz_values_discarded": 0,
+    "kernel_threshold_lambda_over_sigma": 1e-06,
+    "lanczos_seconds": 16.130466364,
+    "lanczos_steps": 50,
+    "max_steps": 162,
+    "method": "shift_invert",
+    "note": "STRUMPACK LU of A - sigma M (rank 0), M-inner-product Lanczos with full reorthogonalization; Lanczos vectors are deflated against discrete gradients; lambda ~ 0 Ritz values (curl kernel, e.g. floating conductors) are discarded",
+    "restarts_after_invariant_subspace": 0,
+    "ritz_estimates": [
+     0.0,
+     0.0,
+     4.547613137718642e-57,
+     2.590912024512632e-57,
+     5.563718917825089e-33,
+     1.0823585244513047e-31,
+     1.4281424078630337e-31,
+     1.1614323472023664e-28,
+     3.113642710849357e-20,
+     9.260537561137865e-19,
+     7.86801635310695e-11,
+     2.1166320833150164e-10,
+     1.771293446681547e-11,
+     6.6768736652749016e-15,
+     2.166640016946735e-15,
+     7.767041429717286e-10,
+     5.129855194551463e-10
+    ],
+    "ritz_tolerance": 1e-09,
+    "seconds": 31.216807985,
+    "shift_k2_per_m2": 1937.1217630134834,
+    "solves": 72,
+    "target_f_Hz": 2100000000.0
+   },
+   "modes": [
+    {
+     "name": "TE112(cos)",
+     "f_Hz": 1737434075.7471957,
+     "f_exact_Hz": 1737422437.0142186,
+     "rel": 6.698850394171174e-06,
+     "residual_true": 4.2130280694360996e-13,
+     "divergence_fraction": 7.89429188249557e-31,
+     "rayleigh_ratio_minus_1": 3.3306690738754696e-15
+    },
+    {
+     "name": "TE112(sin)",
+     "f_Hz": 1737434386.006855,
+     "f_exact_Hz": 1737422437.0142186,
+     "rel": 6.877425076323718e-06,
+     "residual_true": 7.573606472213414e-13,
+     "divergence_fraction": 2.3769415497923154e-31,
+     "rayleigh_ratio_minus_1": 4.440892098500626e-16
+    },
+    {
+     "name": "TM110(cos)",
+     "f_Hz": 1828252116.7557151,
+     "f_exact_Hz": 1828239173.2568905,
+     "rel": 7.07976232749985e-06,
+     "residual_true": 1.4397405019307595e-13,
+     "divergence_fraction": 1.4034634360846917e-31,
+     "rayleigh_ratio_minus_1": 3.1086244689504383e-15
+    },
+    {
+     "name": "TM110(sin)",
+     "f_Hz": 1828252449.7640986,
+     "f_exact_Hz": 1828239173.2568905,
+     "rel": 7.261909383826648e-06,
+     "residual_true": 8.257844439465524e-13,
+     "divergence_fraction": 5.128641246793964e-30,
+     "rayleigh_ratio_minus_1": 3.3306690738754696e-15
+    },
+    {
+     "name": "TM012",
+     "f_Hz": 1887726112.8658066,
+     "f_exact_Hz": 1887716270.058464,
+     "rel": 5.214134930486836e-06,
+     "residual_true": 2.0767128686843723e-13,
+     "divergence_fraction": 2.8337073057416035e-31,
+     "rayleigh_ratio_minus_1": 4.218847493575595e-15
+    },
+    {
+     "name": "TE011",
+     "f_Hz": 1975913604.3077576,
+     "f_exact_Hz": 1975899911.772241,
+     "rel": 6.929771814379038e-06,
+     "residual_true": 1.5904184170924448e-13,
+     "divergence_fraction": 2.1468091260587007e-31,
+     "rayleigh_ratio_minus_1": -5.551115123125783e-16
+    },
+    {
+     "name": "TM111(cos)",
+     "f_Hz": 1975914278.0254414,
+     "f_exact_Hz": 1975899911.772241,
+     "rel": 7.270739329712228e-06,
+     "residual_true": 1.8361857723205352e-13,
+     "divergence_fraction": 2.9194187876406616e-31,
+     "rayleigh_ratio_minus_1": 8.881784197001252e-16
+    },
+    {
+     "name": "TM111(sin)",
+     "f_Hz": 1975931524.6362379,
+     "f_exact_Hz": 1975899911.772241,
+     "rel": 1.5999223345497526e-05,
+     "residual_true": 1.4986155513562857e-13,
+     "divergence_fraction": 2.172940561445809e-31,
+     "rayleigh_ratio_minus_1": 2.220446049250313e-16
+    },
+    {
+     "name": "TE212(cos)",
+     "f_Hz": 2090612796.813431,
+     "f_exact_Hz": 2090588041.9807816,
+     "rel": 1.1841085929997774e-05,
+     "residual_true": 9.915263070857515e-14,
+     "divergence_fraction": 1.0662637549688657e-31,
+     "rayleigh_ratio_minus_1": 6.661338147750939e-16
+    },
+    {
+     "name": "TE212(sin)",
+     "f_Hz": 2090613056.3066082,
+     "f_exact_Hz": 2090588041.9807816,
+     "rel": 1.1965210421349681e-05,
+     "residual_true": 9.920440193680016e-14,
+     "divergence_fraction": 1.1986347612213266e-31,
+     "rayleigh_ratio_minus_1": 2.4424906541753444e-15
+    },
+    {
+     "name": "TE311(cos)",
+     "f_Hz": 2140084224.071622,
+     "f_exact_Hz": 2140063441.8377547,
+     "rel": 9.711036346393698e-06,
+     "residual_true": 1.0517597747147304e-13,
+     "divergence_fraction": 1.155925336259771e-31,
+     "rayleigh_ratio_minus_1": 1.7763568394002505e-15
+    },
+    {
+     "name": "TE311(sin)",
+     "f_Hz": 2140084827.210124,
+     "f_exact_Hz": 2140063441.8377547,
+     "rel": 9.992868412744826e-06,
+     "residual_true": 1.1610292206269859e-13,
+     "divergence_fraction": 1.1771763385902287e-31,
+     "rayleigh_ratio_minus_1": 2.4424906541753444e-15
+    },
+    {
+     "name": "TE012",
+     "f_Hz": 2364210196.5398808,
+     "f_exact_Hz": 2364179862.33558,
+     "rel": 1.2830751494163906e-05,
+     "residual_true": 2.7296167956700116e-09,
+     "divergence_fraction": 1.962976063088013e-30,
+     "rayleigh_ratio_minus_1": 4.6629367034256575e-15
+    },
+    {
+     "name": "TM112(cos)",
+     "f_Hz": 2364210822.211163,
+     "f_exact_Hz": 2364179862.33558,
+     "rel": 1.3095397721762936e-05,
+     "residual_true": 7.308427149586936e-09,
+     "divergence_fraction": 3.7499007651748614e-31,
+     "rayleigh_ratio_minus_1": -3.3306690738754696e-16
+    },
+    {
+     "name": "TM112(sin)",
+     "f_Hz": 2364240177.241942,
+     "f_exact_Hz": 2364179862.33558,
+     "rel": 2.5511978730019536e-05,
+     "residual_true": 5.850159770516227e-10,
+     "divergence_fraction": 1.4931926967592012e-31,
+     "rayleigh_ratio_minus_1": 2.6645352591003757e-15
+    },
+    {
+     "name": "TE113(cos)",
+     "f_Hz": 2414026222.236794,
+     "f_exact_Hz": 2413969067.364572,
+     "rel": 2.3676721046195226e-05,
+     "residual_true": 2.5222282967318762e-08,
+     "divergence_fraction": 1.4325501783427e-30,
+     "rayleigh_ratio_minus_1": 8.881784197001252e-16
+    },
+    {
+     "name": "TE113(sin)",
+     "f_Hz": 2414030357.1548343,
+     "f_exact_Hz": 2413969067.364572,
+     "rel": 2.538963364973057e-05,
+     "residual_true": 1.6578521004647417e-08,
+     "divergence_fraction": 3.080628266059707e-30,
+     "rayleigh_ratio_minus_1": 2.6645352591003757e-15
+    }
+   ]
+  }
+ ],
+ "ranks": [
+  {
+   "ranks": 1,
+   "seconds": 11.89015793800354,
+   "solver_seconds": 10.820087561,
+   "factorization_seconds": 0.598698777,
+   "lanczos_seconds": 4.380203802,
+   "max_rel_diff_vs_1_rank": 0.0
+  },
+  {
+   "ranks": 4,
+   "seconds": 8.049371242523193,
+   "solver_seconds": 4.910320289,
+   "factorization_seconds": 0.582621103,
+   "lanczos_seconds": 2.5996644,
+   "max_rel_diff_vs_1_rank": 1.9984014443252818e-15
+  },
+  {
+   "ranks": 16,
+   "seconds": 6.121748924255371,
+   "solver_seconds": 3.194814604,
+   "factorization_seconds": 0.6384391,
+   "lanczos_seconds": 1.973773758,
+   "max_rel_diff_vs_1_rank": 4.218847493575595e-15
+  }
+ ],
+ "exact_target": {
+  "target_f_Hz": 1147445388.7446222,
+  "mode": "TM010",
+  "returned": 8,
+  "requested": 8,
+  "diag": {
+   "requested": 8,
+   "returned": 8,
+   "converged": true,
+   "max_relative_residual": 6.744782129142979e-09,
+   "max_mass_overlap": 1.4242079737769586e-15
+  },
+  "solver": {
+   "completeness_check": {
+    "missing_in_window": 0,
+    "missing_ritz_estimate": 0.0,
+    "near_degenerate_outside_window": 0,
+    "nearest_distance_over_halfwidth": 1.1902837552865055,
+    "note": "heuristic: a short Lanczos run on the M-orthogonal complement of the returned modes (fresh start vector); a Ritz value with |lambda - sigma| below the returned window's half-width is a mode the main run missed; one within 1e-4 (in k^2) of a returned mode but outside the window is the partner of a near-degenerate pair cut by the window edge. Ritz values approach from outside the window, so a clean check is evidence, not a proof, of completeness",
+    "ritz_values_checked": 20,
+    "steps": 20,
+    "window_halfwidth_k2": 747.8808305486741
+   },
+   "converged": true,
+   "factor_nonzeros": 10233388,
+   "factorization_seconds": 0.640073419,
+   "h1_free_dofs": 3659.0,
+   "inertia": {
+    "accurate": false,
+    "negative": null,
+    "positive": null,
+    "scope": "discrete factor only; a justified curl-free kernel count is required before inferring a pole bound; no continuum certification",
+    "status": "BACKEND_INERTIA_SELF_CHECK_FAILED",
+    "zero": null
+   },
+   "kernel_ritz_values_discarded": 0,
+   "kernel_threshold_lambda_over_sigma": 1e-06,
+   "lanczos_seconds": 1.517999964,
+   "lanczos_steps": 35,
+   "max_steps": 150,
+   "method": "shift_invert",
+   "note": "STRUMPACK LU of A - sigma M (rank 0), M-inner-product Lanczos with full reorthogonalization; Lanczos vectors are deflated against discrete gradients; lambda ~ 0 Ritz values (curl kernel, e.g. floating conductors) are discarded",
+   "restarts_after_invariant_subspace": 1,
+   "ritz_estimates": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    5.838958295206179e-14,
+    2.491201115278296e-14,
+    2.0449596906843357e-10,
+    2.905279053424619e-10
+   ],
+   "ritz_tolerance": 1e-09,
+   "seconds": 2.484452724,
+   "shift_k2_per_m2": 578.3388683178109,
+   "solves": 58,
+   "target_f_Hz": 1147445388.7446222
+  },
+  "nearest_rel": 6.661338147750939e-16,
+  "max_residual_true": 6.744782129142979e-09
+ },
+ "floating_rod": {
+  "rod": {
+   "radius": 0.02,
+   "gap": 0.02
+  },
+  "h_m": 0.02,
+  "ame": {
+   "diag": {
+    "requested": 6,
+    "returned": 6,
+    "converged": false,
+    "max_relative_residual": 0.9999997138753843,
+    "max_mass_overlap": 8.854028621385623e-15
+   },
+   "f_Hz": [
+    85.17125328432118,
+    565715841.3806803,
+    1084372474.628105,
+    1084393475.973095,
+    1123551748.7566905,
+    1629051568.7696352
+   ],
+   "residual_true": [
+    0.9999997138753843,
+    3.5108237302533317e-06,
+    5.007765872158092e-06,
+    4.302746580330232e-06,
+    1.2434528062452953e-05,
+    1.202242866129495e-05
+   ]
+  },
+  "shift_invert": {
+   "target_f_Hz": 1200000000.0,
+   "diag": {
+    "requested": 6,
+    "returned": 6,
+    "converged": true,
+    "max_relative_residual": 2.1190629455215797e-11,
+    "max_mass_overlap": 7.91033905045424e-16
+   },
+   "solver": {
+    "completeness_check": {
+     "missing_in_window": 0,
+     "missing_ritz_estimate": 0.0,
+     "near_degenerate_outside_window": 0,
+     "nearest_distance_over_halfwidth": 1.0261606912891064,
+     "note": "heuristic: a short Lanczos run on the M-orthogonal complement of the returned modes (fresh start vector); a Ritz value with |lambda - sigma| below the returned window's half-width is a mode the main run missed; one within 1e-4 (in k^2) of a returned mode but outside the window is the partner of a near-degenerate pair cut by the window edge. Ritz values approach from outside the window, so a clean check is evidence, not a proof, of completeness",
+     "ritz_values_checked": 19,
+     "steps": 20,
+     "window_halfwidth_k2": 533.2278094238136
+    },
+    "converged": true,
+    "factor_nonzeros": 13121728,
+    "factorization_seconds": 0.838320378,
+    "h1_free_dofs": 4162.0,
+    "inertia": {
+     "accurate": false,
+     "negative": null,
+     "positive": null,
+     "scope": "discrete factor only; a justified curl-free kernel count is required before inferring a pole bound; no continuum certification",
+     "status": "BACKEND_INERTIA_SELF_CHECK_FAILED",
+     "zero": null
+    },
+    "kernel_ritz_values_discarded": 1,
+    "kernel_threshold_lambda_over_sigma": 1e-06,
+    "lanczos_seconds": 1.920836749,
+    "lanczos_steps": 35,
+    "max_steps": 150,
+    "method": "shift_invert",
+    "note": "STRUMPACK LU of A - sigma M (rank 0), M-inner-product Lanczos with full reorthogonalization; Lanczos vectors are deflated against discrete gradients; lambda ~ 0 Ritz values (curl kernel, e.g. floating conductors) are discarded",
+    "restarts_after_invariant_subspace": 0,
+    "ritz_estimates": [
+     8.262128459789835e-51,
+     1.5720445909661037e-42,
+     2.8567860871169907e-42,
+     3.786868221589728e-27,
+     1.2114203006053174e-13,
+     4.3266561699906085e-13
+    ],
+    "ritz_tolerance": 1e-09,
+    "seconds": 3.109510932,
+    "shift_k2_per_m2": 632.5295552697089,
+    "solves": 57,
+    "target_f_Hz": 1200000000.0
+   },
+   "f_Hz": [
+    565715841.3805476,
+    1084372474.6277075,
+    1084393475.9728422,
+    1123551748.755306,
+    1629051565.826859,
+    1629089402.2710438
+   ],
+   "residual_true": [
+    2.377194063829633e-12,
+    3.4480867025510406e-13,
+    3.5434145264829786e-13,
+    4.0219174597493826e-13,
+    5.9368179298718646e-12,
+    2.1190629455215797e-11
+   ],
+   "divergence_fraction": [
+    2.1044355934818087e-31,
+    1.35094838322983e-31,
+    1.412640166090117e-31,
+    1.389107072488945e-31,
+    5.3437288795270315e-31,
+    1.5783833602977456e-31
+   ]
+  },
+  "shift_invert_low": {
+   "target_f_Hz": 600000000.0,
+   "diag": {
+    "requested": 12,
+    "returned": 12,
+    "converged": true,
+    "max_relative_residual": 5.2337343561097765e-09,
+    "max_mass_overlap": 1.880440247958859e-15
+   },
+   "solver": {
+    "completeness_check": {
+     "missing_in_window": 0,
+     "missing_ritz_estimate": 0.0,
+     "near_degenerate_outside_window": 0,
+     "nearest_distance_over_halfwidth": 1.0250747643138127,
+     "note": "heuristic: a short Lanczos run on the M-orthogonal complement of the returned modes (fresh start vector); a Ritz value with |lambda - sigma| below the returned window's half-width is a mode the main run missed; one within 1e-4 (in k^2) of a returned mode but outside the window is the partner of a near-degenerate pair cut by the window edge. Ritz values approach from outside the window, so a clean check is evidence, not a proof, of completeness",
+     "ritz_values_checked": 19,
+     "steps": 20,
+     "window_halfwidth_k2": 1557.4161192936315
+    },
+    "converged": true,
+    "factor_nonzeros": 13121728,
+    "factorization_seconds": 0.835972285,
+    "h1_free_dofs": 4162.0,
+    "inertia": {
+     "accurate": false,
+     "negative": null,
+     "positive": null,
+     "scope": "discrete factor only; a justified curl-free kernel count is required before inferring a pole bound; no continuum certification",
+     "status": "BACKEND_INERTIA_SELF_CHECK_FAILED",
+     "zero": null
+    },
+    "kernel_ritz_values_discarded": 1,
+    "kernel_threshold_lambda_over_sigma": 1e-06,
+    "lanczos_seconds": 2.762878686,
+    "lanczos_steps": 60,
+    "max_steps": 150,
+    "method": "shift_invert",
+    "note": "STRUMPACK LU of A - sigma M (rank 0), M-inner-product Lanczos with full reorthogonalization; Lanczos vectors are deflated against discrete gradients; lambda ~ 0 Ritz values (curl kernel, e.g. floating conductors) are discarded",
+    "restarts_after_invariant_subspace": 0,
+    "ritz_estimates": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     6.337313029998519e-26,
+     2.2638229125990402e-25,
+     1.4860264692976525e-25,
+     4.537699901571932e-25,
+     6.909774055761057e-27,
+     4.9755905527966695e-11,
+     1.6349194240144258e-11,
+     2.0246498955359694e-12
+    ],
+    "ritz_tolerance": 1e-09,
+    "seconds": 4.156159532,
+    "shift_k2_per_m2": 158.13238881742723,
+    "solves": 82,
+    "target_f_Hz": 600000000.0
+   },
+   "f_Hz": [
+    565715841.3805399,
+    1084372474.6277032,
+    1084393475.9728343,
+    1123551748.7553039,
+    1629051565.8268445,
+    1629089402.2710383,
+    1638807367.6397316,
+    1639028223.2274296,
+    1654473870.6337948,
+    1962517465.2766032,
+    1962870849.942517,
+    1976252060.7984717
+   ],
+   "residual_true": [
+    1.8408109578546375e-12,
+    6.779988583942183e-13,
+    1.1066244377139134e-12,
+    7.932928840106828e-13,
+    9.62396694981104e-13,
+    2.7335469906727074e-13,
+    4.252789612005628e-13,
+    2.1691247827815175e-13,
+    2.1393081407920097e-13,
+    5.2337343561097765e-09,
+    1.7406284673183787e-09,
+    2.1097219086393055e-10
+   ]
+  }
+ },
+ "status": "beta",
+ "mpi_ranks": 16,
+ "total_seconds": 128.0049695968628
+}

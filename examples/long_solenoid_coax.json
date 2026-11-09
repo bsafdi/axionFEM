@@ -1,0 +1,16 @@
+{
+  "schema": "axionfem.design/1",
+  "name": "long_solenoid_coax",
+  "description": "Long solenoid (H = 10 R) with a shorted coaxial pickup; checks against the long-limit formulas.",
+  "parameters": {"R": 1.0, "H": 10.0, "x": 0.534, "t": 0.01, "g": 0.02, "NI": 1.0e6},
+  "regions": [
+    {"name": "coil",  "shape": {"rect": {"r": ["R", "R+t"], "z": ["-H/2", "H/2"]}}, "material": "winding"},
+    {"name": "inner", "shape": {"rect": {"r": ["x*R-t", "x*R"], "z": ["-H/2+g", "H/2"]}}, "material": "copper"},
+    {"name": "outer", "shape": {"rect": {"r": ["R-2*t", "R-t"], "z": ["-H/2+g", "H/2"]}}, "material": "copper"},
+    {"name": "cap",   "shape": {"rect": {"r": ["x*R-t", "R-t"], "z": ["H/2", "H/2+t"]}}, "material": "copper"},
+    {"name": "port",  "shape": {"rect": {"r": ["x*R", "R-2*t"], "z": ["-H/2+g", "-H/2+g+t"]}}, "material": "vacuum"}
+  ],
+  "windings": [{"name": "magnet", "region": "coil", "type": "azimuthal", "ampere_turns": "NI"}],
+  "pickup": {"type": "poloidal", "port": "port"},
+  "mesh": {"order": 2, "size": 0.1, "surface_size": 0.01}
+}

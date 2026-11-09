@@ -1,0 +1,45 @@
+# build products
+/build*/
+/_skbuild/
+*.so
+*.o
+*.a
+__pycache__/
+*.pyc
+*.egg-info/
+/dist/
+
+# environments and third-party builds (rebuilt by scripts/)
+/.venv/
+/third_party/src/
+/third_party/build*/
+/third_party/install*/
+
+# reference papers are not redistributed; see docs/references.md
+/docs/references/*.pdf
+/docs/references/*.txt
+
+# run outputs (validation records that matter are copied into benchmarks/records)
+/runs/
+/examples/runs/
+# records are single JSON files; a benchmark's working directories do not belong here
+/benchmarks/records/*/
+# figures that benchmark scripts draw next to themselves (the documentation's figures live under docs/)
+/benchmarks/cavity/repro/*.png
+/benchmarks/comsol_import/build/
+# logs of the example SLURM jobs in scripts/slurm/
+/axf_premerge_*.log
+/axf_tests_*.log
+*.msh
+*.vtu
+*.pvd
+/scratch/
+.pytest_cache/
+.ipynb_checkpoints/
+/axf_workspace/
+
+# documentation website (mkdocs build)
+/site/
+/.cache/
+/site-offline/
+benchmarks/srf/results/*.lock

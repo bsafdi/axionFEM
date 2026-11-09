@@ -1,0 +1,2986 @@
+[
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "m2",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 174,
+  "max_relative_residual": 2.4810895638255998e-11,
+  "solves": [
+   [
+    42,
+    1.474885955033405e-11
+   ],
+   [
+    43,
+    1.7819771956228519e-12
+   ],
+   [
+    89,
+    2.4810895638255998e-11
+   ]
+  ],
+  "solver_seconds": 12.992818925000002,
+  "total_seconds": 39.204962159,
+  "mesh_seconds": 14.37711449,
+  "max_rss_GB_per_rank": 0.23081588745117188,
+  "wall_seconds": 40.08,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": false,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201597934504e-08,
+  "L_p_H": 4.1351625954470915e-07,
+  "W_mag_J": 55846.22703433919
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "new",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 138,
+  "max_relative_residual": 5.612952906027512e-11,
+  "solves": [
+   [
+    32,
+    1.4497375621234363e-11
+   ],
+   [
+    32,
+    2.0912602990900023e-12
+   ],
+   [
+    74,
+    5.612952906027512e-11
+   ]
+  ],
+  "solver_seconds": 9.795578117000002,
+  "total_seconds": 35.613228407,
+  "mesh_seconds": 14.276982296,
+  "max_rss_GB_per_rank": 0.23306655883789062,
+  "wall_seconds": 36.43,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201289461759e-08,
+  "L_p_H": 4.135162088190475e-07,
+  "W_mag_J": 55846.227028555964
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "m2_plus_reuse",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 174,
+  "max_relative_residual": 2.4810895638255998e-11,
+  "solves": [
+   [
+    42,
+    1.474885955033405e-11
+   ],
+   [
+    43,
+    1.7819771956228519e-12
+   ],
+   [
+    89,
+    2.4810895638255998e-11
+   ]
+  ],
+  "solver_seconds": 9.684970780000004,
+  "total_seconds": 35.960550897,
+  "mesh_seconds": 14.302743795,
+  "max_rss_GB_per_rank": 0.2244415283203125,
+  "wall_seconds": 36.69,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201597934504e-08,
+  "L_p_H": 4.1351625954470915e-07,
+  "W_mag_J": 55846.22703433919
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "gauge_global",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 104,
+  "max_relative_residual": 3.996235257574782e-11,
+  "solves": [
+   [
+    32,
+    1.4448731844086666e-11
+   ],
+   [
+    32,
+    2.6248934963898116e-12
+   ],
+   [
+    40,
+    3.996235257574782e-11
+   ]
+  ],
+  "solver_seconds": 7.890395540000004,
+  "total_seconds": 33.758926768,
+  "mesh_seconds": 14.303123334,
+  "max_rss_GB_per_rank": 0.23382949829101562,
+  "wall_seconds": 34.51,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201598230108e-08,
+  "L_p_H": 4.1351625954466547e-07,
+  "W_mag_J": 55846.22703443931
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "gauge1e-11",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 104,
+  "max_relative_residual": 4.1042121990250395e-11,
+  "solves": [
+   [
+    32,
+    1.465283317688662e-11
+   ],
+   [
+    32,
+    2.1245644709786725e-12
+   ],
+   [
+    40,
+    4.1042121990250395e-11
+   ]
+  ],
+  "solver_seconds": 7.8794090670000045,
+  "total_seconds": 33.811297013,
+  "mesh_seconds": 14.303382629,
+  "max_rss_GB_per_rank": 0.23345565795898438,
+  "wall_seconds": 34.6,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-11,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.0401983835074624e-08,
+  "L_p_H": 4.1351573343547535e-07,
+  "W_mag_J": 55846.226789485074
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "gauge1e-12",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 138,
+  "max_relative_residual": 5.612952906027512e-11,
+  "solves": [
+   [
+    32,
+    1.4497375621234363e-11
+   ],
+   [
+    32,
+    2.0912602990900023e-12
+   ],
+   [
+    74,
+    5.612952906027512e-11
+   ]
+  ],
+  "solver_seconds": 9.795423792000001,
+  "total_seconds": 35.717177503,
+  "mesh_seconds": 14.297944755,
+  "max_rss_GB_per_rank": 0.23361587524414062,
+  "wall_seconds": 36.47,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201289461759e-08,
+  "L_p_H": 4.135162088190475e-07,
+  "W_mag_J": 55846.227028555964
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "gauge1e-13",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 142,
+  "max_relative_residual": 5.8456907302142e-11,
+  "solves": [
+   [
+    32,
+    1.476077404249925e-11
+   ],
+   [
+    32,
+    2.146222568111353e-12
+   ],
+   [
+    78,
+    5.8456907302142e-11
+   ]
+  ],
+  "solver_seconds": 10.036868380999998,
+  "total_seconds": 36.115068428,
+  "mesh_seconds": 14.378410955,
+  "max_rss_GB_per_rank": 0.23183059692382812,
+  "wall_seconds": 37.77,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-13,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201580063828e-08,
+  "L_p_H": 4.135162563587113e-07,
+  "W_mag_J": 55846.22705246964
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "gauge1e-14",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 102,
+  "max_relative_residual": 6.77908212382972e-11,
+  "solves": [
+   [
+    31,
+    1.782115487116913e-11
+   ],
+   [
+    32,
+    1.7675482306579956e-12
+   ],
+   [
+    39,
+    6.77908212382972e-11
+   ]
+  ],
+  "solver_seconds": 7.780322357999999,
+  "total_seconds": 33.666318015,
+  "mesh_seconds": 14.310500232,
+  "max_rss_GB_per_rank": 0.23352813720703125,
+  "wall_seconds": 34.41,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-14,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201609139768e-08,
+  "L_p_H": 4.13516261112059e-07,
+  "W_mag_J": 55846.227054843344
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "gauge1e-15",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 8,
+  "max_relative_residual": 21.52732811455977,
+  "solves": [
+   [
+    2,
+    0.006249250453567878
+   ],
+   [
+    4,
+    0.004961079858622415
+   ],
+   [
+    2,
+    21.52732811455977
+   ]
+  ],
+  "solver_seconds": 2.422343325000007,
+  "total_seconds": 28.599284756,
+  "mesh_seconds": 14.322625581,
+  "max_rss_GB_per_rank": 0.23326492309570312,
+  "wall_seconds": 29.4,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-15,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D linear solve did not converge (2 AMS-PCG iterations, relative residual 0.00624925); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (4 AMS-PCG iterations, relative residual 0.00496108); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (2 AMS-PCG iterations, relative residual 21.5273); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 3.521629603608871e-08,
+  "L_p_H": 2.9528299865854943e-07,
+  "W_mag_J": 53585.3296306645
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "gauge0",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 24,
+  "max_relative_residual": 1.0000000000023008,
+  "solves": [
+   [
+    2,
+    1.0
+   ],
+   [
+    21,
+    1.0000000000023008
+   ],
+   [
+    1,
+    1.0
+   ]
+  ],
+  "solver_seconds": 3.360457053000008,
+  "total_seconds": 29.392930187,
+  "mesh_seconds": 14.359681942,
+  "max_rss_GB_per_rank": 0.208648681640625,
+  "wall_seconds": 30.29,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 0.0,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D linear solve did not converge (2 AMS-PCG iterations, relative residual 1); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (21 AMS-PCG iterations, relative residual 1); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (1 AMS-PCG iterations, relative residual 1); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 4.295303189002602e-33,
+  "L_p_H": 6.674100631614031e-48,
+  "W_mag_J": 6.58754151741629e-32
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "amg_m2",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 181,
+  "max_relative_residual": 2.518908918750799e-11,
+  "solves": [
+   [
+    43,
+    1.7211729938265467e-11
+   ],
+   [
+    44,
+    2.166276284464672e-12
+   ],
+   [
+    94,
+    2.518908918750799e-11
+   ]
+  ],
+  "solver_seconds": 9.961641041999997,
+  "total_seconds": 35.808742999,
+  "mesh_seconds": 14.363667061,
+  "max_rss_GB_per_rank": 0.22704315185546875,
+  "wall_seconds": 36.59,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.0402012895335895e-08,
+  "L_p_H": 4.135162088193498e-07,
+  "W_mag_J": 55846.227028521156
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "theta0.25",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 109,
+  "max_relative_residual": 4.354678159699966e-11,
+  "solves": [
+   [
+    34,
+    1.2024725289862102e-11
+   ],
+   [
+    34,
+    2.9166748322047632e-12
+   ],
+   [
+    41,
+    4.354678159699966e-11
+   ]
+  ],
+  "solver_seconds": 7.996114182999996,
+  "total_seconds": 33.818040225,
+  "mesh_seconds": 14.299297468,
+  "max_rss_GB_per_rank": 0.2322845458984375,
+  "wall_seconds": 34.55,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.04020128949574e-08,
+  "L_p_H": 4.135162088191636e-07,
+  "W_mag_J": 55846.22702846866
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "agg1",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 114,
+  "max_relative_residual": 2.6508835579807142e-11,
+  "solves": [
+   [
+    35,
+    1.1923547388650694e-11
+   ],
+   [
+    35,
+    1.8495038967162198e-12
+   ],
+   [
+    44,
+    2.6508835579807142e-11
+   ]
+  ],
+  "solver_seconds": 7.1894953699999995,
+  "total_seconds": 33.193179064,
+  "mesh_seconds": 14.30009579,
+  "max_rss_GB_per_rank": 0.226226806640625,
+  "wall_seconds": 33.97,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201289440832e-08,
+  "L_p_H": 4.135162088192002e-07,
+  "W_mag_J": 55846.22702840587
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "sweeps2",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 118,
+  "max_relative_residual": 6.025534729204144e-11,
+  "solves": [
+   [
+    28,
+    6.254897818868061e-12
+   ],
+   [
+    27,
+    2.9811301335538314e-12
+   ],
+   [
+    63,
+    6.025534729204144e-11
+   ]
+  ],
+  "solver_seconds": 9.856726111,
+  "total_seconds": 36.34849714,
+  "mesh_seconds": 14.40419451,
+  "max_rss_GB_per_rank": 0.2332611083984375,
+  "wall_seconds": 37.15,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 2,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.0402012894990015e-08,
+  "L_p_H": 4.135162088192144e-07,
+  "W_mag_J": 55846.227028432695
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "sweeps3",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 109,
+  "max_relative_residual": 3.875501469339955e-11,
+  "solves": [
+   [
+    26,
+    1.0201883752536098e-11
+   ],
+   [
+    25,
+    2.1608341207048256e-12
+   ],
+   [
+    58,
+    3.875501469339955e-11
+   ]
+  ],
+  "solver_seconds": 10.468681517,
+  "total_seconds": 36.29345353,
+  "mesh_seconds": 14.296553329,
+  "max_rss_GB_per_rank": 0.23324966430664062,
+  "wall_seconds": 37.07,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 3,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201289473548e-08,
+  "L_p_H": 4.1351620881893255e-07,
+  "W_mag_J": 55846.227028428024
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "chebyshev",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 168,
+  "max_relative_residual": 4.989920837445918e-11,
+  "solves": [
+   [
+    37,
+    2.5119363501863567e-11
+   ],
+   [
+    39,
+    2.530759300049166e-12
+   ],
+   [
+    92,
+    4.989920837445918e-11
+   ]
+  ],
+  "solver_seconds": 11.650358455999996,
+  "total_seconds": 37.553614845,
+  "mesh_seconds": 14.304385618,
+  "max_rss_GB_per_rank": 0.2335205078125,
+  "wall_seconds": 38.65,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201289452716e-08,
+  "L_p_H": 4.13516208819197e-07,
+  "W_mag_J": 55846.22702820226
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "maxit3000",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 138,
+  "max_relative_residual": 5.612952906027512e-11,
+  "solves": [
+   [
+    32,
+    1.4497375621234363e-11
+   ],
+   [
+    32,
+    2.0912602990900023e-12
+   ],
+   [
+    74,
+    5.612952906027512e-11
+   ]
+  ],
+  "solver_seconds": 9.805698488,
+  "total_seconds": 35.636866505,
+  "mesh_seconds": 14.277746808,
+  "max_rss_GB_per_rank": 0.23308944702148438,
+  "wall_seconds": 36.41,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 3000,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201289461759e-08,
+  "L_p_H": 4.135162088190475e-07,
+  "W_mag_J": 55846.227028555964
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "singular",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 209,
+  "max_relative_residual": 2.1229048209341396e-11,
+  "solves": [
+   [
+    64,
+    1.8983564573324916e-11
+   ],
+   [
+    66,
+    3.462278351332264e-12
+   ],
+   [
+    79,
+    2.1229048209341396e-11
+   ]
+  ],
+  "solver_seconds": 10.900664535,
+  "total_seconds": 37.437254306,
+  "mesh_seconds": 15.189567844,
+  "max_rss_GB_per_rank": 0.20315933227539062,
+  "wall_seconds": 38.32,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 0.0,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": true,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201612531127e-08,
+  "L_p_H": 4.135162616400641e-07,
+  "W_mag_J": 55846.22705496361
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "fgmres",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 141,
+  "max_relative_residual": 5.6662815671622545e-09,
+  "solves": [
+   [
+    32,
+    5.8290484957197055e-12
+   ],
+   [
+    29,
+    7.921483646094322e-12
+   ],
+   [
+    80,
+    5.6662815671622545e-09
+   ]
+  ],
+  "solver_seconds": 10.471730924999996,
+  "total_seconds": 36.281569731,
+  "mesh_seconds": 14.319084737,
+  "max_rss_GB_per_rank": 0.2842140197753906,
+  "wall_seconds": 37.06,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": true,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.0402012906810565e-08,
+  "L_p_H": 4.1351620918242075e-07,
+  "W_mag_J": 55846.22701698088
+ },
+ {
+  "case": "toroid_slit1.5_nd1_h0.45",
+  "variant": "no_proj",
+  "ranks": 1,
+  "dofs": 71494,
+  "iterations": 138,
+  "max_relative_residual": 5.612952906027512e-11,
+  "solves": [
+   [
+    32,
+    1.4497375621234363e-11
+   ],
+   [
+    32,
+    2.0912602990900023e-12
+   ],
+   [
+    74,
+    5.612952906027512e-11
+   ]
+  ],
+  "solver_seconds": 9.824763514,
+  "total_seconds": 35.771332206,
+  "mesh_seconds": 14.31415683,
+  "max_rss_GB_per_rank": 0.23287582397460938,
+  "wall_seconds": 36.55,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.040201289461759e-08,
+  "L_p_H": 4.135162088190475e-07,
+  "W_mag_J": 55846.227028555964
+ },
+ {
+  "case": "toroid_slit3_nd2_h0.45",
+  "variant": "m2",
+  "ranks": 8,
+  "dofs": 377452,
+  "iterations": 248,
+  "max_relative_residual": 4.906327503602431e-11,
+  "solves": [
+   [
+    72,
+    1.4972291083835668e-11
+   ],
+   [
+    78,
+    3.4093295328632036e-12
+   ],
+   [
+    98,
+    4.906327503602431e-11
+   ]
+  ],
+  "solver_seconds": 24.467568264,
+  "total_seconds": 59.356653518,
+  "mesh_seconds": 21.203587363,
+  "max_rss_GB_per_rank": 0.6577835083007812,
+  "wall_seconds": 60.25,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": false,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.300733847569439e-08,
+  "L_p_H": 4.3101446205282016e-07,
+  "W_mag_J": 57229.47980387703
+ },
+ {
+  "case": "toroid_slit3_nd2_h0.45",
+  "variant": "new",
+  "ranks": 8,
+  "dofs": 377452,
+  "iterations": 193,
+  "max_relative_residual": 7.925265490500373e-11,
+  "solves": [
+   [
+    55,
+    2.4811036874677682e-11
+   ],
+   [
+    59,
+    4.881904359133599e-12
+   ],
+   [
+    79,
+    7.925265490500373e-11
+   ]
+  ],
+  "solver_seconds": 17.971490021,
+  "total_seconds": 51.46051063,
+  "mesh_seconds": 20.561622441,
+  "max_rss_GB_per_rank": 0.6578483581542969,
+  "wall_seconds": 52.34,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.3007338227352505e-08,
+  "L_p_H": 4.3101445801000517e-07,
+  "W_mag_J": 57229.479799740206
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "m2",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 2400,
+  "max_relative_residual": 0.00047186210339497555,
+  "solves": [
+   [
+    800,
+    5.252803589058028e-05
+   ],
+   [
+    800,
+    0.00012062882912257859
+   ],
+   [
+    800,
+    0.00047186210339497555
+   ]
+  ],
+  "solver_seconds": 215.52159814799998,
+  "total_seconds": 273.265535636,
+  "mesh_seconds": 38.617109733,
+  "max_rss_GB_per_rank": 0.6635818481445312,
+  "wall_seconds": 274.25,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": false,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 5.2528e-05); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.000120629); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.000471862); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 5.267930467464219e-08,
+  "L_p_H": 4.289508373238858e-07,
+  "W_mag_J": 57243.00180889611
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "new",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 199,
+  "max_relative_residual": 8.466993051556913e-11,
+  "solves": [
+   [
+    57,
+    3.287700358534302e-11
+   ],
+   [
+    61,
+    4.987146595260562e-12
+   ],
+   [
+    81,
+    8.466993051556913e-11
+   ]
+  ],
+  "solver_seconds": 24.054489155999995,
+  "total_seconds": 80.07575373,
+  "mesh_seconds": 38.141636553,
+  "max_rss_GB_per_rank": 0.6616325378417969,
+  "wall_seconds": 80.91,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.268786687228639e-08,
+  "L_p_H": 4.2894274120775777e-07,
+  "W_mag_J": 57238.70081434412
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "m2_plus_reuse",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 2400,
+  "max_relative_residual": 0.00047186210339497555,
+  "solves": [
+   [
+    800,
+    5.252803589058028e-05
+   ],
+   [
+    800,
+    0.00012062882912257859
+   ],
+   [
+    800,
+    0.00047186210339497555
+   ]
+  ],
+  "solver_seconds": 206.721405774,
+  "total_seconds": 262.831812964,
+  "mesh_seconds": 37.911250736,
+  "max_rss_GB_per_rank": 0.6637115478515625,
+  "wall_seconds": 264.15,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 5.2528e-05); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.000120629); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.000471862); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 5.267930467464219e-08,
+  "L_p_H": 4.289508373238858e-07,
+  "W_mag_J": 57243.00180889611
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "gauge_global",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 2400,
+  "max_relative_residual": 0.07490385955817301,
+  "solves": [
+   [
+    800,
+    2.6800592132947995e-05
+   ],
+   [
+    800,
+    2.2066662861094653e-06
+   ],
+   [
+    800,
+    0.07490385955817301
+   ]
+  ],
+  "solver_seconds": 244.33572899799998,
+  "total_seconds": 300.277214603,
+  "mesh_seconds": 37.723959064,
+  "max_rss_GB_per_rank": 0.6618385314941406,
+  "wall_seconds": 301.35,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 2.68006e-05); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 2.20667e-06); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.0749039); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 5.2691204413002906e-08,
+  "L_p_H": 4.289395393663566e-07,
+  "W_mag_J": 57239.241154815674
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "gauge1e-11",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 199,
+  "max_relative_residual": 9.95606499815514e-11,
+  "solves": [
+   [
+    57,
+    3.311599858129503e-11
+   ],
+   [
+    61,
+    4.947532889464745e-12
+   ],
+   [
+    81,
+    9.95606499815514e-11
+   ]
+  ],
+  "solver_seconds": 24.094929553999982,
+  "total_seconds": 80.697003007,
+  "mesh_seconds": 38.531760141,
+  "max_rss_GB_per_rank": 0.6635246276855469,
+  "wall_seconds": 81.6,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-11,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.2687848314026956e-08,
+  "L_p_H": 4.2894244017907127e-07,
+  "W_mag_J": 57238.70062130809
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "gauge1e-13",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 200,
+  "max_relative_residual": 9.080231107475361e-11,
+  "solves": [
+   [
+    56,
+    1.7178533547223553e-11
+   ],
+   [
+    61,
+    4.297988879700884e-12
+   ],
+   [
+    83,
+    9.080231107475361e-11
+   ]
+  ],
+  "solver_seconds": 24.446556540999993,
+  "total_seconds": 80.544703748,
+  "mesh_seconds": 37.935388984,
+  "max_rss_GB_per_rank": 0.6616172790527344,
+  "wall_seconds": 81.44,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-13,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.26878687279124e-08,
+  "L_p_H": 4.289427713086756e-07,
+  "W_mag_J": 57238.70083355726
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "gauge1e-14",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 2400,
+  "max_relative_residual": 191.6412943381029,
+  "solves": [
+   [
+    800,
+    0.001106222367663822
+   ],
+   [
+    800,
+    0.001454326046969816
+   ],
+   [
+    800,
+    191.6412943381029
+   ]
+  ],
+  "solver_seconds": 245.55946931800003,
+  "total_seconds": 302.338239097,
+  "mesh_seconds": 38.529655936,
+  "max_rss_GB_per_rank": 0.6617774963378906,
+  "wall_seconds": 303.29,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-14,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.00110622); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.00145433); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 191.641); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 8.973297342625602e-08,
+  "L_p_H": 9.821518035779729e-06,
+  "W_mag_J": 57515.68589466804
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "amg_m2",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 263,
+  "max_relative_residual": 7.735319345254604e-11,
+  "solves": [
+   [
+    77,
+    2.5826066895061484e-11
+   ],
+   [
+    78,
+    4.373454055649215e-12
+   ],
+   [
+    108,
+    7.735319345254604e-11
+   ]
+  ],
+  "solver_seconds": 26.425685385,
+  "total_seconds": 83.144336884,
+  "mesh_seconds": 38.615245216,
+  "max_rss_GB_per_rank": 0.66363525390625,
+  "wall_seconds": 84.17,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.268786687370666e-08,
+  "L_p_H": 4.289427412063407e-07,
+  "W_mag_J": 57238.70081428696
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "theta0.25",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 211,
+  "max_relative_residual": 7.873733531475597e-11,
+  "solves": [
+   [
+    59,
+    3.0071783044086466e-11
+   ],
+   [
+    66,
+    6.5877129090841795e-12
+   ],
+   [
+    86,
+    7.873733531475597e-11
+   ]
+  ],
+  "solver_seconds": 24.432728511000008,
+  "total_seconds": 81.111909781,
+  "mesh_seconds": 38.394685599,
+  "max_rss_GB_per_rank": 0.6633796691894531,
+  "wall_seconds": 82.27,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.268786687317367e-08,
+  "L_p_H": 4.2894274120644646e-07,
+  "W_mag_J": 57238.70081442353
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "agg1",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 222,
+  "max_relative_residual": 8.558721109767091e-11,
+  "solves": [
+   [
+    62,
+    2.5790459493876417e-11
+   ],
+   [
+    66,
+    4.961686243364679e-12
+   ],
+   [
+    94,
+    8.558721109767091e-11
+   ]
+  ],
+  "solver_seconds": 23.302962299999997,
+  "total_seconds": 79.215359439,
+  "mesh_seconds": 37.839605586,
+  "max_rss_GB_per_rank": 0.6617469787597656,
+  "wall_seconds": 80.08,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.2687866871786624e-08,
+  "L_p_H": 4.2894274120714145e-07,
+  "W_mag_J": 57238.700814501004
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "sweeps2",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 186,
+  "max_relative_residual": 8.903504041983079e-11,
+  "solves": [
+   [
+    53,
+    1.8352727812003933e-11
+   ],
+   [
+    58,
+    5.107875808345542e-12
+   ],
+   [
+    75,
+    8.903504041983079e-11
+   ]
+  ],
+  "solver_seconds": 26.30830138200001,
+  "total_seconds": 83.060924393,
+  "mesh_seconds": 38.48012178,
+  "max_rss_GB_per_rank": 0.6633682250976562,
+  "wall_seconds": 83.89,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 2,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.268786687329688e-08,
+  "L_p_H": 4.2894274120698867e-07,
+  "W_mag_J": 57238.70081430525
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "singular",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 1063,
+  "max_relative_residual": 0.00014162959787456254,
+  "solves": [
+   [
+    132,
+    2.2164110777541e-11
+   ],
+   [
+    131,
+    5.777293489186663e-12
+   ],
+   [
+    800,
+    0.00014162959787456254
+   ]
+  ],
+  "solver_seconds": 87.108449987,
+  "total_seconds": 143.146411574,
+  "mesh_seconds": 38.10188535,
+  "max_rss_GB_per_rank": 0.6634254455566406,
+  "wall_seconds": 144.12,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 0.0,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": true,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.00014163); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 5.2687868989160086e-08,
+  "L_p_H": 4.2894277214148285e-07,
+  "W_mag_J": 57238.700835563395
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "fgmres",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 204,
+  "max_relative_residual": 5.7487442960330897e-11,
+  "solves": [
+   [
+    58,
+    9.625511157150673e-12
+   ],
+   [
+    55,
+    1.7094504330072208e-11
+   ],
+   [
+    91,
+    5.7487442960330897e-11
+   ]
+  ],
+  "solver_seconds": 25.126006470999997,
+  "total_seconds": 81.965509597,
+  "mesh_seconds": 38.698862465,
+  "max_rss_GB_per_rank": 0.6692657470703125,
+  "wall_seconds": 82.84,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": true,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.268786688830838e-08,
+  "L_p_H": 4.289427412089551e-07,
+  "W_mag_J": 57238.70080721253
+ },
+ {
+  "case": "toroid_slit1.5_nd2_h0.45",
+  "variant": "no_proj",
+  "ranks": 8,
+  "dofs": 382132,
+  "iterations": 199,
+  "max_relative_residual": 8.466993051556913e-11,
+  "solves": [
+   [
+    57,
+    3.287700358534302e-11
+   ],
+   [
+    61,
+    4.987146595260562e-12
+   ],
+   [
+    81,
+    8.466993051556913e-11
+   ]
+  ],
+  "solver_seconds": 24.045679816999993,
+  "total_seconds": 80.838947937,
+  "mesh_seconds": 38.59208597,
+  "max_rss_GB_per_rank": 0.6653900146484375,
+  "wall_seconds": 81.67,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 5.268786687228639e-08,
+  "L_p_H": 4.2894274120775777e-07,
+  "W_mag_J": 57238.70081434412
+ },
+ {
+  "case": "toroid_slit3_nd3_h0.45",
+  "variant": "m2",
+  "ranks": 8,
+  "dofs": 1095702,
+  "iterations": 2400,
+  "max_relative_residual": 677.7981044050322,
+  "solves": [
+   [
+    800,
+    0.1912129107538748
+   ],
+   [
+    800,
+    0.072258898959187
+   ],
+   [
+    800,
+    677.7981044050322
+   ]
+  ],
+  "solver_seconds": 902.0707412859999,
+  "total_seconds": 976.533243313,
+  "mesh_seconds": 21.322070744,
+  "max_rss_GB_per_rank": 1.5919151306152344,
+  "wall_seconds": 977.63,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": false,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D order >= 3 is not validated: AMS-PCG can stall next to thin features and slits; prefer order 2",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.191213); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.0722589); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 677.798); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 8.296607211697403e-08,
+  "L_p_H": 0.00020474772125154668,
+  "W_mag_J": 9259654.293282565
+ },
+ {
+  "case": "toroid_slit3_nd3_h0.45",
+  "variant": "new",
+  "ranks": 8,
+  "dofs": 1095702,
+  "iterations": 570,
+  "max_relative_residual": 1.896089628183096e-10,
+  "solves": [
+   [
+    140,
+    3.214188866430487e-11
+   ],
+   [
+    167,
+    3.46458119021583e-12
+   ],
+   [
+    263,
+    1.896089628183096e-10
+   ]
+  ],
+  "solver_seconds": 259.78815493300004,
+  "total_seconds": 327.527766615,
+  "mesh_seconds": 19.746788678,
+  "max_rss_GB_per_rank": 1.4573936462402344,
+  "wall_seconds": 328.63,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-11,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [
+   "3D order >= 3 is not validated: AMS-PCG can stall next to thin features and slits; prefer order 2"
+  ],
+  "Psi_SI_H_T_m2": 5.316344629071332e-08,
+  "L_p_H": 4.3199729382526937e-07,
+  "W_mag_J": 57292.49067940618
+ },
+ {
+  "case": "toroid_slit3_nd3_h0.45",
+  "variant": "gauge1e-12",
+  "ranks": 8,
+  "dofs": 1095702,
+  "iterations": 69,
+  "max_relative_residual": 0.009438325405767653,
+  "solves": [
+   [
+    24,
+    4.9968972641782435e-06
+   ],
+   [
+    23,
+    3.5154321473259837e-06
+   ],
+   [
+    22,
+    0.009438325405767653
+   ]
+  ],
+  "solver_seconds": 44.83580079000001,
+  "total_seconds": 111.353340854,
+  "mesh_seconds": 19.016534087,
+  "max_rss_GB_per_rank": 1.4572410583496094,
+  "wall_seconds": 113.18,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D order >= 3 is not validated: AMS-PCG can stall next to thin features and slits; prefer order 2",
+   "3D linear solve did not converge (24 AMS-PCG iterations, relative residual 4.9969e-06); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (23 AMS-PCG iterations, relative residual 3.51543e-06); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (22 AMS-PCG iterations, relative residual 0.00943833); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 5.316004889990636e-08,
+  "L_p_H": 4.3199270518709085e-07,
+  "W_mag_J": 57292.45685590392
+ },
+ {
+  "case": "toroid_slit3_nd3_h0.45",
+  "variant": "gauge1e-13",
+  "ranks": 8,
+  "dofs": 1095702,
+  "iterations": 2400,
+  "max_relative_residual": 1.0893131047314457,
+  "solves": [
+   [
+    800,
+    0.00018152166779839414
+   ],
+   [
+    800,
+    1.4440098762075045e-05
+   ],
+   [
+    800,
+    1.0893131047314457
+   ]
+  ],
+  "solver_seconds": 1055.179327184,
+  "total_seconds": 1123.301001226,
+  "mesh_seconds": 19.491558549,
+  "max_rss_GB_per_rank": 1.4571914672851562,
+  "wall_seconds": 1124.51,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-13,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D order >= 3 is not validated: AMS-PCG can stall next to thin features and slits; prefer order 2",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.000181522); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 1.44401e-05); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 1.08931); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 5.3183755757197896e-08,
+  "L_p_H": 4.333070784586634e-07,
+  "W_mag_J": 57291.68854801258
+ },
+ {
+  "case": "toroid_slit3_nd3_h0.45",
+  "variant": "maxit3000",
+  "ranks": 8,
+  "dofs": 1095702,
+  "iterations": 570,
+  "max_relative_residual": 1.896089628183096e-10,
+  "solves": [
+   [
+    140,
+    3.214188866430487e-11
+   ],
+   [
+    167,
+    3.46458119021583e-12
+   ],
+   [
+    263,
+    1.896089628183096e-10
+   ]
+  ],
+  "solver_seconds": 258.55877882600004,
+  "total_seconds": 326.440765498,
+  "mesh_seconds": 19.653118338,
+  "max_rss_GB_per_rank": 1.4563560485839844,
+  "wall_seconds": 327.5,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-11,
+   "gauge_global": false,
+   "max_iterations": 3000,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [
+   "3D order >= 3 is not validated: AMS-PCG can stall next to thin features and slits; prefer order 2"
+  ],
+  "Psi_SI_H_T_m2": 5.316344629071332e-08,
+  "L_p_H": 4.3199729382526937e-07,
+  "W_mag_J": 57292.49067940618
+ },
+ {
+  "case": "toroid_ideal_nd3_h0.45",
+  "variant": "m2",
+  "ranks": 8,
+  "dofs": 1074561,
+  "iterations": 2067,
+  "max_relative_residual": 1.6359733814735384e-10,
+  "solves": [
+   [
+    74,
+    1.429040065537587e-11
+   ],
+   [
+    800,
+    1.6359733814735384e-10
+   ],
+   [
+    393,
+    1.0214107954456282e-12
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    800,
+    1.6359733814735384e-10
+   ]
+  ],
+  "solver_seconds": 917.476838333,
+  "total_seconds": 1003.989503968,
+  "mesh_seconds": 21.598789886,
+  "max_rss_GB_per_rank": 1.5496559143066406,
+  "wall_seconds": 1005.18,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": false,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D order >= 3 is not validated: AMS-PCG can stall next to thin features and slits; prefer order 2",
+   "3D linear solve reached the iteration cap (800 AMS-PCG iterations, relative residual 1.63597e-10); accuracy is reduced",
+   "3D linear solve reached the iteration cap (800 AMS-PCG iterations, relative residual 1.63597e-10); accuracy is reduced"
+  ],
+  "Psi_SI_H_T_m2": 5.207647510096828e-08,
+  "L_p_H": 4.2518955450081896e-07,
+  "W_mag_J": 57292.428787067714
+ },
+ {
+  "case": "toroid_ideal_nd3_h0.45",
+  "variant": "new",
+  "ranks": 8,
+  "dofs": 1074561,
+  "iterations": 358,
+  "max_relative_residual": 1.1045579037075994e-09,
+  "solves": [
+   [
+    35,
+    2.3687073559940417e-11
+   ],
+   [
+    109,
+    1.1045579037075994e-09
+   ],
+   [
+    105,
+    5.493124599024905e-11
+   ],
+   [
+    0,
+    0.0
+   ],
+   [
+    109,
+    1.1045579037075994e-09
+   ]
+  ],
+  "solver_seconds": 190.509814719,
+  "total_seconds": 270.106892348,
+  "mesh_seconds": 23.771030151,
+  "max_rss_GB_per_rank": 1.4323616027832031,
+  "wall_seconds": 271.31,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-11,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [
+   "3D order >= 3 is not validated: AMS-PCG can stall next to thin features and slits; prefer order 2"
+  ],
+  "Psi_SI_H_T_m2": 5.207647421344058e-08,
+  "L_p_H": 4.2518954254342674e-07,
+  "W_mag_J": 57292.42859719935
+ },
+ {
+  "case": "core_iron_nd2_h0.5_coarse_surface",
+  "variant": "m2",
+  "ranks": 8,
+  "dofs": 1475106,
+  "iterations": 51,
+  "max_relative_residual": 12.778911614252767,
+  "solves": [
+   [
+    5,
+    0.32015112227062265
+   ],
+   [
+    13,
+    0.045632196601610706
+   ],
+   [
+    23,
+    0.9313537356287231
+   ],
+   [
+    3,
+    0.04563185433143288
+   ],
+   [
+    7,
+    12.778911614252767
+   ]
+  ],
+  "solver_seconds": 62.19812744700005,
+  "total_seconds": 343.245731769,
+  "mesh_seconds": 208.78441254,
+  "max_rss_GB_per_rank": 3.030109405517578,
+  "wall_seconds": 344.39,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": false,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "11 curved elements stay invalid; using straight-sided geometry",
+   "winding currents are not divergence-free (fraction 0.01806 removed); azimuthal windings must be closed rings about their axis. Results are NOT reliable",
+   "3D linear solve did not converge (5 AMS-PCG iterations, relative residual 0.320151); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (13 AMS-PCG iterations, relative residual 0.0456322); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (23 AMS-PCG iterations, relative residual 0.931354); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (3 AMS-PCG iterations, relative residual 0.0456319); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)",
+   "3D linear solve did not converge (7 AMS-PCG iterations, relative residual 12.7789); results are NOT reliable. A breakdown within a few iterations means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-13, see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 3.9725461624991884e-12,
+  "L_p_H": 7.821779304543899e-10,
+  "W_mag_J": 99355.04964155033
+ },
+ {
+  "case": "core_iron_nd2_h0.5_coarse_surface",
+  "variant": "new",
+  "ranks": 8,
+  "dofs": 1475106,
+  "iterations": 4771,
+  "max_relative_residual": 5.008977003539889e-08,
+  "solves": [
+   [
+    139,
+    4.797138086341834e-11
+   ],
+   [
+    155,
+    3.186035724387363e-12
+   ],
+   [
+    150,
+    1.704435909920936e-11
+   ],
+   [
+    153,
+    3.706967732445441e-12
+   ],
+   [
+    156,
+    8.089131983629244e-12
+   ],
+   [
+    155,
+    3.4862146073422132e-12
+   ],
+   [
+    162,
+    1.1882085043329858e-11
+   ],
+   [
+    154,
+    4.272132188258565e-12
+   ],
+   [
+    158,
+    9.55087736656084e-12
+   ],
+   [
+    153,
+    3.811974265387026e-12
+   ],
+   [
+    160,
+    9.315818983305713e-12
+   ],
+   [
+    153,
+    3.738808196828191e-12
+   ],
+   [
+    159,
+    9.369125116736626e-12
+   ],
+   [
+    155,
+    3.4824476069451205e-12
+   ],
+   [
+    154,
+    9.432499564529258e-12
+   ],
+   [
+    155,
+    3.357391236432715e-12
+   ],
+   [
+    158,
+    1.1179151912816834e-11
+   ],
+   [
+    154,
+    4.195242331034611e-12
+   ],
+   [
+    154,
+    9.200363785002333e-12
+   ],
+   [
+    155,
+    3.2363104428651324e-12
+   ],
+   [
+    154,
+    9.979061451374794e-12
+   ],
+   [
+    155,
+    3.307465527558873e-12
+   ],
+   [
+    149,
+    3.314350258854939e-11
+   ],
+   [
+    155,
+    3.1557189203701073e-12
+   ],
+   [
+    139,
+    2.8415065163826957e-11
+   ],
+   [
+    154,
+    4.1568877684194244e-12
+   ],
+   [
+    149,
+    1.8904947955930422e-10
+   ],
+   [
+    154,
+    4.279333027555796e-12
+   ],
+   [
+    145,
+    5.008977003539889e-08
+   ],
+   [
+    154,
+    4.208759166993428e-12
+   ],
+   [
+    171,
+    1.6137581398644208e-09
+   ]
+  ],
+  "solver_seconds": 1872.9732921789996,
+  "total_seconds": 2272.610422992,
+  "mesh_seconds": 184.987214407,
+  "max_rss_GB_per_rank": 3.02838134765625,
+  "wall_seconds": 2273.99,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [
+   "11 curved elements stay invalid; using straight-sided geometry",
+   "winding currents are not divergence-free (fraction 0.01806 removed); azimuthal windings must be closed rings about their axis. Results are NOT reliable"
+  ],
+  "Psi_SI_H_T_m2": 5.453359862072727e-07,
+  "L_p_H": 3.3582080269475484e-07,
+  "W_mag_J": 802174.2998385576
+ },
+ {
+  "case": "core_iron_nd2_h0.5_coarse_surface",
+  "variant": "gauge1e-11",
+  "ranks": 8,
+  "dofs": 1475106,
+  "iterations": 4766,
+  "max_relative_residual": 5.156611326370873e-09,
+  "solves": [
+   [
+    138,
+    5.13993421446533e-11
+   ],
+   [
+    154,
+    4.464581687109841e-12
+   ],
+   [
+    150,
+    1.7360825155790893e-11
+   ],
+   [
+    154,
+    4.216735841778217e-12
+   ],
+   [
+    156,
+    8.559003318818327e-12
+   ],
+   [
+    154,
+    4.352726566226289e-12
+   ],
+   [
+    162,
+    1.2538112488608321e-11
+   ],
+   [
+    154,
+    4.377564805517309e-12
+   ],
+   [
+    158,
+    1.0370789036439568e-11
+   ],
+   [
+    155,
+    3.525480766804269e-12
+   ],
+   [
+    160,
+    1.0093678410914255e-11
+   ],
+   [
+    154,
+    4.386458634659307e-12
+   ],
+   [
+    158,
+    1.155291077339865e-11
+   ],
+   [
+    154,
+    4.477542390351874e-12
+   ],
+   [
+    154,
+    9.473043726013476e-12
+   ],
+   [
+    154,
+    4.459769090773106e-12
+   ],
+   [
+    158,
+    1.1703381816526138e-11
+   ],
+   [
+    154,
+    4.2861713946445796e-12
+   ],
+   [
+    154,
+    9.535101861130524e-12
+   ],
+   [
+    154,
+    4.251173920608631e-12
+   ],
+   [
+    154,
+    1.0004203538049992e-11
+   ],
+   [
+    154,
+    4.240487023461857e-12
+   ],
+   [
+    149,
+    3.3347540767903055e-11
+   ],
+   [
+    154,
+    4.248077637876494e-12
+   ],
+   [
+    139,
+    2.7464374015784903e-11
+   ],
+   [
+    154,
+    4.2225315263176965e-12
+   ],
+   [
+    148,
+    5.519964742682547e-11
+   ],
+   [
+    154,
+    4.21937373748429e-12
+   ],
+   [
+    146,
+    5.156611326370873e-09
+   ],
+   [
+    154,
+    4.220002129166834e-12
+   ],
+   [
+    171,
+    1.5361802999821727e-09
+   ]
+  ],
+  "solver_seconds": 2086.5124365039987,
+  "total_seconds": 2521.636394488,
+  "mesh_seconds": 213.361750377,
+  "max_rss_GB_per_rank": 3.0293846130371094,
+  "wall_seconds": 2523.27,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-11,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [
+   "11 curved elements stay invalid; using straight-sided geometry",
+   "winding currents are not divergence-free (fraction 0.01806 removed); azimuthal windings must be closed rings about their axis. Results are NOT reliable"
+  ],
+  "Psi_SI_H_T_m2": 5.453349016880677e-07,
+  "L_p_H": 3.3581966988399235e-07,
+  "W_mag_J": 802173.8728041878
+ },
+ {
+  "case": "solenoid_coax_nd2_R3",
+  "variant": "m2",
+  "ranks": 8,
+  "dofs": 967144,
+  "iterations": 901,
+  "max_relative_residual": 0.2540418760195371,
+  "solves": [
+   [
+    800,
+    0.2540418760195371
+   ],
+   [
+    101,
+    3.446026501429296e-11
+   ]
+  ],
+  "solver_seconds": 205.356618811,
+  "total_seconds": 431.393346378,
+  "mesh_seconds": 191.826621188,
+  "max_rss_GB_per_rank": 2.2730941772460938,
+  "wall_seconds": 434.23,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": false,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 0.254042); results are NOT reliable. A breakdown within a few iterations, or a stall at the iteration cap, usually means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-12, or 1e-11 from order 3; see docs/validation/ams_robustness.md)"
+  ],
+  "Psi_SI_H_T_m2": 1.8027292681689426e-07,
+  "L_p_H": 2.454803888305614e-07,
+  "W_mag_J": 686408.3388027863
+ },
+ {
+  "case": "solenoid_coax_nd2_R3",
+  "variant": "new",
+  "ranks": 8,
+  "dofs": 967144,
+  "iterations": 225,
+  "max_relative_residual": 1.115848971920397e-10,
+  "solves": [
+   [
+    81,
+    1.115848971920397e-10
+   ],
+   [
+    144,
+    8.068672572271046e-11
+   ]
+  ],
+  "solver_seconds": 70.90279582299996,
+  "total_seconds": 291.128115243,
+  "mesh_seconds": 187.159774445,
+  "max_rss_GB_per_rank": 2.261981964111328,
+  "wall_seconds": 292.41,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 1.7970938457109984e-07,
+  "L_p_H": 2.45480388756902e-07,
+  "W_mag_J": 681808.1030367825
+ },
+ {
+  "case": "solenoid_coax_nd2_R3",
+  "variant": "gauge1e-13",
+  "ranks": 8,
+  "dofs": 967144,
+  "iterations": 162,
+  "max_relative_residual": 9.320021311748436e-11,
+  "solves": [
+   [
+    79,
+    9.320021311748436e-11
+   ],
+   [
+    83,
+    7.990202900118669e-11
+   ]
+  ],
+  "solver_seconds": 56.221533007999966,
+  "total_seconds": 276.88458614,
+  "mesh_seconds": 187.471400588,
+  "max_rss_GB_per_rank": 2.2697067260742188,
+  "wall_seconds": 278.04,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-13,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 1.7970938468834908e-07,
+  "L_p_H": 2.4548038896712854e-07,
+  "W_mag_J": 681808.103251062
+ },
+ {
+  "case": "solenoid_coax_nd2_R4.5",
+  "variant": "m2",
+  "ranks": 8,
+  "dofs": 1303798,
+  "iterations": 1600,
+  "max_relative_residual": 16.314689372992525,
+  "solves": [
+   [
+    800,
+    16.314689372992525
+   ],
+   [
+    800,
+    3.227761881695497e-09
+   ]
+  ],
+  "solver_seconds": 452.325051188,
+  "total_seconds": 702.065768998,
+  "mesh_seconds": 201.765825667,
+  "max_rss_GB_per_rank": 3.1259193420410156,
+  "wall_seconds": 704.02,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": false,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": true,
+  "warnings": [
+   "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 16.3147); results are NOT reliable. A breakdown within a few iterations, or a stall at the iteration cap, usually means the gauge regularization is too small for this mesh: raise AXF_GAUGE (default 1e-12, or 1e-11 from order 3; see docs/validation/ams_robustness.md)",
+   "3D linear solve reached the iteration cap (800 AMS-PCG iterations, relative residual 3.22776e-09); accuracy is reduced"
+  ],
+  "Psi_SI_H_T_m2": 3.1157399901778804e-07,
+  "L_p_H": 2.4548050304727606e-07,
+  "W_mag_J": 3533489.039974229
+ },
+ {
+  "case": "solenoid_coax_nd2_R4.5",
+  "variant": "new",
+  "ranks": 8,
+  "dofs": 1303798,
+  "iterations": 347,
+  "max_relative_residual": 1.3599213878056585e-10,
+  "solves": [
+   [
+    116,
+    1.3599213878056585e-10
+   ],
+   [
+    231,
+    8.412376325718415e-11
+   ]
+  ],
+  "solver_seconds": 137.968813959,
+  "total_seconds": 382.991700841,
+  "mesh_seconds": 198.554801451,
+  "max_rss_GB_per_rank": 3.1225662231445312,
+  "wall_seconds": 384.63,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 1.7971015692980834e-07,
+  "L_p_H": 2.4548050288488205e-07,
+  "W_mag_J": 681809.2178289514
+ },
+ {
+  "case": "solenoid_coax_nd2_R4.5",
+  "variant": "gauge1e-13",
+  "ranks": 8,
+  "dofs": 1303798,
+  "iterations": 568,
+  "max_relative_residual": 9.89489266751228e-11,
+  "solves": [
+   [
+    127,
+    9.89489266751228e-11
+   ],
+   [
+    441,
+    3.326139680815212e-11
+   ]
+  ],
+  "solver_seconds": 209.04163255399993,
+  "total_seconds": 449.258950016,
+  "mesh_seconds": 194.910942382,
+  "max_rss_GB_per_rank": 3.1222305297851562,
+  "wall_seconds": 451.87,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-13,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [],
+  "Psi_SI_H_T_m2": 1.7971015704474362e-07,
+  "L_p_H": 2.4548050309482404e-07,
+  "W_mag_J": 681809.2180452347
+ },
+ {
+  "case": "sc_sphere_h0.12",
+  "variant": "m2",
+  "ranks": 4,
+  "dofs": 193678,
+  "iterations": 79,
+  "max_relative_residual": 6.82762381039973e-12,
+  "solves": [
+   [
+    79,
+    6.82762381039973e-12
+   ]
+  ],
+  "solver_seconds": 7.515411502000001,
+  "total_seconds": 22.260638556,
+  "mesh_seconds": 8.185356124,
+  "max_rss_GB_per_rank": 0.49530029296875,
+  "wall_seconds": 23.03,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": false,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [
+   "a background field is present: W_mag and cost exclude the background magnet"
+  ],
+  "Psi_SI_H_T_m2": 0.0,
+  "L_p_H": 0.0,
+  "W_mag_J": 24784.556988799195
+ },
+ {
+  "case": "sc_sphere_h0.12",
+  "variant": "new",
+  "ranks": 4,
+  "dofs": 193678,
+  "iterations": 67,
+  "max_relative_residual": 6.581295888076621e-12,
+  "solves": [
+   [
+    67,
+    6.581295888076621e-12
+   ]
+  ],
+  "solver_seconds": 7.640963781,
+  "total_seconds": 21.30356256,
+  "mesh_seconds": 7.472041857,
+  "max_rss_GB_per_rank": 0.49550628662109375,
+  "wall_seconds": 22.3,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [
+   "a background field is present: W_mag and cost exclude the background magnet"
+  ],
+  "Psi_SI_H_T_m2": 0.0,
+  "L_p_H": 0.0,
+  "W_mag_J": 24784.556988799166
+ },
+ {
+  "case": "sc_sphere_h0.12",
+  "variant": "gauge_global",
+  "ranks": 4,
+  "dofs": 193678,
+  "iterations": 67,
+  "max_relative_residual": 6.573666605013943e-12,
+  "solves": [
+   [
+    67,
+    6.573666605013943e-12
+   ]
+  ],
+  "solver_seconds": 7.2020526149999995,
+  "total_seconds": 21.227678868,
+  "mesh_seconds": 7.45237495,
+  "max_rss_GB_per_rank": 0.49323272705078125,
+  "wall_seconds": 22.02,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [
+   "a background field is present: W_mag and cost exclude the background magnet"
+  ],
+  "Psi_SI_H_T_m2": 0.0,
+  "L_p_H": 0.0,
+  "W_mag_J": 24784.556988799188
+ },
+ {
+  "case": "sc_sphere_h0.12",
+  "variant": "amg_m2",
+  "ranks": 4,
+  "dofs": 193678,
+  "iterations": 79,
+  "max_relative_residual": 6.875401394000085e-12,
+  "solves": [
+   [
+    79,
+    6.875401394000085e-12
+   ]
+  ],
+  "solver_seconds": 7.0252980439999995,
+  "total_seconds": 20.853294242,
+  "mesh_seconds": 7.382800153,
+  "max_rss_GB_per_rank": 0.4951019287109375,
+  "wall_seconds": 21.68,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [
+   "a background field is present: W_mag and cost exclude the background magnet"
+  ],
+  "Psi_SI_H_T_m2": 0.0,
+  "L_p_H": 0.0,
+  "W_mag_J": 24784.55698879916
+ },
+ {
+  "case": "sc_sphere_h0.08",
+  "variant": "m2",
+  "ranks": 8,
+  "dofs": 315584,
+  "iterations": 81,
+  "max_relative_residual": 7.610539186353122e-12,
+  "solves": [
+   [
+    81,
+    7.610539186353122e-12
+   ]
+  ],
+  "solver_seconds": 7.672783550999995,
+  "total_seconds": 39.612905819,
+  "mesh_seconds": 24.173047998,
+  "max_rss_GB_per_rank": 0.6395225524902344,
+  "wall_seconds": 40.82,
+  "options": {
+   "ams_agg_levels": 1,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.25,
+   "essential_projection": false,
+   "fgmres": false,
+   "gauge": 1e-08,
+   "gauge_global": true,
+   "max_iterations": 800,
+   "reuse": false,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [
+   "a background field is present: W_mag and cost exclude the background magnet"
+  ],
+  "Psi_SI_H_T_m2": 0.0,
+  "L_p_H": 0.0,
+  "W_mag_J": 52286.901269104026
+ },
+ {
+  "case": "sc_sphere_h0.08",
+  "variant": "new",
+  "ranks": 8,
+  "dofs": 315584,
+  "iterations": 70,
+  "max_relative_residual": 6.309943131314416e-12,
+  "solves": [
+   [
+    70,
+    6.309943131314416e-12
+   ]
+  ],
+  "solver_seconds": 7.852122088999998,
+  "total_seconds": 30.505113676,
+  "mesh_seconds": 15.584777532,
+  "max_rss_GB_per_rank": 0.6395988464355469,
+  "wall_seconds": 31.75,
+  "options": {
+   "ams_agg_levels": 0,
+   "ams_cycle": 13,
+   "ams_sweeps": 1,
+   "ams_theta": 0.5,
+   "essential_projection": true,
+   "fgmres": false,
+   "gauge": 1e-12,
+   "gauge_global": false,
+   "max_iterations": 800,
+   "reuse": true,
+   "singular": false,
+   "tol": 1e-11
+  },
+  "variant_applied": true,
+  "stalled": false,
+  "warnings": [
+   "a background field is present: W_mag and cost exclude the background magnet"
+  ],
+  "Psi_SI_H_T_m2": 0.0,
+  "L_p_H": 0.0,
+  "W_mag_J": 52286.901269103844
+ }
+]

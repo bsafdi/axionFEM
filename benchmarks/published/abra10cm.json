@@ -1,0 +1,76 @@
+{
+  "schema": "axionfem.design/1",
+  "name": "abra10cm",
+  "description": "ABRACADABRA-10 cm (arXiv:1810.12257): toroidal magnet with a 2 cm superconducting pickup loop in the bore.",
+  "parameters": {
+    "Rin": 0.03,
+    "Rout": 0.06,
+    "H": 0.12,
+    "tw": 0.0002,
+    "rp": 0.0201,
+    "aw": 0.0005,
+    "rcal": 0.045,
+    "NI": 154880.0,
+    "Rsh": 0.09,
+    "tsh": 0.001
+  },
+  "regions": [
+    {
+      "name": "winding",
+      "shape": {
+        "frame": {
+          "r": [
+            "Rin-tw",
+            "Rout+tw"
+          ],
+          "z": [
+            "-H/2-tw",
+            "H/2+tw"
+          ],
+          "thickness": "tw"
+        }
+      },
+      "material": "winding",
+      "notes": "counter-wound toroid; poloidal winding = zero net azimuthal current"
+    },
+    {
+      "name": "loop",
+      "shape": {
+        "disk": {
+          "center": [
+            "rp",
+            0.0
+          ],
+          "radius": "aw"
+        }
+      },
+      "material": "nb",
+      "notes": "NbTi pickup loop, 1 mm wire diameter"
+    }
+  ],
+  "windings": [
+    {
+      "name": "toroid",
+      "region": "winding",
+      "type": "poloidal",
+      "ampere_turns": "NI"
+    }
+  ],
+  "superconductors": [
+    {
+      "body": "loop",
+      "azimuthal_slit": true,
+      "notes": "the loop carries the readout current around the axis"
+    }
+  ],
+  "pickup": {
+    "type": "azimuthal",
+    "conductor": "loop"
+  },
+  "mesh": {
+    "order": 2,
+    "size": 0.004,
+    "surface_size": 0.0002
+  },
+  "notes": "Dimensions and sources: benchmarks/published/sources.json, key 'abra10cm'."
+}

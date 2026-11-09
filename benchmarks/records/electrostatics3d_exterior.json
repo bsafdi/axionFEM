@@ -1,0 +1,45 @@
+{
+  "check": "exterior",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:08",
+  "a_m": 0.5,
+  "rows": [
+    {
+      "domain_radius_m": 1.0,
+      "C_open_F": 5.56434171590512e-11,
+      "relative_error_open": 0.00019618723068992594,
+      "C_grounded_F": 1.1127034875491386e-10,
+      "C_grounded_exact_F": 1.1126500554479188e-10,
+      "relative_error_grounded": 4.8022377708178965e-05,
+      "exterior_flux_check": 0.0111142694241012,
+      "dofs": 64052,
+      "warnings": []
+    },
+    {
+      "domain_radius_m": 1.5,
+      "C_open_F": 5.563796325334235e-11,
+      "relative_error_open": 9.815271063318143e-05,
+      "C_grounded_F": 8.345331972814984e-11,
+      "C_grounded_exact_F": 8.34487541585939e-11,
+      "relative_error_grounded": 5.47110571269549e-05,
+      "exterior_flux_check": 0.007950629835373091,
+      "dofs": 93091,
+      "warnings": []
+    },
+    {
+      "domain_radius_m": 2.5,
+      "C_open_F": 5.563503835267885e-11,
+      "relative_error_open": 4.5577318232181696e-05,
+      "C_grounded_F": 6.954390061922166e-11,
+      "C_grounded_exact_F": 6.954062846549492e-11,
+      "relative_error_grounded": 4.705384174608085e-05,
+      "exterior_flux_check": 0.00289528838866874,
+      "dofs": 263221,
+      "warnings": []
+    }
+  ],
+  "open_spread_relative": 0.00015060991245764707,
+  "grounded_spread_relative": 0.750037227453234,
+  "pass": true,
+  "headline": "open: C varies by 1.51e-04 of 4 pi eps0 a over R_b = 1.0-2.5 m (grounded: 0.75)"
+}

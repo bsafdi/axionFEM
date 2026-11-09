@@ -1,0 +1,350 @@
+{
+ "name": "couette_two_layer",
+ "description": "Traction-driven two-layer Couette: u_x(1) = 1/2 + 1/6 = 2/3; tests the tangential-traction sign and a discontinuous mu evaluated per quadrature point.",
+ "domain": {
+  "kind": "rect",
+  "x": [
+   0,
+   1
+  ],
+  "y": [
+   0,
+   1
+  ]
+ },
+ "pressure": "determined",
+ "conventions": {
+  "G_ij": "d u_i / d x_j",
+  "sigma_sym": "2 mu eps(u) - p I",
+  "sigma_lap": "mu G - p I",
+  "f": "-div sigma_form - gamma grad div u (= -div sigma_form for these fields)",
+  "traction": "g = sigma_form n, n the outward unit normal",
+  "grad_div": "gamma (div u_h, div v); gamma in viscosity units, not scaled by mu"
+ },
+ "u": [
+  {
+   "sympy": "Piecewise((y, y < 1/2), (y/3 + 1/3, True))",
+   "c": "((y < 1.0/2.0) ? (\n   y\n)\n: (\n   (1.0/3.0)*y + 1.0/3.0\n))",
+   "numpy": "((y) if (y < 1/2) else ((1/3)*y + 1/3))"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "p": {
+  "sympy": "0",
+  "c": "0",
+  "numpy": "0"
+ },
+ "mu": {
+  "sympy": "Piecewise((1, y < 1/2), (3, True))",
+  "c": "((y < 1.0/2.0) ? (\n   1\n)\n: (\n   3\n))",
+  "numpy": "((1) if (y < 1/2) else (3))"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "Piecewise((1, y < 1/2), (1/3, True))",
+    "c": "((y < 1.0/2.0) ? (\n   1\n)\n: (\n   1.0/3.0\n))",
+    "numpy": "((1) if (y < 1/2) else (1/3))"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "Piecewise((1, y < 1/2), (1/3, True))*Piecewise((1, y < 1/2), (3, True))",
+      "c": "((y < 1.0/2.0) ? (\n   1\n)\n: (\n   1.0/3.0\n))*((y < 1.0/2.0) ? (\n   1\n)\n: (\n   3\n))",
+      "numpy": "((1) if (y < 1/2) else (1/3))*((1) if (y < 1/2) else (3))"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "Piecewise((1, y < 1/2), (1/3, True))*Piecewise((1, y < 1/2), (3, True))",
+      "c": "((y < 1.0/2.0) ? (\n   1\n)\n: (\n   1.0/3.0\n))*((y < 1.0/2.0) ? (\n   1\n)\n: (\n   3\n))",
+      "numpy": "((1) if (y < 1/2) else (1/3))*((1) if (y < 1/2) else (3))"
+     }
+    ],
+    [
+     {
+      "sympy": "Piecewise((1, y < 1/2), (1/3, True))*Piecewise((1, y < 1/2), (3, True))",
+      "c": "((y < 1.0/2.0) ? (\n   1\n)\n: (\n   1.0/3.0\n))*((y < 1.0/2.0) ? (\n   1\n)\n: (\n   3\n))",
+      "numpy": "((1) if (y < 1/2) else (1/3))*((1) if (y < 1/2) else (3))"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "x0",
+   "bc": "periodic_src",
+   "normal": [
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "y": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "x1",
+   "bc": "periodic_dst",
+   "normal": [
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    "y": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "y0",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "y": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "y1",
+   "bc": "traction",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "y": {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    "range": [
+     0,
+     1
+    ]
+   },
+   "traction": {
+    "lap": [
+     {
+      "sympy": "Piecewise((1, y < 1/2), (1/3, True))*Piecewise((1, y < 1/2), (3, True))",
+      "c": "((y < 1.0/2.0) ? (\n   1\n)\n: (\n   1.0/3.0\n))*((y < 1.0/2.0) ? (\n   1\n)\n: (\n   3\n))",
+      "numpy": "((1) if (y < 1/2) else (1/3))*((1) if (y < 1/2) else (3))"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    "sym": [
+     {
+      "sympy": "Piecewise((1, y < 1/2), (1/3, True))*Piecewise((1, y < 1/2), (3, True))",
+      "c": "((y < 1.0/2.0) ? (\n   1\n)\n: (\n   1.0/3.0\n))*((y < 1.0/2.0) ? (\n   1\n)\n: (\n   3\n))",
+      "numpy": "((1) if (y < 1/2) else (1/3))*((1) if (y < 1/2) else (3))"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   }
+  }
+ ],
+ "extra": {
+  "periodic_x": 1,
+  "p_periodic": {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  "G": {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  "u_top": {
+   "sympy": "2/3",
+   "c": "2.0/3.0",
+   "numpy": "2/3"
+  }
+ },
+ "constants": {
+  "area": 1.0,
+  "p_mean": 0.0,
+  "u_L2": 0.46144752051650223,
+  "grad_u_L2": 0.7453559924999299,
+  "p_minus_mean_L2": 0.0,
+  "u_max_sampled": 0.6625666666666666,
+  "p_max_abs_sampled": 0.0,
+  "p_minus_mean_max_abs_sampled": 0.0,
+  "mu_min_sampled": 1.0,
+  "mu_max_sampled": 3.0
+ },
+ "selfcheck": {
+  "fd_residual_lap": 4.11707704965139e-10,
+  "fd_residual_sym": 4.11707704965139e-10,
+  "net_boundary_flux": 0.0,
+  "status": "pass"
+ }
+}

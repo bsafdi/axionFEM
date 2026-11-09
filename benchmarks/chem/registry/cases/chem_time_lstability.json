@@ -1,0 +1,70 @@
+{
+ "id": "chem_time_lstability",
+ "capability": "C1a",
+ "title": "L-stability: lambda = -1e6, dt = 0.1; theta = 1/2 control built as a tableau of the SAME ESDIRK driver",
+ "physics": "scalar stiff decay",
+ "levels": [
+  "analytic"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "time_lstability",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 300
+  },
+  "parameters": {
+   "lam": -1000000.0,
+   "delta": 0.01,
+   "dt": 0.1,
+   "n_steps": 10,
+   "damp_max": 0.001,
+   "trap_min": 0.9,
+   "theta_half_tableau_sha256": "f0c33f97f50311d4676fa989e85b030169e3832e38a673f25bd1bd9cabae2ab0",
+   "onestep_tableau_sha256": "20938930f3a1c1778fd08fcb95fa46bc7cfcdebd4e45850947304b48875d3f7f"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "damping_bdf1",
+    "level": "analytic",
+    "max": 0.001
+   },
+   {
+    "quantity": "damping_bdf2",
+    "level": "analytic",
+    "max": 0.001
+   },
+   {
+    "quantity": "damping_onestep",
+    "level": "analytic",
+    "max": 0.001
+   },
+   {
+    "quantity": "theta_half_persistence",
+    "level": "analytic",
+    "min": 0.9
+   },
+   {
+    "quantity": "theta_half_sign_alternates",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "theta_half_same_driver",
+    "level": "analytic",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,139 @@
+{
+ "T": 2.0,
+ "boundaries": [
+  {
+   "kind": "dirichlet",
+   "name": "x0",
+   "normal": [
+    -1,
+    0
+   ],
+   "where": "x = 0"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "x1",
+   "normal": [
+    1,
+    0
+   ],
+   "where": "x = 1"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "y0",
+   "normal": [
+    0,
+    -1
+   ],
+   "where": "y = 0"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "y1",
+   "normal": [
+    0,
+    1
+   ],
+   "where": "y = 1"
+  }
+ ],
+ "box": [
+  0.0,
+  1.0,
+  0.0,
+  1.0
+ ],
+ "constants": {
+  "T": "2",
+  "mu": "1/400",
+  "rho": "1"
+ },
+ "coords": [
+  "x",
+  "y",
+  "t"
+ ],
+ "data_only": true,
+ "description": "cross-code start-up cavity, Re = 400 (lid max 1, L = 1), regularized lid, smoothstep ramp",
+ "exact_ns": false,
+ "extra": {},
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "0",
+     "sympy": "0"
+    }
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "0",
+     "sympy": "0"
+    }
+   ]
+  }
+ },
+ "geometry": "planar",
+ "grad_u": [
+  [
+   {
+    "numpy": "16*x**2*y*(2*x - 2)*np.select([np.less(t, 1),True], [t**2*(3 - 2*t),1], default=np.nan) + 32*x*y*(1 - x)**2*np.select([np.less(t, 1),True], [t**2*(3 - 2*t),1], default=np.nan)",
+    "sympy": "16*x**2*y*(2*x - 2)*Piecewise((t**2*(3 - 2*t), t < 1), (1, True)) + 32*x*y*(1 - x)**2*Piecewise((t**2*(3 - 2*t), t < 1), (1, True))"
+   },
+   {
+    "numpy": "16*x**2*(1 - x)**2*np.select([np.less(t, 1),True], [t**2*(3 - 2*t),1], default=np.nan)",
+    "sympy": "16*x**2*(1 - x)**2*Piecewise((t**2*(3 - 2*t), t < 1), (1, True))"
+   }
+  ],
+  [
+   {
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ]
+ ],
+ "homogeneous": false,
+ "mu": 0.0025,
+ "name": "f3a_tr_cavity_x1",
+ "p": {
+  "numpy": "0",
+  "sympy": "0"
+ },
+ "pressure": "mean_zero",
+ "rho": 1.0,
+ "selfcheck": {
+  "checks": {
+   "boundary_data_values": {
+    "pass": true,
+    "value": 0.0
+   }
+  },
+  "status": "pass"
+ },
+ "space_exact": false,
+ "u": [
+  {
+   "numpy": "16*x**2*y*(1 - x)**2*np.select([np.less(t, 1),True], [t**2*(3 - 2*t),1], default=np.nan)",
+   "sympy": "16*x**2*y*(1 - x)**2*Piecewise((t**2*(3 - 2*t), t < 1), (1, True))"
+  },
+  {
+   "numpy": "0",
+   "sympy": "0"
+  }
+ ]
+}

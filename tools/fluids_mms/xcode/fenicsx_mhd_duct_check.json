@@ -1,0 +1,20 @@
+{
+ "code": "FEniCSx/dolfinx",
+ "quantities": {
+  "hunt_Ha100_k1_M_var_h": -0.03751287190864474,
+  "hunt_Ha100_k1_Q_h": 0.0031030649551472144,
+  "hunt_Ha100_k1_phi_side_h": -0.04284030699527938,
+  "hunt_Ha100_k1_w_center_h": 0.00020256773796081947,
+  "hunt_Ha100_k2_M_var_h": -0.03751968859325469,
+  "hunt_Ha100_k2_Q_h": 0.0031206019118706248,
+  "hunt_Ha100_k2_phi_side_h": -0.043056249696840077,
+  "hunt_Ha100_k2_w_center_h": 0.0002025798252356521,
+  "shercliff_Ha100_k1_Q_h": 0.07239731002946055,
+  "shercliff_Ha100_k1_dphi_side_h": -1.829807354053906,
+  "shercliff_Ha100_k1_w_center_h": 0.019997649699352846,
+  "shercliff_Ha100_k2_Q_h": 0.07243219705199642,
+  "shercliff_Ha100_k2_dphi_side_h": -1.8306341300892492,
+  "shercliff_Ha100_k2_w_center_h": 0.01999984277330282
+ },
+ "version": "0.11.0"
+}

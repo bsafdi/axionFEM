@@ -1,0 +1,1133 @@
+{
+ "id": "chem_analytic_c3_porous_1d",
+ "capability": "C3b",
+ "title": "1D porous electrode, linear kinetics, two coupled fields (Newman-Tobias / de Levie)",
+ "physics": "sigma phi1'' = j, kappa phi2'' = -j, j = kv (phi1 - phi2), kv = a_v i0 (alpha_a + alpha_c) F/(R T) (linear kinetics, E_eq = 0, T = 298.15 K, F and R as in); x = 0 collector: phi1 = 0 (grounded), i2 = 0; x = l separator: i1 = 0 and i2 = I (galvanostatic) or phi2 = -V (potentiostatic)",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3b_current_distribution",
+   "function": "porous_1d",
+   "check_module": "c3b_checks",
+   "cost": "short",
+   "timeout_s": 600
+  },
+  "parameters": {
+   "model": "sigma phi1'' = j, kappa phi2'' = -j, j = kv (phi1 - phi2), kv = a_v i0 (alpha_a + alpha_c) F/(R T) (linear kinetics, E_eq = 0, T = 298.15 K, F and R as in); x = 0 collector: phi1 = 0 (grounded), i2 = 0; x = l separator: i1 = 0 and i2 = I (galvanostatic) or phi2 = -V (potentiostatic)",
+   "variants": {
+    "base": {
+     "I": "10",
+     "a_v": "1e5",
+     "alpha_a": "0.5",
+     "alpha_c": "0.5",
+     "control": "galvanostatic",
+     "i0": "0.025",
+     "kappa": "2.5",
+     "l": "1e-3",
+     "sigma": "10"
+    },
+    "nu3": {
+     "I": "10",
+     "a_v": "1e5",
+     "alpha_a": "0.5",
+     "alpha_c": "0.5",
+     "control": "galvanostatic",
+     "i0": "2.5",
+     "kappa": "2.5",
+     "l": "1e-3",
+     "sigma": "10"
+    },
+    "symmetric": {
+     "I": "10",
+     "a_v": "1e5",
+     "alpha_a": "0.3",
+     "alpha_c": "0.5",
+     "control": "galvanostatic",
+     "i0": "2.5",
+     "kappa": "2.5",
+     "l": "1e-3",
+     "sigma": "2.5"
+    },
+    "delevie": {
+     "I": "10",
+     "a_v": "1e5",
+     "alpha_a": "0.5",
+     "alpha_c": "0.5",
+     "control": "galvanostatic",
+     "i0": "25",
+     "kappa": "2.5",
+     "l": "1e-3",
+     "sigma": "1e4"
+    },
+    "nu3_pot": {
+     "V": "0.01",
+     "a_v": "1e5",
+     "alpha_a": "0.5",
+     "alpha_c": "0.5",
+     "control": "potentiostatic",
+     "i0": "2.5",
+     "kappa": "2.5",
+     "l": "1e-3",
+     "sigma": "10"
+    }
+   },
+   "elements": {
+    "p1": "Lagrange P1 for both fields",
+    "p2": "Lagrange P2 for both fields"
+   },
+   "quadrature": {
+    "degree": "2k + 4 (the exchange term included)",
+    "error_norms": "2k + 8"
+   },
+   "meshes": {
+    "p1": {
+     "family": "interval_p1",
+     "N": [
+      16,
+      32,
+      64,
+      128,
+      256
+     ],
+     "h_nominal": [
+      6.25e-05,
+      3.125e-05,
+      1.5625e-05,
+      7.8125e-06,
+      3.90625e-06
+     ],
+     "construction": "uniform interval mesh of [0, l] with N elements (nested): 1D interval elements, or a tensor-product strip (ONE layer of quadrilaterals or hexahedra whose nodes are the 1D lattice, Q_k elements); simplex (triangle/tetrahedron) strips are NOT allowed: their consistent exchange mass matrix is not x-only and the P2 V order drops to ~3. runs report n_elements = N x (elements across the strip) and <v>_p<k>_strip_spread from c3b_checks.strip_spread (0 for a 1D path)"
+    },
+    "p2": {
+     "family": "interval_p2",
+     "N": [
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.000125,
+      6.25e-05,
+      3.125e-05,
+      1.5625e-05
+     ],
+     "construction": "uniform interval mesh of [0, l] with N elements (nested): 1D interval elements, or a tensor-product strip (ONE layer of quadrilaterals or hexahedra whose nodes are the 1D lattice, Q_k elements); simplex (triangle/tetrahedron) strips are NOT allowed: their consistent exchange mass matrix is not x-only and the P2 V order drops to ~3. runs report n_elements = N x (elements across the strip) and <v>_p<k>_strip_spread from c3b_checks.strip_spread (0 for a 1D path)"
+    }
+   },
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "base_V": {
+    "kind": "scalar",
+    "unit": "V",
+    "value": 0.104434830057297,
+    "source": "porous_closed_form",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "nu3_V": {
+    "kind": "scalar",
+    "unit": "V",
+    "value": 0.002541118946123811,
+    "source": "porous_closed_form",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "symmetric_V": {
+    "kind": "scalar",
+    "unit": "V",
+    "value": 0.0038909807603002013,
+    "source": "porous_closed_form",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "delevie_V": {
+    "kind": "scalar",
+    "unit": "V",
+    "value": 0.0006419217548741995,
+    "source": "porous_closed_form",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "nu3_pot_I": {
+    "kind": "scalar",
+    "unit": "A/m^2",
+    "value": 39.35274267760612,
+    "source": "porous_closed_form",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "base_p1_V",
+    "level": "analytic",
+    "norm": "cell voltage V_h - V, V = phi1(0) - phi2(l)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.104434830057297,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "base_p1_L2",
+    "level": "analytic",
+    "norm": "sqrt(|phi1 - phi1_h|^2 + |phi2 - phi2_h|^2) in L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.00326,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "base_p1_H1",
+    "level": "analytic",
+    "norm": "the same in the H1 seminorm",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0751,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_p1_V",
+    "level": "analytic",
+    "norm": "cell voltage V_h - V, V = phi1(0) - phi2(l)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.002541118946123811,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_p1_L2",
+    "level": "analytic",
+    "norm": "sqrt(|phi1 - phi1_h|^2 + |phi2 - phi2_h|^2) in L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 4.85e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_p1_H1",
+    "level": "analytic",
+    "norm": "the same in the H1 seminorm",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0662,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_p2_V",
+    "level": "analytic",
+    "norm": "cell voltage V_h - V, V = phi1(0) - phi2(l)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.002541118946123811,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_p2_L2",
+    "level": "analytic",
+    "norm": "sqrt(|phi1 - phi1_h|^2 + |phi2 - phi2_h|^2) in L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 4.85e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_p2_H1",
+    "level": "analytic",
+    "norm": "the same in the H1 seminorm",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0662,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "symmetric_p1_V",
+    "level": "analytic",
+    "norm": "cell voltage V_h - V, V = phi1(0) - phi2(l)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.0038909807603002013,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "symmetric_p1_L2",
+    "level": "analytic",
+    "norm": "sqrt(|phi1 - phi1_h|^2 + |phi2 - phi2_h|^2) in L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 9.54e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "symmetric_p1_H1",
+    "level": "analytic",
+    "norm": "the same in the H1 seminorm",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.101,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "symmetric_p2_V",
+    "level": "analytic",
+    "norm": "cell voltage V_h - V, V = phi1(0) - phi2(l)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.0038909807603002013,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "symmetric_p2_L2",
+    "level": "analytic",
+    "norm": "sqrt(|phi1 - phi1_h|^2 + |phi2 - phi2_h|^2) in L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 9.54e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "symmetric_p2_H1",
+    "level": "analytic",
+    "norm": "the same in the H1 seminorm",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.101,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "delevie_p1_V",
+    "level": "analytic",
+    "norm": "cell voltage V_h - V, V = phi1(0) - phi2(l)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.0006419217548741995,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "delevie_p1_L2",
+    "level": "analytic",
+    "norm": "sqrt(|phi1 - phi1_h|^2 + |phi2 - phi2_h|^2) in L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 5.75e-06,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "delevie_p1_H1",
+    "level": "analytic",
+    "norm": "the same in the H1 seminorm",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0358,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "delevie_p2_V",
+    "level": "analytic",
+    "norm": "cell voltage V_h - V, V = phi1(0) - phi2(l)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.0006419217548741995,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "delevie_p2_L2",
+    "level": "analytic",
+    "norm": "sqrt(|phi1 - phi1_h|^2 + |phi2 - phi2_h|^2) in L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 5.75e-06,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "delevie_p2_H1",
+    "level": "analytic",
+    "norm": "the same in the H1 seminorm",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0358,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_pot_p1_I",
+    "level": "analytic",
+    "norm": "cell current I_h - I (phi2(l) = -V prescribed)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 39.35274267760612,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_pot_p1_L2",
+    "level": "analytic",
+    "norm": "sqrt(|phi1 - phi1_h|^2 + |phi2 - phi2_h|^2) in L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.000191,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_pot_p1_H1",
+    "level": "analytic",
+    "norm": "the same in the H1 seminorm",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.26,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_pot_p2_I",
+    "level": "analytic",
+    "norm": "cell current I_h - I (phi2(l) = -V prescribed)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 39.35274267760612,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_pot_p2_L2",
+    "level": "analytic",
+    "norm": "sqrt(|phi1 - phi1_h|^2 + |phi2 - phi2_h|^2) in L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.000191,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "nu3_pot_p2_H1",
+    "level": "analytic",
+    "norm": "the same in the H1 seminorm",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 1
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.26,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "comparisons": [
+   {
+    "quantity": "base_p1_V_finest",
+    "reference": "base_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 2e-07
+    }
+   },
+   {
+    "quantity": "base_p2_V_finest",
+    "reference": "base_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-09
+    }
+   },
+   {
+    "quantity": "nu3_p1_V_finest",
+    "reference": "nu3_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 9e-06
+    }
+   },
+   {
+    "quantity": "nu3_p2_V_finest",
+    "reference": "nu3_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 2e-09
+    }
+   },
+   {
+    "quantity": "symmetric_p1_V_finest",
+    "reference": "symmetric_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 9e-06
+    }
+   },
+   {
+    "quantity": "symmetric_p2_V_finest",
+    "reference": "symmetric_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 2e-09
+    }
+   },
+   {
+    "quantity": "delevie_p1_V_finest",
+    "reference": "delevie_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 8e-05
+    }
+   },
+   {
+    "quantity": "delevie_p2_V_finest",
+    "reference": "delevie_V",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 2e-07
+    }
+   },
+   {
+    "quantity": "nu3_pot_p1_I_finest",
+    "reference": "nu3_pot_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 9e-06
+    }
+   },
+   {
+    "quantity": "nu3_pot_p2_I_finest",
+    "reference": "nu3_pot_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 2e-09
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "base_p1_exchange_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 68400000.0,
+    "scale_quantity": "base_p1_terms"
+   },
+   {
+    "quantity": "base_p1_collector_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 68400000.0,
+    "scale_quantity": "base_p1_terms"
+   },
+   {
+    "quantity": "base_p2_exchange_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 22800000.0,
+    "scale_quantity": "base_p2_terms"
+   },
+   {
+    "quantity": "base_p2_collector_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 22800000.0,
+    "scale_quantity": "base_p2_terms"
+   },
+   {
+    "quantity": "base_p1_strip_spread",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "base_p2_strip_spread",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "nu3_p1_exchange_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1880000.0,
+    "scale_quantity": "nu3_p1_terms"
+   },
+   {
+    "quantity": "nu3_p1_collector_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1880000.0,
+    "scale_quantity": "nu3_p1_terms"
+   },
+   {
+    "quantity": "nu3_p2_exchange_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 627000.0,
+    "scale_quantity": "nu3_p2_terms"
+   },
+   {
+    "quantity": "nu3_p2_collector_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 627000.0,
+    "scale_quantity": "nu3_p2_terms"
+   },
+   {
+    "quantity": "nu3_p1_strip_spread",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "nu3_p2_strip_spread",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "symmetric_p1_exchange_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 2550000.0,
+    "scale_quantity": "symmetric_p1_terms"
+   },
+   {
+    "quantity": "symmetric_p1_collector_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 2550000.0,
+    "scale_quantity": "symmetric_p1_terms"
+   },
+   {
+    "quantity": "symmetric_p2_exchange_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 850000.0,
+    "scale_quantity": "symmetric_p2_terms"
+   },
+   {
+    "quantity": "symmetric_p2_collector_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 850000.0,
+    "scale_quantity": "symmetric_p2_terms"
+   },
+   {
+    "quantity": "symmetric_p1_strip_spread",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "symmetric_p2_strip_spread",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "delevie_p1_exchange_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1310000.0,
+    "scale_quantity": "delevie_p1_terms"
+   },
+   {
+    "quantity": "delevie_p1_collector_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1310000.0,
+    "scale_quantity": "delevie_p1_terms"
+   },
+   {
+    "quantity": "delevie_p2_exchange_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 438000.0,
+    "scale_quantity": "delevie_p2_terms"
+   },
+   {
+    "quantity": "delevie_p2_collector_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 438000.0,
+    "scale_quantity": "delevie_p2_terms"
+   },
+   {
+    "quantity": "delevie_p1_strip_spread",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "delevie_p2_strip_spread",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "nu3_pot_p1_exchange_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 7400000.0,
+    "scale_quantity": "nu3_pot_p1_terms"
+   },
+   {
+    "quantity": "nu3_pot_p1_collector_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 7400000.0,
+    "scale_quantity": "nu3_pot_p1_terms"
+   },
+   {
+    "quantity": "nu3_pot_p2_exchange_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 2470000.0,
+    "scale_quantity": "nu3_pot_p2_terms"
+   },
+   {
+    "quantity": "nu3_pot_p2_collector_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 2470000.0,
+    "scale_quantity": "nu3_pot_p2_terms"
+   },
+   {
+    "quantity": "nu3_pot_p1_strip_spread",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "nu3_pot_p2_strip_spread",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "delevie_p2_R_finest",
+    "level": "analytic",
+    "min": 6.396397372966435e-05,
+    "max": 6.426824274000514e-05
+   },
+   {
+    "quantity": "base_p1_R_finest",
+    "level": "analytic",
+    "min": 0.010443257252496927,
+    "max": 0.010444139378031384
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  }
+ }
+}

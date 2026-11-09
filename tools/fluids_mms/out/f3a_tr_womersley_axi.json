@@ -1,0 +1,278 @@
+{
+ "T": 1.0,
+ "boundaries": [
+  {
+   "kind": "axis",
+   "name": "axis",
+   "normal": [
+    -1,
+    0
+   ],
+   "where": "r = 0"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "r1",
+   "normal": [
+    1,
+    0
+   ],
+   "where": "r = 1"
+  },
+  {
+   "kind": "traction",
+   "name": "z0",
+   "normal": [
+    0,
+    -1
+   ],
+   "where": "z = 0"
+  },
+  {
+   "kind": "traction",
+   "name": "z1",
+   "normal": [
+    0,
+    1
+   ],
+   "where": "z = 1"
+  }
+ ],
+ "box": [
+  0.0,
+  1.0,
+  0.0,
+  1.0
+ ],
+ "constants": {
+  "T": "1",
+  "mu": "5*pi/32",
+  "rho": "5/4"
+ },
+ "coords": [
+  "r",
+  "z",
+  "t"
+ ],
+ "description": "axisymmetric Womersley pipe flow, alpha = 4, omega = 2 pi, rho = 5/4, K = omega",
+ "exact_ns": true,
+ "extra": {
+  "J0_k": [
+   -2.5634165572585808,
+   2.2926903226992996
+  ],
+  "K": "omega",
+  "Uhat_sympy": "-I*(-besselj(0, 4*r*exp(3*I*pi/4))/besselj(0, 4*exp(3*I*pi/4)) + 1)",
+  "alpha": 4,
+  "nu": "omega / alpha^2",
+  "omega": "2 pi"
+ },
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "0",
+     "sympy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "numpy": "-5/2*np.pi*(1/2 - z)*np.cos(2*np.pi*t)",
+      "sympy": "-5*pi*(1/2 - z)*cos(2*pi*t)/2"
+     },
+     {
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "numpy": "0",
+      "sympy": "0"
+     }
+    ],
+    [
+     {
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "numpy": "-5/2*np.pi*(1/2 - z)*np.cos(2*np.pi*t)",
+      "sympy": "-5*pi*(1/2 - z)*cos(2*pi*t)/2"
+     },
+     {
+      "numpy": "0",
+      "sympy": "0"
+     }
+    ],
+    [
+     {
+      "numpy": "0.4908738521234052 * (np.real((-1.0j) * (((-2.8284271247461903+2.8284271247461903j)) * jv(1, ((-2.8284271247461903+2.8284271247461903j)) * r) / ((-2.5634165572585808+2.2926903226992996j))) * np.exp(1j * 6.283185307179586 * t)))",
+      "sympy": "5*pi/32*Derivative(u_z, r)"
+     },
+     {
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "numpy": "-5/2*np.pi*(1/2 - z)*np.cos(2*np.pi*t)",
+      "sympy": "-5*pi*(1/2 - z)*cos(2*pi*t)/2"
+     }
+    ]
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "0",
+     "sympy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "numpy": "-5/2*np.pi*(1/2 - z)*np.cos(2*np.pi*t)",
+      "sympy": "-5*pi*(1/2 - z)*cos(2*pi*t)/2"
+     },
+     {
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "numpy": "0.4908738521234052 * (np.real((-1.0j) * (((-2.8284271247461903+2.8284271247461903j)) * jv(1, ((-2.8284271247461903+2.8284271247461903j)) * r) / ((-2.5634165572585808+2.2926903226992996j))) * np.exp(1j * 6.283185307179586 * t)))",
+      "sympy": "5*pi/32*Derivative(u_z, r)"
+     }
+    ],
+    [
+     {
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "numpy": "-5/2*np.pi*(1/2 - z)*np.cos(2*np.pi*t)",
+      "sympy": "-5*pi*(1/2 - z)*cos(2*pi*t)/2"
+     },
+     {
+      "numpy": "0",
+      "sympy": "0"
+     }
+    ],
+    [
+     {
+      "numpy": "0.4908738521234052 * (np.real((-1.0j) * (((-2.8284271247461903+2.8284271247461903j)) * jv(1, ((-2.8284271247461903+2.8284271247461903j)) * r) / ((-2.5634165572585808+2.2926903226992996j))) * np.exp(1j * 6.283185307179586 * t)))",
+      "sympy": "5*pi/32*Derivative(u_z, r)"
+     },
+     {
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "numpy": "-5/2*np.pi*(1/2 - z)*np.cos(2*np.pi*t)",
+      "sympy": "-5*pi*(1/2 - z)*cos(2*pi*t)/2"
+     }
+    ]
+   ]
+  }
+ },
+ "geometry": "axisymmetric",
+ "grad_u": [
+  [
+   {
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ],
+  [
+   {
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ],
+  [
+   {
+    "numpy": "np.real((-1.0j) * (((-2.8284271247461903+2.8284271247461903j)) * jv(1, ((-2.8284271247461903+2.8284271247461903j)) * r) / ((-2.5634165572585808+2.2926903226992996j))) * np.exp(1j * 6.283185307179586 * t))",
+    "sympy": "4*sin(2*pi*t)*re(exp(3*I*pi/4)*besselj(1, 4*r*exp(3*I*pi/4))/besselj(0, 4*exp(3*I*pi/4))) + 4*cos(2*pi*t)*im(exp(3*I*pi/4)*besselj(1, 4*r*exp(3*I*pi/4))/besselj(0, 4*exp(3*I*pi/4)))"
+   },
+   {
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ]
+ ],
+ "homogeneous": false,
+ "mu": 0.4908738521234052,
+ "name": "f3a_tr_womersley_axi",
+ "p": {
+  "numpy": "(5/2)*np.pi*(1/2 - z)*np.cos(2*np.pi*t)",
+  "sympy": "5*pi*(1/2 - z)*cos(2*pi*t)/2"
+ },
+ "pressure": "determined",
+ "rho": 1.25,
+ "selfcheck": {
+  "checks": {
+   "div_u_numeric": {
+    "pass": true,
+    "value": 0
+   },
+   "fd_residual_lap": {
+    "pass": true,
+    "value": 8.130903950132051e-09
+   },
+   "fd_residual_sym": {
+    "pass": true,
+    "value": 8.130903950132051e-09
+   },
+   "numpy_spelling_vs_sympy_max": {
+    "pass": true,
+    "value": 1.2212453270876722e-15
+   },
+   "womersley_amplitude_ode_residual": {
+    "pass": true,
+    "value": 7.064567647901086e-52
+   },
+   "womersley_wall_value": {
+    "pass": true,
+    "value": 0.0
+   }
+  },
+  "status": "pass"
+ },
+ "space_exact": false,
+ "u": [
+  {
+   "numpy": "0",
+   "sympy": "0"
+  },
+  {
+   "numpy": "0",
+   "sympy": "0"
+  },
+  {
+   "numpy": "np.real((-1.0j) * (1 - jv(0, ((-2.8284271247461903+2.8284271247461903j)) * r) / ((-2.5634165572585808+2.2926903226992996j))) * np.exp(1j * 6.283185307179586 * t))",
+   "sympy": "(1 - re(besselj(0, 4*r*exp(3*I*pi/4))/besselj(0, 4*exp(3*I*pi/4))))*sin(2*pi*t) - cos(2*pi*t)*im(besselj(0, 4*r*exp(3*I*pi/4))/besselj(0, 4*exp(3*I*pi/4)))"
+  }
+ ]
+}

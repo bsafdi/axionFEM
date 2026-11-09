@@ -1,0 +1,26 @@
+{
+ "axionfem_version": "0.1.0",
+ "date": "2026-10-06 15:02",
+ "check": "mechanics_cooldown",
+ "geometry": {
+  "r_m": [
+   0.4,
+   0.6
+  ],
+  "z_m": [
+   -0.1,
+   0.1
+  ],
+  "E_Pa": 120000000000.0,
+  "nu": 0.33,
+  "alpha": 0.0025
+ },
+ "reference": "a free body contracting uniformly: u = -alpha x, zero stress",
+ "max_rel_err_u_r": 3.6859404417555197e-13,
+ "max_rel_err_u_z": 1.783173608771449e-11,
+ "von_mises_max_Pa": 0.00021325761984917652,
+ "von_mises_over_E_alpha": 7.108587328305884e-13,
+ "u_max_m": 0.0015206906325747657,
+ "u_max_exact_m": 0.001520690632574555,
+ "equilibrium_Fz_round_off": 1.6154602151289825e-15
+}

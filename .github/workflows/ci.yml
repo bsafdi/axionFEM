@@ -1,0 +1,384 @@
+# Build and test axionFEM.
+#
+# Every pull request and every push to main runs:
+#   linux-sequential   Ubuntu 24.04, serial MFEM (scripts/build_deps_wheel.sh), no MPI: the configuration of the
+#                      wheels, so the 3D engine is the stub and its tests skip. ctest and pytest without AXF_SLOW.
+#   macos-sequential   macOS arm64, Apple clang, Homebrew: the guide's prerequisites and "Sequential source build"
+#                      (docs/guides/install.md) as written, pytest on that installed package, and ctest.
+#   linux-mpi          Ubuntu 24.04, OpenMPI + OpenBLAS, MFEM/hypre/METIS from scripts/build_deps.sh: the 3D engine
+#                      is built, ctest runs, then the 3D part of the quick pre-merge subset (tests/premerge.txt, as
+#                      selected by `scripts/premerge_tests.py ci3d`; without AXF_SLOW, so their slow cases skip), the
+#                      fluids and chemistry tests (beta) and a 3D solve on two ranks.
+#   packaging          the file-based packaging tests and an sdist check.
+# Weekly and on workflow_dispatch, linux-mpi runs the whole pytest suite instead, and macos-mpi follows the guide's
+# "MPI source build" with Homebrew's open-mpi and runs ctest and a 3D smoke set.
+#
+# The third-party stacks are cached on the hash of the scripts that build them, so a normal run compiles only
+# axionFEM itself.
+name: ci
+
+# Changes that touch only documentation run nothing (the docs workflow builds the site); the documents and data
+# files that tests read (docs/install.md, docs/guides/install.md, the fluids and chemistry validation pages, JSON files
+# under docs/, the agent skill, the viewer's vendor README) still trigger it.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**"
+      - "!docs/**"
+      - "!**/*.md"
+      - "!mkdocs.yml"
+      - "!llms.txt"
+      - "!LICENSE"
+      - "docs/install.md"
+      - "docs/guides/install.md"
+      - "docs/validation/fluids.md"
+      - "docs/validation/chemistry.md"
+      - "docs/**/*.json"
+      - ".claude/skills/**"
+      - "viewer/**"
+  pull_request:
+    paths:
+      - "**"
+      - "!docs/**"
+      - "!**/*.md"
+      - "!mkdocs.yml"
+      - "!llms.txt"
+      - "!LICENSE"
+      - "docs/install.md"
+      - "docs/guides/install.md"
+      - "docs/validation/fluids.md"
+      - "docs/validation/chemistry.md"
+      - "docs/**/*.json"
+      - ".claude/skills/**"
+      - "viewer/**"
+  schedule:
+    - cron: "17 6 * * 1"   # Mondays 06:17 UTC: the full suite
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  AXF_DEPS_SRC: ${{ github.workspace }}/third_party/src
+  FULL: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+
+jobs:
+  linux-sequential:
+    name: linux sequential (wheel configuration)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          # libgmsh from the gmsh PyPI wheel links the FLTK/OpenGL GUI, so axf-mesher cannot load it without
+          # these, display or not (docs/guides/install.md).
+          sudo apt-get install -y ninja-build libglu1-mesa libgl1 libxcursor1 libxft2 libxinerama1
+          python -m pip install --upgrade pip
+          # gmsh provides libgmsh + gmsh.h for axf-mesher (GPL, not redistributed by axionFEM).
+          python -m pip install "scikit-build-core>=0.9" "nanobind>=2.0" "gmsh>=4.15,<4.16" \
+                                pytest jsonschema scipy numpy anywidget cmake "matplotlib>=3.6" "mcp>=2.0" \
+                                "schemdraw>=0.19"
+
+      # Restore and save separately: actions/cache saves only when the whole job succeeds, and a failing test
+      # would otherwise force every later run to rebuild the stack.
+      - name: Restore the sequential third-party stack
+        id: deps
+        uses: actions/cache/restore@v4
+        with:
+          path: third_party/install-seq
+          key: seq-ubuntu-24.04-${{ hashFiles('scripts/build_deps_wheel.sh', 'scripts/common.sh', 'third_party/SHA256SUMS.txt') }}
+
+      - name: Build the sequential third-party stack (serial MFEM, METIS)
+        if: steps.deps.outputs.cache-hit != 'true'
+        timeout-minutes: 45
+        run: bash scripts/build_deps_wheel.sh
+
+      - name: Save the sequential third-party stack
+        if: steps.deps.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: third_party/install-seq
+          key: ${{ steps.deps.outputs.cache-primary-key }}
+
+      - name: Configure and build
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DAXF_DEPS="$PWD/third_party/install-seq" -DPython_EXECUTABLE="$(which python)"
+          cmake --build build
+
+      - name: The build must be serial, with the 3D stub
+        run: |
+          set -e
+          cmake -LA -N build | grep -E "^AXF_(MPI|OPENMP|GPU)"
+          # METIS is linked on purpose (the axisymmetric engine's nested-dissection ordering)
+          ! ldd build/libaxionfem.so | grep -qiE "libmpi|libHYPRE"
+
+      - name: ctest
+        run: ctest --test-dir build --output-on-failure
+
+      - name: pytest (fast suite; no 3D in this configuration)
+        env:
+          PYTHONPATH: ${{ github.workspace }}/python
+          AXF_MESHER: ${{ github.workspace }}/build/axf-mesher
+        run: python -m pytest -q tests --durations=10
+
+      - name: A non-editable install must work too
+        run: |
+          AXIONFEM_DEPS="$PWD/third_party/install-seq" python -m pip install . --no-build-isolation
+          # From here on the installed package alone: without the in-place module, the source tree on sys.path (some
+          # benchmark modules that tests load put it there) holds no compiled core, as after a user's `pip install .`.
+          rm -f python/axionfem/_core*
+          python -m pytest -q tests/test_srf_vibration.py tests/test_global_opt.py tests/test_mcp_progress.py \
+            tests/test_cavity_xsec.py
+          cd "$RUNNER_TEMP"
+          python -c "
+          import json, axionfem as af
+          info = af.build_info(); print(json.dumps(info))
+          assert info['engine_3d'] is False
+          res = af.template('toroid', R=1.0, H=1.0).solve('runs/t', verbose=0)
+          assert res.Psi > 0 and res.L_p > 0
+          print(res.summary())
+          "
+
+  macos-sequential:
+    name: macOS arm64 sequential (the guide's source build)
+    runs-on: macos-14
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      # docs/guides/install.md, "macOS (Homebrew)" without MPI (the sequential build needs none), then a venv from
+      # Homebrew's python3.12 as the build steps say.
+      - name: Prerequisites (Homebrew)
+        run: |
+          brew install cmake ninja libomp python@3.12
+          python3.12 -m venv .venv
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+
+      - name: Restore the sequential third-party stack
+        id: deps
+        uses: actions/cache/restore@v4
+        with:
+          path: third_party/install-seq
+          key: seq-macos-14-${{ hashFiles('scripts/build_deps_wheel.sh', 'scripts/common.sh', 'third_party/SHA256SUMS.txt') }}
+
+      - name: Build the sequential third-party stack (serial MFEM, METIS)
+        if: steps.deps.outputs.cache-hit != 'true'
+        timeout-minutes: 45
+        run: bash scripts/build_deps_wheel.sh
+
+      - name: Save the sequential third-party stack
+        if: steps.deps.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: third_party/install-seq
+          key: ${{ steps.deps.outputs.cache-primary-key }}
+
+      - name: Install axionFEM (the guide's sequential source build)
+        run: |
+          pip install --upgrade pip
+          AXIONFEM_DEPS=$PWD/third_party/install-seq pip install ".[all,test]"
+          python -c "import json, axionfem as af; i = af.build_info(); print(json.dumps(i)); assert not i['engine_3d']"
+
+      - name: CMake build and ctest
+        run: |
+          pip install "nanobind>=2.0"
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DAXF_DEPS="$PWD/third_party/install-seq" -DPython_EXECUTABLE="$(which python)" \
+            -DAXF_INPLACE_PYTHON_DIR="$PWD/build/python"
+          cmake --build build
+          cmake -LA -N build | grep -E "^AXF_(MPI|OPENMP|GPU)"
+          otool -L build/libaxionfem.dylib
+          ctest --test-dir build --output-on-failure
+
+      - name: pytest on the installed package (fast suite; no 3D in this configuration)
+        run: python -m pytest -q tests --durations=10
+
+  linux-mpi:
+    name: linux MPI (3D engine)
+    runs-on: ubuntu-24.04
+    # cold run (no deps cache) with the full suite: about 2 + 15-25 (deps) + 5-9 (build) + 70-115 (suite) min
+    timeout-minutes: 200
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tools and OpenMPI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build libopenmpi-dev openmpi-bin libopenblas-dev liblapack-dev
+          python -m pip install --upgrade pip
+          python -m pip install "scikit-build-core>=0.9" "nanobind>=2.0" \
+                                pytest jsonschema scipy numpy cmake "matplotlib>=3.6" "mcp>=2.0" "schemdraw>=0.19"
+
+      - name: Fetch and verify the pinned sources
+        run: bash scripts/fetch_deps.sh
+
+      - name: Restore the MPI third-party stack
+        id: deps
+        uses: actions/cache/restore@v4
+        with:
+          path: third_party/install
+          key: mpi-ubuntu-24.04-${{ hashFiles('scripts/build_deps.sh', 'scripts/common.sh', 'third_party/SHA256SUMS.txt') }}
+
+      - name: Build the MPI third-party stack (METIS, hypre, MFEM, gmsh SDK)
+        if: steps.deps.outputs.cache-hit != 'true'
+        timeout-minutes: 45
+        run: bash scripts/build_deps.sh
+
+      - name: Save the MPI third-party stack
+        if: steps.deps.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: third_party/install
+          key: ${{ steps.deps.outputs.cache-primary-key }}
+
+      - name: Configure and build
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DAXF_DEPS="$PWD/third_party/install" -DPython_EXECUTABLE="$(which python)"
+          cmake --build build
+
+      - name: The build must have MPI and the 3D engine
+        run: |
+          cmake -LA -N build | grep -E "^AXF_(MPI|OPENMP|GPU)"
+          ldd build/libaxionfem.so | grep -qi libmpi
+
+      - name: ctest
+        run: ctest --test-dir build --output-on-failure
+
+      # The 3D engine's tests: the quick pre-merge subset's entries from every test file that needs the 3D engine
+      # (CI's sequential job skips them; `scripts/premerge_tests.py ci3d` selects them and fails if a 3D test file
+      # lacks its engine_3d guard), one rank, without AXF_SLOW, so their slow cases skip.
+      - name: pytest (3D tests, one rank)
+        if: env.FULL != 'true'
+        timeout-minutes: 75
+        env:
+          PYTHONPATH: ${{ github.workspace }}/python
+          AXF_MESHER: ${{ github.workspace }}/build/axf-mesher
+          OMP_NUM_THREADS: "2"
+        run: |
+          python scripts/premerge_tests.py ci3d > "$RUNNER_TEMP/tests_3d.txt"
+          cat "$RUNNER_TEMP/tests_3d.txt"
+          xargs -a "$RUNNER_TEMP/tests_3d.txt" python -m pytest -q --durations=20 tests/test_published.py
+
+      - name: pytest (fluids and chemistry, beta; 3D on two ranks)
+        if: env.FULL != 'true'
+        timeout-minutes: 45
+        env:
+          PYTHONPATH: ${{ github.workspace }}/python
+          AXF_MESHER: ${{ github.workspace }}/build/axf-mesher
+          OMP_NUM_THREADS: "1"
+          AXF_MPI: "1"
+          OMPI_MCA_rmaps_base_oversubscribe: "1"
+        run: |
+          python -c "import axionfem.fluids, axionfem.chem"
+          beta=$(ls tests/test_fluids_*.py tests/test_chem_*.py)
+          python -m pytest -q --durations=10 $beta \
+            "tests/test_mpi.py::test_two_ranks_match_one_rank[1]" tests/test_background_3d.py
+
+      - name: pytest (full suite, including 3D)
+        if: env.FULL == 'true'
+        timeout-minutes: 150
+        env:
+          PYTHONPATH: ${{ github.workspace }}/python
+          AXF_MESHER: ${{ github.workspace }}/build/axf-mesher
+          OMP_NUM_THREADS: "2"
+        # The slab-conduction and hoop-stress tests of test_mechanics3d.py peak near 10 GB; they are deselected to
+        # keep the job well inside the runner's memory (an OOM kill ends the whole job).
+        run: |
+          python -m pytest -q tests --durations=20 \
+            --deselect tests/test_mechanics3d.py::test_slab_conduction_is_exact_for_quadratic_temperatures \
+            --deselect tests/test_mechanics3d.py::test_slab_temperature_dependent_k_against_kirchhoff \
+            --deselect tests/test_mechanics3d.py::test_external_uniform_field_hoop_stress
+
+      - name: pytest (two MPI ranks)
+        if: env.FULL == 'true'
+        timeout-minutes: 30
+        env:
+          PYTHONPATH: ${{ github.workspace }}/python
+          AXF_MESHER: ${{ github.workspace }}/build/axf-mesher
+          OMP_NUM_THREADS: "1"
+          AXF_MPI: "1"
+          OMPI_MCA_rmaps_base_oversubscribe: "1"
+        run: python -m pytest -q --durations=10 tests/test_mpi.py
+
+  macos-mpi:
+    name: macOS arm64 MPI (the guide's source build, 3D engine)
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: macos-14
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+
+      # docs/guides/install.md, "macOS (Homebrew)" and "MPI source build", as written (after the clone)
+      - name: Prerequisites (Homebrew)
+        run: |
+          brew install cmake ninja open-mpi libomp python@3.12
+          python3.12 -m venv .venv
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+
+      - name: MPI source build
+        timeout-minutes: 100
+        run: |
+          pip install --upgrade pip
+          pip install "scikit-build-core>=0.9" "nanobind>=2.0" numpy
+          bash scripts/fetch_deps.sh
+          bash scripts/build_deps.sh
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+          ctest --test-dir build --output-on-failure
+          pip install --no-build-isolation -e ".[test]"
+          otool -L build/libaxionfem.dylib
+
+      - name: pytest (3D smoke set, one and two ranks)
+        env:
+          OMP_NUM_THREADS: "1"
+          AXF_MPI: "1"
+        run: |
+          python -c "import json, axionfem as af; i = af.build_info(); print(json.dumps(i)); assert i['engine_3d']"
+          python -m pytest -q --durations=10 tests/test_packaging.py tests/test_published.py \
+            "tests/test_mpi.py::test_two_ranks_match_one_rank[1]" tests/test_background_3d.py tests/test_fluids_api.py
+
+  packaging:
+    name: packaging metadata
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install pytest build twine
+      # The file-based half of tests/test_packaging.py and tests/test_widget.py needs no compiled core.
+      - run: python -m pytest -q tests/test_packaging.py tests/test_widget.py tests/test_viewer.py
+      - name: The dependency scripts must be valid bash
+        run: for f in scripts/*.sh; do bash -n "$f"; done
+      - name: The sdist must be complete and well formed
+        run: |
+          python -m build --sdist
+          python -m twine check dist/*
+          # List once into a file: `tar tzf | grep -q` under pipefail reports a file that is present as missing
+          # when grep exits before tar has written the rest of the listing (SIGPIPE).
+          tar tzf dist/*.tar.gz > "$RUNNER_TEMP/sdist.txt"
+          for f in cpp/src/model3d_nompi.cpp cpp/third_party/stb_image_write.h \
+                   viewer/src/viewer.js viewer/vendor/three.module.min.js \
+                   python/axionfem/widget.py scripts/build_deps_wheel.sh scripts/common.sh \
+                   third_party/SHA256SUMS.txt third_party/licenses/MFEM-LICENSE.txt; do
+            grep -q "/$f$" "$RUNNER_TEMP/sdist.txt" || { echo "missing from the sdist: $f"; exit 1; }
+          done

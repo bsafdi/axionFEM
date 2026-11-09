@@ -1,0 +1,82 @@
+{
+  "description": "DMRadio-50L: ~50 L toroidal magnet in a slit superconducting pickup sheath.  Dimensions from the public Patras-2023 status talk.",
+  "mesh": {
+    "order": 2,
+    "size": "max(R, H)/30",
+    "surface_size": "min(ts, g, tw)"
+  },
+  "name": "dmradio_50l",
+  "notes": "Dimensions and sources: benchmarks/published/sources.json, key 'dmradio_50l'.",
+  "parameters": {
+    "H": 0.47,
+    "NI": 705600.0,
+    "R": 0.24,
+    "f": 0.0048,
+    "g": 0.0012,
+    "ts": 0.0012,
+    "tw": 0.0024,
+    "y": 0.5833333333333334
+  },
+  "pickup": {
+    "conductor": "sheath",
+    "type": "azimuthal"
+  },
+  "regions": [
+    {
+      "material": "winding",
+      "name": "winding",
+      "shape": {
+        "frame": {
+          "r": [
+            "y*R-tw",
+            "R+tw"
+          ],
+          "thickness": "tw",
+          "z": [
+            "-H/2-tw",
+            "H/2+tw"
+          ]
+        }
+      }
+    },
+    {
+      "material": "nb",
+      "name": "sheath",
+      "shape": {
+        "frame": {
+          "fillet": "f",
+          "r": [
+            "y*R-tw-g-ts",
+            "R+tw+g+ts"
+          ],
+          "thickness": "ts",
+          "z": [
+            "-H/2-tw-g-ts",
+            "H/2+tw+g+ts"
+          ]
+        }
+      }
+    }
+  ],
+  "schema": "axionfem.design/1",
+  "superconductors": [
+    {
+      "azimuthal": {
+        "net_current": 0
+      },
+      "azimuthal_slit": true,
+      "body": "sheath",
+      "poloidal": {
+        "net_current": 0
+      }
+    }
+  ],
+  "windings": [
+    {
+      "ampere_turns": "NI",
+      "name": "toroid",
+      "region": "winding",
+      "type": "poloidal"
+    }
+  ]
+}

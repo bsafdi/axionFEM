@@ -1,0 +1,67 @@
+{
+  "_about": "Stored coarse-mesh values for tests/test_published.py; regenerate with 'python tests/test_published.py --update', or add one design with '--add <name>'",
+  "_axionfem_version": "0.1.0",
+  "abra10cm": {
+    "Psi_natural_T_m3": 2.24098318992751e-05,
+    "L_p_H": 9.519626412749691e-08,
+    "W_mag_J": 200.70677874507854,
+    "B_max_T": 1.03253333389542,
+    "dofs": 35614
+  },
+  "abra10cm_shielded": {
+    "Psi_natural_T_m3": 1.8824085320581442e-05,
+    "L_p_H": 9.476289463575007e-08,
+    "W_mag_J": 200.7067787450787,
+    "B_max_T": 1.03253333389542,
+    "dofs": 82091
+  },
+  "dmradio_50l": {
+    "Psi_natural_T_m3": 0.003173165126892545,
+    "L_p_H": 1.0824970476049914e-07,
+    "W_mag_J": 12867.310697804518,
+    "B_max_T": 1.0080000005487317,
+    "dofs": 71719
+  },
+  "dmradio_core_magnet": {
+    "Psi_natural_T_m3": 0.0,
+    "L_p_H": 0.0,
+    "W_mag_J": 4427015.1816009665,
+    "B_max_T": 5.000178486883028,
+    "dofs": 25203
+  },
+  "dmradio_core_pickup_120cm": {
+    "Psi_natural_T_m3": 0.025072467726806415,
+    "L_p_H": 3.644929844488502e-08,
+    "W_mag_J": 4429313.552997022,
+    "B_max_T": 5.036341605803229,
+    "dofs": 142335
+  },
+  "dmradio_core_pickup_146cm": {
+    "Psi_natural_T_m3": 0.03282110200722301,
+    "L_p_H": 4.7829753065532924e-08,
+    "W_mag_J": 4429069.560449201,
+    "B_max_T": 5.037520349708658,
+    "dofs": 149075
+  },
+  "dmradio_gut": {
+    "Psi_natural_T_m3": 8.97672203189648,
+    "L_p_H": 6.09179372605432e-07,
+    "W_mag_J": 577796507.8346192,
+    "B_max_T": 16.00000000000001,
+    "dofs": 70252
+  },
+  "dmradio_m3": {
+    "Psi_natural_T_m3": 0.4049214495536377,
+    "L_p_H": 2.086848119003668e-07,
+    "W_mag_J": 24216475.89108415,
+    "B_max_T": 4.786652654371489,
+    "dofs": 69085
+  },
+  "dmradio_m3_h0p56": {
+    "Psi_natural_T_m3": 0.1596701658008268,
+    "L_p_H": 6.858871436678789e-08,
+    "W_mag_J": 24216472.53495035,
+    "B_max_T": 4.786652310745728,
+    "dofs": 49012
+  }
+}

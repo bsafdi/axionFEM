@@ -1,0 +1,24 @@
+{
+  "check": "grounded",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 15:16",
+  "a_m": 0.3,
+  "domain_radius_m": 1.0,
+  "C_F": 4.768500233540998e-11,
+  "C_exact_F": 4.7685002376339374e-11,
+  "relative_error": -8.58328408348541e-10,
+  "checks": {
+    "identity_symmetry_relative": 0.0,
+    "identity_energy_max_relative_difference": 1.6398115434784765e-14,
+    "identity_energy_superposition_relative": 1.6398115434784765e-14,
+    "identity_exterior_monopole_max_relative_difference": 0.0,
+    "identity_floating_solve_max_difference_V": null,
+    "discretization_charge_gauss_max_relative_difference": 3.1730039149957253e-06,
+    "discretization_exterior_flux_max_relative_difference": 3.348298565832675e-06,
+    "min_slack_relative": 1.0,
+    "off_diagonal_signs_ok": true
+  },
+  "warnings": [],
+  "pass": true,
+  "headline": "C = 4.768500234e-11 F (exact 4.768500238e-11), rel err -8.6e-10"
+}

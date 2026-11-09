@@ -1,0 +1,180 @@
+{
+ "schema": "axionfem.design/1",
+ "name": "toroid_small_shield_lossless",
+ "symmetry": "3d",
+ "notes": "Replica of the 2022 COMSOL model Small_Shield.mph (arXiv:2211.00008, shielded lossless toroid): square section R 0.5-1.0 m, z 0-0.5 m, 2.5 cm PEC walls revolved 0-355 deg (5 deg gap at 355-360, interior open to the gap); PEC bridge strip on the outer face R = 1.0, z 0.240-0.241, phi 354-361 deg (COMSOL: zero thickness; here 0.2 mm radially outward); lumped port phi 357.00-357.01 deg in the strip; closed PEC cylinder shield R 1.5 m, z -0.25..0.75. Design history: v0 modelled the shield as a 2 cm superconducting shell inside a closed PEC sphere (R 1.65); the 3D mesher rejected it (the static infinity shell [R/1.25, R] cut the shell). v1 uses fullwave.rf_only with mesh.domain_solid = the shield's interior cylinder (R 1.5, z -0.25..0.75), so the PEC shield is the outer boundary exactly as in COMSOL (no outer cavity, no spurious modes), and mesh.remove_pec so the PEC walls are holes, as in COMSOL (not meshed). v2: the bridge strip is its own superconductor region 'bridge' (same body as the sheath after remove_pec) with surface_size 3e-4 m. Reason: with the strip inside 'sheath' (surface_size 0.02) the 1 mm x 0.2 mm x 12 cm strip was meshed only by its own geometry (61 slivers, gamma < 0.05, all at the strip) and its partial inductance (~140 nH of ~775 nH) was under-resolved: L(5 MHz) rose 746 -> 766 nH (order 1) on refining the strip; 3e-4 -> 1.5e-4 changes L by 0.13%. mesh.threads 16 (gmsh HXT; 1 thread took 18.5 min for the v1 mesh, 2.5 min with 16). Solver: AXF_FW_SOLVER=strumpack; order 2 must NOT use AXF_FW_GAUGE=tree-cotree (lowest-order only); order 1 may.",
+ "regions": [
+  {
+   "name": "sheath",
+   "material": "superconductor",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "frame": {
+       "r": [
+        0.5,
+        1.0
+       ],
+       "z": [
+        0.0,
+        0.5
+       ],
+       "thickness": 0.025
+      }
+     },
+     "angles": [
+      0,
+      355
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "bridge",
+   "material": "superconductor",
+   "surface_size": 0.0003,
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        1.0,
+        1.0002
+       ],
+       "z": [
+        0.24,
+        0.241
+       ]
+      }
+     },
+     "angles": [
+      354,
+      361
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "port",
+   "material": "vacuum",
+   "surface_size": 0.0001,
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        1.0,
+        1.0002
+       ],
+       "z": [
+        0.24,
+        0.241
+       ]
+      }
+     },
+     "angles": [
+      357.0,
+      357.01
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  }
+ ],
+ "pickup": {
+  "type": "port",
+  "port": "port",
+  "toward": [
+   0.052248809176828365,
+   0.9986340981258368,
+   0.0
+  ]
+ },
+ "fullwave": {
+  "frequencies": [
+   5000000.0,
+   10000000.0,
+   15000000.0,
+   20000000.0,
+   24000000.0,
+   26000000.0,
+   28000000.0,
+   35000000.0,
+   45000000.0,
+   50000000.0,
+   60000000.0,
+   70000000.0
+  ],
+  "boundary": "pec",
+  "source": {
+   "kind": "toroidal_box",
+   "B0_T": 1.0,
+   "r_m": [
+    0.525,
+    0.975
+   ],
+   "z_m": [
+    0.025,
+    0.475
+   ],
+   "phi_deg": [
+    0,
+    355
+   ],
+   "profile": "uniform"
+  },
+  "rf_only": true
+ },
+ "mesh": {
+  "order": 2,
+  "size": 0.1,
+  "surface_size": 0.02,
+  "domain_radius": 1.65,
+  "remove_pec": true,
+  "domain_solid": {
+   "cylinder": {
+    "base": [
+     0,
+     0,
+     -0.25
+    ],
+    "axis": [
+     0,
+     0,
+     1.0
+    ],
+    "radius": 1.5
+   }
+  },
+  "threads": 16
+ }
+}

@@ -1,0 +1,117 @@
+{
+ "id": "rank_invariance_stokes_3d",
+ "capability": "F1c",
+ "title": "Rank invariance of the 3D Stokes solve on ParMesh: 1 vs 4 vs 16 ranks (direct path)",
+ "physics": "the T1 identity field (u = curl A and p = P, both O(1), mu = 0.37), sym form, the same fixed discrete problem on 1, 4 and 16 MPI ranks (one node, fluids_mpi.launch): octant Kuhn N = 16 with Dirichlet data on all six faces, and (amendment TD1) octant Kuhn N = 4 with Dirichlet on x0, y0, z0 and the exact traction on x1, y1, z1",
+ "levels": [
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1c_stokes",
+   "function": "rank_invariance_3d",
+   "check_module": "f1c_stokes_check",
+   "cost": "long",
+   "timeout_s": 14000
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2 (tet) / Q2 (hex)",
+    "pressure": "P1 / Q1",
+    "geometry": "affine (cube, duct); isoparametric P2/Q2 with the fixed nodes (sphere)"
+   },
+   "form": "sym",
+   "ranks": [
+    1,
+    4,
+    16
+   ],
+   "solver": {
+    "kind": "direct sparse LU only"
+   },
+   "mms_data": {
+    "path": "tools/fluids_mms/out/f1c_cube_u_mu037.json",
+    "sha256": "e167d123b40537689d1f89a7f377bfc4d1fa54d60bc47fb89284843682277d08"
+   },
+   "mesh": {
+    "family": "kuhn_octant",
+    "N": 16,
+    "construction": "f1c_stokes_check.cube_tet(16)"
+   },
+   "mixed_variant": {
+    "mesh": {
+     "family": "kuhn_octant",
+     "N": 4,
+     "construction": "f1c_stokes_check.cube_tet(4)"
+    },
+    "boundary_faces": {
+     "dirichlet": [
+      "x0",
+      "y0",
+      "z0"
+     ],
+     "traction": [
+      "x1",
+      "y1",
+      "z1"
+     ]
+    },
+    "data": "the same field file (mms_data): nodal Dirichlet data of u on x0, y0, z0; traction g = f1c_stokes_check.Field.traction('sym', x, n), the exact sigma_sym n of the field, on x1, y1, z1 (the T2 convention); sym form, mu = 0.37, f = the field's forcing",
+    "why": "With all six faces Dirichlet and MFEM's ownership (a shared DOF belongs to the lowest rank of its group) every boundary DOF's owner holds a boundary element containing it on the METIS partitions of N = 16 (and of every mesh and rank count probed, 220 combinations), so 'essential DOFs only from the rank's own boundary elements' loses none; with a PARTIAL Dirichlet set it does (Kuhn N = 4, x0 y0 z0: 3 of 651 DOFs at 4 ranks, 39 at 16). The all-Dirichlet problem therefore cannot tell the two essential-DOF rules apart"
+   },
+   "comparison": "every rank count's Evaluators cover each fixed element id exactly once; the solutions are compared at the fixed quadrature points by element id (difference_sums); both problems (all-Dirichlet N = 16, mixed N = 4) are run on 1, 4 and 16 ranks and every item below is the worst over both"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "u_rel_max_vs_1rank",
+    "level": "conservation",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "p_rel_max_vs_1rank",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "uL2_err_rel_change_max",
+    "level": "conservation",
+    "abs_max": 1e-08
+   },
+   {
+    "quantity": "essential_dofs_spread",
+    "level": "conservation",
+    "max": 0
+   },
+   {
+    "quantity": "partition_failures",
+    "level": "conservation",
+    "max": 0
+   },
+   {
+    "quantity": "comm_size_mismatch",
+    "level": "conservation",
+    "max": 0
+   },
+   {
+    "quantity": "shared_dofs_min_multirank",
+    "level": "conservation",
+    "min": 1
+   },
+   {
+    "quantity": "nullspace_detected_all_ranks",
+    "level": "conservation",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

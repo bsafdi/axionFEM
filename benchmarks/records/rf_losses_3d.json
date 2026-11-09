@@ -1,0 +1,337 @@
+{
+ "check": "rf_losses_3d",
+ "date": "2026-10-20",
+ "params": {
+  "R": 1.0,
+  "H": 2.0,
+  "x": 0.534,
+  "tw": 0.05,
+  "g": 0.03,
+  "tc": 0.03,
+  "tp": 0.05
+ },
+ "closed_form_Gamma": {
+  "coax_inner": 0.5772098747589962,
+  "coax_outer": 0.3279043331077702,
+  "coax_short": 0.08999957961731528
+ },
+ "2D": {
+  "mesh": {
+   "order": 2,
+   "size": 0.05,
+   "surface_size": 0.015
+  },
+  "L_p_H": 2.190308166641096e-07,
+  "seconds": 5.077203035354614,
+  "band_Hz": {
+   "f_min": 120900.00000000001,
+   "f_max": 1000000.0
+  },
+  "chain_max_rel_error": 2.7218804987683143e-10,
+  "Gamma": {
+   "coax_inner": 0.5772098767982305,
+   "coax_outer": 0.3279043331566991,
+   "coax_short": 0.08999957961731549
+  },
+  "Gamma_over_closed_form": {
+   "coax_inner": 1.0000000035329166,
+   "coax_outer": 1.000000000149217,
+   "coax_short": 1.0000000000000022
+  },
+  "T_over_Q_total_K": {
+   "f_max": 5.619701365571523e-07,
+   "f_min": 1.6162185501462231e-06
+  }
+ },
+ "3D": {
+  "o1": {
+   "mesh": {
+    "order": 1,
+    "size": 0.4,
+    "surface_size": 0.13
+   },
+   "dofs": 81078,
+   "mpi_ranks": 8,
+   "seconds": 12.958713054656982,
+   "L_p_over_2D": 0.9954533920633281,
+   "band_Hz": {
+    "f_min": 120900.0,
+    "f_max": 1000000.0
+   },
+   "chain_max_rel_error": 2.721878278322265e-10,
+   "Gamma": {
+    "coax_inner": 0.462079370340361,
+    "coax_outer": 0.3762939271001975,
+    "coax_short": 0.09118674165477632
+   },
+   "Gamma_over_2D": {
+    "coax_inner": 0.8005396111783538,
+    "coax_outer": 1.1475722918256586,
+    "coax_short": 1.0131907509180458
+   },
+   "Gamma_over_closed_form": {
+    "coax_inner": 0.8005396140065935,
+    "coax_outer": 1.147572291996896,
+    "coax_short": 1.013190750918048
+   },
+   "Q_f_min_over_2D": {
+    "coax_inner": 1.2434779967952752,
+    "coax_outer": 0.867442861032897,
+    "coax_short": 0.9824935641796511
+   },
+   "T_over_Q_total_over_2D": {
+    "f_min": 0.9383908626636397,
+    "f_max": 0.9383908626636391
+   },
+   "Gamma_by_field_region": {
+    "coax_inner": {
+     "air": 0.4582191243524228,
+     "port": 0.003860245987938317
+    },
+    "coax_outer": {
+     "air": 0.3731745339181359,
+     "port": 0.0031193931820614586
+    },
+    "coax_short": {
+     "air": 0.09118674165477632
+    }
+   }
+  },
+  "o2": {
+   "mesh": {
+    "order": 2,
+    "size": 0.4,
+    "surface_size": 0.13
+   },
+   "dofs": 435626,
+   "mpi_ranks": 8,
+   "seconds": 88.32829332351685,
+   "L_p_over_2D": 0.9999524898603679,
+   "band_Hz": {
+    "f_min": 120900.0,
+    "f_max": 1000000.0
+   },
+   "chain_max_rel_error": 2.721878278322265e-10,
+   "Gamma": {
+    "coax_inner": 0.5687904270991148,
+    "coax_outer": 0.32563749550214266,
+    "coax_short": 0.08993410115553656
+   },
+   "Gamma_over_2D": {
+    "coax_inner": 0.98541353840683,
+    "coax_outer": 0.993086893263246,
+    "coax_short": 0.9992724581375008
+   },
+   "Gamma_over_closed_form": {
+    "coax_inner": 0.9854135418882138,
+    "coax_outer": 0.9930868934114314,
+    "coax_short": 0.9992724581375031
+   },
+   "Q_f_min_over_2D": {
+    "coax_inner": 1.0147541624778604,
+    "coax_outer": 1.0069133895973208,
+    "coax_short": 1.0006805268346277
+   },
+   "T_over_Q_total_over_2D": {
+    "f_min": 0.989242439881338,
+    "f_max": 0.9892424398813375
+   },
+   "Gamma_by_field_region": {
+    "coax_inner": {
+     "air": 0.5638852418991523,
+     "port": 0.0049051851999631566
+    },
+    "coax_outer": {
+     "air": 0.3228103375130063,
+     "port": 0.0028271579891359947
+    },
+    "coax_short": {
+     "air": 0.08993410115553656
+    }
+   }
+  },
+  "o2_fine": {
+   "mesh": {
+    "order": 2,
+    "size": 0.25,
+    "surface_size": 0.07
+   },
+   "dofs": 1377834,
+   "mpi_ranks": 8,
+   "seconds": 296.86463022232056,
+   "L_p_over_2D": 0.9999932336848583,
+   "band_Hz": {
+    "f_min": 120900.0,
+    "f_max": 1000000.0
+   },
+   "chain_max_rel_error": 2.7218804987683143e-10,
+   "Gamma": {
+    "coax_inner": 0.5743727923012484,
+    "coax_outer": 0.3272700052651555,
+    "coax_short": 0.08998603180877714
+   },
+   "Gamma_over_2D": {
+    "coax_inner": 0.9950848302999952,
+    "coax_outer": 0.9980655092738879,
+    "coax_short": 0.999849468090896
+   },
+   "Gamma_over_closed_form": {
+    "coax_inner": 0.9950848338155469,
+    "coax_outer": 0.9980655094228162,
+    "coax_short": 0.9998494680908984
+   },
+   "Q_f_min_over_2D": {
+    "coax_inner": 1.0049326481877763,
+    "coax_outer": 1.0019314608039833,
+    "coax_short": 1.0001437872385297
+   },
+   "T_over_Q_total_over_2D": {
+    "f_min": 0.9965046706065688,
+    "f_max": 0.9965046706065683
+   },
+   "Gamma_by_field_region": {
+    "coax_inner": {
+     "air": 0.5694451007864278,
+     "port": 0.004927691514821699
+    },
+    "coax_outer": {
+     "air": 0.3244412097685813,
+     "port": 0.002828795496574151
+    },
+    "coax_short": {
+     "air": 0.08998603180877714
+    }
+   }
+  }
+ },
+ "observed_rate_o2": {
+  "coax_inner": 1.757187577486479,
+  "coax_outer": 2.0573415607662584,
+  "coax_short": 2.545067318228256
+ },
+ "h_study": {
+  "base_mesh": {
+   "order": 2,
+   "size": 0.4,
+   "surface_size": 0.13
+  },
+  "factors": [
+   1.0,
+   0.75,
+   0.55
+  ],
+  "mpi_ranks": 8,
+  "seconds": 605.9093499183655,
+  "dofs": [
+   435626,
+   758628,
+   1488076
+  ],
+  "rows": [
+   {
+    "factor": 1.0,
+    "dofs": 435626,
+    "dimension": 3,
+    "quantities": {
+     "L_p_H": 2.1902041047942617e-07,
+     "Psi_SI_H_T_m2": 1.4990181566203074e-07,
+     "W_mag_J": 691694.0608548915,
+     "Gamma:coax_inner": 0.5687904270991148,
+     "Gamma:coax_outer": 0.32563749550214266,
+     "Gamma:coax_short": 0.08993410115553656
+    }
+   },
+   {
+    "factor": 0.75,
+    "dofs": 758628,
+    "dimension": 3,
+    "quantities": {
+     "L_p_H": 2.1902719915737806e-07,
+     "Psi_SI_H_T_m2": 1.4990469038691478e-07,
+     "W_mag_J": 691760.3636474016,
+     "Gamma:coax_inner": 0.5723075814272631,
+     "Gamma:coax_outer": 0.32676372392536407,
+     "Gamma:coax_short": 0.0899714311668918
+    }
+   },
+   {
+    "factor": 0.55,
+    "dofs": 1488076,
+    "dimension": 3,
+    "quantities": {
+     "L_p_H": 2.1902932696031321e-07,
+     "Psi_SI_H_T_m2": 1.4990616846303527e-07,
+     "W_mag_J": 691798.1769922408,
+     "Gamma:coax_inner": 0.574228163976792,
+     "Gamma:coax_outer": 0.32727028784593515,
+     "Gamma:coax_short": 0.08998336003463019
+    }
+   }
+  ],
+  "dof_ratios": [
+   {
+    "factors": [
+     0.55,
+     0.75
+    ],
+    "nominal": 1.3636363636363635,
+    "effective": 1.2517917398834906
+   },
+   {
+    "factors": [
+     0.75,
+     1.0
+    ],
+    "nominal": 1.3333333333333333,
+    "effective": 1.2031091373524698
+   }
+  ],
+  "warnings": [],
+  "Gamma": {
+   "coax_inner": {
+    "finest_over_closed_form": 0.9948342692795248,
+    "extrapolated_over_closed_form": 0.9980597221309158,
+    "observed_order": 2.2853751964563935,
+    "gci_fine": 0.004052751487098064,
+    "behaviour": "monotone",
+    "gci_fine_formal_order_2": 0.01167405607037182
+   },
+   "coax_outer": {
+    "finest_over_closed_form": 0.9980663712009361,
+    "extrapolated_over_closed_form": 0.9991036490388071,
+    "observed_order": 2.9405144905255787,
+    "gci_fine": 0.001299109292479838,
+    "behaviour": "monotone",
+    "gci_fine_formal_order_2": 0.005402576954686937
+   },
+   "coax_short": {
+    "finest_over_closed_form": 0.9998197815728245,
+    "extrapolated_over_closed_form": 0.9998714466961152,
+    "observed_order": 4.098875676832304,
+    "gci_fine": 6.459304497026072e-05,
+    "behaviour": "monotone",
+    "gci_fine_formal_order_2": 0.0004627115104060185
+   }
+  },
+  "L_p_extrapolation": {
+   "h": [
+    0.55,
+    0.75,
+    1.0
+   ],
+   "values": [
+    2.1902932696031321e-07,
+    2.1902719915737806e-07,
+    2.1902041047942617e-07
+   ],
+   "order": 4.16450872436136,
+   "extrapolated": 2.1903013332508667e-07,
+   "gci_fine": 4.60192240370441e-06,
+   "extrapolation_error": 3.6815243693295187e-06,
+   "safety_factor": 1.25,
+   "order_used": 4.16450872436136,
+   "behaviour": "monotone"
+  },
+  "note": "recomputed from the original runs with the revised Richardson extrapolation; those runs predate the scaling of curvature_points in scaled_design (curvature sizing did not bind on these surfaces)"
+ }
+}

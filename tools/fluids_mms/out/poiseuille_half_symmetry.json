@@ -1,0 +1,288 @@
+{
+ "name": "poiseuille_half_symmetry",
+ "description": "Lower half [0,2] x [0,1/2] of the Poiseuille channel with symmetry on y = 1/2; outlet do-nothing (lap form only: the sym outlet needs the traction (0, mu U'))",
+ "domain": {
+  "kind": "rect",
+  "x": [
+   0,
+   2
+  ],
+  "y": [
+   0,
+   "1/2"
+  ]
+ },
+ "pressure": "determined",
+ "conventions": {
+  "G_ij": "d u_i / d x_j",
+  "sigma_sym": "2 mu eps(u) - p I",
+  "sigma_lap": "mu G - p I",
+  "f": "-div sigma_form - gamma grad div u (= -div sigma_form for these fields)",
+  "traction": "g = sigma_form n, n the outward unit normal",
+  "grad_div": "gamma (div u_h, div v); gamma in viscosity units, not scaled by mu"
+ },
+ "u": [
+  {
+   "sympy": "y*(1 - y)",
+   "c": "y*(1 - y)",
+   "numpy": "y*(1 - y)"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "p": {
+  "sympy": "4 - 2*x",
+  "c": "4 - 2*x",
+  "numpy": "4 - 2*x"
+ },
+ "mu": {
+  "sympy": "1",
+  "c": "1",
+  "numpy": "1"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "1 - 2*y",
+    "c": "1 - 2*y",
+    "numpy": "1 - 2*y"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "2*x - 4",
+      "c": "2*x - 4",
+      "numpy": "2*x - 4"
+     },
+     {
+      "sympy": "1 - 2*y",
+      "c": "1 - 2*y",
+      "numpy": "1 - 2*y"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "2*x - 4",
+      "c": "2*x - 4",
+      "numpy": "2*x - 4"
+     }
+    ]
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "x0",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "y": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     "1/2"
+    ]
+   }
+  },
+  {
+   "name": "x1",
+   "bc": "do_nothing",
+   "normal": [
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "2",
+     "c": "2",
+     "numpy": "2"
+    },
+    "y": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     "1/2"
+    ]
+   },
+   "traction": {
+    "lap": [
+     {
+      "sympy": "2*x - 4",
+      "c": "2*x - 4",
+      "numpy": "2*x - 4"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   }
+  },
+  {
+   "name": "y0",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "y": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "range": [
+     0,
+     2
+    ]
+   }
+  },
+  {
+   "name": "y1",
+   "bc": "symmetry",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "y": {
+     "sympy": "1/2",
+     "c": "1.0/2.0",
+     "numpy": "1/2"
+    },
+    "range": [
+     0,
+     2
+    ]
+   }
+  }
+ ],
+ "extra": {
+  "do_nothing_form": "lap"
+ },
+ "constants": {
+  "area": 1.0,
+  "p_mean": 2.0,
+  "u_L2": 0.18257418583505536,
+  "grad_u_L2": 0.5773502691896264,
+  "p_minus_mean_L2": 1.1547005383792561,
+  "u_max_sampled": 0.249999,
+  "p_max_abs_sampled": 3.998,
+  "p_minus_mean_max_abs_sampled": 1.9980000000000002,
+  "mu_min_sampled": 1.0,
+  "mu_max_sampled": 1.0
+ },
+ "selfcheck": {
+  "fd_residual_lap": 4.924413942041718e-12,
+  "net_boundary_flux": 0.0,
+  "harness_ns_residual_fd": {
+   "momentum_max": 7.274181257344026e-09,
+   "divergence_max": 0.0,
+   "scale": 2.000000007273961,
+   "momentum_rel": 3.6370906154439853e-09
+  },
+  "status": "pass"
+ }
+}

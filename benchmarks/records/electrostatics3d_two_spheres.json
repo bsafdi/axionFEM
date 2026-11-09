@@ -1,0 +1,60 @@
+{
+  "check": "two_spheres",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 15:33",
+  "a_m": 0.1,
+  "centre_distance_m": 0.5,
+  "centers_m": [
+    [
+      0,
+      0,
+      -0.25
+    ],
+    [
+      0,
+      0,
+      0.25
+    ]
+  ],
+  "computed_F": {
+    "C_11": 1.1614175001129976e-11,
+    "C_22": 1.1614259300754263e-11,
+    "C_12": -2.3277198226772227e-12
+  },
+  "exact_F": {
+    "C_11": 1.1611217727714983e-11,
+    "C_12": -2.3264588252234517e-12
+  },
+  "relative_error": {
+    "C_11": 0.00025469106551456733,
+    "C_22": 0.00026195125357264537,
+    "C_12": 0.0005420244021081544
+  },
+  "C11_over_C22_minus_1": -7.258286740863262e-06,
+  "pairs": [
+    {
+      "C_a_to_ground_others_floating_F": 9.286455178452753e-12,
+      "C_b_to_ground_others_floating_F": 9.28653947807704e-12,
+      "C_mutual_others_floating_F": 2.3277198226772227e-12,
+      "C_mutual_others_grounded_F": 2.3277198226772227e-12,
+      "a": "s1",
+      "b": "s2"
+    }
+  ],
+  "checks": {
+    "symmetry_relative": 4.868631586567892e-16,
+    "energy_max_relative_difference": 5.822459225272556e-06,
+    "charge_gauss_max_relative_difference": 0.0171919351452236,
+    "exterior_monopole_max_relative_difference": 0.0033409873767492235,
+    "energy_superposition_relative": 1.1640659921292355e-06,
+    "mixed_potential_max_relative_difference": 3.552958350409483e-15,
+    "floating_max_relative_charge": 0.00013496952587778164,
+    "min_slack_relative": 0.7995794085717881,
+    "off_diagonal_signs_ok": true,
+    "max_relative_residual": 7.768042654057382e-14,
+    "dofs": 157527
+  },
+  "warnings": [],
+  "pass": true,
+  "headline": "C11 1.161418e-11 (exact 1.161122e-11), C12 -2.327720e-12 (exact -2.326459e-12); worst rel err +5.42e-04"
+}

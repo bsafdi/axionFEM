@@ -1,0 +1,278 @@
+{
+ "id": "analytic_noflow_stokes_2d",
+ "capability": "F1a",
+ "title": "No-flow test f = grad phi: Taylor-Hood non-robustness quantified; grad-div energy identity and reduction",
+ "physics": "u = 0, p = phi = (16 x(1-x) y(1-y))^3 e^x sin(2y + 1/3), mu = nu, Dirichlet u = 0",
+ "levels": [
+  "analytic"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1a_stokes",
+   "function": "noflow",
+   "check_module": "f1a_stokes_check",
+   "cost": "short",
+   "timeout_s": 900
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "forms": [
+    "lap",
+    "sym"
+   ],
+   "quadrature_error_norms": 10,
+   "solver": {
+    "kind": "direct sparse LU",
+    "tight": "same, plus 2 steps of iterative refinement (vacuous for a direct solve; meaningful only for an iterative solver)"
+   },
+   "pressure_constant_treatment": "the residual reported is that of the consistent system solved; the measured flux defect is reported",
+   "mms_data": {
+    "path": "tools/fluids_mms/out/noflow.json",
+    "sha256": "3ccf6e2e5f6775d6d8a8553dcee05dacefd58a3d114bcb128751d9a2c244a253"
+   },
+   "meshes": {
+    "structured": {
+     "family": "structured",
+     "N": [
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(N): the N = 8 BASE mesh (8 x 8 squares split along the (1,1) diagonal, except the two cells at the corners (1,0) and (0,1), split the other way: no triangle with all vertices on the boundary) refined uniformly (red) log2(N/8) times. Nested; the flipped region of level N is a (N/8) x (N/8) block at each of those corners. The check module verifies counts, hash and nestedness.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    }
+   },
+   "nu": [
+    1.0,
+    0.01,
+    0.0001
+   ],
+   "grad_div": {
+    "N": 32,
+    "nu": 1.0,
+    "gamma": [
+     0.0,
+     1.0,
+     10.0,
+     100.0,
+     1000.0
+    ]
+   },
+   "energy_identity": {
+    "N": 32,
+    "nu": [
+     1.0,
+     0.37
+    ],
+    "gamma": [
+     1.0,
+     10.0,
+     100.0
+    ],
+    "forms": [
+     "lap",
+     "sym"
+    ]
+   },
+   "f": "grad phi (the forcing does not depend on nu)"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "lap_noflow_uL2",
+    "level": "analytic",
+    "norm": "||u_h||_L2 (exact u = 0), nu = 1",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.318884,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_noflow_uH1",
+    "level": "analytic",
+    "norm": "|u_h|_H1, nu = 1",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.318884,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_noflow_pL2m",
+    "level": "analytic",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature (pressure up to a constant) against phi",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.318884,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_noflow_uL2",
+    "level": "analytic",
+    "norm": "||u_h||_L2 (exact u = 0), nu = 1",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.318884,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_noflow_uH1",
+    "level": "analytic",
+    "norm": "|u_h|_H1, nu = 1",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.318884,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_noflow_pL2m",
+    "level": "analytic",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature (pressure up to a constant) against phi",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.318884,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "nu_scaling_dev_rel_max",
+    "level": "analytic",
+    "abs_max": 1e-08
+   },
+   {
+    "quantity": "p_nu_independence_dev_rel_max",
+    "level": "analytic",
+    "abs_max": 1e-08
+   },
+   {
+    "quantity": "identity_sym_vs_lap_graddiv_nu_u_rel",
+    "level": "analytic",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "graddiv_energy_identity_defect_max",
+    "level": "analytic",
+    "abs_max": 0.001
+   },
+   {
+    "quantity": "graddiv_ratio_g10",
+    "level": "analytic",
+    "max": 0.5
+   },
+   {
+    "quantity": "graddiv_ratio_g1000",
+    "level": "analytic",
+    "max": 0.1
+   },
+   {
+    "quantity": "graddiv_monotone",
+    "level": "analytic",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,501 @@
+{
+ "id": "chem_mms_c3_kappa_jump_2d",
+ "capability": "C3a",
+ "title": "MMS, planar 2D: piecewise-constant kappa (interface on a mesh line), primary electrodes (potentiostatic and galvanostatic), manufactured insulating flux",
+ "physics": "-div(kappa grad phi) = f, kappa piecewise constant; phi = phi_s - E_eq on the electrodes",
+ "levels": [
+  "mms",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3_current_distribution",
+   "function": "mms_kappa_jump",
+   "check_module": "c3_checks",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "field": {
+    "path": "benchmarks/chem/casedata/c3/mms_jump2d.json",
+    "sha256": "3c4371e71a3110cb8adcb7412d15507c093f1ef589062a3bc4c87b997f63a52a"
+   },
+   "meshes": {
+    "p1_struct": {
+     "family": "jump2d_p1_struct",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625,
+      7.8125e-05
+     ],
+     "levels": [
+      {
+       "name": "p1_struct_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "74975e5d25d12aa0",
+       "connectivity_hash": "715527f07411437f"
+      },
+      {
+       "name": "p1_struct_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "9a9e611e9d41065f",
+       "connectivity_hash": "e38e9617367a01eb"
+      },
+      {
+       "name": "p1_struct_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "95203f415b742553",
+       "connectivity_hash": "d5c1f5f473ff6547"
+      },
+      {
+       "name": "p1_struct_64",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "12b6a3ec2cd12e68",
+       "connectivity_hash": "b216ae5f54773251"
+      },
+      {
+       "name": "p1_struct_128",
+       "n_elements": 32768,
+       "hash_scale": 0.01,
+       "vertex_hash": "51eaa74d253980ff",
+       "connectivity_hash": "2acefadab9be568e"
+      }
+     ]
+    },
+    "p2_struct": {
+     "family": "jump2d_p2_struct",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.0025,
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625
+     ],
+     "levels": [
+      {
+       "name": "p2_struct_4",
+       "n_elements": 32,
+       "hash_scale": 0.01,
+       "vertex_hash": "5d51020794e08935",
+       "connectivity_hash": "e50370e20e2713d5"
+      },
+      {
+       "name": "p2_struct_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "74975e5d25d12aa0",
+       "connectivity_hash": "715527f07411437f"
+      },
+      {
+       "name": "p2_struct_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "9a9e611e9d41065f",
+       "connectivity_hash": "e38e9617367a01eb"
+      },
+      {
+       "name": "p2_struct_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "95203f415b742553",
+       "connectivity_hash": "d5c1f5f473ff6547"
+      },
+      {
+       "name": "p2_struct_64",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "12b6a3ec2cd12e68",
+       "connectivity_hash": "b216ae5f54773251"
+      }
+     ]
+    },
+    "p1_dist": {
+     "family": "jump2d_p1_dist",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625,
+      7.8125e-05
+     ],
+     "levels": [
+      {
+       "name": "p1_dist_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "827710d25c3931b4",
+       "connectivity_hash": "6c764ac3c6a78aa1"
+      },
+      {
+       "name": "p1_dist_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "32f3133b047d484e",
+       "connectivity_hash": "e1b24f747af88f57"
+      },
+      {
+       "name": "p1_dist_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "42c2d3e60b968bef",
+       "connectivity_hash": "924b03f69e17e415"
+      },
+      {
+       "name": "p1_dist_64",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "ccfaed17bbc1cf5c",
+       "connectivity_hash": "81f0c0665ddb53aa"
+      },
+      {
+       "name": "p1_dist_128",
+       "n_elements": 32768,
+       "hash_scale": 0.01,
+       "vertex_hash": "d273135546d1d45f",
+       "connectivity_hash": "f70b7029b8917161"
+      }
+     ]
+    },
+    "p2_dist": {
+     "family": "jump2d_p2_dist",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.0025,
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625
+     ],
+     "levels": [
+      {
+       "name": "p2_dist_4",
+       "n_elements": 32,
+       "hash_scale": 0.01,
+       "vertex_hash": "c2de40859668b773",
+       "connectivity_hash": "24f197a477bc4192"
+      },
+      {
+       "name": "p2_dist_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "827710d25c3931b4",
+       "connectivity_hash": "6c764ac3c6a78aa1"
+      },
+      {
+       "name": "p2_dist_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "32f3133b047d484e",
+       "connectivity_hash": "e1b24f747af88f57"
+      },
+      {
+       "name": "p2_dist_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "42c2d3e60b968bef",
+       "connectivity_hash": "924b03f69e17e415"
+      },
+      {
+       "name": "p2_dist_64",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "ccfaed17bbc1cf5c",
+       "connectivity_hash": "81f0c0665ddb53aa"
+      }
+     ]
+    }
+   },
+   "element_attributes": "1 for x < L/2 (kappa 1 S/m), 2 for x > L/2 (kappa 5 S/m)",
+   "electrodes": "primary, x = 0: phi_s = 0.3 V, E_eq = 0.05 V; x = L: phi_s = -0.2 V, E_eq = -0.02 V; galvanostatic variant: anode current prescribed (exact, per unit depth)",
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "p1_struct_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0012499850216826194,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "p1_struct_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.4684370476729695,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "p2_struct_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0012499850216826194,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "p2_struct_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.4684370476729695,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "p1_dist_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_dist.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0012499850216826194,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "p1_dist_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_dist.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.4684370476729695,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "p2_dist_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_dist.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0012499850216826194,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "p2_dist_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_dist.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.4684370476729695,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "p1_struct_Ireact_rel_max",
+    "level": "conservation",
+    "abs_max": 1e-08
+   },
+   {
+    "quantity": "p2_struct_Ireact_rel_max",
+    "level": "conservation",
+    "abs_max": 1e-08
+   },
+   {
+    "quantity": "p1_dist_Ireact_rel_max",
+    "level": "conservation",
+    "abs_max": 1e-08
+   },
+   {
+    "quantity": "p2_dist_Ireact_rel_max",
+    "level": "conservation",
+    "abs_max": 1e-08
+   },
+   {
+    "quantity": "p1_struct_galv_phis_abs_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "p2_struct_galv_phis_abs_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "p1_struct_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.01,
+    "scale_quantity": "p1_struct_measure_scale"
+   },
+   {
+    "quantity": "p1_dist_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.01,
+    "scale_quantity": "p1_dist_measure_scale"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  }
+ }
+}

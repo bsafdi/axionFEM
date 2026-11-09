@@ -1,0 +1,168 @@
+{
+ "id": "mms_boussinesq_newton_jacobian",
+ "capability": "F4a",
+ "title": "Taylor tests of the coupled Boussinesq Jacobian (every coupling block; with SUPG: tau(u_h) differentiated), planar and axisymmetric, lap and sym",
+ "physics": "rho0 (u.grad)u - div sigma_form = f_u + rho0 beta g (T - T_ref) e_up, div u = 0, rho0 c_p u.grad T - div(k grad T) = Q",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f4a_heat",
+   "function": "bous_taylor",
+   "check_module": "f4a_heat_check",
+   "cost": "short",
+   "timeout_s": 600
+  },
+  "parameters": {
+   "fields": {
+    "bous_sq": {
+     "path": "tools/fluids_mms/out/bous_sq.json",
+     "sha256": "1698f275bd257006e89586fa686f1c7c6c1762071db2b85d4bdee4e522493c7c"
+    },
+    "bous_axi": {
+     "path": "tools/fluids_mms/out/bous_axi.json",
+     "sha256": "84e25e853720959e9ad516569280d547410b9ae2a6d828795297fc2f9655ea36"
+    }
+   },
+   "N": 8,
+   "meshes": {
+    "unit": {
+     "family": "unit",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "scalar_transport_check.box_mesh(8, 8, k), k = 0..4, on [0,1]^2 in (x, y): 8 x 8 squares split along the (1,1) diagonal except the two cells at the corners (1,0) and (0,1) (split the other way: no triangle with all vertices on the boundary), refined uniformly (red) k times (identical to the fixed F1a structured_mesh(N), N = 8 * 2^k). Nested.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    }
+   },
+   "state": "x = the converged discrete solution + 0.05 * standard normal on the free DOFs (numpy default_rng(1)); direction d = standard normal on the free DOFs (the same generator, next draw)",
+   "eps": [
+    0.1,
+    0.01,
+    0.001,
+    0.0001,
+    1e-05,
+    1e-06,
+    1e-07
+   ],
+   "api": "R(x) on the free DOFs and J(x) d",
+   "conditional": {
+    "supg_jacobian": {
+     "variant": "the SUPG Taylor tests: the Jacobian differentiates tau(u_h) and the streamline test function (exact Newton)"
+    }
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "taylor_bous_sq_lap_gal_median_slope",
+    "level": "mms",
+    "min": 1.9,
+    "max": 2.1
+   },
+   {
+    "quantity": "taylor_bous_sq_lap_gal_n_slopes",
+    "level": "mms",
+    "min": 3
+   },
+   {
+    "quantity": "taylor_bous_sq_lap_supg_median_slope",
+    "level": "mms",
+    "min": 1.9,
+    "max": 2.1
+   },
+   {
+    "quantity": "taylor_bous_sq_lap_supg_n_slopes",
+    "level": "mms",
+    "min": 3
+   },
+   {
+    "quantity": "taylor_bous_sq_sym_gal_median_slope",
+    "level": "mms",
+    "min": 1.9,
+    "max": 2.1
+   },
+   {
+    "quantity": "taylor_bous_sq_sym_gal_n_slopes",
+    "level": "mms",
+    "min": 3
+   },
+   {
+    "quantity": "taylor_bous_sq_sym_supg_median_slope",
+    "level": "mms",
+    "min": 1.9,
+    "max": 2.1
+   },
+   {
+    "quantity": "taylor_bous_sq_sym_supg_n_slopes",
+    "level": "mms",
+    "min": 3
+   },
+   {
+    "quantity": "taylor_bous_axi_lap_gal_median_slope",
+    "level": "mms",
+    "min": 1.9,
+    "max": 2.1
+   },
+   {
+    "quantity": "taylor_bous_axi_lap_gal_n_slopes",
+    "level": "mms",
+    "min": 3
+   },
+   {
+    "quantity": "taylor_bous_axi_lap_supg_median_slope",
+    "level": "mms",
+    "min": 1.9,
+    "max": 2.1
+   },
+   {
+    "quantity": "taylor_bous_axi_lap_supg_n_slopes",
+    "level": "mms",
+    "min": 3
+   },
+   {
+    "quantity": "taylor_bous_axi_sym_gal_median_slope",
+    "level": "mms",
+    "min": 1.9,
+    "max": 2.1
+   },
+   {
+    "quantity": "taylor_bous_axi_sym_gal_n_slopes",
+    "level": "mms",
+    "min": 3
+   },
+   {
+    "quantity": "taylor_bous_axi_sym_supg_median_slope",
+    "level": "mms",
+    "min": 1.9,
+    "max": 2.1
+   },
+   {
+    "quantity": "taylor_bous_axi_sym_supg_n_slopes",
+    "level": "mms",
+    "min": 3
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

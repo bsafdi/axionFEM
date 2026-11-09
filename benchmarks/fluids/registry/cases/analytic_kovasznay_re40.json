@@ -1,0 +1,427 @@
+{
+ "id": "analytic_kovasznay_re40",
+ "capability": "F2a",
+ "title": "Kovasznay flow, Re = 40: exact steady NS solution, both viscous forms, both convective forms",
+ "physics": "exact steady NS solution on [-1/2, 1] x [-1/2, 3/2], rho = 1, mu = 1/40, f = 0; Dirichlet data from the exact solution",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f2a_ns",
+   "function": "kovasznay",
+   "check_module": "f2a_ns_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "viscous_forms": [
+    "lap",
+    "sym"
+   ],
+   "convective_forms": [
+    "standard",
+    "skew"
+   ],
+   "convective_form_definitions": {
+    "standard": "c(w; u, v) = rho ((w. grad) u, v)",
+    "skew": "c(w; u, v) = rho ((w. grad) u, v) + (rho/2) ((div w) u, v) (Temam; natural BC unchanged: a traction BC prescribes sigma_form n = g for both forms)"
+   },
+   "quadrature_error_norms": 10,
+   "quadrature_requirement": "The convective trilinear form and every load integral must be integrated EXACTLY for the polynomial integrands of P2 on affine triangles: degree >= 5 planar (P2. grad P2. P2), degree >= 6 in axisymmetry (the extra factor r); the viscous form with variable mu by a rule of degree >= 4 planar (as F1a) and, in AXISYMMETRY, the r-weighted viscous form (with its rational hoop terms mu u_r v_r / r, mu u_theta v_theta / r) by a rule of degree >= 6 (with degree 4 a correct code's energy-identity defect reaches 9.1e-10, with degree 6 <= 2.4e-11). The discrete energy identities (cons_ns_energy_identity) and the cross-code values (xcode_cavity_re1000) assume it.",
+   "nonlinear_solver": {
+    "start": "the TRUE Stokes solution with the Dirichlet data (the convective term absent from both the matrix and the residual of that first step: Oseen with zero advecting velocity), then n_picard = 3 Picard (Oseen) steps, then Newton with an Armijo backtracking line search on the DUAL-norm merit ||R||_* (sufficient decrease 1e-4; lambda = 1, 1/2,..., 1/64; lambda = 1/64 is accepted even without sufficient decrease and then counts as a violation in the line-search check)",
+    "newton_rtol": 1e-12,
+    "newton_maxit": 30,
+    "residual_definition": "relative_residual = ||R(x)||_* / ||R(x_lift)||_*, the discrete dual norm over the rows of the system actually solved (a pinned pressure row excluded), with consistent exactly integrated mass matrices, and x_lift the P2 Lagrange NODAL lift (the Dirichlet data at the boundary nodes, vertices and edge midpoints, ZERO at every other node, p = 0): with that definite lift the same number in every basis of the same spaces (zeroing the interior coefficients of a hierarchical basis gives another lift and a denominator smaller by 1.8-1.9)",
+    "linear_solver": "direct sparse LU",
+    "history": "every run reports solver.history = [{kind: stokes|picard|newton|ptc, residual, step, dt}] with the relative residual after each step"
+   },
+   "shared_node_rule": "At a velocity node shared by several boundary attributes: (1) Dirichlet beats every natural condition (traction); (2) between Dirichlet attributes the fixed data AGREE at shared nodes (one exact callable per field; checked by dirichlet_shared_node_mismatch_max), so the result is independent of attribute order; (3) AXISYMMETRIC: at a node on the axis r = 0 the axis condition u_r = u_theta = 0 holds and beats the data (the exact data have the same limit; the numpy spelling of the data is not evaluated at r = 0 for u_r, u_theta); u_z takes the data.",
+   "dirichlet_data": "P2 Lagrange NODAL interpolation of the fixed callables (vertices and edge midpoints)",
+   "mms_data": {
+    "path": "tools/fluids_mms/out/ns_kovasznay_re40.json",
+    "sha256": "af22e4aa9b32e8c919a3dfade1ef0879c1b0c11e930aada30e6f0f57d74c3498"
+   },
+   "Re": 40,
+   "rho": 1.0,
+   "mu": 0.025,
+   "meshes": {
+    "kovasznay_rect": {
+     "family": "kovasznay_rect",
+     "k": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "h_nominal": [
+      0.25,
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625
+     ],
+     "construction": "f2a_ns_check.rect_mesh(6, 8, k, -1/2, 1, -1/2, 3/2): 6 x 8 squares of side 1/4 on [-1/2, 1] x [-1/2, 3/2] split along the (1,1) diagonal except the cells at the corners (1, -1/2) and (-1/2, 3/2) (no all-boundary triangle), refined (red) k times. Nested.",
+     "h_definition": "h_nominal = 0.25 / 2^k (cell side); h_max = sqrt(2) h_nominal"
+    }
+   },
+   "boundaries": {
+    "all four edges": "Dirichlet from the exact solution (P2 nodal interpolation)"
+   },
+   "forcing": "none (f = 0)",
+   "pressure": "constant-pressure nullspace; compared mean-free",
+   "variants": [
+    [
+     "lap",
+     "standard"
+    ],
+    [
+     "sym",
+     "standard"
+    ],
+    [
+     "lap",
+     "skew"
+    ]
+   ],
+   "newton_check": {
+    "mesh": "kovasznay_rect k = 2",
+    "start": "Stokes solution, no Picard steps",
+    "line_search": "OFF",
+    "forms": [
+     [
+      "lap",
+      "standard"
+     ],
+     [
+      "sym",
+      "standard"
+     ]
+    ]
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "lap_standard_kov_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2: f2a_ns_check.norms, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.61754,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_standard_kov_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm (all gradient components), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.61754,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_standard_kov_pL2m",
+    "level": "analytic",
+    "norm": "||(p_h - <p_h>) - (p - <p>)||_L2, both means by the same quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.880031,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_standard_kov_divL2",
+    "level": "conservation",
+    "norm": "||div u_h||_L2 (Taylor-Hood is only weakly divergence-free)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.61754,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_standard_kov_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2: f2a_ns_check.norms, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.61754,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_standard_kov_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm (all gradient components), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.61754,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_standard_kov_pL2m",
+    "level": "analytic",
+    "norm": "||(p_h - <p_h>) - (p - <p>)||_L2, both means by the same quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.880031,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_standard_kov_divL2",
+    "level": "conservation",
+    "norm": "||div u_h||_L2 (Taylor-Hood is only weakly divergence-free)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.61754,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_skew_kov_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2: f2a_ns_check.norms, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.61754,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_skew_kov_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm (all gradient components), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.61754,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_skew_kov_pL2m",
+    "level": "analytic",
+    "norm": "||(p_h - <p_h>) - (p - <p>)||_L2, both means by the same quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.880031,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_skew_kov_divL2",
+    "level": "conservation",
+    "norm": "||div u_h||_L2 (Taylor-Hood is only weakly divergence-free)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.kovasznay_rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.61754,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "nullspace_detected",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "newton_order_p_median",
+    "level": "analytic",
+    "min": 1.6
+   },
+   {
+    "quantity": "newton_iterations_from_stokes_max",
+    "level": "analytic",
+    "max": 6
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "dirichlet_shared_node_mismatch_max",
+    "level": "analytic",
+    "abs_max": 1e-14
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

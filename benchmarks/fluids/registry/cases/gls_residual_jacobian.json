@@ -1,0 +1,158 @@
+{
+ "id": "gls_residual_jacobian",
+ "capability": "F5",
+ "title": "Stabilized residual vector against an independent numpy assembly; Newton Jacobian of the stabilized terms (Taylor test)",
+ "physics": "the pinned discrete GLS residual at prescribed nodal states; its Jacobian action",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f5_gls",
+   "function": "residual_jacobian",
+   "check_module": "f5_gls_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P1",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "formulation": "Equal-order continuous P1/P1 (u, p) on affine triangles, nodal basis, constant density rho, viscosity mu(x) (analytic with gradient, or a P1 nodal field with its element-wise gradient). Residual R_u,a = sum_K int [ rho (u_t + (w.grad)u).N_a e_i + a_visc(mu;u)(N_a e_i) - p d_i N_a - f_i N_a + tau_supg rho ((w.grad N_a) R_i) + tau_c rho (div u) d_i N_a ], R_p,a = sum_K int [ (div u) N_a + (tau_pspg/rho) grad N_a. R ] with the strong residual R = rho (u_t + (w.grad)u) + grad p - div sigma_visc(u; mu) - f (second derivatives of a P1 u vanish; grad mu KEPT: lap: sum_j d_j mu d_j u_i, sym: sum_j d_j mu (d_j u_i + d_i u_j)), w = u (Navier-Stokes), a given field (Oseen) or 0 (Stokes: convective and SUPG terms absent); a_visc lap = mu grad u : grad v, sym = mu (grad u + grad u^T) : grad v; BDF1 u_t = (u - u^{n-1})/dt or BDF2 (3u - 4u^{n-1} + u^{n-2})/(2 dt), constant step; tau_supg = [ (2/dt)^2 + CG w.G w + C_I (mu/rho)^2 G:G ]^(-1/2), tau_pspg = [ CG w.G w + C_I (mu/rho)^2 G:G ]^(-1/2) (NO dt term), tau_c = 1/(tau_pspg tr G), G_ij = sum_k dz_k/dx_i dz_k/dx_j with z the coordinates of the EQUILATERAL reference triangle of edge 1 (invariant under vertex renumbering), C_I = 36, CG = 1 (the (2/dt)^2 term only when dt is given). Every element integral by the pinned 6-point degree-4 rule f5_gls_check.rule_points() (the Galerkin terms of P1 data are polynomials of degree <= 3; tau is not polynomial). The continuity row carries the POSITIVE sign (div u) q. The Newton Jacobian is the exact derivative of this residual INCLUDING d tau / d state. Reference implementation: f5_gls_check.residual (numpy), agreeing with the independent NGSolve assembly to 3e-16.",
+   "stabilization": {
+    "family": "GLS-type residual-based: SUPG + PSPG + LSIC",
+    "tau": "Shakib-type, from the element metric tensor G (docs/guides/fluids.md, stabilized equal-order elements)",
+    "C_I": 36.0,
+    "CG": 1.0,
+    "quadrature": "6-point degree-4 rule, f5_gls_check.rule_points()"
+   },
+   "quadrature_error_norms": 10,
+   "nonlinear_solver": {
+    "start": "Stokes solution (GLS-stabilized, w = 0) with the Dirichlet data, then Newton with the exact Jacobian (d tau included) and an Armijo backtracking line search on the dual-norm merit (sufficient decrease 1e-4, lambda = 1, 1/2,..., 1/64); a continuation in the viscosity (or Re) is allowed: whatever path is used, the solution is that of the steady discrete equations",
+    "newton_rtol": 1e-12,
+    "newton_maxit": 40,
+    "linear_solver": "direct sparse LU",
+    "history": "solver.history = [{kind, residual, step}] with the relative residual after each step"
+   },
+   "dirichlet_data": "P1 nodal interpolation of the fixed callables at the boundary vertices",
+   "states": {
+    "definition": "f5_gls_check.parity_state(name, fields) is the fixed definition of every state (mesh, nodal u and p, BDF history, physics, body force, viscosity): u = (0.5 sin(3x + y) + 0.1 g, 0.4 cos(2y - x) + 0.1 g'), p = 0.3 cos(2x) + 0.1 g'' with g, g', g'' the first three standard-normal vectors of numpy default_rng(1); history u^{n-1} = 0.3 (cos x, sin y), u^{n-2} = 0.5 u^{n-1}; meshes f2a_ns_check.distorted_unit(1) and f5_gls_check.graded_mesh(12, 12, 1e3); dt = 0.05; fields gls_sq_mix (Re ~ 30) and gls_sq_conv (mu / 40); the Stokes state uses the body force without convection and w = 0, the Oseen state w = the field's exact velocity, the nodal-mu state the P1 interpolant of mu with its element-wise gradient",
+    "names": [
+     "steady_ns_distorted",
+     "steady_ns_conv_graded",
+     "steady_stokes",
+     "steady_oseen",
+     "steady_nodal_mu_lap",
+     "transient_bdf1",
+     "transient_bdf2"
+    ],
+    "reported": "R_u [nv,2] and R_p [nv] at the free state, from the public API, in the vertex order of the fixed mesh (rows of ALL vertices, no Dirichlet elimination), compared by f5_gls_check.parity_defect"
+   },
+   "fields": {
+    "gls_sq_mix": {
+     "path": "tools/fluids_mms/out/gls_sq_mix.json",
+     "sha256": "0000e2a6991e4d7df009603b8f685667efe6223b9da2a05502648013830c97b8"
+    },
+    "gls_sq_conv": {
+     "path": "tools/fluids_mms/out/gls_sq_conv.json",
+     "sha256": "de568e0bb964312c6db04b5c51d100f374105e89ce3521a99d454e7476e5ca17"
+    }
+   },
+   "taylor": {
+    "eps": [
+     1.0,
+     0.31622776601683794,
+     0.1,
+     0.03162277660168379,
+     0.01,
+     0.0031622776601683794,
+     0.001,
+     0.00031622776601683794,
+     0.0001
+    ],
+    "seed": 20261102,
+    "mesh": "structured N = 8",
+    "state": "Newton solution of the gls_sq_conv (regime Re ~ 1200) / gls_sq_mix MMS plus 0.1 max|x| xi (xi, d standard normal on the free DOFs, PCG64(20261102))",
+    "vectors": "R(x), R(x + e d), J(x) d on the free DOFs from the public API"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "parity_rel_steady_ns_distorted",
+    "level": "mms",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "parity_rel_steady_ns_conv_graded",
+    "level": "mms",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "parity_rel_steady_stokes",
+    "level": "mms",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "parity_rel_steady_oseen",
+    "level": "mms",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "parity_rel_steady_nodal_mu_lap",
+    "level": "mms",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "parity_rel_transient_bdf1",
+    "level": "mms",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "parity_rel_transient_bdf2",
+    "level": "mms",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "taylor_slope_r2_steady_conv",
+    "level": "mms",
+    "min": 1.85,
+    "max": 2.15
+   },
+   {
+    "quantity": "taylor_slope_r1_steady_conv",
+    "level": "mms",
+    "min": 0.9,
+    "max": 1.1
+   },
+   {
+    "quantity": "taylor_slope_r2_steady_mix",
+    "level": "mms",
+    "min": 1.85,
+    "max": 2.15
+   },
+   {
+    "quantity": "taylor_slope_r1_steady_mix",
+    "level": "mms",
+    "min": 0.9,
+    "max": 1.1
+   },
+   {
+    "quantity": "nullspace_detected",
+    "level": "mms",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,1161 @@
+{
+ "id": "chem_cross_cantera_network",
+ "capability": "C1c",
+ "title": "Cross-code vs Cantera: 5-species network (orders 1/2, two reversible pairs, Arrhenius n = 1/2, Ea, mole increase) at constant V and constant P",
+ "physics": "ideal gas, T = 600 K, energy off",
+ "levels": [
+  "cross_code"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "cross_cantera",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "mechanism": {
+    "species": [
+     "A",
+     "B",
+     "C",
+     "D",
+     "E"
+    ],
+    "reactions": [
+     {
+      "reactants": {
+       "A": 1
+      },
+      "products": {
+       "B": 1
+      },
+      "A": 0.9
+     },
+     {
+      "reactants": {
+       "A": 1,
+       "B": 1
+      },
+      "products": {
+       "C": 1
+      },
+      "A": 0.06,
+      "reversible": true,
+      "Kc": 25.0
+     },
+     {
+      "reactants": {
+       "C": 2
+      },
+      "products": {
+       "D": 1
+      },
+      "A": 0.035
+     },
+     {
+      "reactants": {
+       "B": 1,
+       "D": 1
+      },
+      "products": {
+       "A": 2,
+       "E": 1
+      },
+      "A": 0.05,
+      "reversible": true,
+      "kr": {
+       "A": 0.0015
+      }
+     },
+     {
+      "reactants": {
+       "E": 1
+      },
+      "products": {
+       "A": 3
+      },
+      "A": 0.2,
+      "n": 0.5,
+      "Ea": 8000.0
+     }
+    ]
+   },
+   "c0": [
+    10.0,
+    2.0,
+    0.5,
+    0.0,
+    0.0
+   ],
+   "T": 600.0,
+   "t_out": [
+    0.01,
+    0.1,
+    0.3,
+    1.0,
+    3.0,
+    10.0,
+    30.0
+   ],
+   "reactors": [
+    "const_v",
+    "const_p"
+   ],
+   "adaptive": {
+    "methods": {
+     "bdf2": "bdf2_adaptive",
+     "onestep": "onestep_adaptive"
+    },
+    "rtol": 1e-08,
+    "atol": 1e-12
+   },
+   "output_policy": {
+    "rule": "stop_time",
+    "text": "Adaptive runs: the solver steps EXACTLY to every fixed output time (stop-time mode: each output time is an accepted step end) and reports the state there; no interpolated outputs for any compared value. Dense output is used only where an item says so (dense-output query times, maxima located on the dense output, event location)."
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "const_v_A_t0.1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 9.010418996075863,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 9.010418996075864e-09
+   },
+   "const_v_A_t0.1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 9.010418996075863,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 9.010418996075864e-09
+   },
+   "const_v_B_t0.1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 2.720404923662065,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.720404923662065e-09
+   },
+   "const_v_B_t0.1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 2.720404923662065,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.720404923662065e-09
+   },
+   "const_v_C_t0.1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.6323544494496225,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.323544494496225e-10
+   },
+   "const_v_C_t0.1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.6323544494496225,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.323544494496225e-10
+   },
+   "const_v_D_t0.1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.0011121408344856594,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.1121408344856594e-12
+   },
+   "const_v_D_t0.1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.0011121408344856594,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.1121408344856594e-12
+   },
+   "const_v_E_t0.1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 6.206008308236878e-06,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.206008308236879e-15
+   },
+   "const_v_E_t0.1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 6.206008308236878e-06,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.206008308236879e-15
+   },
+   "const_v_A_t1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 3.123581921476486,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 3.1235819214764863e-09
+   },
+   "const_v_A_t1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 3.123581921476486,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 3.1235819214764863e-09
+   },
+   "const_v_B_t1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 5.937795678719438,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 5.937795678719439e-09
+   },
+   "const_v_B_t1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 5.937795678719438,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 5.937795678719439e-09
+   },
+   "const_v_C_t1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 1.8561171948762885,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.8561171948762885e-09
+   },
+   "const_v_C_t1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 1.8561171948762885,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.8561171948762885e-09
+   },
+   "const_v_D_t1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.053682411657302156,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 5.368241165730216e-11
+   },
+   "const_v_D_t1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.053682411657302156,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 5.368241165730216e-11
+   },
+   "const_v_E_t1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.0038861211407860653,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 3.886121140786066e-12
+   },
+   "const_v_E_t1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.0038861211407860653,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 3.886121140786066e-12
+   },
+   "const_v_A_t10__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.42742041666814234,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 4.2742041666814236e-10
+   },
+   "const_v_A_t10__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.42742041666814234,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 4.2742041666814236e-10
+   },
+   "const_v_B_t10__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 7.61428540697784,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 7.61428540697784e-09
+   },
+   "const_v_B_t10__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 7.61428540697784,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 7.61428540697784e-09
+   },
+   "const_v_C_t10__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 1.715608015797535,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.7156080157975353e-09
+   },
+   "const_v_C_t10__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 1.715608015797535,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.7156080157975353e-09
+   },
+   "const_v_D_t10__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.29478397876478113,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.9478397876478116e-10
+   },
+   "const_v_D_t10__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.29478397876478113,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.9478397876478116e-10
+   },
+   "const_v_E_t10__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.11598074323329634,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.1598074323329635e-10
+   },
+   "const_v_E_t10__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.11598074323329634,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.1598074323329635e-10
+   },
+   "const_p_A_t0.1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 9.109139938553174,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 9.109139938553175e-09
+   },
+   "const_p_A_t0.1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 9.109139938553174,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 9.109139938553175e-09
+   },
+   "const_p_B_t0.1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 2.749673902421902,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.749673902421902e-09
+   },
+   "const_p_B_t0.1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 2.749673902421902,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.749673902421902e-09
+   },
+   "const_p_C_t0.1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.6400480256004878,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.400480256004878e-10
+   },
+   "const_p_C_t0.1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.6400480256004878,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.400480256004878e-10
+   },
+   "const_p_D_t0.1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.0011317857473762201,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.1317857473762202e-12
+   },
+   "const_p_D_t0.1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.0011317857473762201,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.1317857473762202e-12
+   },
+   "const_p_E_t0.1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 6.3476770603508415e-06,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.3476770603508415e-15
+   },
+   "const_p_E_t0.1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 6.3476770603508415e-06,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.3476770603508415e-15
+   },
+   "const_p_A_t1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 3.5199322067065744,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 3.5199322067065746e-09
+   },
+   "const_p_A_t1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 3.5199322067065744,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 3.5199322067065746e-09
+   },
+   "const_p_B_t1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 6.6982641762582675,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.698264176258268e-09
+   },
+   "const_p_B_t1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 6.6982641762582675,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.698264176258268e-09
+   },
+   "const_p_C_t1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 2.2056679046967225,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.2056679046967225e-09
+   },
+   "const_p_C_t1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 2.2056679046967225,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.2056679046967225e-09
+   },
+   "const_p_D_t1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.07065448258164209,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 7.065448258164209e-11
+   },
+   "const_p_D_t1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.07065448258164209,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 7.065448258164209e-11
+   },
+   "const_p_E_t1__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.005481229756797509,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 5.481229756797509e-12
+   },
+   "const_p_E_t1__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.005481229756797509,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 5.481229756797509e-12
+   },
+   "const_p_A_t10__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.68580046543443,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.8580046543443e-10
+   },
+   "const_p_A_t10__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.68580046543443,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.8580046543443e-10
+   },
+   "const_p_B_t10__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 8.889761856161623,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 8.889761856161624e-09
+   },
+   "const_p_B_t10__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 8.889761856161623,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 8.889761856161624e-09
+   },
+   "const_p_C_t10__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 2.294938342134923,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.2949383421349234e-09
+   },
+   "const_p_C_t10__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 2.294938342134923,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.2949383421349234e-09
+   },
+   "const_p_D_t10__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.4320806509788919,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 4.3208065097889197e-10
+   },
+   "const_p_D_t10__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.4320806509788919,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 4.3208065097889197e-10
+   },
+   "const_p_E_t10__bdf2": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.19741868529013545,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.9741868529013547e-10
+   },
+   "const_p_E_t10__onestep": {
+    "kind": "scalar",
+    "source": "cantera_xc",
+    "value": 0.19741868529013545,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.9741868529013547e-10
+   }
+  },
+  "tolerance_recipe": {
+   "const_v_A_t0.1__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_A_t0.1__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_B_t0.1__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_B_t0.1__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_C_t0.1__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_C_t0.1__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_D_t0.1__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_D_t0.1__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_E_t0.1__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_E_t0.1__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_A_t1__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_A_t1__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_B_t1__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_B_t1__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_C_t1__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_C_t1__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_D_t1__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_D_t1__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_E_t1__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_E_t1__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_A_t10__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_A_t10__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_B_t10__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_B_t10__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_C_t10__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_C_t10__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_D_t10__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_D_t10__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_v_E_t10__bdf2": {
+    "rel": 0.00025551688076954054,
+    "abs": 1e-12
+   },
+   "const_v_E_t10__onestep": {
+    "rel": 3.850983216020735e-07,
+    "abs": 1e-12
+   },
+   "const_p_A_t0.1__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_A_t0.1__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_B_t0.1__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_B_t0.1__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_C_t0.1__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_C_t0.1__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_D_t0.1__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_D_t0.1__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_E_t0.1__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_E_t0.1__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_A_t1__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_A_t1__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_B_t1__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_B_t1__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_C_t1__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_C_t1__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_D_t1__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_D_t1__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_E_t1__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_E_t1__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_A_t10__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_A_t10__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_B_t10__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_B_t10__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_C_t10__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_C_t10__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_D_t10__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_D_t10__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   },
+   "const_p_E_t10__bdf2": {
+    "rel": 0.0002523449544430088,
+    "abs": 1e-12
+   },
+   "const_p_E_t10__onestep": {
+    "rel": 4.04176867857236e-07,
+    "abs": 1e-12
+   }
+  }
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "const_v_A_t0.1__bdf2",
+    "reference": "const_v_A_t0.1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_A_t0.1__onestep",
+    "reference": "const_v_A_t0.1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_B_t0.1__bdf2",
+    "reference": "const_v_B_t0.1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_B_t0.1__onestep",
+    "reference": "const_v_B_t0.1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_C_t0.1__bdf2",
+    "reference": "const_v_C_t0.1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_C_t0.1__onestep",
+    "reference": "const_v_C_t0.1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_D_t0.1__bdf2",
+    "reference": "const_v_D_t0.1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_D_t0.1__onestep",
+    "reference": "const_v_D_t0.1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_E_t0.1__bdf2",
+    "reference": "const_v_E_t0.1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_E_t0.1__onestep",
+    "reference": "const_v_E_t0.1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_A_t1__bdf2",
+    "reference": "const_v_A_t1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_A_t1__onestep",
+    "reference": "const_v_A_t1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_B_t1__bdf2",
+    "reference": "const_v_B_t1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_B_t1__onestep",
+    "reference": "const_v_B_t1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_C_t1__bdf2",
+    "reference": "const_v_C_t1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_C_t1__onestep",
+    "reference": "const_v_C_t1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_D_t1__bdf2",
+    "reference": "const_v_D_t1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_D_t1__onestep",
+    "reference": "const_v_D_t1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_E_t1__bdf2",
+    "reference": "const_v_E_t1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_E_t1__onestep",
+    "reference": "const_v_E_t1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_A_t10__bdf2",
+    "reference": "const_v_A_t10__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_A_t10__onestep",
+    "reference": "const_v_A_t10__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_B_t10__bdf2",
+    "reference": "const_v_B_t10__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_B_t10__onestep",
+    "reference": "const_v_B_t10__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_C_t10__bdf2",
+    "reference": "const_v_C_t10__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_C_t10__onestep",
+    "reference": "const_v_C_t10__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_D_t10__bdf2",
+    "reference": "const_v_D_t10__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_D_t10__onestep",
+    "reference": "const_v_D_t10__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_E_t10__bdf2",
+    "reference": "const_v_E_t10__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_v_E_t10__onestep",
+    "reference": "const_v_E_t10__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_A_t0.1__bdf2",
+    "reference": "const_p_A_t0.1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_A_t0.1__onestep",
+    "reference": "const_p_A_t0.1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_B_t0.1__bdf2",
+    "reference": "const_p_B_t0.1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_B_t0.1__onestep",
+    "reference": "const_p_B_t0.1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_C_t0.1__bdf2",
+    "reference": "const_p_C_t0.1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_C_t0.1__onestep",
+    "reference": "const_p_C_t0.1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_D_t0.1__bdf2",
+    "reference": "const_p_D_t0.1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_D_t0.1__onestep",
+    "reference": "const_p_D_t0.1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_E_t0.1__bdf2",
+    "reference": "const_p_E_t0.1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_E_t0.1__onestep",
+    "reference": "const_p_E_t0.1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_A_t1__bdf2",
+    "reference": "const_p_A_t1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_A_t1__onestep",
+    "reference": "const_p_A_t1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_B_t1__bdf2",
+    "reference": "const_p_B_t1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_B_t1__onestep",
+    "reference": "const_p_B_t1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_C_t1__bdf2",
+    "reference": "const_p_C_t1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_C_t1__onestep",
+    "reference": "const_p_C_t1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_D_t1__bdf2",
+    "reference": "const_p_D_t1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_D_t1__onestep",
+    "reference": "const_p_D_t1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_E_t1__bdf2",
+    "reference": "const_p_E_t1__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_E_t1__onestep",
+    "reference": "const_p_E_t1__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_A_t10__bdf2",
+    "reference": "const_p_A_t10__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_A_t10__onestep",
+    "reference": "const_p_A_t10__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_B_t10__bdf2",
+    "reference": "const_p_B_t10__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_B_t10__onestep",
+    "reference": "const_p_B_t10__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_C_t10__bdf2",
+    "reference": "const_p_C_t10__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_C_t10__onestep",
+    "reference": "const_p_C_t10__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_D_t10__bdf2",
+    "reference": "const_p_D_t10__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_D_t10__onestep",
+    "reference": "const_p_D_t10__onestep",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_E_t10__bdf2",
+    "reference": "const_p_E_t10__bdf2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "const_p_E_t10__onestep",
+    "reference": "const_p_E_t10__onestep",
+    "level": "cross_code"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  },
+  "checks": [
+   {
+    "quantity": "outputs_at_step_ends_min",
+    "level": "cross_code",
+    "min": 1.0
+   }
+  ]
+ }
+}

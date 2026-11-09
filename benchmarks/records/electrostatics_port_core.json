@@ -1,0 +1,132 @@
+{
+  "check": "port_core",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:55",
+  "template": "core",
+  "L_p_H": 3.3555936181663757e-07,
+  "C_gap_F": 5.1093036156276664e-11,
+  "C_gap_port_region_F": 2.3921976192130026e-11,
+  "self_resonance_lumped_Hz": 38437452.48518686,
+  "self_resonance_from_port_region_Hz": 56174203.70975906,
+  "dirichlet_bound": {
+    "C_gap_F": 5.1093036156276664e-11,
+    "C_gap_over_C_region": 2.1358200403646213,
+    "C_gap_plus_quarter_terminal_to_ground_F": 5.52125890496396e-11,
+    "C_gap_port_region_F": 2.3921976192130026e-11,
+    "C_terminal_to_ground_F": [
+      8.189411111028481e-12,
+      8.288800462423266e-12
+    ],
+    "bound_over_C_region": 2.3080279240393073,
+    "holds": true,
+    "note": "rigorous (Dirichlet principle, exact for the discrete problems): C_gap_port_region <= C_gap + (C_A_to_ground + C_B_to_ground)/4. The stronger C_gap >= C_gap_port_region is NOT proven; it is observed on every case run so far, with C_gap/C_region falling towards 1 as the gap grows relative to the electrode spacing (1.02 at the widest gap tested, 5.6 at the narrowest), but the bound above is the only guaranteed one."
+  },
+  "fullwave_first_pole_bracket_Hz": [
+    13703509.84720124,
+    17631825.099920426
+  ],
+  "fullwave_first_pole_Hz": 15544062.817709194,
+  "lumped_over_fullwave": 2.4728060440797663,
+  "C_effective_from_fullwave_F": 3.1242215098585707e-10,
+  "C_gap_over_C_effective": 0.16353845588429347,
+  "C_gap_over_C_effective_threshold": 0.40528473456935116,
+  "lumped_estimate_is_above_the_pole": true,
+  "sweep": [
+    {
+      "f_Hz": 5000000.0,
+      "k_R": 0.26302855025493604,
+      "L_over_MQS": 1.096812631589325,
+      "L_H": 3.6804574668854074e-07
+    },
+    {
+      "f_Hz": 6433324.490047159,
+      "k_R": 0.3384296027873359,
+      "L_over_MQS": 1.171168384832963,
+      "L_H": 3.9299651579437126e-07
+    },
+    {
+      "f_Hz": 8277532.798848107,
+      "k_R": 0.4354454903537401,
+      "L_over_MQS": 1.3193020275001865,
+      "L_H": 4.427041463913586e-07
+    },
+    {
+      "f_Hz": 10650410.894399626,
+      "k_R": 0.560272427434662,
+      "L_over_MQS": 1.6690561224359592,
+      "L_H": 5.600674072807622e-07
+    },
+    {
+      "f_Hz": 13703509.84720124,
+      "k_R": 0.7208828657027164,
+      "L_over_MQS": 2.977449247458886,
+      "L_H": 9.991109693187315e-07
+    },
+    {
+      "f_Hz": 17631825.099920426,
+      "k_R": 0.9275346788761325,
+      "L_over_MQS": -9.908401961185774,
+      "L_H": -3.3248570387182186e-06
+    },
+    {
+      "f_Hz": 22686250.443909246,
+      "k_R": 1.1934263129963696,
+      "L_over_MQS": -1.2097942329657647,
+      "L_H": -4.0595778074344056e-07
+    },
+    {
+      "f_Hz": 29189602.113628924,
+      "k_R": 1.5355397452932464,
+      "L_over_MQS": -0.4913355673223072,
+      "L_H": -1.6487224940848897e-07
+    },
+    {
+      "f_Hz": 37557236.42646825,
+      "k_R": 1.9757250897671639,
+      "L_over_MQS": -0.24642632147445961,
+      "L_H": -8.269065916879124e-08
+    },
+    {
+      "f_Hz": 48323577.7761779,
+      "k_R": 2.5420961211199438,
+      "L_over_MQS": -0.1337778747116648,
+      "L_H": -4.4890418263432337e-08
+    },
+    {
+      "f_Hz": 62176251.27083677,
+      "k_R": 3.2708258464109643,
+      "L_over_MQS": -0.07478245207822104,
+      "L_H": -2.5093951894451133e-08
+    },
+    {
+      "f_Hz": 80000000.0,
+      "k_R": 4.208456804078977,
+      "L_over_MQS": -0.0412797853029882,
+      "L_H": -1.3851818412198537e-08
+    }
+  ],
+  "checks": {
+    "dirichlet_bound": {
+      "C_gap_F": 5.1093036156276664e-11,
+      "C_gap_over_C_region": 2.1358200403646213,
+      "C_gap_plus_quarter_terminal_to_ground_F": 5.52125890496396e-11,
+      "C_gap_port_region_F": 2.3921976192130026e-11,
+      "C_terminal_to_ground_F": [
+        8.189411111028481e-12,
+        8.288800462423266e-12
+      ],
+      "bound_over_C_region": 2.3080279240393073,
+      "holds": true,
+      "note": "rigorous (Dirichlet principle, exact for the discrete problems): C_gap_port_region <= C_gap + (C_A_to_ground + C_B_to_ground)/4. The stronger C_gap >= C_gap_port_region is NOT proven; it is observed on every case run so far, with C_gap/C_region falling towards 1 as the gap grows relative to the electrode spacing (1.02 at the widest gap tested, 5.6 at the narrowest), but the bound above is the only guaranteed one."
+    },
+    "gap_charge_fraction_beyond_terminal_faces": 0.275763546151812,
+    "gap_charge_reaction_C": 5.928244726730515e-11,
+    "gap_charge_terminal_faces_C": 4.2934509384315285e-11,
+    "gap_energy_relative": 3.161274815233594e-14,
+    "gap_symmetry_relative": 6.529621416460673e-16,
+    "region_charge_gauss_relative": 5.0381623667044664e-14,
+    "region_symmetry_relative": 4.0521413137033243e-16
+  },
+  "pass": true,
+  "headline": "core: C_gap = 5.1093e-11 F (region only 2.3922e-11), lumped f_SR = 38.4 MHz vs full-wave pole 15.5 MHz (x2.47; C_gap/C_eff 0.164 < (2/pi)^2 = 0.405, so the lumped estimate lands above the pole here)"
+}

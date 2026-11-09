@@ -1,0 +1,530 @@
+{
+ "id": "chem_vo_own_bdf345",
+ "capability": "C1d",
+ "title": "Own BDF3-5 only: variable-step (cyclic grid) orders, stiff real-spectrum PR, complex-spectrum control, effectivity",
+ "physics": "generic interface",
+ "levels": [
+  "mms",
+  "analytic"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "vo_own_bdf345",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "fields": {
+    "path": "benchmarks/chem/casedata/c1/c1_fields.json",
+    "sha256": "24f967bad7e3a294b201c7dd94b26b386824b752df6d606256c7b2454571c8a5"
+   },
+   "scales": {
+    "M1": [
+     1.399999928878873,
+     1.0999999764387611,
+     0.78642630304418,
+     0.6999999365863669,
+     1.0499999714833903
+    ],
+    "M2": [
+     1.2999999755571918,
+     0.9499999988401435,
+     0.5983329620904938,
+     0.7999999504844041,
+     0.6499999882193805,
+     344.9999987778596
+    ],
+    "M4": [
+     0.6249999841445817,
+     1.8749999524337453,
+     1.399999992291158
+    ],
+    "M6": [
+     1.2999999942183684,
+     0.7999999365863669,
+     0.5294814049973311,
+     2.6
+    ]
+   },
+   "nominal_dt": [
+    0.1,
+    0.05,
+    0.025,
+    0.0125,
+    0.00625
+   ],
+   "grid": {
+    "kind": "cyclic",
+    "step_pattern": [
+     1.0,
+     1.25,
+     0.8,
+     1.1,
+     0.9
+    ],
+    "N": [
+     20,
+     40,
+     80,
+     160,
+     320
+    ],
+    "t_end": 2.0,
+    "construction": "h_i proportional to the pattern repeated N/5 times, scaled to sum to t_end (c1_kinetics_check.cyclic_grid_times)",
+    "adherence": "the solver STEPS to these times (accepted step ends); each level's run passes its accepted step-end times, t_0 included, to c1_kinetics_check.grid_adherence(t_steps, t_end, N, step_pattern); per series the case reports <series>_grid_dev_max and <series>_dt_max_ratio_min as returned by c1_kinetics_check.grid_adherence_series(level results) (np.max of grid_dev, inf if a level's step count differs from N; np.min of dt_max_ratio; NaN propagates and fails; never aggregated by hand)"
+   },
+   "pr": {
+    "g": "sin(t + 1/4) + 3/2 + t/5",
+    "lambda": -1000.0,
+    "t_end": 8.0,
+    "dt_levels": [
+     1.0,
+     0.5,
+     0.25,
+     0.125,
+     0.0625
+    ],
+    "start": "exact"
+   },
+   "cspec": {
+    "phi_deg": 88.0,
+    "hr": 1.0,
+    "n_steps": 400,
+    "delta": 1e-06,
+    "r": 1000.0
+   },
+   "effectivity": {
+    "problem": "M1_batch",
+    "t_star": 1.3,
+    "h": {
+     "3": 0.00625,
+     "4": 0.00625,
+     "5": 0.0125
+    }
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "M1_cyclic_bdf3",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "nominal_dt",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "variable_step": true,
+    "step_function_from": "grid",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "M1_cyclic_bdf4",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "nominal_dt",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "variable_step": true,
+    "step_function_from": "grid",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "M2_cyclic_bdf3",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "nominal_dt",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "variable_step": true,
+    "step_function_from": "grid",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "M2_cyclic_bdf4",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "nominal_dt",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "variable_step": true,
+    "step_function_from": "grid",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "M4_cyclic_bdf3",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "nominal_dt",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "variable_step": true,
+    "step_function_from": "grid",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "M4_cyclic_bdf4",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "nominal_dt",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "variable_step": true,
+    "step_function_from": "grid",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "M6_cyclic_bdf3",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "nominal_dt",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "variable_step": true,
+    "step_function_from": "grid",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "M6_cyclic_bdf4",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "nominal_dt",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "variable_step": true,
+    "step_function_from": "grid",
+    "max_step_ratio": 1.45
+   },
+   {
+    "series": "pr_stiff_real_bdf3",
+    "level": "mms",
+    "norm": "lambda = -1e3 on [0, 8]",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "pr.dt_levels",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "pr_stiff_real_bdf4",
+    "level": "mms",
+    "norm": "lambda = -1e3 on [0, 8]",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "pr.dt_levels",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "pr_stiff_real_bdf5",
+    "level": "mms",
+    "norm": "lambda = -1e3 on [0, 8]",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "pr.dt_levels",
+    "expected_order": 5.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "cspec_bdf1_amplification",
+    "level": "analytic",
+    "max": 1.0
+   },
+   {
+    "quantity": "cspec_bdf2_amplification",
+    "level": "analytic",
+    "max": 1.0
+   },
+   {
+    "quantity": "cspec_bdf3_amplification",
+    "level": "analytic",
+    "min": 10.0
+   },
+   {
+    "quantity": "cspec_bdf4_amplification",
+    "level": "analytic",
+    "min": 10.0
+   },
+   {
+    "quantity": "cspec_bdf5_amplification",
+    "level": "analytic",
+    "min": 10.0
+   },
+   {
+    "quantity": "effectivity_bdf3_h",
+    "level": "mms",
+    "min": 0.8,
+    "max": 1.25
+   },
+   {
+    "quantity": "effectivity_bdf3_2h",
+    "level": "mms",
+    "min": 0.67,
+    "max": 1.5
+   },
+   {
+    "quantity": "effectivity_bdf4_h",
+    "level": "mms",
+    "min": 0.8,
+    "max": 1.25
+   },
+   {
+    "quantity": "effectivity_bdf4_2h",
+    "level": "mms",
+    "min": 0.67,
+    "max": 1.5
+   },
+   {
+    "quantity": "effectivity_bdf5_h",
+    "level": "mms",
+    "min": 0.8,
+    "max": 1.25
+   },
+   {
+    "quantity": "effectivity_bdf5_2h",
+    "level": "mms",
+    "min": 0.67,
+    "max": 1.5
+   },
+   {
+    "quantity": "M1_cyclic_bdf3_grid_dev_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "M1_cyclic_bdf3_dt_max_ratio_min",
+    "level": "mms",
+    "min": 1.37
+   },
+   {
+    "quantity": "M1_cyclic_bdf4_grid_dev_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "M1_cyclic_bdf4_dt_max_ratio_min",
+    "level": "mms",
+    "min": 1.37
+   },
+   {
+    "quantity": "M2_cyclic_bdf3_grid_dev_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "M2_cyclic_bdf3_dt_max_ratio_min",
+    "level": "mms",
+    "min": 1.37
+   },
+   {
+    "quantity": "M2_cyclic_bdf4_grid_dev_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "M2_cyclic_bdf4_dt_max_ratio_min",
+    "level": "mms",
+    "min": 1.37
+   },
+   {
+    "quantity": "M4_cyclic_bdf3_grid_dev_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "M4_cyclic_bdf3_dt_max_ratio_min",
+    "level": "mms",
+    "min": 1.37
+   },
+   {
+    "quantity": "M4_cyclic_bdf4_grid_dev_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "M4_cyclic_bdf4_dt_max_ratio_min",
+    "level": "mms",
+    "min": 1.37
+   },
+   {
+    "quantity": "M6_cyclic_bdf3_grid_dev_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "M6_cyclic_bdf3_dt_max_ratio_min",
+    "level": "mms",
+    "min": 1.37
+   },
+   {
+    "quantity": "M6_cyclic_bdf4_grid_dev_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "M6_cyclic_bdf4_dt_max_ratio_min",
+    "level": "mms",
+    "min": 1.37
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  }
+ }
+}

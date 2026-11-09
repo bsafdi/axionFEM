@@ -1,0 +1,178 @@
+{
+ "axionfem_version": "0.1.0",
+ "date": "2026-10-06 15:02",
+ "check": "mechanics_templates",
+ "note": "default template parameters with cooldown; built-in material defaults (winding = smeared isotropic composite, nb = niobium). The Lorentz load is cross-checked against the independent winding force in results['forces'].",
+ "templates": {
+  "toroid": {
+   "Psi_SI": 3.081007258912019e-07,
+   "L_p_H": 1.4859995986901555e-06,
+   "W_mag_J": 102435.26125669281,
+   "lorentz_windings": [
+    "toroid"
+   ],
+   "magnetic_pressure_bodies": [
+    "sheath"
+   ],
+   "sc_surface_field_T": {
+    "sheath": 1.0929688065913861e-17
+   },
+   "applied_Fz_N": -2.553084965661867e-10,
+   "forces_Fz_sum_N": -2.5643964729482605e-10,
+   "Fz_residual_N": 1.1311507286393407e-12,
+   "applied_radial_N_per_rad": -10591.589840102542,
+   "winding_radial_N_per_rad": -10591.589840102542,
+   "sc_radial_N_per_rad": 0.0,
+   "equilibrium_Fz_round_off": 1.416092050032498e-15,
+   "regions": {
+    "sheath": {
+     "u_max_m": 0.0032547710205799623,
+     "von_mises_max_Pa": 0.19386500268488244,
+     "sigma_hoop_Pa": {
+      "max": 0.10854959487915039,
+      "min": -0.10679805278778076
+     },
+     "E_Pa": 105000000000.0,
+     "thermal_strain": -0.00143
+    },
+    "winding": {
+     "u_max_m": 0.006788175259377618,
+     "von_mises_max_Pa": 6183809.162385473,
+     "sigma_hoop_Pa": {
+      "max": 3086084.8765923977,
+      "min": -1844801.1495471
+     },
+     "E_Pa": 80000000000.0,
+     "thermal_strain": -0.003
+    }
+   },
+   "seconds": 0.16351979,
+   "warnings": [
+    "mechanics: no supports were given; each unsupported assembly is free in z (its axial displacement is reported relative to its own volume-weighted mean) and reports no reaction forces"
+   ]
+  },
+  "solenoid": {
+   "Psi_SI": 1.7971366292733192e-07,
+   "L_p_H": 2.454832538708902e-07,
+   "W_mag_J": 681887.910163772,
+   "lorentz_windings": [
+    "solenoid"
+   ],
+   "magnetic_pressure_bodies": [],
+   "sc_surface_field_T": {},
+   "applied_Fz_N": 0.33736402694825784,
+   "forces_Fz_sum_N": 0.33736402695273426,
+   "Fz_residual_N": -4.476419235288631e-12,
+   "applied_radial_N_per_rad": 182006.32421166773,
+   "winding_radial_N_per_rad": 182006.32421166773,
+   "sc_radial_N_per_rad": 0.0,
+   "equilibrium_Fz_round_off": 1.477759558598533e-15,
+   "regions": {
+    "coax_inner": {
+     "u_max_m": 0.003992311829839507,
+     "von_mises_max_Pa": 0.606330653331225,
+     "sigma_hoop_Pa": {
+      "max": 0.35175251960754395,
+      "min": -0.3778831958770752
+     },
+     "E_Pa": 130000000000.0,
+     "thermal_strain": -0.00326
+    },
+    "coax_outer": {
+     "u_max_m": 0.004840415135050886,
+     "von_mises_max_Pa": 0.9343012566045636,
+     "sigma_hoop_Pa": {
+      "max": 0.6263134479522705,
+      "min": -0.49486541748046875
+     },
+     "E_Pa": 130000000000.0,
+     "thermal_strain": -0.00326
+    },
+    "coax_short": {
+     "u_max_m": 0.004369237748652239,
+     "von_mises_max_Pa": 1.0355944345744963,
+     "sigma_hoop_Pa": {
+      "max": 0.642014741897583,
+      "min": -0.4514307975769043
+     },
+     "E_Pa": 130000000000.0,
+     "thermal_strain": -0.00326
+    },
+    "winding": {
+     "u_max_m": 0.004260654334788207,
+     "von_mises_max_Pa": 13335041.494180227,
+     "sigma_hoop_Pa": {
+      "max": 10164171.516330957,
+      "min": 6747786.431224942
+     },
+     "E_Pa": 80000000000.0,
+     "thermal_strain": -0.003
+    }
+   },
+   "seconds": 0.125686429,
+   "warnings": [
+    "mechanics: no supports were given; each unsupported assembly is free in z (its axial displacement is reported relative to its own volume-weighted mean) and reports no reaction forces"
+   ]
+  },
+  "core": {
+   "Psi_SI": 3.775573571607217e-07,
+   "L_p_H": 3.3555936181663726e-07,
+   "W_mag_J": 593360.0897097491,
+   "lorentz_windings": [
+    "lower",
+    "upper"
+   ],
+   "magnetic_pressure_bodies": [
+    "cavity"
+   ],
+   "sc_surface_field_T": {
+    "cavity": 0.5162614290797397
+   },
+   "applied_Fz_N": -8.413033371908671,
+   "forces_Fz_sum_N": -8.413033372467476,
+   "Fz_residual_N": 5.588045581816914e-10,
+   "applied_radial_N_per_rad": 152468.28240010847,
+   "winding_radial_N_per_rad": 111403.493591773,
+   "sc_radial_N_per_rad": 41064.78880833546,
+   "equilibrium_Fz_round_off": 1.927482157578306e-13,
+   "regions": {
+    "cavity": {
+     "u_max_m": 0.17935889460814966,
+     "von_mises_max_Pa": 305859311.61918116,
+     "sigma_hoop_Pa": {
+      "max": 152116836.66399634,
+      "min": -163589174.45163715
+     },
+     "E_Pa": 105000000000.0,
+     "thermal_strain": -0.00143
+    },
+    "coil_lower": {
+     "u_max_m": 0.0033793831098645503,
+     "von_mises_max_Pa": 15098734.343995873,
+     "sigma_hoop_Pa": {
+      "max": 12263916.247407436,
+      "min": 1850597.3028149605
+     },
+     "E_Pa": 80000000000.0,
+     "thermal_strain": -0.003
+    },
+    "coil_upper": {
+     "u_max_m": 0.0033900540282326033,
+     "von_mises_max_Pa": 14791963.036493598,
+     "sigma_hoop_Pa": {
+      "max": 7031118.357483983,
+      "min": -3087932.4654592276
+     },
+     "E_Pa": 80000000000.0,
+     "thermal_strain": -0.003
+    }
+   },
+   "seconds": 0.579978739,
+   "warnings": [
+    "mechanics: the unsupported assembly (coil_upper) carries a net axial load of -82679.2 N and cannot be in equilibrium; its axial displacement is pinned at one node and is not physical. Add a support in mechanics.supports.",
+    "mechanics: the unsupported assembly (coil_lower) carries a net axial load of 82679.5 N and cannot be in equilibrium; its axial displacement is pinned at one node and is not physical. Add a support in mechanics.supports.",
+    "mechanics: no supports were given; each unsupported assembly is free in z (its axial displacement is reported relative to its own volume-weighted mean) and reports no reaction forces"
+   ]
+  }
+ }
+}

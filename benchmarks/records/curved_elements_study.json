@@ -1,0 +1,137 @@
+{
+ "check": "curved_elements_study",
+ "date": "2026-11-08 07:54",
+ "timeout_s": 2400.0,
+ "rows": [
+  {
+   "case": "core30",
+   "variant": "auto",
+   "AXF_MESHER_HO": "auto",
+   "AXF_MESHER_CURVATURE_FLOOR": "0",
+   "wall_s": 1124.2778289318085,
+   "returncode": 0,
+   "curved_elements_invalid": 0,
+   "elements_3d": 381943,
+   "mesh_seconds": 1110.977650086,
+   "mesh_size_min": 0.00625,
+   "min_curve_radius": 0.0014999999999999998,
+   "high_order_optimize": "auto",
+   "high_order_counts": {
+    "invalid_after_elastic": 2415,
+    "invalid_after_high_order": 0
+   }
+  },
+  {
+   "case": "core30",
+   "variant": "elastic",
+   "AXF_MESHER_HO": "elastic",
+   "AXF_MESHER_CURVATURE_FLOOR": "0",
+   "wall_s": 242.9955005645752,
+   "returncode": 0,
+   "curved_elements_invalid": 819,
+   "elements_3d": 381943,
+   "mesh_seconds": 229.877266279,
+   "mesh_size_min": 0.00625,
+   "min_curve_radius": 0.0014999999999999998,
+   "high_order_optimize": "elastic",
+   "high_order_counts": {}
+  },
+  {
+   "case": "core30",
+   "variant": "full",
+   "AXF_MESHER_HO": "full",
+   "AXF_MESHER_CURVATURE_FLOOR": "0",
+   "wall_s": 1114.3537528514862,
+   "returncode": 0,
+   "curved_elements_invalid": 0,
+   "elements_3d": 381943,
+   "mesh_seconds": 1101.107535958,
+   "mesh_size_min": 0.00625,
+   "min_curve_radius": 0.0014999999999999998,
+   "high_order_optimize": "full",
+   "high_order_counts": {
+    "invalid_after_high_order": 0
+   }
+  },
+  {
+   "case": "core30",
+   "variant": "none",
+   "AXF_MESHER_HO": "none",
+   "AXF_MESHER_CURVATURE_FLOOR": "0",
+   "wall_s": 103.79990816116333,
+   "returncode": 0,
+   "curved_elements_invalid": 1814,
+   "elements_3d": 381943,
+   "mesh_seconds": 90.762260687,
+   "mesh_size_min": 0.00625,
+   "min_curve_radius": 0.0014999999999999998,
+   "high_order_optimize": "none",
+   "high_order_counts": {}
+  },
+  {
+   "case": "shell",
+   "variant": "auto",
+   "AXF_MESHER_HO": "auto",
+   "AXF_MESHER_CURVATURE_FLOOR": "0",
+   "wall_s": 423.8393750190735,
+   "returncode": 0,
+   "curved_elements_invalid": 0,
+   "elements_3d": 269645,
+   "mesh_seconds": 413.258634699,
+   "mesh_size_min": 0.002,
+   "min_curve_radius": 0.0004999999999999996,
+   "high_order_optimize": "auto",
+   "high_order_counts": {
+    "invalid_after_elastic": 6,
+    "invalid_after_high_order": 0
+   }
+  },
+  {
+   "case": "shell",
+   "variant": "elastic",
+   "AXF_MESHER_HO": "elastic",
+   "AXF_MESHER_CURVATURE_FLOOR": "0",
+   "wall_s": 207.6408987045288,
+   "returncode": 0,
+   "curved_elements_invalid": 1,
+   "elements_3d": 269645,
+   "mesh_seconds": 197.070232769,
+   "mesh_size_min": 0.002,
+   "min_curve_radius": 0.0004999999999999996,
+   "high_order_optimize": "elastic",
+   "high_order_counts": {}
+  },
+  {
+   "case": "shell",
+   "variant": "full",
+   "AXF_MESHER_HO": "full",
+   "AXF_MESHER_CURVATURE_FLOOR": "0",
+   "wall_s": 426.40520882606506,
+   "returncode": 0,
+   "curved_elements_invalid": 0,
+   "elements_3d": 269645,
+   "mesh_seconds": 415.785477783,
+   "mesh_size_min": 0.002,
+   "min_curve_radius": 0.0004999999999999996,
+   "high_order_optimize": "full",
+   "high_order_counts": {
+    "invalid_after_high_order": 0
+   }
+  },
+  {
+   "case": "shell",
+   "variant": "none",
+   "AXF_MESHER_HO": "none",
+   "AXF_MESHER_CURVATURE_FLOOR": "0",
+   "wall_s": 37.800090312957764,
+   "returncode": 0,
+   "curved_elements_invalid": 1,
+   "elements_3d": 269645,
+   "mesh_seconds": 27.121850828,
+   "mesh_size_min": 0.002,
+   "min_curve_radius": 0.0004999999999999996,
+   "high_order_optimize": "none",
+   "high_order_counts": {}
+  }
+ ]
+}

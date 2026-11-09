@@ -1,0 +1,1228 @@
+{
+ "id": "chem_analytic_c3_concentric_3d",
+ "capability": "C3b",
+ "title": "Concentric cylinders and spheres in 3D (mapped Kuhn sectors, P1 affine / P2 isoparametric), primary and secondary",
+ "physics": "radial solutions of chem_analytic_c3_concentric on 3D sectors with insulating walls",
+ "levels": [
+  "analytic",
+  "cross_code",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3b_current_distribution",
+   "function": "concentric_3d",
+   "check_module": "c3b_checks",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "geometry": {
+    "kappa": "1",
+    "r1": "0.005",
+    "r2": "0.02"
+   },
+   "sectors": {
+    "cyl3d": "r1 < rho < r2, theta in [0, pi/2], 0 < z < H = 0.01 m; x = rho cos theta, y = rho sin theta, z = u H; insulating sides and caps",
+    "sph3d": "r1 < rho < r2, polar theta in [pi/4, pi/2], azimuth phi in [0, pi/2]; x = rho sin theta cos phi, y = rho sin theta sin phi, z = rho cos theta; insulating walls"
+   },
+   "kinetics": {
+    "primary": "phi = 0.2 V on the inner, 0 on the outer surface",
+    "bv_sym": {
+     "inner (anode)": {
+      "phi_s": 0.6,
+      "reactions": [
+       {
+        "kind": "bv",
+        "i0": 10.0,
+        "E_eq": 0.05,
+        "alpha_a": 0.5,
+        "alpha_c": 0.5
+       }
+      ]
+     },
+     "outer (cathode)": {
+      "phi_s": 0.0,
+      "reactions": [
+       {
+        "kind": "bv",
+        "i0": 10.0,
+        "E_eq": -0.02,
+        "alpha_a": 0.5,
+        "alpha_c": 0.5
+       }
+      ]
+     },
+     "units": "i0 A/m^2, E_eq and phi_s V (the bv_sym reactions of chem_analytic_c3_concentric)"
+    }
+   },
+   "elements": {
+    "p1": "Lagrange P1, affine (mapped vertices)",
+    "p2": "Lagrange P2, isoparametric: edge nodes at gmap(parametric midpoint)"
+   },
+   "quadrature": {
+    "domain_degree": "2k + 4",
+    "boundary_degree": "2k + 4"
+   },
+   "meshes": {
+    "cyl3d_p1": {
+     "family": "cyl3d_p1",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875,
+      0.000234375
+     ],
+     "construction": "the unit cube's N^3 cells, each split into the 6 Kuhn (Freudenthal) tetrahedra around the main diagonal (i,j,k)->(i+1,j+1,k+1): one tetrahedron per permutation of the axes, vertices (i,j,k)/N in ij-order (meshes.box); nested under doubling, mapped: rho = r1 + s (r2 - r1); theta = t pi/2, z = u H",
+     "attributes": "1 inner electrode, 2 outer electrode, 3 insulating walls; a facet belongs to an electrode when ALL its geometry nodes lie on it",
+     "levels": [
+      {
+       "name": "cyl3d_p1_4",
+       "n_elements": 384,
+       "hash_scale": 0.01,
+       "vertex_hash": "e9ca47a7c3234f4e",
+       "connectivity_hash": "b2edcb53e33473b2"
+      },
+      {
+       "name": "cyl3d_p1_8",
+       "n_elements": 3072,
+       "hash_scale": 0.01,
+       "vertex_hash": "afcc66c4f1ff593a",
+       "connectivity_hash": "bc55644535f41756"
+      },
+      {
+       "name": "cyl3d_p1_16",
+       "n_elements": 24576,
+       "hash_scale": 0.01,
+       "vertex_hash": "ed2bdaebbf3928cd",
+       "connectivity_hash": "1cdb5aa7226a78f2"
+      },
+      {
+       "name": "cyl3d_p1_32",
+       "n_elements": 196608,
+       "hash_scale": 0.01,
+       "vertex_hash": "93c4a28a809a5f57",
+       "connectivity_hash": "6f8cb7be09bea784"
+      },
+      {
+       "name": "cyl3d_p1_64",
+       "n_elements": 1572864,
+       "hash_scale": 0.01,
+       "vertex_hash": "d59d64dc3d5290ab",
+       "connectivity_hash": "c772d961c511b5f9"
+      }
+     ]
+    },
+    "cyl3d_p2": {
+     "family": "cyl3d_p2",
+     "N": [
+      4,
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875
+     ],
+     "construction": "the unit cube's N^3 cells, each split into the 6 Kuhn (Freudenthal) tetrahedra around the main diagonal (i,j,k)->(i+1,j+1,k+1): one tetrahedron per permutation of the axes, vertices (i,j,k)/N in ij-order (meshes.box); nested under doubling, mapped: rho = r1 + s (r2 - r1); theta = t pi/2, z = u H",
+     "attributes": "1 inner electrode, 2 outer electrode, 3 insulating walls; a facet belongs to an electrode when ALL its geometry nodes lie on it",
+     "levels": [
+      {
+       "name": "cyl3d_p2_4",
+       "n_elements": 384,
+       "hash_scale": 0.01,
+       "vertex_hash": "e9ca47a7c3234f4e",
+       "connectivity_hash": "b2edcb53e33473b2",
+       "geometry_node_hash": "afcc66c4f1ff593a"
+      },
+      {
+       "name": "cyl3d_p2_8",
+       "n_elements": 3072,
+       "hash_scale": 0.01,
+       "vertex_hash": "afcc66c4f1ff593a",
+       "connectivity_hash": "bc55644535f41756",
+       "geometry_node_hash": "ed2bdaebbf3928cd"
+      },
+      {
+       "name": "cyl3d_p2_16",
+       "n_elements": 24576,
+       "hash_scale": 0.01,
+       "vertex_hash": "ed2bdaebbf3928cd",
+       "connectivity_hash": "1cdb5aa7226a78f2",
+       "geometry_node_hash": "93c4a28a809a5f57"
+      },
+      {
+       "name": "cyl3d_p2_32",
+       "n_elements": 196608,
+       "hash_scale": 0.01,
+       "vertex_hash": "93c4a28a809a5f57",
+       "connectivity_hash": "6f8cb7be09bea784",
+       "geometry_node_hash": "d59d64dc3d5290ab"
+      }
+     ]
+    },
+    "sph3d_p1": {
+     "family": "sph3d_p1",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875,
+      0.000234375
+     ],
+     "construction": "the unit cube's N^3 cells, each split into the 6 Kuhn (Freudenthal) tetrahedra around the main diagonal (i,j,k)->(i+1,j+1,k+1): one tetrahedron per permutation of the axes, vertices (i,j,k)/N in ij-order (meshes.box); nested under doubling, mapped: rho = r1 + s (r2 - r1); theta = pi/4 + t pi/4 (polar), azimuth = u pi/2",
+     "attributes": "1 inner electrode, 2 outer electrode, 3 insulating walls; a facet belongs to an electrode when ALL its geometry nodes lie on it",
+     "levels": [
+      {
+       "name": "sph3d_p1_4",
+       "n_elements": 384,
+       "hash_scale": 0.01,
+       "vertex_hash": "42d153e6a3410065",
+       "connectivity_hash": "b79bc3ba93eadcaa"
+      },
+      {
+       "name": "sph3d_p1_8",
+       "n_elements": 3072,
+       "hash_scale": 0.01,
+       "vertex_hash": "000fba5db591d21b",
+       "connectivity_hash": "9eb54a74853dd219"
+      },
+      {
+       "name": "sph3d_p1_16",
+       "n_elements": 24576,
+       "hash_scale": 0.01,
+       "vertex_hash": "293f2f2a6b85389b",
+       "connectivity_hash": "2d00c0268cc94aaa"
+      },
+      {
+       "name": "sph3d_p1_32",
+       "n_elements": 196608,
+       "hash_scale": 0.01,
+       "vertex_hash": "70d3def249383ec9",
+       "connectivity_hash": "6a15d2bdf05ce716"
+      },
+      {
+       "name": "sph3d_p1_64",
+       "n_elements": 1572864,
+       "hash_scale": 0.01,
+       "vertex_hash": "eb4dcb6acfe9b82b",
+       "connectivity_hash": "da38303235eb3636"
+      }
+     ]
+    },
+    "sph3d_p2": {
+     "family": "sph3d_p2",
+     "N": [
+      4,
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875
+     ],
+     "construction": "the unit cube's N^3 cells, each split into the 6 Kuhn (Freudenthal) tetrahedra around the main diagonal (i,j,k)->(i+1,j+1,k+1): one tetrahedron per permutation of the axes, vertices (i,j,k)/N in ij-order (meshes.box); nested under doubling, mapped: rho = r1 + s (r2 - r1); theta = pi/4 + t pi/4 (polar), azimuth = u pi/2",
+     "attributes": "1 inner electrode, 2 outer electrode, 3 insulating walls; a facet belongs to an electrode when ALL its geometry nodes lie on it",
+     "levels": [
+      {
+       "name": "sph3d_p2_4",
+       "n_elements": 384,
+       "hash_scale": 0.01,
+       "vertex_hash": "42d153e6a3410065",
+       "connectivity_hash": "b79bc3ba93eadcaa",
+       "geometry_node_hash": "000fba5db591d21b"
+      },
+      {
+       "name": "sph3d_p2_8",
+       "n_elements": 3072,
+       "hash_scale": 0.01,
+       "vertex_hash": "000fba5db591d21b",
+       "connectivity_hash": "9eb54a74853dd219",
+       "geometry_node_hash": "293f2f2a6b85389b"
+      },
+      {
+       "name": "sph3d_p2_16",
+       "n_elements": 24576,
+       "hash_scale": 0.01,
+       "vertex_hash": "293f2f2a6b85389b",
+       "connectivity_hash": "2d00c0268cc94aaa",
+       "geometry_node_hash": "70d3def249383ec9"
+      },
+      {
+       "name": "sph3d_p2_32",
+       "n_elements": 196608,
+       "hash_scale": 0.01,
+       "vertex_hash": "70d3def249383ec9",
+       "connectivity_hash": "6a15d2bdf05ce716",
+       "geometry_node_hash": "eb4dcb6acfe9b82b"
+      }
+     ]
+    }
+   },
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   },
+   "newton_note": "iterate to stagnation also for the linear primary problem (one direct solve leaves the round-off balance identities FAILing)",
+   "geometry_nodes": "P2 levels carry geometry_node_hash = c3_checks.vertex_hash of ALL geometry nodes (vertices and the mapped edge nodes) with hash_scale; a different curving is an ERROR, not a margin",
+   "ranks": "4 MPI ranks"
+  }
+ },
+ "reference": {
+  "quantities": {
+   "cyl3d_primary_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.002266180070913597,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "dlfx_cyl3d_primary_p1_N8_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0022822742593744047,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_primary_p1_N8_I",
+    "uncertainty": 1.027023416718482e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_primary_p1_N16_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0022702332999749394,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_primary_p1_N16_I",
+    "uncertainty": 1.0216049849887228e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_primary_p1_N32_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0022671955421577567,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_primary_p1_N32_I",
+    "uncertainty": 1.0202379939709905e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_primary_p1_N64_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.002266434086145683,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_primary_p1_N64_I",
+    "uncertainty": 1.0198953387655572e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_primary_p2_N8_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0022662558007810942,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_primary_p2_N8_I",
+    "uncertainty": 1.0198151103514923e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_primary_p2_N16_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0022661850965166094,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_primary_p2_N16_I",
+    "uncertainty": 1.0197832934324742e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_primary_p2_N32_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0022661803919646114,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_primary_p2_N32_I",
+    "uncertainty": 1.0197811763840752e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "cyl3d_bv_sym_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.004570469131271031,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "dlfx_cyl3d_bv_sym_p1_N8_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.004596315564363686,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_bv_sym_p1_N8_I",
+    "uncertainty": 2.068342003963659e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_bv_sym_p1_N16_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.004576998358873015,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_bv_sym_p1_N16_I",
+    "uncertainty": 2.059649261492857e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_bv_sym_p1_N32_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.004572106597401655,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_bv_sym_p1_N32_I",
+    "uncertainty": 2.0574479688307448e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_bv_sym_p1_N64_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.004570878874110135,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_bv_sym_p1_N64_I",
+    "uncertainty": 2.056895493349561e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_bv_sym_p2_N8_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.004570588788687122,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_bv_sym_p2_N8_I",
+    "uncertainty": 2.056764954909205e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_bv_sym_p2_N16_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.00457047726972875,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_bv_sym_p2_N16_I",
+    "uncertainty": 2.0567147713779374e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_cyl3d_bv_sym_p2_N32_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.004570469659051085,
+    "source": "conc3d_dolfinx",
+    "output_key": "cyl3d_bv_sym_p2_N32_I",
+    "uncertainty": 2.0567113465729883e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "sph3d_primary_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.001480960979386122,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "dlfx_sph3d_primary_p1_N8_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0015127201273914242,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_primary_p1_N8_I",
+    "uncertainty": 6.807240573261409e-16,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_primary_p1_N16_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0014890799855141854,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_primary_p1_N16_I",
+    "uncertainty": 6.700859934813834e-16,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_primary_p1_N32_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0014830034075353263,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_primary_p1_N32_I",
+    "uncertainty": 6.673515333908968e-16,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_primary_p1_N64_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0014814724168397673,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_primary_p1_N64_I",
+    "uncertainty": 6.666625875778953e-16,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_primary_p2_N8_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0014813408286005838,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_primary_p2_N8_I",
+    "uncertainty": 6.666033728702627e-16,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_primary_p2_N16_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0014809872615527287,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_primary_p2_N16_I",
+    "uncertainty": 6.664442676987279e-16,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_primary_p2_N32_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0014809626770832776,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_primary_p2_N32_I",
+    "uncertainty": 6.66433204687475e-16,
+    "uncertainty_kind": "reference_spread"
+   },
+   "sph3d_bv_sym_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.0029054596086648594,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "dlfx_sph3d_bv_sym_p1_N8_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.002956945622072019,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_bv_sym_p1_N8_I",
+    "uncertainty": 1.3306255299324087e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_bv_sym_p1_N16_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.002918680834819064,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_bv_sym_p1_N16_I",
+    "uncertainty": 1.3134063756685788e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_bv_sym_p1_N32_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0029087898023647035,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_bv_sym_p1_N32_I",
+    "uncertainty": 1.3089554110641165e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_bv_sym_p1_N64_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0029062938149030508,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_bv_sym_p1_N64_I",
+    "uncertainty": 1.3078322167063728e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_bv_sym_p2_N8_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.0029060779469208147,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_bv_sym_p2_N8_I",
+    "uncertainty": 1.3077350761143665e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_bv_sym_p2_N16_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.002905502919165034,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_bv_sym_p2_N16_I",
+    "uncertainty": 1.3074763136242652e-15,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_sph3d_bv_sym_p2_N32_I": {
+    "kind": "scalar",
+    "unit": "A",
+    "value": 0.002905462426992488,
+    "source": "conc3d_dolfinx",
+    "output_key": "sph3d_bv_sym_p2_N32_I",
+    "uncertainty": 1.3074580921466196e-15,
+    "uncertainty_kind": "reference_spread"
+   }
+  },
+  "tolerance_recipe": {
+   "dlfx_cyl3d_primary_p1_N8_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_primary_p1_N16_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_primary_p1_N32_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_primary_p1_N64_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_primary_p2_N8_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_primary_p2_N16_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_primary_p2_N32_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_bv_sym_p1_N8_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_bv_sym_p1_N16_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_bv_sym_p1_N32_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_bv_sym_p1_N64_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_bv_sym_p2_N8_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_bv_sym_p2_N16_I": {
+    "rel": 1e-09
+   },
+   "dlfx_cyl3d_bv_sym_p2_N32_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_primary_p1_N8_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_primary_p1_N16_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_primary_p1_N32_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_primary_p1_N64_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_primary_p2_N8_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_primary_p2_N16_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_primary_p2_N32_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_bv_sym_p1_N8_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_bv_sym_p1_N16_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_bv_sym_p1_N32_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_bv_sym_p1_N64_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_bv_sym_p2_N8_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_bv_sym_p2_N16_I": {
+    "rel": 1e-09
+   },
+   "dlfx_sph3d_bv_sym_p2_N32_I": {
+    "rel": 1e-09
+   }
+  }
+ },
+ "acceptance": {
+  "functional_convergence": [
+   {
+    "id": "cyl3d_primary_p1_I_gci",
+    "series": "cyl3d_primary_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.cyl3d_p1.h_nominal",
+    "order_range": [
+     1.75,
+     2.25
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "cyl3d_primary_p2_I_gci",
+    "series": "cyl3d_primary_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.cyl3d_p2.h_nominal",
+    "order_range": [
+     3.75,
+     4.1
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "cyl3d_bv_sym_p1_I_gci",
+    "series": "cyl3d_bv_sym_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.cyl3d_p1.h_nominal",
+    "order_range": [
+     1.75,
+     2.25
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "cyl3d_bv_sym_p2_I_gci",
+    "series": "cyl3d_bv_sym_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.cyl3d_p2.h_nominal",
+    "order_range": [
+     3.75,
+     4.1
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "sph3d_primary_p1_I_gci",
+    "series": "sph3d_primary_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sph3d_p1.h_nominal",
+    "order_range": [
+     1.75,
+     2.25
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "sph3d_primary_p2_I_gci",
+    "series": "sph3d_primary_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sph3d_p2.h_nominal",
+    "order_range": [
+     3.75,
+     4.1
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "sph3d_bv_sym_p1_I_gci",
+    "series": "sph3d_bv_sym_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sph3d_p1.h_nominal",
+    "order_range": [
+     1.75,
+     2.25
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "sph3d_bv_sym_p2_I_gci",
+    "series": "sph3d_bv_sym_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sph3d_p2.h_nominal",
+    "order_range": [
+     3.75,
+     4.1
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   }
+  ],
+  "convergence": [
+   {
+    "series": "cyl3d_p1_area",
+    "level": "analytic",
+    "norm": "|electrode|_h - |electrode| (inner surface area, the solver's facet quadrature of 1)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.cyl3d_p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 7.853981633974484e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "cyl3d_p2_area",
+    "level": "analytic",
+    "norm": "|electrode|_h - |electrode| (inner surface area, the solver's facet quadrature of 1)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.cyl3d_p2.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 7.853981633974484e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "sph3d_p1_area",
+    "level": "analytic",
+    "norm": "|electrode|_h - |electrode| (inner surface area, the solver's facet quadrature of 1)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sph3d_p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 2.7768018363489788e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "sph3d_p2_area",
+    "level": "analytic",
+    "norm": "|electrode|_h - |electrode| (inner surface area, the solver's facet quadrature of 1)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.sph3d_p2.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 2.7768018363489788e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "comparisons": [
+   {
+    "quantity": "cyl3d_primary_p1_I_finest",
+    "reference": "cyl3d_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0004
+    }
+   },
+   {
+    "quantity": "cyl3d_primary_p1_N8_I",
+    "reference": "dlfx_cyl3d_primary_p1_N8_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_primary_p1_N16_I",
+    "reference": "dlfx_cyl3d_primary_p1_N16_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_primary_p1_N32_I",
+    "reference": "dlfx_cyl3d_primary_p1_N32_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_primary_p1_N64_I",
+    "reference": "dlfx_cyl3d_primary_p1_N64_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_primary_p1_Iflux_finest",
+    "reference": "cyl3d_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.05
+    }
+   },
+   {
+    "quantity": "cyl3d_primary_p2_I_finest",
+    "reference": "cyl3d_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 5e-07
+    }
+   },
+   {
+    "quantity": "cyl3d_primary_p2_N8_I",
+    "reference": "dlfx_cyl3d_primary_p2_N8_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_primary_p2_N16_I",
+    "reference": "dlfx_cyl3d_primary_p2_N16_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_primary_p2_N32_I",
+    "reference": "dlfx_cyl3d_primary_p2_N32_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p1_I_finest",
+    "reference": "cyl3d_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.00030000000000000003
+    }
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p1_N8_I",
+    "reference": "dlfx_cyl3d_bv_sym_p1_N8_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p1_N16_I",
+    "reference": "dlfx_cyl3d_bv_sym_p1_N16_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p1_N32_I",
+    "reference": "dlfx_cyl3d_bv_sym_p1_N32_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p1_N64_I",
+    "reference": "dlfx_cyl3d_bv_sym_p1_N64_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p1_Iflux_finest",
+    "reference": "cyl3d_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.05
+    }
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p2_I_finest",
+    "reference": "cyl3d_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 4e-07
+    }
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p2_N8_I",
+    "reference": "dlfx_cyl3d_bv_sym_p2_N8_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p2_N16_I",
+    "reference": "dlfx_cyl3d_bv_sym_p2_N16_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p2_N32_I",
+    "reference": "dlfx_cyl3d_bv_sym_p2_N32_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_primary_p1_I_finest",
+    "reference": "sph3d_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.002
+    }
+   },
+   {
+    "quantity": "sph3d_primary_p1_N8_I",
+    "reference": "dlfx_sph3d_primary_p1_N8_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_primary_p1_N16_I",
+    "reference": "dlfx_sph3d_primary_p1_N16_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_primary_p1_N32_I",
+    "reference": "dlfx_sph3d_primary_p1_N32_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_primary_p1_N64_I",
+    "reference": "dlfx_sph3d_primary_p1_N64_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_primary_p1_Iflux_finest",
+    "reference": "sph3d_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.1
+    }
+   },
+   {
+    "quantity": "sph3d_primary_p2_I_finest",
+    "reference": "sph3d_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 4e-06
+    }
+   },
+   {
+    "quantity": "sph3d_primary_p2_N8_I",
+    "reference": "dlfx_sph3d_primary_p2_N8_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_primary_p2_N16_I",
+    "reference": "dlfx_sph3d_primary_p2_N16_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_primary_p2_N32_I",
+    "reference": "dlfx_sph3d_primary_p2_N32_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_bv_sym_p1_I_finest",
+    "reference": "sph3d_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0009000000000000001
+    }
+   },
+   {
+    "quantity": "sph3d_bv_sym_p1_N8_I",
+    "reference": "dlfx_sph3d_bv_sym_p1_N8_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_bv_sym_p1_N16_I",
+    "reference": "dlfx_sph3d_bv_sym_p1_N16_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_bv_sym_p1_N32_I",
+    "reference": "dlfx_sph3d_bv_sym_p1_N32_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_bv_sym_p1_N64_I",
+    "reference": "dlfx_sph3d_bv_sym_p1_N64_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_bv_sym_p1_Iflux_finest",
+    "reference": "sph3d_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.1
+    }
+   },
+   {
+    "quantity": "sph3d_bv_sym_p2_I_finest",
+    "reference": "sph3d_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-06
+    }
+   },
+   {
+    "quantity": "sph3d_bv_sym_p2_N8_I",
+    "reference": "dlfx_sph3d_bv_sym_p2_N8_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_bv_sym_p2_N16_I",
+    "reference": "dlfx_sph3d_bv_sym_p2_N16_I",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sph3d_bv_sym_p2_N32_I",
+    "reference": "dlfx_sph3d_bv_sym_p2_N32_I",
+    "level": "cross_code"
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "cyl3d_primary_p1_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.00466,
+    "scale_quantity": "cyl3d_primary_p1_I_scale"
+   },
+   {
+    "quantity": "cyl3d_primary_p2_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.00453,
+    "scale_quantity": "cyl3d_primary_p2_I_scale"
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p1_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.00934,
+    "scale_quantity": "cyl3d_bv_sym_p1_I_scale"
+   },
+   {
+    "quantity": "cyl3d_bv_sym_p2_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.00914,
+    "scale_quantity": "cyl3d_bv_sym_p2_I_scale"
+   },
+   {
+    "quantity": "sph3d_primary_p1_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0032,
+    "scale_quantity": "sph3d_primary_p1_I_scale"
+   },
+   {
+    "quantity": "sph3d_primary_p2_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.00297,
+    "scale_quantity": "sph3d_primary_p2_I_scale"
+   },
+   {
+    "quantity": "sph3d_bv_sym_p1_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.00619,
+    "scale_quantity": "sph3d_bv_sym_p1_I_scale"
+   },
+   {
+    "quantity": "sph3d_bv_sym_p2_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.00583,
+    "scale_quantity": "sph3d_bv_sym_p2_I_scale"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  },
+  "solver_sensitivity": [
+   {
+    "quantity": "cyl3d_bv_sym_p2_I_finest",
+    "tight_quantity": "cyl3d_bv_sym_p2_I_finest_plus1",
+    "level": "analytic",
+    "abs_max": 5.3000000000000004e-12
+   },
+   {
+    "quantity": "sph3d_bv_sym_p2_I_finest",
+    "tight_quantity": "sph3d_bv_sym_p2_I_finest_plus1",
+    "level": "analytic",
+    "abs_max": 2.9e-11
+   }
+  ]
+ }
+}

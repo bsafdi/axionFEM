@@ -1,0 +1,1070 @@
+{
+ "stamp": {
+  "date": "2026-10-31 19:39",
+  "commit": "57bca4fa8464982480bccdc4e3b83ec3b664fc8b",
+  "source_dirty": false,
+  "build": {
+   "device": "cpu",
+   "engine_3d": true,
+   "gpu_backend": "",
+   "metis": true,
+   "mfem": "4.10.0",
+   "mpi": true,
+   "openmp": true,
+   "source_commit": "57bca4fa8464982480bccdc4e3b83ec3b664fc8b",
+   "source_dirty": "false",
+   "strumpack": true,
+   "strumpack_min_dofs": 300000,
+   "strumpack_mpi": false,
+   "strumpack_version": "8.0.0",
+   "threads": 8,
+   "version": "0.1.0"
+  },
+  "build_matches_checkout": true
+ },
+ "material": {
+  "E_Pa": 200000000000.0,
+  "nu": 0.3,
+  "rho": 7900.0,
+  "mu_Pa": 76923076923.07692,
+  "c_T_m_s": 3120.4323970714827
+ },
+ "rows": [
+  {
+   "case": "tube_free_free",
+   "order": 1,
+   "mesh_size": 0.2,
+   "dofs": 59772,
+   "free_dofs": 42,
+   "mass_kg": 4010.682845278877,
+   "mass_exact_kg": 4010.6828452788727,
+   "f_Hz": [
+    0.00016899654205031507,
+    391.7499050890376,
+    785.8547584536509,
+    1184.874378917935,
+    1590.848365971631,
+    2006.2411791030863
+   ],
+   "f_exact_Hz": [
+    0.0,
+    390.05404963393534,
+    780.1080992678707,
+    1170.162148901806,
+    1560.2161985357413,
+    1950.2702481696767
+   ],
+   "rigid_f_Hz": 0.00016899654205031507,
+   "rigid_over_f1": 4.332644211973132e-07,
+   "rel_err": [
+    0.004347744772022821,
+    0.00736649086347585,
+    0.012572813118195914,
+    0.019633283813254687,
+    0.028699064135310648
+   ],
+   "residual": [
+    0.9276350816497055,
+    8.057718295170275e-12,
+    5.9263810400193856e-12,
+    2.224156126181676e-12,
+    1.5921039978495454e-12,
+    9.371065953563503e-13
+   ],
+   "max_elastic_residual": 8.057718295170275e-12,
+   "inertia": {
+    "complete": true,
+    "eigenvalues_below": 6,
+    "lambda_bar_rad2_s2": 158900934.66860262,
+    "returned": 6
+   },
+   "warnings": [
+    "the torsional analysis skips the region(s) coil: no density. Give the material a \"mechanical\" block and a positive \"density\", or override it with regions: {<name>: {mu_Pa, density}}."
+   ]
+  },
+  {
+   "case": "tube_free_free",
+   "order": 1,
+   "mesh_size": 0.1,
+   "dofs": 59713,
+   "free_dofs": 82,
+   "mass_kg": 4010.6828452788855,
+   "mass_exact_kg": 4010.6828452788727,
+   "f_Hz": [
+    0.0002196939191421248,
+    390.49492845890865,
+    781.5461896471984,
+    1173.8518017921385,
+    1567.9407550541218,
+    1964.2629764387584
+   ],
+   "f_exact_Hz": [
+    0.0,
+    390.05404963393534,
+    780.1080992678707,
+    1170.162148901806,
+    1560.2161985357413,
+    1950.2702481696767
+   ],
+   "rigid_f_Hz": 0.0002196939191421248,
+   "rigid_over_f1": 5.632396826755342e-07,
+   "rel_err": [
+    0.0011303018783859198,
+    0.0018434501329718245,
+    0.0031531124928243504,
+    0.004950952647222895,
+    0.007174763744775214
+   ],
+   "residual": [
+    0.8879941364853317,
+    5.744707518990395e-12,
+    3.6954465674376354e-13,
+    5.68548432479424e-13,
+    8.451500209910879e-13,
+    1.7703517904291902e-13
+   ],
+   "max_elastic_residual": 5.744707518990395e-12,
+   "inertia": {
+    "complete": true,
+    "eigenvalues_below": 6,
+    "lambda_bar_rad2_s2": 152320877.51771954,
+    "returned": 6
+   },
+   "warnings": [
+    "the torsional analysis skips the region(s) coil: no density. Give the material a \"mechanical\" block and a positive \"density\", or override it with regions: {<name>: {mu_Pa, density}}."
+   ]
+  },
+  {
+   "case": "tube_free_free",
+   "order": 1,
+   "mesh_size": 0.05,
+   "dofs": 59774,
+   "free_dofs": 162,
+   "mass_kg": 4010.6828452789186,
+   "mass_exact_kg": 4010.6828452788727,
+   "f_Hz": [
+    0.0004185406236857768,
+    390.1723344982468,
+    780.4881267245138,
+    1171.1173839578755,
+    1562.172718568779,
+    1953.8058445809052
+   ],
+   "f_exact_Hz": [
+    0.0,
+    390.05404963393534,
+    780.1080992678707,
+    1170.162148901806,
+    1560.2161985357413,
+    1950.2702481696767
+   ],
+   "rigid_f_Hz": 0.0004185406236857768,
+   "rigid_over_f1": 1.0730323760990972e-06,
+   "rel_err": [
+    0.00030325249647455976,
+    0.00048714717485909276,
+    0.0008163270850676252,
+    0.0012540057172036878,
+    0.0018128751205359617
+   ],
+   "residual": [
+    0.7104349567090588,
+    1.0969254263392661e-11,
+    2.1460830526332053e-12,
+    8.416753599378962e-13,
+    3.161146164449331e-12,
+    1.1173731016304292e-12
+   ],
+   "max_elastic_residual": 1.0969254263392661e-11,
+   "inertia": {
+    "complete": true,
+    "eigenvalues_below": 6,
+    "lambda_bar_rad2_s2": 150703375.56726602,
+    "returned": 6
+   },
+   "warnings": [
+    "the torsional analysis skips the region(s) coil: no density. Give the material a \"mechanical\" block and a positive \"density\", or override it with regions: {<name>: {mu_Pa, density}}."
+   ]
+  },
+  {
+   "case": "tube_free_free",
+   "order": 2,
+   "mesh_size": 0.2,
+   "dofs": 238159,
+   "free_dofs": 123,
+   "mass_kg": 4010.6828452788777,
+   "mass_exact_kg": 4010.6828452788727,
+   "f_Hz": [
+    0.0,
+    390.0543742829855,
+    780.114650988,
+    1170.2057913178883,
+    1560.3918138518125,
+    1950.7913492366788
+   ],
+   "f_exact_Hz": [
+    0.0,
+    390.05404963393534,
+    780.1080992678707,
+    1170.162148901806,
+    1560.2161985357413,
+    1950.2702481696767
+   ],
+   "rigid_f_Hz": 0.0,
+   "rigid_over_f1": 0.0,
+   "rel_err": [
+    8.323181119873624e-07,
+    8.398477256532644e-06,
+    3.7296041512924205e-05,
+    0.00011255832123513443,
+    0.0002671942862744192
+   ],
+   "residual": [
+    0.8842779632369369,
+    7.004952875642392e-12,
+    1.5437544751827542e-11,
+    2.3222587888668388e-12,
+    4.050875614388282e-12,
+    1.724875007134029e-12
+   ],
+   "max_elastic_residual": 1.5437544751827542e-11,
+   "inertia": {
+    "complete": true,
+    "eigenvalues_below": 6,
+    "lambda_bar_rad2_s2": 150238699.01180804,
+    "returned": 6
+   },
+   "warnings": [
+    "the torsional analysis skips the region(s) coil: no density. Give the material a \"mechanical\" block and a positive \"density\", or override it with regions: {<name>: {mu_Pa, density}}."
+   ]
+  },
+  {
+   "case": "tube_free_free",
+   "order": 2,
+   "mesh_size": 0.1,
+   "dofs": 237923,
+   "free_dofs": 243,
+   "mass_kg": 4010.6828452788795,
+   "mass_exact_kg": 4010.6828452788727,
+   "f_Hz": [
+    0.0004195196859372972,
+    390.05407054402673,
+    780.1085179791899,
+    1170.1648949428752,
+    1560.227150140699,
+    1950.303127564112
+   ],
+   "f_exact_Hz": [
+    0.0,
+    390.05404963393534,
+    780.1080992678707,
+    1170.162148901806,
+    1560.2161985357413,
+    1950.2702481696767
+   ],
+   "rigid_f_Hz": 0.0004195196859372972,
+   "rigid_over_f1": 1.0755424442612897e-06,
+   "rel_err": [
+    5.360818944311063e-08,
+    5.367349980023306e-07,
+    2.34671842003209e-06,
+    7.019286793585877e-06,
+    1.6858891461968284e-05
+   ],
+   "residual": [
+    0.8957897670266703,
+    9.913942204867711e-12,
+    3.481365132176411e-12,
+    3.54261400797132e-12,
+    2.7304722854664462e-12,
+    1.3358775103684506e-12
+   ],
+   "max_elastic_residual": 9.913942204867711e-12,
+   "inertia": {
+    "complete": true,
+    "eigenvalues_below": 6,
+    "lambda_bar_rad2_s2": 150163508.3979639,
+    "returned": 6
+   },
+   "warnings": [
+    "the torsional analysis skips the region(s) coil: no density. Give the material a \"mechanical\" block and a positive \"density\", or override it with regions: {<name>: {mu_Pa, density}}."
+   ]
+  },
+  {
+   "case": "tube_free_free",
+   "order": 2,
+   "mesh_size": 0.05,
+   "dofs": 238167,
+   "free_dofs": 483,
+   "mass_kg": 4010.6828452789173,
+   "mass_exact_kg": 4010.6828452788727,
+   "f_Hz": [
+    0.0,
+    390.0540512253406,
+    780.1081265827271,
+    1170.1623183215518,
+    1560.2168685039662,
+    1950.2722289493427
+   ],
+   "f_exact_Hz": [
+    0.0,
+    390.05404963393534,
+    780.1080992678707,
+    1170.162148901806,
+    1560.2161985357413,
+    1950.2702481696767
+   ],
+   "rigid_f_Hz": 0.0,
+   "rigid_over_f1": 0.0,
+   "rel_err": [
+    4.079960813641037e-09,
+    3.5014194210702954e-08,
+    1.447831361467422e-07,
+    4.2940729971796543e-07,
+    1.0156436871522345e-06
+   ],
+   "residual": [
+    0.9926497649605417,
+    1.1137951101436615e-11,
+    1.5679385315950115e-12,
+    1.6736519028771496e-12,
+    3.386439101750027e-12,
+    7.142816493047813e-12
+   ],
+   "max_elastic_residual": 1.1137951101436615e-11,
+   "inertia": {
+    "complete": true,
+    "eigenvalues_below": 6,
+    "lambda_bar_rad2_s2": 150158750.40421078,
+    "returned": 6
+   },
+   "warnings": [
+    "the torsional analysis skips the region(s) coil: no density. Give the material a \"mechanical\" block and a positive \"density\", or override it with regions: {<name>: {mu_Pa, density}}."
+   ]
+  },
+  {
+   "case": "thin_disc_free_edge",
+   "order": 1,
+   "mesh_size": 0.1,
+   "dofs": 943782,
+   "free_dofs": 20,
+   "f_Hz": [
+    0.0,
+    2567.9574190362487,
+    4272.644237809825,
+    6034.485347221579,
+    7915.00103250874
+   ],
+   "f_exact_Hz": [
+    2550.5156105255787,
+    4180.274816938981,
+    5770.787756485107,
+    7348.1466851534315
+   ],
+   "roots": [
+    5.135622301840683,
+    8.417244140399864,
+    11.619841172149084,
+    14.79595178235126
+   ],
+   "rigid_f_Hz": 0.0,
+   "rel_err": [
+    0.006838542151512472,
+    0.022096494827697155,
+    0.04569525026113341,
+    0.07714249206546309
+   ],
+   "residual": [
+    0.6668530144567476,
+    1.7519435065001466e-11,
+    1.1066831038689179e-12,
+    9.123516592262631e-12,
+    1.4078705197342566e-11
+   ],
+   "max_elastic_residual": 1.7519435065001466e-11,
+   "inertia": {
+    "complete": true,
+    "eigenvalues_below": 5,
+    "lambda_bar_rad2_s2": 2473216428.8535714,
+    "returned": 5
+   },
+   "warnings": [
+    "the torsional analysis skips the region(s) coil: no density. Give the material a \"mechanical\" block and a positive \"density\", or override it with regions: {<name>: {mu_Pa, density}}."
+   ]
+  },
+  {
+   "case": "thin_disc_free_edge",
+   "order": 1,
+   "mesh_size": 0.05,
+   "dofs": 943991,
+   "free_dofs": 40,
+   "f_Hz": [
+    5.649552899559007e-05,
+    2554.8445924784937,
+    4203.141022950408,
+    5835.731296684302,
+    7489.043179544668
+   ],
+   "f_exact_Hz": [
+    2550.5156105255787,
+    4180.274816938981,
+    5770.787756485107,
+    7348.1466851534315
+   ],
+   "roots": [
+    5.135622301840683,
+    8.417244140399864,
+    11.619841172149084,
+    14.79595178235126
+   ],
+   "rigid_f_Hz": 5.649552899559007e-05,
+   "rel_err": [
+    0.0016972967877750822,
+    0.0054700245827787874,
+    0.011253843138870012,
+    0.019174425937347195
+   ],
+   "residual": [
+    0.9954096004498504,
+    2.1052438479114982e-11,
+    1.8015351056160314e-11,
+    1.300474181723197e-11,
+    5.119441466926054e-12
+   ],
+   "max_elastic_residual": 2.1052438479114982e-11,
+   "inertia": {
+    "complete": true,
+    "eigenvalues_below": 5,
+    "lambda_bar_rad2_s2": 2214179574.968343,
+    "returned": 5
+   },
+   "warnings": [
+    "the torsional analysis skips the region(s) coil: no density. Give the material a \"mechanical\" block and a positive \"density\", or override it with regions: {<name>: {mu_Pa, density}}."
+   ]
+  },
+  {
+   "case": "thin_disc_free_edge",
+   "order": 1,
+   "mesh_size": 0.025,
+   "dofs": 944177,
+   "free_dofs": 120,
+   "f_Hz": [
+    0.00021273402136240982,
+    2551.331219841085,
+    4184.588060328977,
+    5783.048363534127,
+    7374.584295547204
+   ],
+   "f_exact_Hz": [
+    2550.5156105255787,
+    4180.274816938981,
+    5770.787756485107,
+    7348.1466851534315
+   ],
+   "roots": [
+    5.135622301840683,
+    8.417244140399864,
+    11.619841172149084,
+    14.79595178235126
+   ],
+   "rigid_f_Hz": 0.00021273402136240982,
+   "rel_err": [
+    0.00031978213038197367,
+    0.0010318085721345849,
+    0.002124598506545672,
+    0.0035978610017664003
+   ],
+   "residual": [
+    0.9556178561200476,
+    8.390446569085883e-13,
+    3.725302421501439e-12,
+    3.3121912235226156e-12,
+    2.8031248024874656e-12
+   ],
+   "max_elastic_residual": 3.725302421501439e-12,
+   "inertia": {
+    "complete": true,
+    "eigenvalues_below": 5,
+    "lambda_bar_rad2_s2": 2147015894.3557835,
+    "returned": 5
+   },
+   "warnings": [
+    "the torsional analysis skips the region(s) coil: no density. Give the material a \"mechanical\" block and a positive \"density\", or override it with regions: {<name>: {mu_Pa, density}}."
+   ]
+  },
+  {
+   "case": "thin_disc_free_edge",
+   "order": 2,
+   "mesh_size": 0.1,
+   "dofs": 3771420,
+   "free_dofs": 60,
+   "f_Hz": [
+    0.0008843901442882115,
+    2550.575410914964,
+    4181.179275093356,
+    5775.747268356172,
+    7365.202372041077
+   ],
+   "f_exact_Hz": [
+    2550.5156105255787,
+    4180.274816938981,
+    5770.787756485107,
+    7348.1466851534315
+   ],
+   "roots": [
+    5.135622301840683,
+    8.417244140399864,
+    11.619841172149084,
+    14.79595178235126
+   ],
+   "rigid_f_Hz": 0.0008843901442882115,
+   "rel_err": [
+    2.3446392226844637e-05,
+    0.00021636332394003865,
+    0.0008594167868141156,
+    0.002321086883323442
+   ],
+   "residual": [
+    0.6235268366997934,
+    2.447836793878861e-12,
+    8.343665124732357e-13,
+    4.02892030012171e-12,
+    2.6995860231842387e-12
+   ],
+   "max_elastic_residual": 4.02892030012171e-12,
+   "inertia": {
+    "complete": true,
+    "eigenvalues_below": 5,
+    "lambda_bar_rad2_s2": 2141556515.1087587,
+    "returned": 5
+   },
+   "warnings": [
+    "the torsional analysis skips the region(s) coil: no density. Give the material a \"mechanical\" block and a positive \"density\", or override it with regions: {<name>: {mu_Pa, density}}."
+   ]
+  },
+  {
+   "case": "thin_disc_free_edge",
+   "order": 2,
+   "mesh_size": 0.05,
+   "dofs": 3772254,
+   "free_dofs": 120,
+   "f_Hz": [
+    0.0007982095355953671,
+    2550.5191535231197,
+    4180.329294805601,
+    5771.091830472496,
+    7349.232060439226
+   ],
+   "f_exact_Hz": [
+    2550.5156105255787,
+    4180.274816938981,
+    5770.787756485107,
+    7348.1466851534315
+   ],
+   "roots": [
+    5.135622301840683,
+    8.417244140399864,
+    11.619841172149084,
+    14.79595178235126
+   ],
+   "rigid_f_Hz": 0.0007982095355953671,
+   "rel_err": [
+    1.389129917983567e-06,
+    1.3032125639300673e-05,
+    5.269193743062672e-05,
+    0.0001477073515676608
+   ],
+   "residual": [
+    0.7247875665683251,
+    1.1309935704942301e-12,
+    5.04360262852205e-13,
+    1.4085391298679636e-12,
+    2.019217780296278e-13
+   ],
+   "max_elastic_residual": 1.4085391298679636e-12,
+   "inertia": {
+    "complete": true,
+    "eigenvalues_below": 5,
+    "lambda_bar_rad2_s2": 2132279310.5452797,
+    "returned": 5
+   },
+   "warnings": [
+    "the torsional analysis skips the region(s) coil: no density. Give the material a \"mechanical\" block and a positive \"density\", or override it with regions: {<name>: {mu_Pa, density}}."
+   ]
+  },
+  {
+   "case": "ring_load_mobility",
+   "ring_width_m": 0.2,
+   "eta": 0.003,
+   "band_Hz": [
+    2000.0,
+    4000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 1.2629202467430967,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 0.10877058425879677,
+   "modal_overlap_participating": 0.05438529212939838,
+   "mean_Re_Y": 5.240739826825558e-07,
+   "torque_applied_over_nominal": 1.0833333333333228,
+   "applied_load": {
+    "force_N": 1.3681636006383477,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -0.1500000000000004,
+     0.1500000000000004
+    ],
+    "torque_N_m": 1.3750157632816773
+   },
+   "ratio_mean_over_applied": 1.008739531609302,
+   "Y_inf_scaled": 5.123114428711072e-07,
+   "ratio_mean": 1.022959744458427,
+   "ratio_min": 0.06880916664180048,
+   "ratio_max": 15.188447857956227,
+   "lambda_over_width": 5.516197270508597,
+   "kappa2_mean": 0.8808422470277566,
+   "ratio_mean_over_kappa2": 1.1613427352175947,
+   "applied_over_nominal_asymptote": 1.1512810778465634
+  },
+  {
+   "case": "ring_load_mobility",
+   "ring_width_m": 0.2,
+   "eta": 0.003,
+   "band_Hz": [
+    4000.0,
+    8000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 1.2629202467430967,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 0.21754116851759353,
+   "modal_overlap_participating": 0.10877058425879677,
+   "mean_Re_Y": 3.29982958250789e-07,
+   "torque_applied_over_nominal": 1.0833333333333228,
+   "applied_load": {
+    "force_N": 1.3681636006383477,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -0.1500000000000004,
+     0.1500000000000004
+    ],
+    "torque_N_m": 1.3750157632816773
+   },
+   "ratio_mean_over_applied": 0.9979353901733835,
+   "Y_inf_scaled": 5.123114428711072e-07,
+   "ratio_mean": 0.6441061640190803,
+   "ratio_min": 0.09115633308881568,
+   "ratio_max": 5.997807086047613,
+   "lambda_over_width": 2.7580986352542984,
+   "kappa2_mean": 0.597000853223121,
+   "ratio_mean_over_kappa2": 1.0789032554001297,
+   "applied_over_nominal_asymptote": 1.0811353781257107
+  },
+  {
+   "case": "ring_load_mobility",
+   "ring_width_m": 0.2,
+   "eta": 0.03,
+   "band_Hz": [
+    2000.0,
+    4000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 1.2629202467430967,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 1.0877058425879675,
+   "modal_overlap_participating": 0.5438529212939838,
+   "mean_Re_Y": 5.164708348731242e-07,
+   "torque_applied_over_nominal": 1.0833333333333228,
+   "applied_load": {
+    "force_N": 1.3681636006383477,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -0.1500000000000004,
+     0.1500000000000004
+    ],
+    "torque_N_m": 1.3750157632816773
+   },
+   "ratio_mean_over_applied": 0.994104964709445,
+   "Y_inf_scaled": 5.123114428711072e-07,
+   "ratio_mean": 1.0081188738996476,
+   "ratio_min": 0.6063486604753352,
+   "ratio_max": 1.9823277460510706,
+   "lambda_over_width": 5.516197270508597,
+   "kappa2_mean": 0.8808422470277566,
+   "ratio_mean_over_kappa2": 1.1444942352633096,
+   "applied_over_nominal_asymptote": 1.1512810778465634
+  },
+  {
+   "case": "ring_load_mobility",
+   "ring_width_m": 0.2,
+   "eta": 0.03,
+   "band_Hz": [
+    4000.0,
+    8000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 1.2629202467430967,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 2.175411685175935,
+   "modal_overlap_participating": 1.0877058425879675,
+   "mean_Re_Y": 3.2400128301379397e-07,
+   "torque_applied_over_nominal": 1.0833333333333228,
+   "applied_load": {
+    "force_N": 1.3681636006383477,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -0.1500000000000004,
+     0.1500000000000004
+    ],
+    "torque_N_m": 1.3750157632816773
+   },
+   "ratio_mean_over_applied": 0.9798455911026557,
+   "Y_inf_scaled": 5.123114428711072e-07,
+   "ratio_mean": 0.6324303068422965,
+   "ratio_min": 0.3713733642187304,
+   "ratio_max": 1.0486120978801272,
+   "lambda_over_width": 2.7580986352542984,
+   "kappa2_mean": 0.597000853223121,
+   "ratio_mean_over_kappa2": 1.0593457336415804,
+   "applied_over_nominal_asymptote": 1.0811353781257107
+  },
+  {
+   "case": "ring_load_mobility",
+   "ring_width_m": 0.4,
+   "eta": 0.003,
+   "band_Hz": [
+    2000.0,
+    4000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 2.5258404934861933,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 0.10877058425879677,
+   "modal_overlap_participating": 0.05438529212939838,
+   "mean_Re_Y": 1.2926496006791365e-06,
+   "torque_applied_over_nominal": 1.041666666666657,
+   "applied_load": {
+    "force_N": 2.6310838473814364,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -0.25,
+     0.25
+    ],
+    "torque_N_m": 2.6442610832339963
+   },
+   "ratio_mean_over_applied": 1.0159868657360411,
+   "Y_inf_scaled": 2.0492457714844286e-06,
+   "ratio_mean": 0.6307928598250904,
+   "ratio_min": 0.04569319698464401,
+   "ratio_max": 11.35868913979284,
+   "lambda_over_width": 2.7580986352542984,
+   "kappa2_mean": 0.597000853223121,
+   "ratio_mean_over_kappa2": 1.0566029452379024,
+   "applied_over_nominal_asymptote": 1.039976973001946
+  },
+  {
+   "case": "ring_load_mobility",
+   "ring_width_m": 0.4,
+   "eta": 0.003,
+   "band_Hz": [
+    4000.0,
+    8000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 2.5258404934861933,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 0.21754116851759353,
+   "modal_overlap_participating": 0.10877058425879677,
+   "mean_Re_Y": 2.1619790238107872e-07,
+   "torque_applied_over_nominal": 1.041666666666657,
+   "applied_load": {
+    "force_N": 2.6310838473814364,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -0.25,
+     0.25
+    ],
+    "torque_N_m": 2.6442610832339963
+   },
+   "ratio_mean_over_applied": 0.9933656218484639,
+   "Y_inf_scaled": 2.0492457714844286e-06,
+   "ratio_mean": 0.10550120702431398,
+   "ratio_min": 0.0005146408419114204,
+   "ratio_max": 2.1031472363133603,
+   "lambda_over_width": 1.3790493176271492,
+   "kappa2_mean": 0.11642532237620648,
+   "ratio_mean_over_kappa2": 0.9061706239765154,
+   "applied_over_nominal_asymptote": 0.9122226540216931
+  },
+  {
+   "case": "ring_load_mobility",
+   "ring_width_m": 0.4,
+   "eta": 0.03,
+   "band_Hz": [
+    2000.0,
+    4000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 2.5258404934861933,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 1.0877058425879675,
+   "modal_overlap_participating": 0.5438529212939838,
+   "mean_Re_Y": 1.258512465206206e-06,
+   "torque_applied_over_nominal": 1.041666666666657,
+   "applied_load": {
+    "force_N": 2.6310838473814364,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -0.25,
+     0.25
+    ],
+    "torque_N_m": 2.6442610832339963
+   },
+   "ratio_mean_over_applied": 0.9891560205819271,
+   "Y_inf_scaled": 2.0492457714844286e-06,
+   "ratio_mean": 0.614134469724716,
+   "ratio_min": 0.3138852946033434,
+   "ratio_max": 1.522103698914798,
+   "lambda_over_width": 2.7580986352542984,
+   "kappa2_mean": 0.597000853223121,
+   "ratio_mean_over_kappa2": 1.0286994841114432,
+   "applied_over_nominal_asymptote": 1.039976973001946
+  },
+  {
+   "case": "ring_load_mobility",
+   "ring_width_m": 0.4,
+   "eta": 0.03,
+   "band_Hz": [
+    4000.0,
+    8000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 2.5258404934861933,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 2.175411685175935,
+   "modal_overlap_participating": 1.0877058425879675,
+   "mean_Re_Y": 2.2021082411395802e-07,
+   "torque_applied_over_nominal": 1.041666666666657,
+   "applied_load": {
+    "force_N": 2.6310838473814364,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -0.25,
+     0.25
+    ],
+    "torque_N_m": 2.6442610832339963
+   },
+   "ratio_mean_over_applied": 1.0118038141191015,
+   "Y_inf_scaled": 2.0492457714844286e-06,
+   "ratio_mean": 0.10745945029055355,
+   "ratio_min": 0.004983306466578118,
+   "ratio_max": 0.42848474921164287,
+   "lambda_over_width": 1.3790493176271492,
+   "kappa2_mean": 0.11642532237620648,
+   "ratio_mean_over_kappa2": 0.9229903606649986,
+   "applied_over_nominal_asymptote": 0.9122226540216931
+  },
+  {
+   "case": "gauss_load_mobility",
+   "ring_width_m": 0.1,
+   "eta": 0.003,
+   "band_Hz": [
+    2000.0,
+    4000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 1.5828357995451028,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 0.10877058425879677,
+   "modal_overlap_participating": 0.05438529212939838,
+   "mean_Re_Y": 5.634080825131489e-07,
+   "torque_applied_over_nominal": 0.9999999999999934,
+   "applied_load": {
+    "force_N": 1.5828357995450977,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -3.9,
+     3.9
+    ],
+    "torque_N_m": 1.5907631032177798
+   },
+   "ratio_mean_over_applied": 1.0122700588258058,
+   "sigma_z_m": 0.1,
+   "ratio_mean_over_closed_form": 1.0122050754870149,
+   "damped_over_lossless": 0.9982788969074995,
+   "ratio_mean_over_damped": 1.0139501882917252,
+   "ratio_min": 0.062387330649966696,
+   "ratio_max": 13.941811816650196
+  },
+  {
+   "case": "gauss_load_mobility",
+   "ring_width_m": 0.1,
+   "eta": 0.003,
+   "band_Hz": [
+    4000.0,
+    8000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 1.5828357995451028,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 0.21754116851759353,
+   "modal_overlap_participating": 0.10877058425879677,
+   "mean_Re_Y": 2.0463030820145226e-07,
+   "torque_applied_over_nominal": 0.9999999999999934,
+   "applied_load": {
+    "force_N": 1.5828357995450977,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -3.9,
+     3.9
+    ],
+    "torque_N_m": 1.5907631032177798
+   },
+   "ratio_mean_over_applied": 0.9955538469830134,
+   "sigma_z_m": 0.1,
+   "ratio_mean_over_closed_form": 0.995569675551846,
+   "damped_over_lossless": 0.9982752240876417,
+   "ratio_mean_over_damped": 0.9972897769367476,
+   "ratio_min": 0.12215432735783284,
+   "ratio_max": 6.937065881118324
+  },
+  {
+   "case": "gauss_load_mobility",
+   "ring_width_m": 0.1,
+   "eta": 0.03,
+   "band_Hz": [
+    2000.0,
+    4000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 1.5828357995451028,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 1.0877058425879675,
+   "modal_overlap_participating": 0.5438529212939838,
+   "mean_Re_Y": 5.515087102560004e-07,
+   "torque_applied_over_nominal": 0.9999999999999934,
+   "applied_load": {
+    "force_N": 1.5828357995450977,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -3.9,
+     3.9
+    ],
+    "torque_N_m": 1.5907631032177798
+   },
+   "ratio_mean_over_applied": 0.9908905674258882,
+   "sigma_z_m": 0.1,
+   "ratio_mean_over_closed_form": 0.990826956557537,
+   "damped_over_lossless": 0.9828689391069265,
+   "ratio_mean_over_damped": 1.0080967229037083,
+   "ratio_min": 0.5493608487502731,
+   "ratio_max": 1.7961565356320734
+  },
+  {
+   "case": "gauss_load_mobility",
+   "ring_width_m": 0.1,
+   "eta": 0.03,
+   "band_Hz": [
+    4000.0,
+    8000.0
+   ],
+   "n_freqs": 241,
+   "b_m": 6.314601233715483,
+   "W": 1.5828357995451028,
+   "mode_spacing_Hz": 78.01080992678706,
+   "modal_overlap": 2.175411685175935,
+   "modal_overlap_participating": 1.0877058425879675,
+   "mean_Re_Y": 2.0221845894373924e-07,
+   "torque_applied_over_nominal": 0.9999999999999934,
+   "applied_load": {
+    "force_N": 1.5828357995450977,
+    "note": "integrals of the load as applied: the P_p interpolant of the nodal values over the structure's elements (a step between two nodes is smeared over one element)",
+    "support_z_m": [
+     -3.9,
+     3.9
+    ],
+    "torque_N_m": 1.5907631032177798
+   },
+   "ratio_mean_over_applied": 0.9838198774260918,
+   "sigma_z_m": 0.1,
+   "ratio_mean_over_closed_form": 0.9838355194334989,
+   "damped_over_lossless": 0.9832246840148055,
+   "ratio_mean_over_damped": 1.000621257204609,
+   "ratio_min": 0.8274510313593145,
+   "ratio_max": 1.1562610633657338
+  },
+  {
+   "case": "surface_load_cutoff",
+   "profile": "uniform",
+   "a_m": 0.5,
+   "t_m": 0.04,
+   "L_m": 0.6,
+   "eta": 0.1,
+   "sigma_z_m": 0.005,
+   "surface_efold_m": null,
+   "cutoff_T02_Hz": 39049.25271559163,
+   "c_T_over_2t_Hz": 39005.404963393536,
+   "free_dofs": 28409,
+   "f_Hz": [
+    10000.0,
+    25000.0,
+    40000.0,
+    60000.0,
+    80000.0,
+    100000.0,
+    120000.0
+   ],
+   "ratio_to_T01": [
+    2.031154784484219,
+    0.9993252774672482,
+    0.86164756464081,
+    0.8893516183558743,
+    0.9273471945622512,
+    0.9388897868599272,
+    0.9511295227748535
+   ]
+  },
+  {
+   "case": "surface_load_cutoff",
+   "profile": "surface",
+   "a_m": 0.5,
+   "t_m": 0.04,
+   "L_m": 0.6,
+   "eta": 0.1,
+   "sigma_z_m": 0.005,
+   "surface_efold_m": 0.003,
+   "cutoff_T02_Hz": 39049.25271559163,
+   "c_T_over_2t_Hz": 39005.404963393536,
+   "free_dofs": 28409,
+   "f_Hz": [
+    10000.0,
+    25000.0,
+    40000.0,
+    60000.0,
+    80000.0,
+    100000.0,
+    120000.0
+   ],
+   "ratio_to_T01": [
+    2.0848291516307715,
+    1.2301692229523662,
+    7.117720037846948,
+    4.22361523316072,
+    10.750556535151558,
+    8.471864989454271,
+    17.21486710119504
+   ]
+  }
+ ]
+}

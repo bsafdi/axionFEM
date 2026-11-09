@@ -1,0 +1,36 @@
+{
+  "schema": "axionfem.design/1",
+  "name": "hts_shield",
+  "description": "Solenoid with a REBCO tube shield around a shorted coaxial pickup. The static solve treats the tube as an ideal superconductor; the `hts` section solves the critical state (screening currents, SCIF, trapped flux, AC loss) while the magnet is ramped up, held and ramped down.",
+  "parameters": {"R": 0.5, "H": 1.2, "x": 0.4, "tw": 0.01, "tc": 0.004, "tp": 0.01,
+                 "ts": 0.01, "g": 0.02, "gc": 0.02, "NI": 1.0e6},
+  "conductors": {
+    "tape": {"law": "rebco_kim", "T_op": 20.0, "fill_factor": 0.5, "Jc0": 2.0e10,
+             "n_value": 25, "tape_normal": [1, 0],
+             "notes": "homogenized tape stack wound with the tape face along z (normal along r)"}
+  },
+  "regions": [
+    {"name": "winding", "shape": {"rect": {"r": ["R", "R+tw"], "z": ["-H/2", "H/2"]}}, "material": "winding"},
+    {"name": "shield", "shape": {"rect": {"r": ["R-g-ts", "R-g"], "z": ["-H/2", "H/2"]}},
+     "material": "superconductor", "mesh_size": 0.0025},
+    {"name": "coax_inner", "shape": {"rect": {"r": ["x*R-tc", "x*R"], "z": ["-H/2", "H/2"]}}, "material": "copper"},
+    {"name": "coax_outer", "shape": {"rect": {"r": ["R-g-ts-gc-tc", "R-g-ts-gc"], "z": ["-H/2", "H/2"]}},
+     "material": "copper"},
+    {"name": "coax_short", "shape": {"rect": {"r": ["x*R-tc", "R-g-ts-gc"], "z": ["H/2-tc", "H/2"]}},
+     "material": "copper"},
+    {"name": "port", "shape": {"rect": {"r": ["x*R", "R-g-ts-gc-tc"], "z": ["-H/2", "-H/2+tp"]}},
+     "material": "vacuum"}
+  ],
+  "windings": [{"name": "solenoid", "region": "winding", "type": "azimuthal", "ampere_turns": "NI",
+                "conductor": "nbti"}],
+  "pickup": {"type": "poloidal", "port": "port"},
+  "hts": {
+    "regions": [{"region": "shield", "conductor": "tape", "initial": "zero_field_cooled"}],
+    "drive": {"t_ramp": 600.0, "t_hold": 200.0, "ramp_down": true},
+    "steps_per_segment": 12,
+    "field_of_view": [[0.0, 0.0], [0.1, 0.0], [0.18, 0.0], [0.0, 0.3], [0.1, 0.3]],
+    "profile_points": 25
+  },
+  "cost": {"load_line_cap": 0.8, "sc_wall_cap": 0.086},
+  "mesh": {"order": 2, "size": 0.05, "surface_size": 0.005, "domain_radius": 1.6}
+}

@@ -1,0 +1,161 @@
+{
+ "id": "control_gls_no_pspg",
+ "capability": "F5",
+ "title": "Negative control: P1/P1 is not inf-sup stable without PSPG; the pinned PSPG term restores a mesh-independent stability constant",
+ "physics": "discrete inf-sup of equal-order P1/P1 (check-module eigen-solves) and the Stokes MMS solved with and without the PSPG term",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f5_gls",
+   "function": "control_no_pspg",
+   "check_module": "f5_gls_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P1",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "formulation": "Equal-order continuous P1/P1 (u, p) on affine triangles, nodal basis, constant density rho, viscosity mu(x) (analytic with gradient, or a P1 nodal field with its element-wise gradient). Residual R_u,a = sum_K int [ rho (u_t + (w.grad)u).N_a e_i + a_visc(mu;u)(N_a e_i) - p d_i N_a - f_i N_a + tau_supg rho ((w.grad N_a) R_i) + tau_c rho (div u) d_i N_a ], R_p,a = sum_K int [ (div u) N_a + (tau_pspg/rho) grad N_a. R ] with the strong residual R = rho (u_t + (w.grad)u) + grad p - div sigma_visc(u; mu) - f (second derivatives of a P1 u vanish; grad mu KEPT: lap: sum_j d_j mu d_j u_i, sym: sum_j d_j mu (d_j u_i + d_i u_j)), w = u (Navier-Stokes), a given field (Oseen) or 0 (Stokes: convective and SUPG terms absent); a_visc lap = mu grad u : grad v, sym = mu (grad u + grad u^T) : grad v; BDF1 u_t = (u - u^{n-1})/dt or BDF2 (3u - 4u^{n-1} + u^{n-2})/(2 dt), constant step; tau_supg = [ (2/dt)^2 + CG w.G w + C_I (mu/rho)^2 G:G ]^(-1/2), tau_pspg = [ CG w.G w + C_I (mu/rho)^2 G:G ]^(-1/2) (NO dt term), tau_c = 1/(tau_pspg tr G), G_ij = sum_k dz_k/dx_i dz_k/dx_j with z the coordinates of the EQUILATERAL reference triangle of edge 1 (invariant under vertex renumbering), C_I = 36, CG = 1 (the (2/dt)^2 term only when dt is given). Every element integral by the pinned 6-point degree-4 rule f5_gls_check.rule_points() (the Galerkin terms of P1 data are polynomials of degree <= 3; tau is not polynomial). The continuity row carries the POSITIVE sign (div u) q. The Newton Jacobian is the exact derivative of this residual INCLUDING d tau / d state. Reference implementation: f5_gls_check.residual (numpy), agreeing with the independent NGSolve assembly to 3e-16.",
+   "stabilization": {
+    "family": "GLS-type residual-based: SUPG + PSPG + LSIC",
+    "tau": "Shakib-type, from the element metric tensor G (docs/guides/fluids.md, stabilized equal-order elements)",
+    "C_I": 36.0,
+    "CG": 1.0,
+    "quadrature": "6-point degree-4 rule, f5_gls_check.rule_points()"
+   },
+   "quadrature_error_norms": 10,
+   "nonlinear_solver": {
+    "start": "Stokes solution (GLS-stabilized, w = 0) with the Dirichlet data, then Newton with the exact Jacobian (d tau included) and an Armijo backtracking line search on the dual-norm merit (sufficient decrease 1e-4, lambda = 1, 1/2,..., 1/64); a continuation in the viscosity (or Re) is allowed: whatever path is used, the solution is that of the steady discrete equations",
+    "newton_rtol": 1e-12,
+    "newton_maxit": 40,
+    "linear_solver": "direct sparse LU",
+    "history": "solver.history = [{kind, residual, step}] with the relative residual after each step"
+   },
+   "dirichlet_data": "P1 nodal interpolation of the fixed callables at the boundary vertices",
+   "meshes": {
+    "structured": {
+     "family": "structured",
+     "N": [
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(N) on [0,1]^2: the N = 8 BASE mesh (8 x 8 squares split along the (1,1) diagonal, except the two cells at the corners (1,0) and (0,1), split the other way) refined uniformly (red) log2(N/8) times. Nested; verify_mesh checks counts, hash, nesting.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles)"
+    }
+   },
+   "inf_sup": "f5_gls_check.inf_sup_p1p1: smallest nonzero eigenvalue of the pressure Schur complement S q = lambda M_p q, S = B A^-1 B^T (+ the PSPG matrix C_p = (tau_pspg/rho) grad q. grad p, w = 0, tau_pspg = (C_I (mu/rho)^2 G:G)^-1/2) on the free velocity DOFs (dense, N <= 32; zero_rel 1e-10), computed by the check module from the fixed meshes, independent of the solver",
+   "mms": {
+    "field": {
+     "path": "tools/fluids_mms/out/gls_sq_mix.json",
+     "sha256": "0000e2a6991e4d7df009603b8f685667efe6223b9da2a05502648013830c97b8"
+    },
+    "N": [
+     16,
+     32
+    ],
+    "form": "sym",
+    "convection": false,
+    "variants": {
+     "pspg": "SUPG + PSPG + LSIC (the scheme)",
+     "galerkin": "stabilization = none (unstabilized P1/P1)",
+     "supg_lsic_only": "SUPG + LSIC without PSPG"
+    },
+    "failure_convention": "a variant's pressure error is the MEASURED pL2 of the iterate its solve returns, converged or not (the unstabilized P1/P1 system is singular and inconsistent: its returned iterate is garbage); the runner reports 1e300 only when the solve raises or the iterate is not finite. Each variant's gate residual and LU relative residual are recorded as quantities (informative, not items). A refusal does NOT pass: the items bound the measured error (amendment R1)"
+   },
+   "api_option": "stabilization = {supg, pspg, lsic} booleans (meant for the negative controls)"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "infsup_pspg_zero_modes_beyond_constant_N8",
+    "level": "mms",
+    "max": 0
+   },
+   {
+    "quantity": "infsup_beta_pspg_N8",
+    "level": "mms",
+    "min": 0.3
+   },
+   {
+    "quantity": "infsup_pspg_zero_modes_beyond_constant_N16",
+    "level": "mms",
+    "max": 0
+   },
+   {
+    "quantity": "infsup_beta_pspg_N16",
+    "level": "mms",
+    "min": 0.3
+   },
+   {
+    "quantity": "infsup_pspg_zero_modes_beyond_constant_N32",
+    "level": "mms",
+    "max": 0
+   },
+   {
+    "quantity": "infsup_beta_pspg_N32",
+    "level": "mms",
+    "min": 0.3
+   },
+   {
+    "quantity": "infsup_beta_pspg_ratio_N32_N8",
+    "level": "mms",
+    "min": 0.8
+   },
+   {
+    "quantity": "infsup_galerkin_zero_modes_beyond_constant_N16",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "infsup_galerkin_over_pspg_beta_N16",
+    "level": "mms",
+    "max": 0.1
+   },
+   {
+    "quantity": "pressure_error_ratio_galerkin_over_pspg_N16",
+    "level": "mms",
+    "min": 100
+   },
+   {
+    "quantity": "pressure_error_ratio_supg_lsic_over_pspg_N16",
+    "level": "mms",
+    "min": 100
+   },
+   {
+    "quantity": "pressure_error_ratio_galerkin_over_pspg_N32",
+    "level": "mms",
+    "min": 100
+   },
+   {
+    "quantity": "pressure_error_ratio_supg_lsic_over_pspg_N32",
+    "level": "mms",
+    "min": 100
+   },
+   {
+    "quantity": "stabilized_solve_converged_N32",
+    "level": "mms",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "stabilized_relative_residual"
+  }
+ }
+}

@@ -1,0 +1,134 @@
+{
+  "check": "published_dmradio_core",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 15:01",
+  "pass_means": "SELF-CHECK = internal consistency only: identities, convergence and agreement with our own closed forms.  It says NOTHING about agreement with the publication; that is the 'verdict' column of the summary table in docs/validation/published_benchmarks.md, and several rows there disagree while the self-check passes.",
+  "inputs": {
+    "bore_diameter_m": 0.37,
+    "outer_diameter_m": 0.6,
+    "H_m": 2.95,
+    "pickup_inner_diameter_m": 0.64,
+    "pickup_height_m": 0.29,
+    "plate_spacing_m": 0.06
+  },
+  "magnet": {
+    "rows": [
+      {
+        "NI_A": 12439166.666666664,
+        "source": "from 3 mm NbTi at 330 A filling the winding cross-section",
+        "B_z_axis_T": 5.227391365415849,
+        "B_max_T": 5.229104973557369,
+        "W_mag_J": 4842015.16905913
+      },
+      {
+        "NI_A": 11894164.2303695,
+        "source": "rescaled to the published 5 T peak",
+        "B_z_axis_T": 4.998361470892069,
+        "B_max_T": 5.000000000000018,
+        "W_mag_J": 4427019.487254286
+      }
+    ],
+    "turns_estimate": 37694.44444444444,
+    "W_published_J": 4300000.0,
+    "W_rel_to_published": 0.029539415640531672,
+    "B_peak_published_T": 5.0,
+    "note": "Uniform current density over the published winding envelope; the 9-fold axial segmentation and the 3 soft-iron flux-return segments are not modelled (their positions are not published)."
+  },
+  "pickup": {
+    "rows": [
+      {
+        "outer_diameter_m": 1.2,
+        "Psi_natural_T_m3": 0.025072470638167525,
+        "L_p_H": 3.644929844488508e-08,
+        "W_mag_J": 4429312.68739375,
+        "F_natural_T4_m10": 0.0004697101086092223,
+        "g_factor": 0.010637951338964014,
+        "B_max_T": 5.0363414102258295,
+        "superconductor_surface_T": {
+          "cavity": 3.1364556954584266
+        },
+        "V_pickup_shell_m3": 0.23468953759377187,
+        "dofs": 136319,
+        "warnings": []
+      },
+      {
+        "outer_diameter_m": 1.46,
+        "Psi_natural_T_m3": 0.032821106624678596,
+        "L_p_H": 4.782975306553287e-08,
+        "W_mag_J": 4429068.606707516,
+        "F_natural_T4_m10": 0.0008010070364016745,
+        "g_factor": 0.009412851681189282,
+        "B_max_T": 5.03752061841142,
+        "superconductor_surface_T": {
+          "cavity": 3.101712017063019
+        },
+        "V_pickup_shell_m3": 0.3922121348374176,
+        "dofs": 142549,
+        "warnings": []
+      }
+    ],
+    "note": "The CORE template is a superconducting toroidal cavity around the solenoid, read out across a neck gap in its inner wall.  DMRadio-Core's pickup instead closes across the bore with two copper plates (6 cm apart) and is read out through a 30-degree azimuthal sector of the slit; neither the copper plates nor the fractional port are axisymmetric, so these numbers are a model of the topology, not of the device.  CORE publishes no L_eff or |V| to compare with."
+  },
+  "scan_time": {
+    "band_Hz": [
+      70000000.0,
+      140000000.0
+    ],
+    "published_live_time_yr": 0.75,
+    "eta_A_published_band_average": 9.750289389730694,
+    "eta_A_at_band_edges": [
+      8.13,
+      11.72
+    ],
+    "rows": [
+      {
+        "eta_A": 9.750289389730694,
+        "F_req_natural_T4_m10": 0.005326944936774929,
+        "live_time_yr": 0.75,
+        "outer_diameter_m": [
+          1.2,
+          1.46
+        ],
+        "F_over_F_req": [
+          0.08817626504200304,
+          0.1503689348977249
+        ],
+        "scan_time_for_DFSZ_yr": [
+          8.505690274392267,
+          4.987732343187248
+        ],
+        "scan_time_over_published": [
+          11.340920365856356,
+          6.650309790916331
+        ],
+        "scan_time_both_pickups_coherent_yr": 1.5996914566811817
+      },
+      {
+        "eta_A": 1.0,
+        "F_req_natural_T4_m10": 0.0005463371110180003,
+        "live_time_yr": 0.75,
+        "outer_diameter_m": [
+          1.2,
+          1.46
+        ],
+        "F_over_F_req": [
+          0.8597441014651239,
+          1.4661406304783926
+        ],
+        "scan_time_for_DFSZ_yr": [
+          0.8723525973855424,
+          0.5115471083802375
+        ],
+        "scan_time_over_published": [
+          1.1631367965140564,
+          0.6820628111736501
+        ],
+        "scan_time_both_pickups_coherent_yr": 0.16406604898989222
+      }
+    ],
+    "note": "eta_A is the published dc-SQUID optimum (arXiv:2504.20398 Fig. 3; 8.1 at 70 MHz to 11.7 at 140 MHz), log-averaged over the band; eta_A = 1 (the SQL) is kept as a floor for reference.  These scan times use the MQS Psi and L_p, which at 70-140 MHz are only the omega -> 0 limit: the beyond-MQS values are in the `fullwave` record and are much larger (section 6)."
+  },
+  "pass": true,
+  "pass_scope": "the magnet stored energy within 10 % of the published 4.3 MJ on the published envelope (a genuine agreement), and that the pickup variants solved.  It does NOT test the Core scan time, which disagrees by 4-11x.",
+  "headline": "magnet at 5 T peak: W = 4.43 MJ vs published 4.3 MJ (+3.0 %); pickup model: 2/2 solved"
+}

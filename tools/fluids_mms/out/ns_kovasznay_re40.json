@@ -1,0 +1,229 @@
+{
+ "name": "ns_kovasznay_re40",
+ "description": "Kovasznay flow, Re = 40 (rho = 1, mu = 1/Re), lambda = Re/2 - sqrt(Re^2/4 + 4 pi^2); exact steady NS solution with f = 0 (verified symbolically below, not taken from a source); Dirichlet data from the exact solution on all four edges of [-1/2, 1] x [-1/2, 3/2]",
+ "geometry": "planar",
+ "coords": [
+  "x",
+  "y"
+ ],
+ "domain": {
+  "kind": "rectangle",
+  "c0": "-1/2",
+  "c1": 1,
+  "d0": "-1/2",
+  "d1": "3/2"
+ },
+ "pressure": "mean_zero",
+ "rho": {
+  "sympy": "1",
+  "value": 1.0
+ },
+ "conventions": {
+  "planar": "u = (u_x, u_y); grad_u[i][j] = d u_i / d x_j; sigma_sym = 2 mu eps - p I, sigma_lap = mu G - p I; f = rho (u.grad)u - div sigma_form; traction g = sigma_form n (outward n)",
+  "axisymmetric": "coords (r, z); u = (u_r, u_theta, u_z); grad_u[i][j] = d u_i / d (r, z)_j (component derivatives, NOT the cylindrical gradient tensor); f in the (e_r, e_theta, e_z) frame, f = rho G u - div sigma_form with G and div as in tools/fluids_mms/f2a_fields.py"
+ },
+ "u": [
+  {
+   "sympy": "-exp(x*(20 - sqrt(4*pi**2 + 400)))*cos(2*pi*y) + 1",
+   "c": "-exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*cos(2*M_PI*y) + 1",
+   "numpy": "-np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.cos(2*np.pi*y) + 1"
+  },
+  {
+   "sympy": "(20 - sqrt(4*pi**2 + 400))*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/(2*pi)",
+   "c": "(1.0/2.0)*(20 - sqrt(4*pow(M_PI, 2) + 400))*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y)/M_PI",
+   "numpy": "(1/2)*(20 - np.sqrt(4*np.pi**2 + 400))*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y)/np.pi"
+  }
+ ],
+ "p": {
+  "sympy": "1/2 - exp(x*(40 - 2*sqrt(4*pi**2 + 400)))/2",
+  "c": "1.0/2.0 - 1.0/2.0*exp(x*(40 - 2*sqrt(4*pow(M_PI, 2) + 400)))",
+  "numpy": "1/2 - 1/2*np.exp(x*(40 - 2*np.sqrt(4*np.pi**2 + 400)))"
+ },
+ "mu": {
+  "sympy": "1/40",
+  "c": "1.0/40.0",
+  "numpy": "1/40"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "-(20 - sqrt(4*pi**2 + 400))*exp(x*(20 - sqrt(4*pi**2 + 400)))*cos(2*pi*y)",
+    "c": "-(20 - sqrt(4*pow(M_PI, 2) + 400))*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*cos(2*M_PI*y)",
+    "numpy": "-(20 - np.sqrt(4*np.pi**2 + 400))*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.cos(2*np.pi*y)"
+   },
+   {
+    "sympy": "2*pi*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)",
+    "c": "2*M_PI*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y)",
+    "numpy": "2*np.pi*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y)"
+   }
+  ],
+  [
+   {
+    "sympy": "(20 - sqrt(4*pi**2 + 400))**2*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/(2*pi)",
+    "c": "(1.0/2.0)*pow(20 - sqrt(4*pow(M_PI, 2) + 400), 2)*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y)/M_PI",
+    "numpy": "(1/2)*(20 - np.sqrt(4*np.pi**2 + 400))**2*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y)/np.pi"
+   },
+   {
+    "sympy": "(20 - sqrt(4*pi**2 + 400))*exp(x*(20 - sqrt(4*pi**2 + 400)))*cos(2*pi*y)",
+    "c": "(20 - sqrt(4*pow(M_PI, 2) + 400))*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*cos(2*M_PI*y)",
+    "numpy": "(20 - np.sqrt(4*np.pi**2 + 400))*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.cos(2*np.pi*y)"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "f_without_convection": [
+    {
+     "sympy": "-pi**2*exp(x*(20 - sqrt(4*pi**2 + 400)))*cos(2*pi*y)/10 + (20 - sqrt(4*pi**2 + 400))**2*exp(x*(20 - sqrt(4*pi**2 + 400)))*cos(2*pi*y)/40 - (40 - 2*sqrt(4*pi**2 + 400))*exp(x*(40 - 2*sqrt(4*pi**2 + 400)))/2",
+     "c": "-1.0/10.0*pow(M_PI, 2)*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*cos(2*M_PI*y) + (1.0/40.0)*pow(20 - sqrt(4*pow(M_PI, 2) + 400), 2)*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*cos(2*M_PI*y) - 1.0/2.0*(40 - 2*sqrt(4*pow(M_PI, 2) + 400))*exp(x*(40 - 2*sqrt(4*pow(M_PI, 2) + 400)))",
+     "numpy": "-1/10*np.pi**2*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.cos(2*np.pi*y) + (1/40)*(20 - np.sqrt(4*np.pi**2 + 400))**2*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.cos(2*np.pi*y) - 1/2*(40 - 2*np.sqrt(4*np.pi**2 + 400))*np.exp(x*(40 - 2*np.sqrt(4*np.pi**2 + 400)))"
+    },
+    {
+     "sympy": "pi*(20 - sqrt(4*pi**2 + 400))*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/20 - (20 - sqrt(4*pi**2 + 400))**3*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/(80*pi)",
+     "c": "(1.0/20.0)*M_PI*(20 - sqrt(4*pow(M_PI, 2) + 400))*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y) - 1.0/80.0*pow(20 - sqrt(4*pow(M_PI, 2) + 400), 3)*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y)/M_PI",
+     "numpy": "(1/20)*np.pi*(20 - np.sqrt(4*np.pi**2 + 400))*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y) - 1/80*(20 - np.sqrt(4*np.pi**2 + 400))**3*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y)/np.pi"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "-(20 - sqrt(4*pi**2 + 400))*exp(x*(20 - sqrt(4*pi**2 + 400)))*cos(2*pi*y)/40 + exp(x*(40 - 2*sqrt(4*pi**2 + 400)))/2 - 1/2",
+      "c": "-1.0/40.0*(20 - sqrt(4*pow(M_PI, 2) + 400))*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*cos(2*M_PI*y) + (1.0/2.0)*exp(x*(40 - 2*sqrt(4*pow(M_PI, 2) + 400))) - 1.0/2.0",
+      "numpy": "-1/40*(20 - np.sqrt(4*np.pi**2 + 400))*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.cos(2*np.pi*y) + (1/2)*np.exp(x*(40 - 2*np.sqrt(4*np.pi**2 + 400))) - 1/2"
+     },
+     {
+      "sympy": "pi*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/20",
+      "c": "(1.0/20.0)*M_PI*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y)",
+      "numpy": "(1/20)*np.pi*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y)"
+     }
+    ],
+    [
+     {
+      "sympy": "(20 - sqrt(4*pi**2 + 400))**2*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/(80*pi)",
+      "c": "(1.0/80.0)*pow(20 - sqrt(4*pow(M_PI, 2) + 400), 2)*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y)/M_PI",
+      "numpy": "(1/80)*(20 - np.sqrt(4*np.pi**2 + 400))**2*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y)/np.pi"
+     },
+     {
+      "sympy": "(20 - sqrt(4*pi**2 + 400))*exp(x*(20 - sqrt(4*pi**2 + 400)))*cos(2*pi*y)/40 + exp(x*(40 - 2*sqrt(4*pi**2 + 400)))/2 - 1/2",
+      "c": "(1.0/40.0)*(20 - sqrt(4*pow(M_PI, 2) + 400))*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*cos(2*M_PI*y) + (1.0/2.0)*exp(x*(40 - 2*sqrt(4*pow(M_PI, 2) + 400))) - 1.0/2.0",
+      "numpy": "(1/40)*(20 - np.sqrt(4*np.pi**2 + 400))*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.cos(2*np.pi*y) + (1/2)*np.exp(x*(40 - 2*np.sqrt(4*np.pi**2 + 400))) - 1/2"
+     }
+    ]
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "f_without_convection": [
+    {
+     "sympy": "-pi**2*exp(x*(20 - sqrt(4*pi**2 + 400)))*cos(2*pi*y)/10 + (20 - sqrt(4*pi**2 + 400))**2*exp(x*(20 - sqrt(4*pi**2 + 400)))*cos(2*pi*y)/40 - (40 - 2*sqrt(4*pi**2 + 400))*exp(x*(40 - 2*sqrt(4*pi**2 + 400)))/2",
+     "c": "-1.0/10.0*pow(M_PI, 2)*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*cos(2*M_PI*y) + (1.0/40.0)*pow(20 - sqrt(4*pow(M_PI, 2) + 400), 2)*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*cos(2*M_PI*y) - 1.0/2.0*(40 - 2*sqrt(4*pow(M_PI, 2) + 400))*exp(x*(40 - 2*sqrt(4*pow(M_PI, 2) + 400)))",
+     "numpy": "-1/10*np.pi**2*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.cos(2*np.pi*y) + (1/40)*(20 - np.sqrt(4*np.pi**2 + 400))**2*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.cos(2*np.pi*y) - 1/2*(40 - 2*np.sqrt(4*np.pi**2 + 400))*np.exp(x*(40 - 2*np.sqrt(4*np.pi**2 + 400)))"
+    },
+    {
+     "sympy": "pi*(20 - sqrt(4*pi**2 + 400))*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/20 - (20 - sqrt(4*pi**2 + 400))**3*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/(80*pi)",
+     "c": "(1.0/20.0)*M_PI*(20 - sqrt(4*pow(M_PI, 2) + 400))*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y) - 1.0/80.0*pow(20 - sqrt(4*pow(M_PI, 2) + 400), 3)*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y)/M_PI",
+     "numpy": "(1/20)*np.pi*(20 - np.sqrt(4*np.pi**2 + 400))*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y) - 1/80*(20 - np.sqrt(4*np.pi**2 + 400))**3*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y)/np.pi"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "-(20 - sqrt(4*pi**2 + 400))*exp(x*(20 - sqrt(4*pi**2 + 400)))*cos(2*pi*y)/20 + exp(x*(40 - 2*sqrt(4*pi**2 + 400)))/2 - 1/2",
+      "c": "-1.0/20.0*(20 - sqrt(4*pow(M_PI, 2) + 400))*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*cos(2*M_PI*y) + (1.0/2.0)*exp(x*(40 - 2*sqrt(4*pow(M_PI, 2) + 400))) - 1.0/2.0",
+      "numpy": "-1/20*(20 - np.sqrt(4*np.pi**2 + 400))*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.cos(2*np.pi*y) + (1/2)*np.exp(x*(40 - 2*np.sqrt(4*np.pi**2 + 400))) - 1/2"
+     },
+     {
+      "sympy": "(20 - sqrt(4*pi**2 + 400))**2*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/(80*pi) + pi*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/20",
+      "c": "(1.0/80.0)*pow(20 - sqrt(4*pow(M_PI, 2) + 400), 2)*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y)/M_PI + (1.0/20.0)*M_PI*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y)",
+      "numpy": "(1/80)*(20 - np.sqrt(4*np.pi**2 + 400))**2*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y)/np.pi + (1/20)*np.pi*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y)"
+     }
+    ],
+    [
+     {
+      "sympy": "(20 - sqrt(4*pi**2 + 400))**2*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/(80*pi) + pi*exp(x*(20 - sqrt(4*pi**2 + 400)))*sin(2*pi*y)/20",
+      "c": "(1.0/80.0)*pow(20 - sqrt(4*pow(M_PI, 2) + 400), 2)*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y)/M_PI + (1.0/20.0)*M_PI*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*sin(2*M_PI*y)",
+      "numpy": "(1/80)*(20 - np.sqrt(4*np.pi**2 + 400))**2*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y)/np.pi + (1/20)*np.pi*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.sin(2*np.pi*y)"
+     },
+     {
+      "sympy": "(20 - sqrt(4*pi**2 + 400))*exp(x*(20 - sqrt(4*pi**2 + 400)))*cos(2*pi*y)/20 + exp(x*(40 - 2*sqrt(4*pi**2 + 400)))/2 - 1/2",
+      "c": "(1.0/20.0)*(20 - sqrt(4*pow(M_PI, 2) + 400))*exp(x*(20 - sqrt(4*pow(M_PI, 2) + 400)))*cos(2*M_PI*y) + (1.0/2.0)*exp(x*(40 - 2*sqrt(4*pow(M_PI, 2) + 400))) - 1.0/2.0",
+      "numpy": "(1/20)*(20 - np.sqrt(4*np.pi**2 + 400))*np.exp(x*(20 - np.sqrt(4*np.pi**2 + 400)))*np.cos(2*np.pi*y) + (1/2)*np.exp(x*(40 - 2*np.sqrt(4*np.pi**2 + 400))) - 1/2"
+     }
+    ]
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "x0",
+   "bc": "dirichlet"
+  },
+  {
+   "name": "x1",
+   "bc": "dirichlet"
+  },
+  {
+   "name": "y0",
+   "bc": "dirichlet"
+  },
+  {
+   "name": "y1",
+   "bc": "dirichlet"
+  }
+ ],
+ "exact_solution": true,
+ "exact_ns": true,
+ "extra": {
+  "lambda": {
+   "sympy": "20 - sqrt(4*pi**2 + 400)",
+   "c": "20 - sqrt(4*pow(M_PI, 2) + 400)",
+   "numpy": "20 - np.sqrt(4*np.pi**2 + 400)"
+  }
+ },
+ "constants": {
+  "measure": 3.0,
+  "volume_weighted": 3.0,
+  "p_mean_weighted": 0.07181254619621291,
+  "p_mean_unweighted": 0.07181254619621291,
+  "u_L2_weighted": 2.0772057771256613,
+  "u_max_sampled": 2.617540088876828,
+  "p_minus_mean_max_abs_sampled": 0.8800305157580415,
+  "p_max_abs_sampled": 0.8082179695618286,
+  "mu_min_sampled": 0.025,
+  "mu_max_sampled": 0.025,
+  "rho": 1.0,
+  "Re_estimate": 104.70160355507313,
+  "f_max_sampled": 4.0017138155886995e-15,
+  "convective_term_max_sampled": 4.080454361337027
+ },
+ "selfcheck": {
+  "status": "pass",
+  "fd_residual_lap": 4.5392723168361575e-11,
+  "fd_residual_sym": 4.670480330992953e-11,
+  "curl_convective_max": 9.177338957221679,
+  "harness_ns_residual_fd": 4.247994312261972e-08
+ }
+}

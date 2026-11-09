@@ -1,0 +1,250 @@
+{
+ "id": "cons_ns_energy_identity",
+ "capability": "F2a",
+ "title": "Discrete energy identities of the convective and viscous forms (planar and axisymmetric with swirl)",
+ "physics": "steady NS with homogeneous Dirichlet data and a polynomial body force (no exact solution needed); the identity a(u_h, u_h) + c(u_h; u_h, u_h) = (f, u_h) of the discrete equations",
+ "levels": [
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f2a_ns",
+   "function": "energy_identity",
+   "check_module": "f2a_ns_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine"
+   },
+   "fields": {
+    "planar": {
+     "path": "tools/fluids_mms/out/ns_sq_energy.json",
+     "sha256": "339ac28f761728185a8c400a9eb26be913550012a5f70244592b47cdfc1f5d6a"
+    },
+    "axisymmetric": {
+     "path": "tools/fluids_mms/out/ns_axi_energy.json",
+     "sha256": "03a70d5e2205cdb98ebe6134a9967f20aa0ebeae000b559d3dc1be0579b79a0d"
+    }
+   },
+   "mu": 0.01,
+   "rho": 1.0,
+   "meshes": {
+    "planar": {
+     "N": [
+      8
+     ],
+     "h_nominal": [
+      0.125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(8)"
+    },
+    "axisymmetric": {
+     "N": [
+      32
+     ],
+     "h_nominal": [
+      0.03125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(32) in (r, z)"
+    }
+   },
+   "forcing": {
+    "planar": "f = 3 (-(y - 2/5), (6/5)(x - 3/5))",
+    "axisymmetric": "f = (0, 3 r, 3 r^2)"
+   },
+   "boundaries": {
+    "planar": "u = 0 on all edges",
+    "axisymmetric": "u = 0 on r = 1, z = 0, z = 1; axis"
+   },
+   "variants": [
+    [
+     "lap",
+     "standard"
+    ],
+    [
+     "sym",
+     "standard"
+    ],
+    [
+     "lap",
+     "skew"
+    ],
+    [
+     "sym",
+     "skew"
+    ]
+   ],
+   "quadrature_requirement": "The convective trilinear form and every load integral must be integrated EXACTLY for the polynomial integrands of P2 on affine triangles: degree >= 5 planar (P2. grad P2. P2), degree >= 6 in axisymmetry (the extra factor r); the viscous form with variable mu by a rule of degree >= 4 planar (as F1a) and, in AXISYMMETRY, the r-weighted viscous form (with its rational hoop terms mu u_r v_r / r, mu u_theta v_theta / r) by a rule of degree >= 6 (with degree 4 a correct code's energy-identity defect reaches 9.1e-10, with degree 6 <= 2.4e-11). The discrete energy identities (cons_ns_energy_identity) and the cross-code values (xcode_cavity_re1000) assume it.",
+   "nonlinear_solver": {
+    "start": "the TRUE Stokes solution with the Dirichlet data (the convective term absent from both the matrix and the residual of that first step: Oseen with zero advecting velocity), then n_picard = 3 Picard (Oseen) steps, then Newton with an Armijo backtracking line search on the DUAL-norm merit ||R||_* (sufficient decrease 1e-4; lambda = 1, 1/2,..., 1/64; lambda = 1/64 is accepted even without sufficient decrease and then counts as a violation in the line-search check)",
+    "newton_rtol": 1e-12,
+    "newton_maxit": 30,
+    "residual_definition": "relative_residual = ||R(x)||_* / ||R(x_lift)||_*, the discrete dual norm over the rows of the system actually solved (a pinned pressure row excluded), with consistent exactly integrated mass matrices, and x_lift the P2 Lagrange NODAL lift (the Dirichlet data at the boundary nodes, vertices and edge midpoints, ZERO at every other node, p = 0): with that definite lift the same number in every basis of the same spaces (zeroing the interior coefficients of a hierarchical basis gives another lift and a denominator smaller by 1.8-1.9)",
+    "linear_solver": "direct sparse LU",
+    "history": "every run reports solver.history = [{kind: stokes|picard|newton|ptc, residual, step, dt}] with the relative residual after each step"
+   },
+   "shared_node_rule": "At a velocity node shared by several boundary attributes: (1) Dirichlet beats every natural condition (traction); (2) between Dirichlet attributes the fixed data AGREE at shared nodes (one exact callable per field; checked by dirichlet_shared_node_mismatch_max), so the result is independent of attribute order; (3) AXISYMMETRIC: at a node on the axis r = 0 the axis condition u_r = u_theta = 0 holds and beats the data (the exact data have the same limit; the numpy spelling of the data is not evaluated at r = 0 for u_r, u_theta); u_z takes the data."
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "energy_identity_defect_planar_lap_standard",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "energy_identity_other_convective_defect_planar_lap_standard",
+    "level": "conservation",
+    "min": 0.001
+   },
+   {
+    "quantity": "energy_identity_other_viscous_defect_planar_lap_standard",
+    "level": "conservation",
+    "min": 0.001
+   },
+   {
+    "quantity": "energy_identity_defect_planar_sym_standard",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "energy_identity_other_convective_defect_planar_sym_standard",
+    "level": "conservation",
+    "min": 0.001
+   },
+   {
+    "quantity": "energy_identity_other_viscous_defect_planar_sym_standard",
+    "level": "conservation",
+    "min": 0.001
+   },
+   {
+    "quantity": "energy_identity_defect_planar_lap_skew",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "energy_identity_other_convective_defect_planar_lap_skew",
+    "level": "conservation",
+    "min": 0.001
+   },
+   {
+    "quantity": "energy_identity_other_viscous_defect_planar_lap_skew",
+    "level": "conservation",
+    "min": 0.001
+   },
+   {
+    "quantity": "energy_identity_defect_planar_sym_skew",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "energy_identity_other_convective_defect_planar_sym_skew",
+    "level": "conservation",
+    "min": 0.001
+   },
+   {
+    "quantity": "energy_identity_other_viscous_defect_planar_sym_skew",
+    "level": "conservation",
+    "min": 0.001
+   },
+   {
+    "quantity": "energy_identity_defect_axi_lap_standard",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "energy_identity_other_convective_defect_axi_lap_standard",
+    "level": "conservation",
+    "min": 1e-06
+   },
+   {
+    "quantity": "energy_identity_other_viscous_defect_axi_lap_standard",
+    "level": "conservation",
+    "min": 1e-06
+   },
+   {
+    "quantity": "swirl_pair_power_rel_axi_lap_standard",
+    "level": "conservation",
+    "min": 0.01
+   },
+   {
+    "quantity": "energy_identity_defect_axi_sym_standard",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "energy_identity_other_convective_defect_axi_sym_standard",
+    "level": "conservation",
+    "min": 1e-06
+   },
+   {
+    "quantity": "energy_identity_other_viscous_defect_axi_sym_standard",
+    "level": "conservation",
+    "min": 1e-06
+   },
+   {
+    "quantity": "swirl_pair_power_rel_axi_sym_standard",
+    "level": "conservation",
+    "min": 0.01
+   },
+   {
+    "quantity": "energy_identity_defect_axi_lap_skew",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "energy_identity_other_convective_defect_axi_lap_skew",
+    "level": "conservation",
+    "min": 1e-06
+   },
+   {
+    "quantity": "energy_identity_other_viscous_defect_axi_lap_skew",
+    "level": "conservation",
+    "min": 1e-06
+   },
+   {
+    "quantity": "swirl_pair_power_rel_axi_lap_skew",
+    "level": "conservation",
+    "min": 0.01
+   },
+   {
+    "quantity": "energy_identity_defect_axi_sym_skew",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "energy_identity_other_convective_defect_axi_sym_skew",
+    "level": "conservation",
+    "min": 1e-06
+   },
+   {
+    "quantity": "energy_identity_other_viscous_defect_axi_sym_skew",
+    "level": "conservation",
+    "min": 1e-06
+   },
+   {
+    "quantity": "swirl_pair_power_rel_axi_sym_skew",
+    "level": "conservation",
+    "min": 0.01
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-14
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

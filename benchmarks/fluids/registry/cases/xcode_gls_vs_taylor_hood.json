@@ -1,0 +1,660 @@
+{
+ "id": "xcode_gls_vs_taylor_hood",
+ "capability": "F5",
+ "title": "Agreement with the F2a Taylor-Hood solution: regularized-lid cavity at Re = 100 and 1000, P1/P1 GLS on N = 32, 64, 128",
+ "physics": "smooth (regularized-lid) cavity: the stabilized P1/P1 solution converges at second order to the Taylor-Hood solution",
+ "levels": [
+  "cross_code"
+ ],
+ "run": {
+  "runner": {
+   "module": "f5_gls",
+   "function": "xcode_th",
+   "check_module": "f5_gls_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P1",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "formulation": "Equal-order continuous P1/P1 (u, p) on affine triangles, nodal basis, constant density rho, viscosity mu(x) (analytic with gradient, or a P1 nodal field with its element-wise gradient). Residual R_u,a = sum_K int [ rho (u_t + (w.grad)u).N_a e_i + a_visc(mu;u)(N_a e_i) - p d_i N_a - f_i N_a + tau_supg rho ((w.grad N_a) R_i) + tau_c rho (div u) d_i N_a ], R_p,a = sum_K int [ (div u) N_a + (tau_pspg/rho) grad N_a. R ] with the strong residual R = rho (u_t + (w.grad)u) + grad p - div sigma_visc(u; mu) - f (second derivatives of a P1 u vanish; grad mu KEPT: lap: sum_j d_j mu d_j u_i, sym: sum_j d_j mu (d_j u_i + d_i u_j)), w = u (Navier-Stokes), a given field (Oseen) or 0 (Stokes: convective and SUPG terms absent); a_visc lap = mu grad u : grad v, sym = mu (grad u + grad u^T) : grad v; BDF1 u_t = (u - u^{n-1})/dt or BDF2 (3u - 4u^{n-1} + u^{n-2})/(2 dt), constant step; tau_supg = [ (2/dt)^2 + CG w.G w + C_I (mu/rho)^2 G:G ]^(-1/2), tau_pspg = [ CG w.G w + C_I (mu/rho)^2 G:G ]^(-1/2) (NO dt term), tau_c = 1/(tau_pspg tr G), G_ij = sum_k dz_k/dx_i dz_k/dx_j with z the coordinates of the EQUILATERAL reference triangle of edge 1 (invariant under vertex renumbering), C_I = 36, CG = 1 (the (2/dt)^2 term only when dt is given). Every element integral by the pinned 6-point degree-4 rule f5_gls_check.rule_points() (the Galerkin terms of P1 data are polynomials of degree <= 3; tau is not polynomial). The continuity row carries the POSITIVE sign (div u) q. The Newton Jacobian is the exact derivative of this residual INCLUDING d tau / d state. Reference implementation: f5_gls_check.residual (numpy), agreeing with the independent NGSolve assembly to 3e-16.",
+   "stabilization": {
+    "family": "GLS-type residual-based: SUPG + PSPG + LSIC",
+    "tau": "Shakib-type, from the element metric tensor G (docs/guides/fluids.md, stabilized equal-order elements)",
+    "C_I": 36.0,
+    "CG": 1.0,
+    "quadrature": "6-point degree-4 rule, f5_gls_check.rule_points()"
+   },
+   "quadrature_error_norms": 10,
+   "nonlinear_solver": {
+    "start": "Stokes solution (GLS-stabilized, w = 0) with the Dirichlet data, then Newton with the exact Jacobian (d tau included) and an Armijo backtracking line search on the dual-norm merit (sufficient decrease 1e-4, lambda = 1, 1/2,..., 1/64); a continuation in the viscosity (or Re) is allowed: whatever path is used, the solution is that of the steady discrete equations",
+    "newton_rtol": 1e-12,
+    "newton_maxit": 40,
+    "linear_solver": "direct sparse LU",
+    "history": "solver.history = [{kind, residual, step}] with the relative residual after each step"
+   },
+   "dirichlet_data": "P1 nodal interpolation of the fixed callables at the boundary vertices",
+   "meshes": {
+    "structured": {
+     "family": "structured",
+     "N": [
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(N) on [0,1]^2: the N = 8 BASE mesh (8 x 8 squares split along the (1,1) diagonal, except the two cells at the corners (1,0) and (0,1), split the other way) refined uniformly (red) log2(N/8) times. Nested; verify_mesh checks counts, hash, nesting.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles)"
+    }
+   },
+   "rho": 1.0,
+   "Re": [
+    100,
+    1000
+   ],
+   "mu": "1/Re",
+   "th_reference_for_ratio_checks": {
+    "Re100_Ekin": 0.018824923421751835,
+    "Re100_Diss": 0.04013612298009665,
+    "Re100_ux_min_vc": -0.1633686997780441,
+    "Re100_uy_max_hc": 0.13929124363995302,
+    "Re100_uy_min_hc": -0.1953460672123186,
+    "Re1000_Ekin": 0.022767783852322462,
+    "Re1000_Diss": 0.009660783135910926,
+    "Re1000_ux_min_vc": -0.2768155375694497,
+    "Re1000_uy_max_hc": 0.26181819258320527,
+    "Re1000_uy_min_hc": -0.3784901593776373
+   },
+   "ratio_checks": "the runner reports gls_th_deviation_ratio_<q>_Re<Re> = f5_gls_check.th_deviation_ratio(q_h(64), q_h(128), th_reference_for_ratio_checks[Re<Re>_<q>]) (the reference values of the ratio checks)",
+   "lid": "u_x = 16 x^2 (1 - x)^2 on y = 1 (REGULARIZED lid, zero at the corners, P1 nodal interpolation at the lid vertices); u = 0 on the other walls",
+   "reference": "F2a Taylor-Hood P2/P1 solution on N = 128 (P2 nodal interpolation of the same lid), Re continuation 10... Re",
+   "pressure": "mean-zero",
+   "viscous_form": "sym",
+   "continuation": "allowed",
+   "quantities": "f5_gls_check.cavity_quantities (nodal exact extremes) for the P1 runs; the TH reference extremes are sampled on 4001 points per centre line (sampling error <= 1e-7)"
+  }
+ },
+ "reference": {
+  "quantities": {
+   "th_Re100_Ekin_N32": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.018824923421751835,
+    "unit": "1",
+    "uncertainty": 1.6802589707098914e-07,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_Ekin_N32"
+   },
+   "th_Re100_Ekin_N64": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.018824923421751835,
+    "unit": "1",
+    "uncertainty": 1.6802589707098914e-07,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_Ekin_N64"
+   },
+   "th_Re100_Ekin_N128": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.018824923421751835,
+    "unit": "1",
+    "uncertainty": 1.6802589707098914e-07,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_Ekin_N128"
+   },
+   "th_Re100_Diss_N32": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.04013612298009665,
+    "unit": "1",
+    "uncertainty": 9.566098499447229e-08,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_Diss_N32"
+   },
+   "th_Re100_Diss_N64": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.04013612298009665,
+    "unit": "1",
+    "uncertainty": 9.566098499447229e-08,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_Diss_N64"
+   },
+   "th_Re100_Diss_N128": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.04013612298009665,
+    "unit": "1",
+    "uncertainty": 9.566098499447229e-08,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_Diss_N128"
+   },
+   "th_Re100_ux_min_vc_N32": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.1633686997780441,
+    "unit": "1",
+    "uncertainty": 6.57598152126182e-07,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_ux_min_vc_N32"
+   },
+   "th_Re100_ux_min_vc_N64": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.1633686997780441,
+    "unit": "1",
+    "uncertainty": 6.57598152126182e-07,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_ux_min_vc_N64"
+   },
+   "th_Re100_ux_min_vc_N128": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.1633686997780441,
+    "unit": "1",
+    "uncertainty": 6.57598152126182e-07,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_ux_min_vc_N128"
+   },
+   "th_Re100_uy_max_hc_N32": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.13929124363995302,
+    "unit": "1",
+    "uncertainty": 1.253782884319543e-06,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_uy_max_hc_N32"
+   },
+   "th_Re100_uy_max_hc_N64": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.13929124363995302,
+    "unit": "1",
+    "uncertainty": 1.253782884319543e-06,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_uy_max_hc_N64"
+   },
+   "th_Re100_uy_max_hc_N128": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.13929124363995302,
+    "unit": "1",
+    "uncertainty": 1.253782884319543e-06,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_uy_max_hc_N128"
+   },
+   "th_Re100_uy_min_hc_N32": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.1953460672123186,
+    "unit": "1",
+    "uncertainty": 7.550441801229546e-07,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_uy_min_hc_N32"
+   },
+   "th_Re100_uy_min_hc_N64": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.1953460672123186,
+    "unit": "1",
+    "uncertainty": 7.550441801229546e-07,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_uy_min_hc_N64"
+   },
+   "th_Re100_uy_min_hc_N128": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.1953460672123186,
+    "unit": "1",
+    "uncertainty": 7.550441801229546e-07,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re100_uy_min_hc_N128"
+   },
+   "th_Re1000_Ekin_N32": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.022767783852322462,
+    "unit": "1",
+    "uncertainty": 1.3012880832427576e-05,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_Ekin_N32"
+   },
+   "th_Re1000_Ekin_N64": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.022767783852322462,
+    "unit": "1",
+    "uncertainty": 1.3012880832427576e-05,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_Ekin_N64"
+   },
+   "th_Re1000_Ekin_N128": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.022767783852322462,
+    "unit": "1",
+    "uncertainty": 1.3012880832427576e-05,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_Ekin_N128"
+   },
+   "th_Re1000_Diss_N32": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.009660783135910926,
+    "unit": "1",
+    "uncertainty": 2.1773677718172485e-06,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_Diss_N32"
+   },
+   "th_Re1000_Diss_N64": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.009660783135910926,
+    "unit": "1",
+    "uncertainty": 2.1773677718172485e-06,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_Diss_N64"
+   },
+   "th_Re1000_Diss_N128": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.009660783135910926,
+    "unit": "1",
+    "uncertainty": 2.1773677718172485e-06,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_Diss_N128"
+   },
+   "th_Re1000_ux_min_vc_N32": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.2768155375694497,
+    "unit": "1",
+    "uncertainty": 0.00010130924625884052,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_ux_min_vc_N32"
+   },
+   "th_Re1000_ux_min_vc_N64": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.2768155375694497,
+    "unit": "1",
+    "uncertainty": 0.00010130924625884052,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_ux_min_vc_N64"
+   },
+   "th_Re1000_ux_min_vc_N128": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.2768155375694497,
+    "unit": "1",
+    "uncertainty": 0.00010130924625884052,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_ux_min_vc_N128"
+   },
+   "th_Re1000_uy_max_hc_N32": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.26181819258320527,
+    "unit": "1",
+    "uncertainty": 9.471152553980344e-05,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_uy_max_hc_N32"
+   },
+   "th_Re1000_uy_max_hc_N64": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.26181819258320527,
+    "unit": "1",
+    "uncertainty": 9.471152553980344e-05,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_uy_max_hc_N64"
+   },
+   "th_Re1000_uy_max_hc_N128": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": 0.26181819258320527,
+    "unit": "1",
+    "uncertainty": 9.471152553980344e-05,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_uy_max_hc_N128"
+   },
+   "th_Re1000_uy_min_hc_N32": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.3784901593776373,
+    "unit": "1",
+    "uncertainty": 0.00017184867510861013,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_uy_min_hc_N32"
+   },
+   "th_Re1000_uy_min_hc_N64": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.3784901593776373,
+    "unit": "1",
+    "uncertainty": 0.00017184867510861013,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_uy_min_hc_N64"
+   },
+   "th_Re1000_uy_min_hc_N128": {
+    "kind": "scalar",
+    "source": "ngsolve_th",
+    "value": -0.3784901593776373,
+    "unit": "1",
+    "uncertainty": 0.00017184867510861013,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_th_cavity_reference.json: quantities.th_Re1000_uy_min_hc_N128"
+   }
+  },
+  "tolerance_recipe": {
+   "th_Re100_Ekin_N32": {
+    "rel": 0.0008400639300588577
+   },
+   "th_Re100_Ekin_N64": {
+    "rel": 0.0003298998409287426
+   },
+   "th_Re100_Ekin_N128": {
+    "rel": 0.0001
+   },
+   "th_Re100_Diss_N32": {
+    "rel": 0.03782649706117989
+   },
+   "th_Re100_Diss_N64": {
+    "rel": 0.010263951570072963
+   },
+   "th_Re100_Diss_N128": {
+    "rel": 0.002628748872809048
+   },
+   "th_Re100_ux_min_vc_N32": {
+    "rel": 0.011230389088261458
+   },
+   "th_Re100_ux_min_vc_N64": {
+    "rel": 0.002808937408927386
+   },
+   "th_Re100_ux_min_vc_N128": {
+    "rel": 0.0006271784047136601
+   },
+   "th_Re100_uy_max_hc_N32": {
+    "rel": 0.013969811545366908
+   },
+   "th_Re100_uy_max_hc_N64": {
+    "rel": 0.0032540075231075076
+   },
+   "th_Re100_uy_max_hc_N128": {
+    "rel": 0.0009138111064381638
+   },
+   "th_Re100_uy_min_hc_N32": {
+    "rel": 0.010806487668499223
+   },
+   "th_Re100_uy_min_hc_N64": {
+    "rel": 0.002720676214724234
+   },
+   "th_Re100_uy_min_hc_N128": {
+    "rel": 0.0008388292249377594
+   },
+   "th_Re1000_Ekin_N32": {
+    "rel": 0.021436568761988302
+   },
+   "th_Re1000_Ekin_N64": {
+    "rel": 0.018878768038377985
+   },
+   "th_Re1000_Ekin_N128": {
+    "rel": 0.00936502533883529
+   },
+   "th_Re1000_Diss_N32": {
+    "rel": 0.23619781850034893
+   },
+   "th_Re1000_Diss_N64": {
+    "rel": 0.07696444333169546
+   },
+   "th_Re1000_Diss_N128": {
+    "rel": 0.0215805517428957
+   },
+   "th_Re1000_ux_min_vc_N32": {
+    "rel": 0.020160805770301583
+   },
+   "th_Re1000_ux_min_vc_N64": {
+    "rel": 0.009242461123716392
+   },
+   "th_Re1000_ux_min_vc_N128": {
+    "rel": 0.004930701685347195
+   },
+   "th_Re1000_uy_max_hc_N32": {
+    "rel": 0.007302380478389116
+   },
+   "th_Re1000_uy_max_hc_N64": {
+    "rel": 0.014163642277240832
+   },
+   "th_Re1000_uy_max_hc_N128": {
+    "rel": 0.0061365286014479145
+   },
+   "th_Re1000_uy_min_hc_N32": {
+    "rel": 0.04691429429940813
+   },
+   "th_Re1000_uy_min_hc_N64": {
+    "rel": 0.021197167601639755
+   },
+   "th_Re1000_uy_min_hc_N128": {
+    "rel": 0.008375545942155506
+   }
+  }
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "gls_Re100_Ekin_N32",
+    "reference": "th_Re100_Ekin_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_Ekin_N64",
+    "reference": "th_Re100_Ekin_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_Ekin_N128",
+    "reference": "th_Re100_Ekin_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_Diss_N32",
+    "reference": "th_Re100_Diss_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_Diss_N64",
+    "reference": "th_Re100_Diss_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_Diss_N128",
+    "reference": "th_Re100_Diss_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_ux_min_vc_N32",
+    "reference": "th_Re100_ux_min_vc_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_ux_min_vc_N64",
+    "reference": "th_Re100_ux_min_vc_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_ux_min_vc_N128",
+    "reference": "th_Re100_ux_min_vc_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_uy_max_hc_N32",
+    "reference": "th_Re100_uy_max_hc_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_uy_max_hc_N64",
+    "reference": "th_Re100_uy_max_hc_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_uy_max_hc_N128",
+    "reference": "th_Re100_uy_max_hc_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_uy_min_hc_N32",
+    "reference": "th_Re100_uy_min_hc_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_uy_min_hc_N64",
+    "reference": "th_Re100_uy_min_hc_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re100_uy_min_hc_N128",
+    "reference": "th_Re100_uy_min_hc_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_Ekin_N32",
+    "reference": "th_Re1000_Ekin_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_Ekin_N64",
+    "reference": "th_Re1000_Ekin_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_Ekin_N128",
+    "reference": "th_Re1000_Ekin_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_Diss_N32",
+    "reference": "th_Re1000_Diss_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_Diss_N64",
+    "reference": "th_Re1000_Diss_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_Diss_N128",
+    "reference": "th_Re1000_Diss_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_ux_min_vc_N32",
+    "reference": "th_Re1000_ux_min_vc_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_ux_min_vc_N64",
+    "reference": "th_Re1000_ux_min_vc_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_ux_min_vc_N128",
+    "reference": "th_Re1000_ux_min_vc_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_uy_max_hc_N32",
+    "reference": "th_Re1000_uy_max_hc_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_uy_max_hc_N64",
+    "reference": "th_Re1000_uy_max_hc_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_uy_max_hc_N128",
+    "reference": "th_Re1000_uy_max_hc_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_uy_min_hc_N32",
+    "reference": "th_Re1000_uy_min_hc_N32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_uy_min_hc_N64",
+    "reference": "th_Re1000_uy_min_hc_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "gls_Re1000_uy_min_hc_N128",
+    "reference": "th_Re1000_uy_min_hc_N128",
+    "level": "cross_code"
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "gls_th_deviation_ratio_Ekin_Re100",
+    "level": "cross_code",
+    "min": 2.22
+   },
+   {
+    "quantity": "gls_th_deviation_ratio_Diss_Re100",
+    "level": "cross_code",
+    "min": 2.34
+   },
+   {
+    "quantity": "gls_th_deviation_ratio_ux_min_vc_Re100",
+    "level": "cross_code",
+    "min": 2.69
+   },
+   {
+    "quantity": "gls_th_deviation_ratio_uy_max_hc_Re100",
+    "level": "cross_code",
+    "min": 2.14
+   },
+   {
+    "quantity": "gls_th_deviation_ratio_uy_min_hc_Re100",
+    "level": "cross_code",
+    "min": 1.95
+   },
+   {
+    "quantity": "gls_th_deviation_ratio_Ekin_Re1000",
+    "level": "cross_code",
+    "min": 1.21
+   },
+   {
+    "quantity": "gls_th_deviation_ratio_Diss_Re1000",
+    "level": "cross_code",
+    "min": 2.14
+   },
+   {
+    "quantity": "gls_th_deviation_ratio_ux_min_vc_Re1000",
+    "level": "cross_code",
+    "min": 1.12
+   },
+   {
+    "quantity": "gls_th_deviation_ratio_uy_max_hc_Re1000",
+    "level": "cross_code",
+    "min": 1.38
+   },
+   {
+    "quantity": "gls_th_deviation_ratio_uy_min_hc_Re1000",
+    "level": "cross_code",
+    "min": 1.52
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

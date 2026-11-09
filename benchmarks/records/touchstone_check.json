@@ -1,0 +1,408 @@
+{
+ "check": "Touchstone export (axionfem.touchstone) against closed forms and the engine's checks",
+ "ranks": 4,
+ "z0_ohm": 50.0,
+ "date": "2026-10-31",
+ "git_head": "68804b3235ae51a804a438bad6e3a46a0f70e3b1",
+ "version": "0.1.0",
+ "cases": {
+  "tem_short": {
+   "solve_seconds": 4.338519334793091,
+   "geometry": {
+    "l": 0.3,
+    "h": 0.02,
+    "W": 0.04,
+    "x_sheet": null
+   },
+   "adaptive": {
+    "converged": true,
+    "solves": 7,
+    "estimated_error": 4.789761117278671e-07
+   },
+   "rows": {
+    "path": "runs/touchstone_check/tem_short/tem_short_rows.s1p",
+    "kind": "S",
+    "ports": [
+     "pickup"
+    ],
+    "n_frequencies": 7,
+    "f_min_Hz": 100000000.0,
+    "f_max_Hz": 400000000.0,
+    "sigma_max": 1.0,
+    "passivity_violations_Hz": [],
+    "reciprocity_error": 0.0,
+    "source": "solved rows (fullwave.sweep, 7 frequencies)",
+    "warnings": [],
+    "max_abs_S_minus_exact": 1.8024538090984922e-05,
+    "max_abs_S_minus_exact_away_from_pole": 1.8024538090984922e-05,
+    "max_abs_1_minus_abs_S": 2.220446049250313e-16,
+    "Im_S_positive_below_pole": true,
+    "first": {
+     "f_Hz": 100000000.0,
+     "S": [
+      0.764857029948319,
+      0.6442000649942813
+     ],
+     "S_exact": [
+      0.7648570732911668,
+      0.6442000135334295
+     ]
+    }
+   },
+   "dense": {
+    "path": "runs/touchstone_check/tem_short/tem_short_dense.s1p",
+    "kind": "S",
+    "ports": [
+     "pickup"
+    ],
+    "n_frequencies": 400,
+    "f_min_Hz": 100000000.0,
+    "f_max_Hz": 400000000.0,
+    "sigma_max": 1.0000000000000346,
+    "passivity_violations_Hz": [],
+    "reciprocity_error": 0.0,
+    "source": "adaptive model, dense curve (fullwave.adaptive.dense, 400 points; tolerance 1e-05, converged True, estimated relative error up to 4.79e-07)",
+    "warnings": [],
+    "max_abs_S_minus_exact": 1.8024538090984922e-05,
+    "max_abs_S_minus_exact_away_from_pole": 1.8024538090984922e-05,
+    "max_abs_1_minus_abs_S": 3.4638958368304884e-14,
+    "Im_S_positive_below_pole": true,
+    "first": {
+     "f_Hz": 100000000.0,
+     "S": [
+      0.764857029948319,
+      0.6442000649942813
+     ],
+     "S_exact": [
+      0.7648570732911668,
+      0.6442000135334295
+     ]
+    }
+   },
+   "other_kinds": {
+    "rows_Z": {
+     "python_warnings": [],
+     "Z_relative_error_max": 0.016618226753826012,
+     "Z_poorly_determined": 0,
+     "Y_check": "not a Y export",
+     "Y_ill_determined_Hz": []
+    },
+    "rows_Y": {
+     "python_warnings": [],
+     "Z_relative_error_max": 0.016618226753826012,
+     "Z_poorly_determined": 0,
+     "Y_check": "relative error of Z (signed error indicator, solver residual; solver residual, unsigned error indicator (an upper estimate)) x equilibrated condition number against 0.1",
+     "Y_ill_determined_Hz": []
+    },
+    "dense_Z": {
+     "python_warnings": [],
+     "Z_relative_error_max": 4.789689681953342e-07,
+     "Z_poorly_determined": 0,
+     "Y_check": "not a Y export",
+     "Y_ill_determined_Hz": []
+    },
+    "dense_Y": {
+     "python_warnings": [],
+     "Z_relative_error_max": 4.789689681953342e-07,
+     "Z_poorly_determined": 0,
+     "Y_check": "relative error of Z (adaptive model's estimated relative error, taken as proportional (dZ = eps Z)) (not amplified) against 0.1",
+     "Y_ill_determined_Hz": []
+    }
+   },
+   "date": "2026-10-31",
+   "git_head": "68804b3235ae51a804a438bad6e3a46a0f70e3b1",
+   "version": "0.1.0"
+  },
+  "coax2d_lossy": {
+   "path": "runs/touchstone_check/coax2d_lossy/coax2d_lossy.s1p",
+   "kind": "S",
+   "ports": [
+    "port_1"
+   ],
+   "n_frequencies": 6,
+   "f_min_Hz": 1000000.0,
+   "f_max_Hz": 120000000.0,
+   "sigma_max": 0.999999999357871,
+   "passivity_violations_Hz": [],
+   "reciprocity_error": 0.0,
+   "source": "solved rows (fullwave.sweep, 6 frequencies)",
+   "warnings": [],
+   "solve_seconds": 3.4835448265075684,
+   "max_abs_S_minus_exact": 0.002442036099478434,
+   "max_relative_Z_error": 0.00413777949676964,
+   "abs_S": [
+    0.999999999357871,
+    0.9999946052791815,
+    0.9998889180228397,
+    0.9991762905226063,
+    0.9972127206780678,
+    0.9946691740332291
+   ],
+   "abs_S_exact": [
+    0.9999999993577715,
+    0.9999946049406542,
+    0.9998889678492884,
+    0.9991774312007133,
+    0.9972163349762045,
+    0.9946593730359158
+   ],
+   "all_abs_S_below_1": true,
+   "date": "2026-10-31",
+   "git_head": "68804b3235ae51a804a438bad6e3a46a0f70e3b1",
+   "version": "0.1.0"
+  },
+  "stage1_adaptive": {
+   "solve_seconds": 42.05763244628906,
+   "adaptive": {
+    "converged": true,
+    "solves": 9,
+    "estimated_error": 7.944052175213611e-05
+   },
+   "self_resonances_Hz": [
+    121211944.04598202,
+    139195762.61741126
+   ],
+   "rows": {
+    "path": "runs/touchstone_check/stage1_adaptive/stage1_rows.s2p",
+    "kind": "S",
+    "ports": [
+     "pickup",
+     "second"
+    ],
+    "n_frequencies": 9,
+    "f_min_Hz": 115000000.0,
+    "f_max_Hz": 150000000.0,
+    "sigma_max": 1.0000000000205456,
+    "passivity_violations_Hz": [],
+    "reciprocity_error": 8.854156944408018e-11,
+    "source": "solved rows (fullwave.sweep, 9 frequencies)",
+    "warnings": [],
+    "max_S_asymmetry": 4.109130141295895e-11,
+    "max_sigma_minus_1": 2.0545565249108222e-11,
+    "python_warnings": []
+   },
+   "dense": {
+    "path": "runs/touchstone_check/stage1_adaptive/stage1_dense.s2p",
+    "kind": "S",
+    "ports": [
+     "pickup",
+     "second"
+    ],
+    "n_frequencies": 400,
+    "f_min_Hz": 115000000.0,
+    "f_max_Hz": 150000000.0,
+    "sigma_max": 1.0000000001320593,
+    "passivity_violations_Hz": [],
+    "reciprocity_error": 4.5081918399165297e-10,
+    "source": "adaptive model, dense curve (fullwave.adaptive.dense, 400 points; tolerance 0.001, converged True, estimated relative error up to 2.35e-05)",
+    "warnings": [],
+    "max_S_asymmetry": 2.6412958877377576e-10,
+    "max_sigma_minus_1": 1.3205925242232297e-10,
+    "python_warnings": []
+   },
+   "other_kinds": {
+    "rows_Z": {
+     "python_warnings": [],
+     "Z_relative_error_max": 2163.8051483048594,
+     "Z_poorly_determined": 9,
+     "Y_check": "not a Y export",
+     "Y_ill_determined_Hz": []
+    },
+    "rows_Y": {
+     "python_warnings": [],
+     "Z_relative_error_max": 2163.8051483048594,
+     "Z_poorly_determined": 9,
+     "Y_check": "relative error of Z (solver residual, unsigned error indicator (an upper estimate)) x equilibrated condition number against 0.1",
+     "Y_ill_determined_Hz": []
+    },
+    "dense_Z": {
+     "python_warnings": [],
+     "Z_relative_error_max": 2.350129468443444e-05,
+     "Z_poorly_determined": 0,
+     "Y_check": "not a Y export",
+     "Y_ill_determined_Hz": []
+    },
+    "dense_Y": {
+     "python_warnings": [],
+     "Z_relative_error_max": 2.350129468443444e-05,
+     "Z_poorly_determined": 0,
+     "Y_check": "relative error of Z (adaptive model's estimated relative error, taken as proportional (dZ = eps Z)) (not amplified) against 0.1",
+     "Y_ill_determined_Hz": []
+    }
+   },
+   "date": "2026-10-31",
+   "git_head": "68804b3235ae51a804a438bad6e3a46a0f70e3b1",
+   "version": "0.1.0"
+  },
+  "records": {
+   "multiport": {
+    "path": "runs/touchstone_check/records/stage1_multiport.s2p",
+    "kind": "S",
+    "ports": [
+     "port_1",
+     "port_2"
+    ],
+    "n_frequencies": 2,
+    "f_min_Hz": 1000000.0,
+    "f_max_Hz": 12000000.0,
+    "sigma_max": 1.000000000003116,
+    "passivity_violations_Hz": [],
+    "reciprocity_error": 5.423169415718026e-12,
+    "source": "solved rows (fullwave.sweep, 2 frequencies)",
+    "warnings": [],
+    "max_S_asymmetry": 6.231568896273101e-12,
+    "sigma_max_per_f": [
+     1.000000000000345,
+     1.000000000003116
+    ],
+    "min_eig_1_minus_SHS": [
+     -6.899190871817353e-13,
+     -6.23148129050595e-12
+    ],
+    "python_warnings": []
+   },
+   "reversed": {
+    "path": "runs/touchstone_check/records/stage1_reversed.s2p",
+    "kind": "S",
+    "ports": [
+     "port_1",
+     "port_2"
+    ],
+    "n_frequencies": 2,
+    "f_min_Hz": 1000000.0,
+    "f_max_Hz": 12000000.0,
+    "sigma_max": 1.0000000000031335,
+    "passivity_violations_Hz": [],
+    "reciprocity_error": 5.454161426360022e-12,
+    "source": "solved rows (fullwave.sweep, 2 frequencies)",
+    "warnings": [],
+    "max_S_asymmetry": 6.267295314151021e-12,
+    "sigma_max_per_f": [
+     1.0000000000003444,
+     1.0000000000031335
+    ],
+    "min_eig_1_minus_SHS": [
+     -6.889636112224578e-13,
+     -6.267319692539354e-12
+    ],
+    "python_warnings": []
+   },
+   "lossy": {
+    "path": "runs/touchstone_check/records/stage1_lossy.s2p",
+    "kind": "S",
+    "ports": [
+     "port_1",
+     "port_2"
+    ],
+    "n_frequencies": 1,
+    "f_min_Hz": 12000000.0,
+    "f_max_Hz": 12000000.0,
+    "sigma_max": 0.9999999670235644,
+    "passivity_violations_Hz": [],
+    "reciprocity_error": 6.240961083941301e-12,
+    "source": "solved rows (fullwave.sweep, 1 frequencies)",
+    "warnings": [],
+    "max_S_asymmetry": 7.178937386556713e-12,
+    "sigma_max_per_f": [
+     0.9999999670235644
+    ],
+    "min_eig_1_minus_SHS": [
+     6.595287047787504e-08
+    ],
+    "python_warnings": []
+   },
+   "floating_port": {
+    "path": "runs/touchstone_check/records/stage1_floating_port.s2p",
+    "kind": "S",
+    "ports": [
+     "port_1",
+     "port_2"
+    ],
+    "n_frequencies": 1,
+    "f_min_Hz": 12000000.0,
+    "f_max_Hz": 12000000.0,
+    "sigma_max": 1.0000000000003997,
+    "passivity_violations_Hz": [],
+    "reciprocity_error": 6.870758718187674e-13,
+    "source": "solved rows (fullwave.sweep, 1 frequencies)",
+    "warnings": [],
+    "max_S_asymmetry": 7.99221171096611e-13,
+    "sigma_max_per_f": [
+     1.0000000000003997
+    ],
+    "min_eig_1_minus_SHS": [
+     -7.99554252430562e-13
+    ],
+    "python_warnings": []
+   },
+   "date": "2026-10-31",
+   "git_head": "68804b3235ae51a804a438bad6e3a46a0f70e3b1",
+   "version": "0.1.0"
+  },
+  "skrf": {
+   "available": true,
+   "version": "0.1.0",
+   "files": {
+    "coax2d_lossy.s1p": {
+     "max_abs_S_difference": 0.0,
+     "max_relative_Z_difference": 1.1147459608355863e-16,
+     "f_equal": true,
+     "skrf_reciprocal": null
+    },
+    "stage1_floating_port.s2p": {
+     "max_abs_S_difference": 0.0,
+     "max_relative_Z_difference": 1.3516242102875773e-17,
+     "f_equal": true,
+     "skrf_reciprocal": true
+    },
+    "stage1_lossy.s2p": {
+     "max_abs_S_difference": 0.0,
+     "max_relative_Z_difference": 5.003479860876915e-16,
+     "f_equal": true,
+     "skrf_reciprocal": true
+    },
+    "stage1_multiport.s2p": {
+     "max_abs_S_difference": 0.0,
+     "max_relative_Z_difference": 4.111830867757398e-16,
+     "f_equal": true,
+     "skrf_reciprocal": true
+    },
+    "stage1_reversed.s2p": {
+     "max_abs_S_difference": 0.0,
+     "max_relative_Z_difference": 2.4919177959885115e-16,
+     "f_equal": true,
+     "skrf_reciprocal": true
+    },
+    "stage1_dense.s2p": {
+     "max_abs_S_difference": 0.0,
+     "max_relative_Z_difference": 2.071201538230462e-13,
+     "f_equal": true,
+     "skrf_reciprocal": true
+    },
+    "stage1_rows.s2p": {
+     "max_abs_S_difference": 0.0,
+     "max_relative_Z_difference": 5.662466851161874e-13,
+     "f_equal": true,
+     "skrf_reciprocal": true
+    },
+    "tem_short_dense.s1p": {
+     "max_abs_S_difference": 0.0,
+     "max_relative_Z_difference": 1.9750409547960286e-16,
+     "f_equal": true,
+     "skrf_reciprocal": null
+    },
+    "tem_short_rows.s1p": {
+     "max_abs_S_difference": 0.0,
+     "max_relative_Z_difference": 1.4579303106140502e-16,
+     "f_equal": true,
+     "skrf_reciprocal": null
+    }
+   },
+   "expected_files": 9,
+   "date": "2026-10-31",
+   "git_head": "68804b3235ae51a804a438bad6e3a46a0f70e3b1"
+  }
+ },
+ "gates_failed": [],
+ "gates_skipped": []
+}

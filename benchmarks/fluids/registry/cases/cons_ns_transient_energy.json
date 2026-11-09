@@ -1,0 +1,367 @@
+{
+ "id": "cons_ns_transient_energy",
+ "capability": "F3a",
+ "title": "Discrete kinetic-energy budget: the momentum equation tested with u^n, per step, for every scheme variant, planar and axisymmetric",
+ "physics": "enclosed flow (u = 0 on the boundary) from rest, driven by a time-dependent polynomial force with curl f != 0; no exact solution",
+ "levels": [
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f3a_transient",
+   "function": "energy_budget",
+   "check_module": "f3a_transient_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "data": {
+    "planar": {
+     "path": "tools/fluids_mms/out/f3a_tr_sq_energy.json",
+     "sha256": "e4623e6422843fe36168cc44e14063461c2c128d28e7cb136cb635edbf2d772d"
+    },
+    "axisymmetric": {
+     "path": "tools/fluids_mms/out/f3a_tr_axi_energy.json",
+     "sha256": "6272de93b22710b5f618b4fdd209755004db1369e14333a158b4cdc1d9522cd0"
+    }
+   },
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "rho": 1.25,
+   "mu": 0.01,
+   "meshes": {
+    "planar": {
+     "builder": "structured",
+     "N": 8
+    },
+    "axisymmetric": {
+     "builder": "structured",
+     "N": 32,
+     "why": "hoop-term quadrature (F2a M1)"
+    }
+   },
+   "T": 1.0,
+   "N_steps": 20,
+   "grids": {
+    "uniform": {
+     "kind": "uniform"
+    },
+    "cyclic": {
+     "kind": "cyclic",
+     "pattern": [
+      1.0,
+      1.25,
+      0.8,
+      1.1,
+      0.9
+     ],
+     "construction": "step sizes proportional to the pattern repeated N/5 times, scaled to sum to T"
+    }
+   },
+   "variants": [
+    {
+     "order": 1,
+     "scheme": "newton",
+     "grid": "uniform"
+    },
+    {
+     "order": 1,
+     "scheme": "semi",
+     "grid": "uniform"
+    },
+    {
+     "order": 2,
+     "scheme": "newton",
+     "grid": "uniform"
+    },
+    {
+     "order": 2,
+     "scheme": "semi",
+     "grid": "uniform"
+    },
+    {
+     "order": 2,
+     "scheme": "newton",
+     "grid": "cyclic"
+    },
+    {
+     "order": 2,
+     "scheme": "semi",
+     "grid": "cyclic"
+    }
+   ],
+   "forms": [
+    "lap",
+    "sym"
+   ],
+   "initial_data": "u(0) = 0 (discretely divergence-free; no projection ambiguity)",
+   "time_scheme": {
+    "bdf": "BDF of order k on the actual step sequence, omega_n = dt_n / dt_{n-1}: BDF1 (u^n - u^{n-1}) / dt_n; BDF2 [(1 + 2 w)/(1 + w) u^n - (1 + w) u^{n-1} + w^2/(1 + w) u^{n-2}] / dt_n (f3a_transient_check.bdf_coefficients); the momentum equation, the load f(t_n), Dirichlet data g(t_n) and traction data at t_n; p^n is the Lagrange multiplier of div u^n = 0 (no pressure time derivative, no pressure extrapolation)",
+    "starter": "BDF2 starts with ONE BDF1 step of the same size from the initial state (fixed for the cross-code case X1; any starter with local error O(dt^2) passes the order items)",
+    "newton": "Newton per step: the fully implicit BDF system (convection c(u^n; u^n, v)) solved by Newton to the fixed newton_rtol 1e-12 (dual norm, relative to the step's lifted residual)",
+    "semi": "semi-implicit (linearly implicit): c(w; u^n, v) with the extrapolated advecting velocity w = u^{n-1} (BDF1) or w = (1 + omega_n) u^{n-1} - omega_n u^{n-2} (BDF2; f3a_transient_check.extrapolation_coefficients); one linear solve per step",
+    "convection": "standard form c(w; u, v) = rho ((w. grad) u, v) (F2a; the skew form only if the F2a/F3a notes offer it: not proposed here)",
+    "initial_data": "u_h(t_0) is DISCRETELY DIVERGENCE-FREE and takes the nodal Dirichlet data at t_0 (projection of the initial data); the L2 (Leray) projection is the reference choice, any projection that is discretely divergence-free and O(h^3)-accurate in L2 passes (mms_ns_transient_initial)",
+    "dirichlet_data": "P2 Lagrange NODAL interpolation of the fixed callables at t_n (vertices and edge midpoints); at an axis node u_r = u_theta = 0 beats the data (F2a shared-node rule)",
+    "quadrature_requirement": "As F2a: the convective trilinear form, the mass form and every load integral are integrated EXACTLY for the polynomial integrands of P2 on affine triangles (degree >= 5 planar, >= 6 axisymmetric); the r-weighted viscous form in axisymmetry by a rule of degree >= 6. The mass matrix is the CONSISTENT one. The space-exact temporal MMS, the energy identities and the cross-code values assume it."
+   },
+   "newton_rtol": 1e-12,
+   "stored": "every time level u^0... u^N as Evaluators on the same mesh"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "planar_lap_bdf1_newton_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_lap_bdf1_newton_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "planar_lap_bdf1_semi_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_lap_bdf1_semi_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "planar_lap_bdf2_newton_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_lap_bdf2_newton_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "planar_lap_bdf2_semi_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_lap_bdf2_semi_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "planar_lap_bdf2_newton_cyclic_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_lap_bdf2_newton_cyclic_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "planar_lap_bdf2_semi_cyclic_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_lap_bdf2_semi_cyclic_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "planar_sym_bdf1_newton_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_sym_bdf1_newton_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "planar_sym_bdf1_semi_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_sym_bdf1_semi_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "planar_sym_bdf2_newton_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_sym_bdf2_newton_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "planar_sym_bdf2_semi_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_sym_bdf2_semi_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "planar_sym_bdf2_newton_cyclic_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_sym_bdf2_newton_cyclic_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "planar_sym_bdf2_semi_cyclic_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "planar_sym_bdf2_semi_cyclic_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_lap_bdf1_newton_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_lap_bdf1_newton_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_lap_bdf1_semi_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_lap_bdf1_semi_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_lap_bdf2_newton_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_lap_bdf2_newton_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_lap_bdf2_semi_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_lap_bdf2_semi_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_lap_bdf2_newton_cyclic_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_lap_bdf2_newton_cyclic_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_lap_bdf2_semi_cyclic_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_lap_bdf2_semi_cyclic_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_sym_bdf1_newton_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_sym_bdf1_newton_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_sym_bdf1_semi_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_sym_bdf1_semi_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_sym_bdf2_newton_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_sym_bdf2_newton_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_sym_bdf2_semi_uniform_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_sym_bdf2_semi_uniform_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_sym_bdf2_newton_cyclic_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_sym_bdf2_newton_cyclic_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   },
+   {
+    "quantity": "axi_sym_bdf2_semi_cyclic_identity_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "axi_sym_bdf2_semi_cyclic_positive_control_min",
+    "level": "conservation",
+    "min": 0.0001
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

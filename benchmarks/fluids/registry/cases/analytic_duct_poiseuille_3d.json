@@ -1,0 +1,245 @@
+{
+ "id": "analytic_duct_poiseuille_3d",
+ "capability": "F1c",
+ "title": "Fully developed flow in a rectangular duct (series solution): Dirichlet inflow + lap do-nothing outlet, pressure-driven (traction both ends), sym enclosed; positive control sym do-nothing",
+ "physics": "duct [0,1] x [0,1/2] x [0,2], mu = 1, G = 2: u = (0, 0, w(x, y)) from the series, p = G (L - z)",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1c_stokes",
+   "function": "duct_poiseuille_3d",
+   "check_module": "f1c_stokes_check",
+   "cost": "long",
+   "timeout_s": 14000
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2 (tet) / Q2 (hex)",
+    "pressure": "P1 / Q1",
+    "geometry": "affine (cube, duct); isoparametric P2/Q2 with the fixed nodes (sphere)"
+   },
+   "ranks": 16,
+   "solver": {
+    "kind": "as mms_stokes_3d"
+   },
+   "meshes": {
+    "duct": {
+     "family": "duct",
+     "h_nominal": [
+      0.25,
+      0.125,
+      0.0625,
+      0.03125
+     ],
+     "construction": "f1c_stokes_check.duct_tet(h): [0,1] x [0,1/2] x [0,2], octant Kuhn cells of size h",
+     "h_definition": "h_nominal = h (cell edge)"
+    }
+   },
+   "duct": {
+    "W": 1.0,
+    "H": 0.5,
+    "L": 2.0,
+    "G": 2.0,
+    "mu": 1.0,
+    "axis": "z",
+    "calibrated_errors": {
+     "lap_dn_uL2": [
+      0.0008579253135,
+      0.0001270489965,
+      1.784015715e-05,
+      2.433525401e-06
+     ],
+     "lap_dn_uH1": [
+      0.03122006539,
+      0.009273177417,
+      0.002627431128,
+      0.0007253910561
+     ],
+     "lap_pd_uL2": [
+      0.0009674940714,
+      0.0001311831351,
+      1.797508331e-05,
+      2.437927365e-06
+     ],
+     "lap_pd_uH1": [
+      0.03111884184,
+      0.009261448684,
+      0.002625717594,
+      0.0007251351468
+     ],
+     "sym_dir_uL2": [
+      0.0008515908741,
+      0.0001266714746,
+      1.78230447e-05,
+      2.4335719e-06
+     ],
+     "sym_dir_uH1": [
+      0.03130524359,
+      0.009290155026,
+      0.002630366014,
+      0.000725890764
+     ]
+    },
+    "calibrated_errors_basis": "errors of an independent DOLFINx solve on the same meshes, levels h = 1/4 ... 1/32; reproduced by a second independent solver to 2e-11"
+   },
+   "exact": "f1c_stokes_check.DuctField (numpy series, per-point truncation <= 1e-15 G a^2/mu)",
+   "variants": {
+    "lap_dn": "lap form; Dirichlet: walls 0, inlet z = 0 the series profile (nodal); outlet z = 2 do-nothing (exact for lap: sigma_lap n = -p n = 0 at z = L)",
+    "lap_pd": "lap form; walls Dirichlet 0; traction g = (0, 0, G L) on the inlet (n = -e_z) and 0 on the outlet: pressure-driven, inhomogeneous traction (exact for lap)",
+    "sym_dir": "sym form; Dirichlet on walls, inlet and outlet (series): enclosed, mean-free pressure",
+    "sym_dn_control": "sym form, Dirichlet inlet, do-nothing outlet: NOT the series flow (positive control; the outlet carries shear mu grad w)"
+   },
+   "shared_node_rule": "At a velocity node shared by several boundary attributes (edges and corners of the cube, the slip-symmetry edge of T4): (1) Dirichlet beats every natural condition and every slip/symmetry constraint; (2) between Dirichlet attributes the fixed data AGREE (one exact callable per field; checked: dirichlet_shared_node_mismatch_max), so no precedence is needed and the result is independent of attribute order; (3) at a node on two slip/symmetry faces BOTH normal constraints are imposed (u along the common edge only); (4) no periodic boundaries in F1c.",
+   "boundary_faces": {
+    "walls": [
+     "x = 0",
+     "x = 1",
+     "y = 0",
+     "y = 1/2"
+    ],
+    "inlet": "z = 0",
+    "outlet": "z = 2",
+    "predicate": "a node lies on a face iff its coordinate equals the face value to 1e-12 (|r - R| < 1e-9 for the spheres)"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "Q": {
+    "kind": "scalar",
+    "source": "series",
+    "value": 0.014292604819973173,
+    "unit": "m^3/s",
+    "uncertainty": 1e-18,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/duct/duct_series_reference.json: quantities.Q"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [],
+  "functional_convergence": [
+   {
+    "id": "duct_lap_pd_Q",
+    "series": "duct_lap_pd_Q",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.duct.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4.0,
+    "gci_cap_rel": 0.001
+   }
+  ],
+  "comparisons": [
+   {
+    "quantity": "duct_lap_pd_Q_finest",
+    "reference": "Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 2.8e-05
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "duct_lap_dn_uL2_rel_dev_max",
+    "level": "analytic",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "duct_lap_dn_uH1_rel_dev_max",
+    "level": "analytic",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "duct_lap_pd_uL2_rel_dev_max",
+    "level": "analytic",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "duct_lap_pd_uH1_rel_dev_max",
+    "level": "analytic",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "duct_sym_dir_uL2_rel_dev_max",
+    "level": "analytic",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "duct_sym_dir_uH1_rel_dev_max",
+    "level": "analytic",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "duct_flux_balance_rel_max",
+    "level": "conservation",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "sym_dn_control_dev_rel",
+    "level": "analytic",
+    "min": 0.001
+   },
+   {
+    "quantity": "nullspace_detected_lap_dn",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "nullspace_detected_lap_pd",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "nullspace_detected_sym_dir",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "mesh_verify_failures",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "api_th_check_disagreements",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "comm_size_mismatch_runs",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "partition_failures",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "shared_dofs_min_runs",
+    "level": "analytic",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

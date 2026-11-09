@@ -1,0 +1,5497 @@
+{
+ "name": "taseh_rod_2205",
+ "title": "TASEH CD102 frequency-tunable copper cavity with one off-axis copper tuning rod (HFSS)",
+ "benchmark_rank": "4",
+ "citations": [
+  {
+   "arxiv": "2205.01477",
+   "authors_short": "Chang et al. (TASEH)",
+   "journal": "Rev. Sci. Instrum. 93, 084501 (2022) [journal ref not printed in the arXiv PDF; UNVERIFIED]",
+   "items_used": [
+    "Sec. II B 1-3 (design, simulation, fabrication) p.4-5",
+    "Fig. 4(c) top view with dimensions",
+    "Fig. 5(a)(b)(c)",
+    "Sec. II B 5 p.6-7",
+    "Fig. 7(a)(b)",
+    "Fig. 8(a)(b)"
+   ]
+  },
+  {
+   "arxiv": "2205.05574",
+   "authors_short": "Chang et al. (TASEH)",
+   "journal": "Phys. Rev. Lett. 129, 111802 (2022)",
+   "items_used": [
+    "text p.2: C = 0.60-0.61 over the operational range; cryogenic Q0 ~ 60700; Eq. 3 definition of C"
+   ]
+  }
+ ],
+ "software": {
+  "code": "Ansys HFSS",
+  "version": null,
+  "solver_type": "eigenmode (Fig. 5); driven/port S-parameters for probe coupling (Fig. 7) [solver type for Fig. 7 not stated; inferred]",
+  "boundary": "finite-conductivity copper walls, 'bulk copper resistivity' (p.7); value not printed",
+  "mesh_notes": "C varies with grid size by <1%, quoted as systematic (p.5)"
+ },
+ "geometry": {
+  "units": "mm",
+  "description": "Right circular copper cylinder D = 50, L = 120 (inner), 3 mm fillet on the inner corners; split longitudinally into two halves (seam in a plane containing the axis). One copper tuning rod (4 mm dia, 114 mm long) parallel to the cavity axis, carried on transverse end arms ('L'-shaped ends, Fig. 4b) connected to Teflon axles; the rotation axis is 19 mm off the cavity axis, the rod centre is 3.5 mm from the rotation axis, so the rod centre moves on a circle of radius 3.5 mm centred at r = 19 mm, i.e. the rod centre is between r = 15.5 and r = 22.5 mm from the cavity axis. Two probes enter through the top end cap at r = 15 mm, 90 deg apart, each 135 deg (azimuth) away from the rotation axis (Fig. 4c: axle at +x, probes at 135 and 225 deg).",
+  "parameters": {
+   "D_cavity": {
+    "value": 50,
+    "unit": "mm",
+    "source": "text p.4; Fig. 4(c) (radius 25)",
+    "note": "inner diameter"
+   },
+   "L_cavity": {
+    "value": 120,
+    "unit": "mm",
+    "source": "text p.4"
+   },
+   "wall_thickness": {
+    "value": 4,
+    "unit": "mm",
+    "source": "text p.4",
+    "note": "irrelevant for EM (PEC/impedance exterior)"
+   },
+   "corner_fillet_radius": {
+    "value": 3,
+    "unit": "mm",
+    "source": "text p.5 (fabrication: 'inner corners are rounded with a radius of 3-mm')",
+    "note": "assumed on the two barrel/end-cap circular edges; whether HFSS model contains it is not stated"
+   },
+   "rod_diameter": {
+    "value": 4,
+    "unit": "mm",
+    "source": "text p.4"
+   },
+   "rod_length": {
+    "value": 114,
+    "unit": "mm",
+    "source": "text p.4",
+    "note": "ambiguous whether this includes the transverse end arms; see gaps"
+   },
+   "rod_end_gap": {
+    "value": 1,
+    "unit": "mm",
+    "source": "text p.4",
+    "note": "gap between the TRANSVERSE part of the rod end and the top/bottom wall"
+   },
+   "rotation_axis_offset": {
+    "value": 19,
+    "unit": "mm",
+    "source": "text p.4; Fig. 4(c)"
+   },
+   "rotation_axis_azimuth_from_probes": {
+    "value": 135,
+    "unit": "deg",
+    "source": "text p.4; Fig. 4(c)"
+   },
+   "rod_offaxis_length": {
+    "value": 3.5,
+    "unit": "mm",
+    "source": "text p.4",
+    "note": "distance rod centre to rotation axis"
+   },
+   "rod_centre_radius_range": {
+    "value": [
+     15.5,
+     22.5
+    ],
+    "unit": "mm",
+    "source": "inferred: 19 -/+ 3.5",
+    "note": "rod-to-barrel clearance at theta=0 (inferred) is 25-22.5-2 = 0.5 mm"
+   },
+   "theta_convention": {
+    "value": "theta=0: rod centre farthest from cavity axis (r=22.5 mm, toward the wall); theta=180: closest (r=15.5 mm)",
+    "unit": null,
+    "source": "inferred: f_TM010 rises monotonically 4.662 -> 4.951 GHz from 0 to 180 deg (p.5); a metal rod raises TM010 more the nearer it is to the axis",
+    "note": "not stated in the paper. Rotation sense (CW/CCW) is irrelevant for f, Q0, C by mirror symmetry of cavity+rod about the axle line; it matters only for probe-coupling (Fig. 7) since the probes are mirror images of each other"
+   },
+   "probe_radius": {
+    "value": 15,
+    "unit": "mm",
+    "source": "text p.4; Fig. 4(c)"
+   },
+   "probe_separation_azimuth": {
+    "value": 90,
+    "unit": "deg",
+    "source": "text p.4"
+   },
+   "probe1_inner_conductor": {
+    "value": {
+     "length": 7.55,
+     "diameter": 1.27
+    },
+    "unit": "mm",
+    "source": "text p.5 (SMA JYEBAO SMA8640-0/7.55)",
+    "note": "insertion depth d1 set by washers; d1 = 0.4 mm at RT in CD102 (p.7); hole in cavity wall and washer 2 mm dia"
+   },
+   "probe2_inner_conductor": {
+    "value": {
+     "diameter": 0.51,
+     "exposed_length": 6
+    },
+    "unit": "mm",
+    "source": "text p.5 (semi-rigid .085 cable, JYEBAO .085CU-W-P-50)",
+    "note": ".085 cable dielectric/outer dims not printed (standard: PTFE 1.68 mm, outer 2.20 mm); d2 variable 0-12 mm by linear motor"
+   },
+   "probe_depth_definition": {
+    "value": null,
+    "unit": "mm",
+    "source": "not stated",
+    "note": "Fig. 7 measured d shifted by -0.13 (probe 1) / +0.64 mm (probe 2) relative to simulation"
+   },
+   "volume_with_rod": {
+    "value": 0.234,
+    "unit": "L",
+    "source": "text p.4",
+    "note": "check: pi*25^2*120 = 235.62 cm^3; minus 3 mm fillets (~0.59 cm^3), rod (~1.43-1.48 cm^3) and arms (~0.09 cm^3) -> ~233.5 cm^3, consistent with 0.234 L"
+   },
+   "teflon_axle": {
+    "value": null,
+    "unit": "mm",
+    "source": "Fig. 4(b) only (no dimensions)",
+    "note": "dielectric axles at both rod ends on the rotation axis, through the end caps"
+   }
+  }
+ },
+ "materials": {
+  "cavity_walls": {
+   "material": "OFHC copper (Hitachi C1011, >99.99%), annealed 500 C 15 min, polished",
+   "sigma_S_per_m": null,
+   "temperature_K": 293,
+   "source": "p.5; HFSS used 'bulk copper resistivity' (p.7), value not printed. Proposal: sigma = 5.8e7 S/m (HFSS library copper)"
+  },
+  "rod": {
+   "material": "copper, not annealed",
+   "sigma_S_per_m": null,
+   "temperature_K": 293,
+   "source": "p.5"
+  },
+  "axles": {
+   "material": "Teflon (PTFE)",
+   "eps_r": null,
+   "tan_delta": null,
+   "source": "p.4-5; not stated; typical eps_r = 2.1, tan_delta ~ 2e-4"
+  }
+ },
+ "conditions": {
+  "temperature_K": 293,
+  "B0_T": 8.0,
+  "B0_direction": "z (cavity axis)",
+  "field_map": "uniform for C (Eq. 3 normalised by B0^2 V); actual magnet profile in Fig. 3 not used in the HFSS C [inferred]",
+  "notes": "Simulations are room temperature. Physics run (CD102): Tc = 155 mK, B0 = 8 T (magnet 8.0 T nominal at 86.21 A)."
+ },
+ "conventions": {
+  "form_factor_definition": "C_n = (int B.E_n dV)^2 / (B0^2 V int |E_n|^2 dV), Eq. 3 (2205.01477) / Eq. 3 (2205.05574); V = cavity volume with the rod inserted, i.e. rod EXCLUDED (0.234 L; pi 25^2 120 = 235.6 cm^3 - 3 mm fillets ~0.6 - rod 1.4 = ~233.6 cm^3); B along z, assumed uniform",
+  "Q_definition": "Q0 = 2 pi f_c / kappa0 (intrinsic, wall losses only); beta_i = kappa_i/kappa0 = Q0/Q_i; kappa_i is the energy decay rate (FWHM in angular units), plotted as kappa_i/2pi in kHz",
+  "notes": "Fig. 8(b) plots 3.2 x simulated RT Q0 and 3.5 x measured RT Q0 together with the cryogenic measured Q0."
+ },
+ "reference_values": {
+  "tables": [
+   {
+    "source": "2205.01477 text p.5",
+    "description": "scalar statements from the HFSS simulation",
+    "simulated": true,
+    "columns": [
+     "quantity",
+     "value",
+     "unit"
+    ],
+    "units": [
+     "",
+     "",
+     ""
+    ],
+    "rows": [
+     [
+      "f_TM010(theta=0)",
+      "4.662",
+      "GHz"
+     ],
+     [
+      "f_TM010(theta=180)",
+      "4.951",
+      "GHz"
+     ],
+     [
+      "df/dtheta, 50-100 deg",
+      "~2",
+      "MHz/deg"
+     ],
+     [
+      "tuning range",
+      "290",
+      "MHz"
+     ],
+     [
+      "mean Q0 (RT)",
+      "1.8 x 10^4",
+      ""
+     ],
+     [
+      "mean C010",
+      "0.62",
+      ""
+     ],
+     [
+      "C010 in CD102 search range",
+      "0.62-0.63",
+      ""
+     ],
+     [
+      "C mesh systematic",
+      "1",
+      "%"
+     ],
+     [
+      "mode crossings of TM010 over 0-180 deg",
+      "none",
+      ""
+     ],
+     [
+      "empty-cavity TM010 (no rod)",
+      "4.56",
+      "GHz"
+     ],
+     [
+      "kappa0/2pi at theta=85 deg (sim, RT)",
+      "250",
+      "kHz"
+     ],
+     [
+      "expected cryogenic Q0 gain",
+      "3.5",
+      "x"
+     ]
+    ]
+   }
+  ],
+  "curves": [
+   {
+    "source": "2205.01477 Fig. 5(a)",
+    "description": "HFSS RT eigenfrequency of the TM010-like mode (red diamonds) vs rod angle",
+    "x": {
+     "label": "theta",
+     "unit": "deg"
+    },
+    "y": {
+     "label": "f_c",
+     "unit": "GHz"
+    },
+    "series": [
+     {
+      "label": "TM010 (HFSS, RT)",
+      "points": [
+       [
+        0.0,
+        4.6616
+       ],
+       [
+        2.5,
+        4.6603
+       ],
+       [
+        5.0,
+        4.6603
+       ],
+       [
+        7.5,
+        4.6616
+       ],
+       [
+        10.0,
+        4.6616
+       ],
+       [
+        12.5,
+        4.6616
+       ],
+       [
+        15.0,
+        4.6628
+       ],
+       [
+        17.5,
+        4.6603
+       ],
+       [
+        20.0,
+        4.6616
+       ],
+       [
+        22.5,
+        4.6641
+       ],
+       [
+        25.0,
+        4.6667
+       ],
+       [
+        27.5,
+        4.6718
+       ],
+       [
+        30.0,
+        4.6718
+       ],
+       [
+        32.5,
+        4.673
+       ],
+       [
+        35.0,
+        4.6769
+       ],
+       [
+        37.5,
+        4.6769
+       ],
+       [
+        40.0,
+        4.6781
+       ],
+       [
+        42.5,
+        4.682
+       ],
+       [
+        45.0,
+        4.6858
+       ],
+       [
+        47.5,
+        4.6884
+       ],
+       [
+        50.0,
+        4.6909
+       ],
+       [
+        52.5,
+        4.6935
+       ],
+       [
+        55.0,
+        4.696
+       ],
+       [
+        57.5,
+        4.7024
+       ],
+       [
+        60.0,
+        4.7049
+       ],
+       [
+        62.5,
+        4.71
+       ],
+       [
+        65.0,
+        4.7113
+       ],
+       [
+        67.5,
+        4.7177
+       ],
+       [
+        70.0,
+        4.7215
+       ],
+       [
+        72.5,
+        4.7266
+       ],
+       [
+        75.0,
+        4.733
+       ],
+       [
+        77.5,
+        4.7355
+       ],
+       [
+        80.0,
+        4.7419
+       ],
+       [
+        82.5,
+        4.747
+       ],
+       [
+        85.0,
+        4.7534
+       ],
+       [
+        87.5,
+        4.7598
+       ],
+       [
+        90.0,
+        4.7649
+       ],
+       [
+        92.5,
+        4.7725
+       ],
+       [
+        95.0,
+        4.7776
+       ],
+       [
+        97.5,
+        4.784
+       ],
+       [
+        100.0,
+        4.7891
+       ],
+       [
+        102.5,
+        4.7955
+       ],
+       [
+        105.0,
+        4.8031
+       ],
+       [
+        107.5,
+        4.8108
+       ],
+       [
+        110.0,
+        4.8159
+       ],
+       [
+        112.5,
+        4.8223
+       ],
+       [
+        115.0,
+        4.8325
+       ],
+       [
+        117.5,
+        4.8363
+       ],
+       [
+        120.0,
+        4.844
+       ],
+       [
+        122.5,
+        4.8516
+       ],
+       [
+        125.0,
+        4.858
+       ],
+       [
+        127.5,
+        4.8644
+       ],
+       [
+        130.0,
+        4.8695
+       ],
+       [
+        132.5,
+        4.8797
+       ],
+       [
+        135.0,
+        4.8848
+       ],
+       [
+        137.5,
+        4.8912
+       ],
+       [
+        140.0,
+        4.8963
+       ],
+       [
+        142.5,
+        4.9026
+       ],
+       [
+        145.0,
+        4.9077
+       ],
+       [
+        147.5,
+        4.9154
+       ],
+       [
+        150.0,
+        4.9179
+       ],
+       [
+        152.5,
+        4.9243
+       ],
+       [
+        155.0,
+        4.9269
+       ],
+       [
+        157.5,
+        4.9332
+       ],
+       [
+        160.0,
+        4.9358
+       ],
+       [
+        162.5,
+        4.9384
+       ],
+       [
+        165.0,
+        4.9422
+       ],
+       [
+        167.5,
+        4.9447
+       ],
+       [
+        170.0,
+        4.9435
+       ],
+       [
+        172.5,
+        4.9473
+       ],
+       [
+        175.0,
+        4.9473
+       ],
+       [
+        177.5,
+        4.9498
+       ],
+       [
+        180.0,
+        4.9511
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster, grid sampling: theta grid 2.5 deg (f, Q0) / 5 deg (C) verified from marker spacing; colour mask (red r>170,g<100,b<100 / black max<25, frame is 38-grey), column window +-2 px, common sub-pixel x phase fitted, y = centre of the vertical marker run",
+     "page": 5,
+     "clip_bbox_pt": [
+      54.6,
+      52.07,
+      298.48,
+      267.64
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        174.5,
+        0
+       ],
+       [
+        322,
+        30
+       ],
+       [
+        471,
+        60
+       ],
+       [
+        619.5,
+        90
+       ],
+       [
+        769,
+        120
+       ],
+       [
+        918.5,
+        150
+       ],
+       [
+        1065.5,
+        180
+       ]
+      ],
+      "y": [
+       [
+        33,
+        5.5
+       ],
+       [
+        228.5,
+        5.0
+       ],
+       [
+        425,
+        4.5
+       ]
+      ],
+      "dx_per_px": 0.20172822241134028,
+      "dy_per_px": -0.0025510148744124065,
+      "max_tick_residual_x": 0.21587438978511386,
+      "max_tick_residual_y": 0.0008503382914719637,
+      "log": false
+     },
+     "uncertainty_x": 0.0,
+     "uncertainty_y": 0.002,
+     "uncertainty_basis": "theta exact on the 2.5-deg grid; y: tick-fit + run-centre ~0.5 px, 1 px = 0.00256 GHz; text end points 4.662/4.951 GHz as check",
+     "figure_png": "taseh_rod_2205_fig5.png",
+     "overlay_png": "taseh_rod_2205_fig5_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   },
+   {
+    "source": "2205.01477 Fig. 5(a)",
+    "description": "other eigenmodes in the mode map (black dots), not assigned to branches; points closer than one marker diameter in f are merged/split by run length",
+    "x": {
+     "label": "theta",
+     "unit": "deg"
+    },
+    "y": {
+     "label": "f",
+     "unit": "GHz"
+    },
+    "series": [
+     {
+      "label": "other modes (unlabelled in paper)",
+      "points": [
+       [
+        0.0,
+        5.2891
+       ],
+       [
+        0.0,
+        5.159
+       ],
+       [
+        0.0,
+        5.1207
+       ],
+       [
+        0.0,
+        4.8414
+       ],
+       [
+        2.5,
+        5.2917
+       ],
+       [
+        2.5,
+        5.159
+       ],
+       [
+        2.5,
+        5.1207
+       ],
+       [
+        2.5,
+        4.8427
+       ],
+       [
+        5.0,
+        5.2917
+       ],
+       [
+        5.0,
+        5.159
+       ],
+       [
+        5.0,
+        5.1207
+       ],
+       [
+        5.0,
+        4.8427
+       ],
+       [
+        7.5,
+        5.2917
+       ],
+       [
+        7.5,
+        5.159
+       ],
+       [
+        7.5,
+        5.1207
+       ],
+       [
+        7.5,
+        4.8427
+       ],
+       [
+        10.0,
+        5.3261
+       ],
+       [
+        10.0,
+        5.2764
+       ],
+       [
+        10.0,
+        5.159
+       ],
+       [
+        10.0,
+        5.1207
+       ],
+       [
+        10.0,
+        4.8338
+       ],
+       [
+        12.5,
+        5.3325
+       ],
+       [
+        12.5,
+        5.2789
+       ],
+       [
+        12.5,
+        5.159
+       ],
+       [
+        12.5,
+        5.1207
+       ],
+       [
+        12.5,
+        4.835
+       ],
+       [
+        15.0,
+        5.3274
+       ],
+       [
+        15.0,
+        5.2764
+       ],
+       [
+        15.0,
+        5.159
+       ],
+       [
+        15.0,
+        5.1207
+       ],
+       [
+        15.0,
+        4.835
+       ],
+       [
+        17.5,
+        5.2968
+       ],
+       [
+        17.5,
+        5.159
+       ],
+       [
+        17.5,
+        5.1207
+       ],
+       [
+        17.5,
+        5.0072
+       ],
+       [
+        17.5,
+        4.8338
+       ],
+       [
+        20.0,
+        5.2993
+       ],
+       [
+        20.0,
+        5.159
+       ],
+       [
+        20.0,
+        5.1207
+       ],
+       [
+        20.0,
+        5.0162
+       ],
+       [
+        20.0,
+        4.835
+       ],
+       [
+        22.5,
+        5.2993
+       ],
+       [
+        22.5,
+        5.159
+       ],
+       [
+        22.5,
+        5.1207
+       ],
+       [
+        22.5,
+        5.0085
+       ],
+       [
+        22.5,
+        4.835
+       ],
+       [
+        25.0,
+        5.321
+       ],
+       [
+        25.0,
+        5.2662
+       ],
+       [
+        25.0,
+        5.159
+       ],
+       [
+        25.0,
+        5.1207
+       ],
+       [
+        25.0,
+        4.8389
+       ],
+       [
+        27.5,
+        5.321
+       ],
+       [
+        27.5,
+        5.2611
+       ],
+       [
+        27.5,
+        5.159
+       ],
+       [
+        27.5,
+        5.1207
+       ],
+       [
+        27.5,
+        4.8401
+       ],
+       [
+        30.0,
+        5.3172
+       ],
+       [
+        30.0,
+        5.2521
+       ],
+       [
+        30.0,
+        5.159
+       ],
+       [
+        30.0,
+        5.1207
+       ],
+       [
+        30.0,
+        4.8401
+       ],
+       [
+        32.5,
+        5.2968
+       ],
+       [
+        32.5,
+        5.159
+       ],
+       [
+        32.5,
+        5.1207
+       ],
+       [
+        32.5,
+        4.8554
+       ],
+       [
+        35.0,
+        5.2968
+       ],
+       [
+        35.0,
+        5.159
+       ],
+       [
+        35.0,
+        5.1207
+       ],
+       [
+        35.0,
+        4.858
+       ],
+       [
+        37.5,
+        5.2968
+       ],
+       [
+        37.5,
+        5.159
+       ],
+       [
+        37.5,
+        5.1207
+       ],
+       [
+        37.5,
+        4.8605
+       ],
+       [
+        40.0,
+        5.2993
+       ],
+       [
+        40.0,
+        5.159
+       ],
+       [
+        40.0,
+        5.1207
+       ],
+       [
+        40.0,
+        4.8605
+       ],
+       [
+        42.5,
+        5.2993
+       ],
+       [
+        42.5,
+        5.159
+       ],
+       [
+        42.5,
+        5.1207
+       ],
+       [
+        42.5,
+        4.8644
+       ],
+       [
+        45.0,
+        5.4957
+       ],
+       [
+        45.0,
+        5.3019
+       ],
+       [
+        45.0,
+        5.159
+       ],
+       [
+        45.0,
+        5.1207
+       ],
+       [
+        45.0,
+        4.8682
+       ],
+       [
+        47.5,
+        5.4894
+       ],
+       [
+        47.5,
+        5.3031
+       ],
+       [
+        47.5,
+        5.159
+       ],
+       [
+        47.5,
+        5.1207
+       ],
+       [
+        47.5,
+        4.8707
+       ],
+       [
+        50.0,
+        5.483
+       ],
+       [
+        50.0,
+        5.3031
+       ],
+       [
+        50.0,
+        5.159
+       ],
+       [
+        50.0,
+        5.1207
+       ],
+       [
+        50.0,
+        4.8733
+       ],
+       [
+        52.5,
+        5.4728
+       ],
+       [
+        52.5,
+        5.3031
+       ],
+       [
+        52.5,
+        5.1577
+       ],
+       [
+        52.5,
+        5.1207
+       ],
+       [
+        52.5,
+        4.8759
+       ],
+       [
+        55.0,
+        5.469
+       ],
+       [
+        55.0,
+        5.3057
+       ],
+       [
+        55.0,
+        5.1577
+       ],
+       [
+        55.0,
+        5.1207
+       ],
+       [
+        55.0,
+        4.8797
+       ],
+       [
+        57.5,
+        5.4651
+       ],
+       [
+        57.5,
+        5.307
+       ],
+       [
+        57.5,
+        5.159
+       ],
+       [
+        57.5,
+        5.1207
+       ],
+       [
+        57.5,
+        4.8848
+       ],
+       [
+        60.0,
+        5.4639
+       ],
+       [
+        60.0,
+        5.3095
+       ],
+       [
+        60.0,
+        5.1565
+       ],
+       [
+        60.0,
+        5.1207
+       ],
+       [
+        60.0,
+        4.8886
+       ],
+       [
+        62.5,
+        5.4549
+       ],
+       [
+        62.5,
+        5.3082
+       ],
+       [
+        62.5,
+        5.1565
+       ],
+       [
+        62.5,
+        5.1207
+       ],
+       [
+        62.5,
+        4.8912
+       ],
+       [
+        65.0,
+        5.4549
+       ],
+       [
+        65.0,
+        5.3095
+       ],
+       [
+        65.0,
+        5.1565
+       ],
+       [
+        65.0,
+        5.1207
+       ],
+       [
+        65.0,
+        4.895
+       ],
+       [
+        67.5,
+        5.4473
+       ],
+       [
+        67.5,
+        5.3095
+       ],
+       [
+        67.5,
+        5.1565
+       ],
+       [
+        67.5,
+        5.1207
+       ],
+       [
+        67.5,
+        4.9001
+       ],
+       [
+        70.0,
+        5.4473
+       ],
+       [
+        70.0,
+        5.3121
+       ],
+       [
+        70.0,
+        5.1565
+       ],
+       [
+        70.0,
+        5.1207
+       ],
+       [
+        70.0,
+        4.9039
+       ],
+       [
+        72.5,
+        5.4435
+       ],
+       [
+        72.5,
+        5.3095
+       ],
+       [
+        72.5,
+        5.1565
+       ],
+       [
+        72.5,
+        5.1207
+       ],
+       [
+        72.5,
+        4.909
+       ],
+       [
+        75.0,
+        5.4422
+       ],
+       [
+        75.0,
+        5.3095
+       ],
+       [
+        75.0,
+        5.1565
+       ],
+       [
+        75.0,
+        5.1207
+       ],
+       [
+        75.0,
+        4.9128
+       ],
+       [
+        77.5,
+        5.4435
+       ],
+       [
+        77.5,
+        5.3121
+       ],
+       [
+        77.5,
+        5.1565
+       ],
+       [
+        77.5,
+        5.1207
+       ],
+       [
+        77.5,
+        4.9179
+       ],
+       [
+        80.0,
+        5.4435
+       ],
+       [
+        80.0,
+        5.3121
+       ],
+       [
+        80.0,
+        5.1565
+       ],
+       [
+        80.0,
+        5.1207
+       ],
+       [
+        80.0,
+        4.9243
+       ],
+       [
+        82.5,
+        5.4435
+       ],
+       [
+        82.5,
+        5.3121
+       ],
+       [
+        82.5,
+        5.1565
+       ],
+       [
+        82.5,
+        5.1207
+       ],
+       [
+        82.5,
+        4.9294
+       ],
+       [
+        85.0,
+        5.4447
+       ],
+       [
+        85.0,
+        5.3108
+       ],
+       [
+        85.0,
+        5.1565
+       ],
+       [
+        85.0,
+        5.1182
+       ],
+       [
+        85.0,
+        4.9345
+       ],
+       [
+        87.5,
+        5.4486
+       ],
+       [
+        87.5,
+        5.3121
+       ],
+       [
+        87.5,
+        5.1552
+       ],
+       [
+        87.5,
+        5.1182
+       ],
+       [
+        87.5,
+        4.9396
+       ],
+       [
+        90.0,
+        5.4498
+       ],
+       [
+        90.0,
+        5.3121
+       ],
+       [
+        90.0,
+        5.1539
+       ],
+       [
+        90.0,
+        5.1182
+       ],
+       [
+        90.0,
+        4.9447
+       ],
+       [
+        92.5,
+        5.4498
+       ],
+       [
+        92.5,
+        5.3095
+       ],
+       [
+        92.5,
+        5.1526
+       ],
+       [
+        92.5,
+        5.1195
+       ],
+       [
+        92.5,
+        4.9511
+       ],
+       [
+        95.0,
+        5.4549
+       ],
+       [
+        95.0,
+        5.3121
+       ],
+       [
+        95.0,
+        5.1526
+       ],
+       [
+        95.0,
+        5.1195
+       ],
+       [
+        95.0,
+        4.9588
+       ],
+       [
+        97.5,
+        5.4575
+       ],
+       [
+        97.5,
+        5.3095
+       ],
+       [
+        97.5,
+        5.1526
+       ],
+       [
+        97.5,
+        5.1195
+       ],
+       [
+        97.5,
+        4.9639
+       ],
+       [
+        100.0,
+        5.46
+       ],
+       [
+        100.0,
+        5.307
+       ],
+       [
+        100.0,
+        5.1526
+       ],
+       [
+        100.0,
+        5.1195
+       ],
+       [
+        100.0,
+        4.9702
+       ],
+       [
+        102.5,
+        5.4651
+       ],
+       [
+        102.5,
+        5.3095
+       ],
+       [
+        102.5,
+        5.1526
+       ],
+       [
+        102.5,
+        5.1195
+       ],
+       [
+        102.5,
+        4.9779
+       ],
+       [
+        105.0,
+        5.4702
+       ],
+       [
+        105.0,
+        5.3082
+       ],
+       [
+        105.0,
+        5.1526
+       ],
+       [
+        105.0,
+        5.1195
+       ],
+       [
+        105.0,
+        4.983
+       ],
+       [
+        107.5,
+        5.4728
+       ],
+       [
+        107.5,
+        5.3082
+       ],
+       [
+        107.5,
+        5.1526
+       ],
+       [
+        107.5,
+        5.1195
+       ],
+       [
+        107.5,
+        4.9906
+       ],
+       [
+        110.0,
+        5.4792
+       ],
+       [
+        110.0,
+        5.307
+       ],
+       [
+        110.0,
+        5.1507
+       ],
+       [
+        110.0,
+        5.1188
+       ],
+       [
+        110.0,
+        4.9957
+       ],
+       [
+        112.5,
+        5.4843
+       ],
+       [
+        112.5,
+        5.307
+       ],
+       [
+        112.5,
+        5.1507
+       ],
+       [
+        112.5,
+        5.1188
+       ],
+       [
+        112.5,
+        5.0034
+       ],
+       [
+        115.0,
+        5.4894
+       ],
+       [
+        115.0,
+        5.307
+       ],
+       [
+        115.0,
+        5.1507
+       ],
+       [
+        115.0,
+        5.1188
+       ],
+       [
+        115.0,
+        5.0111
+       ],
+       [
+        117.5,
+        5.4906
+       ],
+       [
+        117.5,
+        5.3031
+       ],
+       [
+        117.5,
+        5.1507
+       ],
+       [
+        117.5,
+        5.1188
+       ],
+       [
+        117.5,
+        5.0162
+       ],
+       [
+        120.0,
+        5.4957
+       ],
+       [
+        120.0,
+        5.3031
+       ],
+       [
+        120.0,
+        5.1507
+       ],
+       [
+        120.0,
+        5.1188
+       ],
+       [
+        120.0,
+        5.0238
+       ],
+       [
+        122.5,
+        5.3031
+       ],
+       [
+        122.5,
+        5.1507
+       ],
+       [
+        122.5,
+        5.1188
+       ],
+       [
+        122.5,
+        5.0315
+       ],
+       [
+        125.0,
+        5.3031
+       ],
+       [
+        125.0,
+        5.1507
+       ],
+       [
+        125.0,
+        5.1188
+       ],
+       [
+        125.0,
+        5.0366
+       ],
+       [
+        127.5,
+        5.3019
+       ],
+       [
+        127.5,
+        5.1488
+       ],
+       [
+        127.5,
+        5.1182
+       ],
+       [
+        127.5,
+        5.0442
+       ],
+       [
+        130.0,
+        5.2993
+       ],
+       [
+        130.0,
+        5.1488
+       ],
+       [
+        130.0,
+        5.1182
+       ],
+       [
+        130.0,
+        5.0493
+       ],
+       [
+        132.5,
+        5.2993
+       ],
+       [
+        132.5,
+        5.1488
+       ],
+       [
+        132.5,
+        5.1182
+       ],
+       [
+        132.5,
+        5.0557
+       ],
+       [
+        135.0,
+        5.2993
+       ],
+       [
+        135.0,
+        5.1488
+       ],
+       [
+        135.0,
+        5.1182
+       ],
+       [
+        135.0,
+        5.0621
+       ],
+       [
+        137.5,
+        5.2993
+       ],
+       [
+        137.5,
+        5.1488
+       ],
+       [
+        137.5,
+        5.1182
+       ],
+       [
+        137.5,
+        5.0697
+       ],
+       [
+        140.0,
+        5.2942
+       ],
+       [
+        140.0,
+        5.1488
+       ],
+       [
+        140.0,
+        5.1182
+       ],
+       [
+        140.0,
+        5.0748
+       ],
+       [
+        142.5,
+        5.298
+       ],
+       [
+        142.5,
+        5.1488
+       ],
+       [
+        142.5,
+        5.1182
+       ],
+       [
+        142.5,
+        5.0799
+       ],
+       [
+        145.0,
+        5.2968
+       ],
+       [
+        145.0,
+        5.1463
+       ],
+       [
+        145.0,
+        5.1156
+       ],
+       [
+        145.0,
+        5.085
+       ],
+       [
+        147.5,
+        5.2968
+       ],
+       [
+        147.5,
+        5.1471
+       ],
+       [
+        147.5,
+        5.1182
+       ],
+       [
+        147.5,
+        5.0893
+       ],
+       [
+        150.0,
+        5.2968
+       ],
+       [
+        150.0,
+        5.1412
+       ],
+       [
+        150.0,
+        5.1003
+       ],
+       [
+        152.5,
+        5.2968
+       ],
+       [
+        152.5,
+        5.1424
+       ],
+       [
+        152.5,
+        5.1042
+       ],
+       [
+        155.0,
+        5.2942
+       ],
+       [
+        155.0,
+        5.1431
+       ],
+       [
+        155.0,
+        5.1061
+       ],
+       [
+        157.5,
+        5.2968
+       ],
+       [
+        157.5,
+        5.1437
+       ],
+       [
+        157.5,
+        5.108
+       ],
+       [
+        160.0,
+        5.2968
+       ],
+       [
+        160.0,
+        5.1443
+       ],
+       [
+        160.0,
+        5.1099
+       ],
+       [
+        162.5,
+        5.2942
+       ],
+       [
+        162.5,
+        5.145
+       ],
+       [
+        162.5,
+        5.1118
+       ],
+       [
+        165.0,
+        5.2955
+       ],
+       [
+        165.0,
+        5.1456
+       ],
+       [
+        165.0,
+        5.1137
+       ],
+       [
+        167.5,
+        5.2968
+       ],
+       [
+        167.5,
+        5.1437
+       ],
+       [
+        167.5,
+        5.1131
+       ],
+       [
+        170.0,
+        5.2942
+       ],
+       [
+        170.0,
+        5.1437
+       ],
+       [
+        170.0,
+        5.1131
+       ],
+       [
+        172.5,
+        5.2942
+       ],
+       [
+        172.5,
+        5.1437
+       ],
+       [
+        172.5,
+        5.1131
+       ],
+       [
+        175.0,
+        5.2942
+       ],
+       [
+        175.0,
+        5.1437
+       ],
+       [
+        175.0,
+        5.1131
+       ],
+       [
+        177.5,
+        5.2942
+       ],
+       [
+        177.5,
+        5.1456
+       ],
+       [
+        177.5,
+        5.1137
+       ],
+       [
+        180.0,
+        5.2917
+       ],
+       [
+        180.0,
+        5.145
+       ],
+       [
+        180.0,
+        5.1118
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster, grid sampling: theta grid 2.5 deg (f, Q0) / 5 deg (C) verified from marker spacing; colour mask (red r>170,g<100,b<100 / black max<25, frame is 38-grey), column window +-2 px, common sub-pixel x phase fitted, y = centre of the vertical marker run",
+     "page": 5,
+     "clip_bbox_pt": [
+      54.6,
+      52.07,
+      298.48,
+      267.64
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        174.5,
+        0
+       ],
+       [
+        322,
+        30
+       ],
+       [
+        471,
+        60
+       ],
+       [
+        619.5,
+        90
+       ],
+       [
+        769,
+        120
+       ],
+       [
+        918.5,
+        150
+       ],
+       [
+        1065.5,
+        180
+       ]
+      ],
+      "y": [
+       [
+        33,
+        5.5
+       ],
+       [
+        228.5,
+        5.0
+       ],
+       [
+        425,
+        4.5
+       ]
+      ],
+      "dx_per_px": 0.20172822241134028,
+      "dy_per_px": -0.0025510148744124065,
+      "max_tick_residual_x": 0.21587438978511386,
+      "max_tick_residual_y": 0.0008503382914719637,
+      "log": false
+     },
+     "uncertainty_x": 0.0,
+     "uncertainty_y": 0.004,
+     "uncertainty_basis": "as TM010; near-degenerate branches (5.12/5.15 GHz merging above ~150 deg) only resolved to ~1 marker (0.03 GHz)",
+     "figure_png": "taseh_rod_2205_fig5.png",
+     "overlay_png": "taseh_rod_2205_fig5_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   },
+   {
+    "source": "2205.01477 Fig. 5(b)",
+    "description": "HFSS RT unloaded Q0 of TM010 vs rod angle",
+    "x": {
+     "label": "theta",
+     "unit": "deg"
+    },
+    "y": {
+     "label": "Q0",
+     "unit": "1e4"
+    },
+    "series": [
+     {
+      "label": "Q0 TM010 (HFSS, RT), units of 1e4",
+      "points": [
+       [
+        0.0,
+        1.9337
+       ],
+       [
+        2.5,
+        1.932
+       ],
+       [
+        5.0,
+        1.9337
+       ],
+       [
+        7.5,
+        1.9337
+       ],
+       [
+        10.0,
+        1.9303
+       ],
+       [
+        12.5,
+        1.9337
+       ],
+       [
+        15.0,
+        1.9388
+       ],
+       [
+        17.5,
+        1.9099
+       ],
+       [
+        20.0,
+        1.9235
+       ],
+       [
+        22.5,
+        1.898
+       ],
+       [
+        25.0,
+        1.9473
+       ],
+       [
+        27.5,
+        1.9473
+       ],
+       [
+        30.0,
+        1.9439
+       ],
+       [
+        32.5,
+        1.9541
+       ],
+       [
+        35.0,
+        1.9541
+       ],
+       [
+        37.5,
+        1.9541
+       ],
+       [
+        40.0,
+        1.9575
+       ],
+       [
+        42.5,
+        1.9541
+       ],
+       [
+        45.0,
+        1.9541
+       ],
+       [
+        47.5,
+        1.9541
+       ],
+       [
+        50.0,
+        1.9507
+       ],
+       [
+        52.5,
+        1.9507
+       ],
+       [
+        55.0,
+        1.9473
+       ],
+       [
+        57.5,
+        1.9439
+       ],
+       [
+        60.0,
+        1.9422
+       ],
+       [
+        62.5,
+        1.9388
+       ],
+       [
+        65.0,
+        1.9337
+       ],
+       [
+        67.5,
+        1.9303
+       ],
+       [
+        70.0,
+        1.9269
+       ],
+       [
+        72.5,
+        1.9235
+       ],
+       [
+        75.0,
+        1.9184
+       ],
+       [
+        77.5,
+        1.9116
+       ],
+       [
+        80.0,
+        1.9065
+       ],
+       [
+        82.5,
+        1.8997
+       ],
+       [
+        85.0,
+        1.8963
+       ],
+       [
+        87.5,
+        1.8895
+       ],
+       [
+        90.0,
+        1.8827
+       ],
+       [
+        92.5,
+        1.8793
+       ],
+       [
+        95.0,
+        1.8724
+       ],
+       [
+        97.5,
+        1.8656
+       ],
+       [
+        100.0,
+        1.8588
+       ],
+       [
+        102.5,
+        1.852
+       ],
+       [
+        105.0,
+        1.8435
+       ],
+       [
+        107.5,
+        1.835
+       ],
+       [
+        110.0,
+        1.8316
+       ],
+       [
+        112.5,
+        1.8248
+       ],
+       [
+        115.0,
+        1.8146
+       ],
+       [
+        117.5,
+        1.8112
+       ],
+       [
+        120.0,
+        1.801
+       ],
+       [
+        122.5,
+        1.7959
+       ],
+       [
+        125.0,
+        1.7874
+       ],
+       [
+        127.5,
+        1.7823
+       ],
+       [
+        130.0,
+        1.7755
+       ],
+       [
+        132.5,
+        1.767
+       ],
+       [
+        135.0,
+        1.7619
+       ],
+       [
+        137.5,
+        1.7568
+       ],
+       [
+        140.0,
+        1.75
+       ],
+       [
+        142.5,
+        1.7432
+       ],
+       [
+        145.0,
+        1.7381
+       ],
+       [
+        147.5,
+        1.733
+       ],
+       [
+        150.0,
+        1.7262
+       ],
+       [
+        152.5,
+        1.7228
+       ],
+       [
+        155.0,
+        1.7177
+       ],
+       [
+        157.5,
+        1.7126
+       ],
+       [
+        160.0,
+        1.7109
+       ],
+       [
+        162.5,
+        1.7058
+       ],
+       [
+        165.0,
+        1.7024
+       ],
+       [
+        167.5,
+        1.6973
+       ],
+       [
+        170.0,
+        1.699
+       ],
+       [
+        172.5,
+        1.6956
+       ],
+       [
+        175.0,
+        1.6956
+       ],
+       [
+        177.5,
+        1.6956
+       ],
+       [
+        180.0,
+        1.6939
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster, grid sampling: theta grid 2.5 deg (f, Q0) / 5 deg (C) verified from marker spacing; colour mask (red r>170,g<100,b<100 / black max<25, frame is 38-grey), column window +-2 px, common sub-pixel x phase fitted, y = centre of the vertical marker run",
+     "page": 5,
+     "clip_bbox_pt": [
+      54.6,
+      52.07,
+      298.48,
+      267.64
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        174.5,
+        0
+       ],
+       [
+        322,
+        30
+       ],
+       [
+        471,
+        60
+       ],
+       [
+        619.5,
+        90
+       ],
+       [
+        769,
+        120
+       ],
+       [
+        918.5,
+        150
+       ],
+       [
+        1065.5,
+        180
+       ]
+      ],
+      "y": [
+       [
+        517,
+        2.0
+       ],
+       [
+        664,
+        1.5
+       ]
+      ],
+      "dx_per_px": 0.20172822241134028,
+      "dy_per_px": -0.0034013605442176943,
+      "max_tick_residual_x": 0.21587438978511386,
+      "max_tick_residual_y": 0.0,
+      "log": false
+     },
+     "uncertainty_x": 0.0,
+     "uncertainty_y": 0.004,
+     "uncertainty_basis": "1 px = 0.0034e4; only two y ticks (2.0 at 517 px, 1.5 at 664 px); ~1 px total",
+     "figure_png": "taseh_rod_2205_fig5.png",
+     "overlay_png": "taseh_rod_2205_fig5_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   },
+   {
+    "source": "2205.01477 Fig. 5(c)",
+    "description": "HFSS form factor C010 (Eq. 3, uniform axial B) vs rod angle",
+    "x": {
+     "label": "theta",
+     "unit": "deg"
+    },
+    "y": {
+     "label": "C010",
+     "unit": ""
+    },
+    "series": [
+     {
+      "label": "C010 (HFSS)",
+      "points": [
+       [
+        0.0,
+        0.6399
+       ],
+       [
+        5.0,
+        0.6396
+       ],
+       [
+        10.0,
+        0.6399
+       ],
+       [
+        15.0,
+        0.6396
+       ],
+       [
+        20.0,
+        0.6419
+       ],
+       [
+        25.0,
+        0.6386
+       ],
+       [
+        30.0,
+        0.6379
+       ],
+       [
+        35.0,
+        0.6365
+       ],
+       [
+        40.0,
+        0.6359
+       ],
+       [
+        45.0,
+        0.6345
+       ],
+       [
+        50.0,
+        0.6332
+       ],
+       [
+        55.0,
+        0.6318
+       ],
+       [
+        60.0,
+        0.6305
+       ],
+       [
+        65.0,
+        0.6291
+       ],
+       [
+        70.0,
+        0.6271
+       ],
+       [
+        75.0,
+        0.6254
+       ],
+       [
+        80.0,
+        0.6237
+       ],
+       [
+        85.0,
+        0.6217
+       ],
+       [
+        90.0,
+        0.6197
+       ],
+       [
+        95.0,
+        0.6177
+       ],
+       [
+        100.0,
+        0.616
+       ],
+       [
+        105.0,
+        0.6136
+       ],
+       [
+        110.0,
+        0.6113
+       ],
+       [
+        115.0,
+        0.6096
+       ],
+       [
+        120.0,
+        0.6076
+       ],
+       [
+        125.0,
+        0.6056
+       ],
+       [
+        130.0,
+        0.6035
+       ],
+       [
+        135.0,
+        0.6019
+       ],
+       [
+        140.0,
+        0.6002
+       ],
+       [
+        145.0,
+        0.5981
+       ],
+       [
+        150.0,
+        0.5968
+       ],
+       [
+        155.0,
+        0.5955
+       ],
+       [
+        160.0,
+        0.5941
+       ],
+       [
+        165.0,
+        0.5934
+       ],
+       [
+        170.0,
+        0.5928
+       ],
+       [
+        175.0,
+        0.5921
+       ],
+       [
+        180.0,
+        0.5924
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster, grid sampling: theta grid 2.5 deg (f, Q0) / 5 deg (C) verified from marker spacing; colour mask (red r>170,g<100,b<100 / black max<25, frame is 38-grey), column window +-2 px, common sub-pixel x phase fitted, y = centre of the vertical marker run",
+     "page": 5,
+     "clip_bbox_pt": [
+      54.6,
+      52.07,
+      298.48,
+      267.64
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        174.5,
+        0
+       ],
+       [
+        322,
+        30
+       ],
+       [
+        471,
+        60
+       ],
+       [
+        619.5,
+        90
+       ],
+       [
+        769,
+        120
+       ],
+       [
+        918.5,
+        150
+       ],
+       [
+        1065.5,
+        180
+       ]
+      ],
+      "y": [
+       [
+        757.5,
+        0.65
+       ],
+       [
+        906,
+        0.55
+       ]
+      ],
+      "dx_per_px": 0.20172822241134028,
+      "dy_per_px": -0.0006734006734006747,
+      "max_tick_residual_x": 0.21587438978511386,
+      "max_tick_residual_y": 0.0,
+      "log": false
+     },
+     "uncertainty_x": 0.0,
+     "uncertainty_y": 0.001,
+     "uncertainty_basis": "1 px = 0.00067; y calibrated on the frame-edge ticks 0.65/0.55 only; ~1 px total. Paper's own mesh systematic on C is 1%",
+     "figure_png": "taseh_rod_2205_fig5.png",
+     "overlay_png": "taseh_rod_2205_fig5_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   },
+   {
+    "source": "2205.01477 Fig. 7(a)",
+    "description": "HFSS RT coupling rate kappa1/2pi of probe 1 vs insertion depth d1, theta = 85 deg (spline through HFSS points as plotted)",
+    "x": {
+     "label": "d1",
+     "unit": "mm"
+    },
+    "y": {
+     "label": "kappa1/2pi",
+     "unit": "kHz"
+    },
+    "series": [
+     {
+      "label": "Simulation (black line)",
+      "points": [
+       [
+        0.1064,
+        1.328
+       ],
+       [
+        0.1212,
+        1.328
+       ],
+       [
+        0.1361,
+        1.328
+       ],
+       [
+        0.151,
+        1.418
+       ],
+       [
+        0.1659,
+        1.418
+       ],
+       [
+        0.1808,
+        1.418
+       ],
+       [
+        0.1957,
+        1.507
+       ],
+       [
+        0.2105,
+        1.597
+       ],
+       [
+        0.3259,
+        2.223
+       ],
+       [
+        0.3408,
+        2.313
+       ],
+       [
+        0.3557,
+        2.402
+       ],
+       [
+        0.3705,
+        2.581
+       ],
+       [
+        0.3854,
+        2.581
+       ],
+       [
+        0.4003,
+        2.76
+       ],
+       [
+        0.4152,
+        2.939
+       ],
+       [
+        0.538,
+        4.014
+       ],
+       [
+        0.5529,
+        4.193
+       ],
+       [
+        0.5678,
+        4.372
+       ],
+       [
+        0.5826,
+        4.551
+       ],
+       [
+        0.5975,
+        4.73
+       ],
+       [
+        0.6124,
+        4.909
+       ],
+       [
+        0.724,
+        6.341
+       ],
+       [
+        0.7389,
+        6.52
+       ],
+       [
+        0.7538,
+        6.789
+       ],
+       [
+        0.7687,
+        7.058
+       ],
+       [
+        0.7836,
+        7.237
+       ],
+       [
+        0.7984,
+        7.416
+       ],
+       [
+        0.8133,
+        7.774
+       ],
+       [
+        0.925,
+        9.833
+       ],
+       [
+        0.9398,
+        10.191
+       ],
+       [
+        0.9547,
+        10.46
+       ],
+       [
+        0.9696,
+        10.818
+       ],
+       [
+        0.9845,
+        11.086
+       ],
+       [
+        0.9994,
+        11.444
+       ],
+       [
+        1.0143,
+        11.713
+       ],
+       [
+        1.0291,
+        12.161
+       ],
+       [
+        1.044,
+        12.429
+       ],
+       [
+        1.0589,
+        12.787
+       ],
+       [
+        1.0738,
+        13.145
+       ],
+       [
+        1.0887,
+        13.593
+       ],
+       [
+        1.1036,
+        13.951
+       ],
+       [
+        1.1184,
+        14.309
+       ],
+       [
+        1.1333,
+        14.757
+       ],
+       [
+        1.1482,
+        15.204
+       ],
+       [
+        1.1631,
+        15.563
+       ],
+       [
+        1.178,
+        15.921
+       ],
+       [
+        1.1929,
+        16.458
+       ],
+       [
+        1.2078,
+        16.816
+       ],
+       [
+        1.2226,
+        17.353
+       ],
+       [
+        1.2375,
+        17.711
+       ],
+       [
+        1.2524,
+        18.248
+       ],
+       [
+        1.2673,
+        18.785
+       ],
+       [
+        1.2822,
+        19.144
+       ],
+       [
+        1.2971,
+        19.681
+       ],
+       [
+        1.3119,
+        20.218
+       ],
+       [
+        1.3268,
+        20.665
+       ],
+       [
+        1.4198,
+        24.157
+       ],
+       [
+        1.4347,
+        24.694
+       ],
+       [
+        1.4496,
+        25.231
+       ],
+       [
+        1.4645,
+        25.858
+       ],
+       [
+        1.4794,
+        26.485
+       ],
+       [
+        1.4943,
+        27.111
+       ],
+       [
+        1.5091,
+        27.738
+       ],
+       [
+        1.524,
+        28.365
+       ],
+       [
+        1.5389,
+        29.081
+       ],
+       [
+        1.5538,
+        29.797
+       ],
+       [
+        1.5687,
+        30.334
+       ],
+       [
+        1.5836,
+        31.05
+       ],
+       [
+        1.5984,
+        31.767
+       ],
+       [
+        1.6133,
+        32.483
+       ],
+       [
+        1.6282,
+        33.199
+       ],
+       [
+        1.6431,
+        34.005
+       ],
+       [
+        1.658,
+        34.721
+       ],
+       [
+        1.6729,
+        35.527
+       ],
+       [
+        1.6878,
+        36.243
+       ],
+       [
+        1.7026,
+        37.049
+       ],
+       [
+        1.7175,
+        37.854
+       ],
+       [
+        1.7324,
+        38.66
+       ],
+       [
+        1.7473,
+        39.555
+       ],
+       [
+        1.7622,
+        40.361
+       ],
+       [
+        1.7771,
+        41.167
+       ],
+       [
+        1.7919,
+        42.062
+       ],
+       [
+        1.8068,
+        42.957
+       ],
+       [
+        1.8217,
+        43.584
+       ],
+       [
+        1.8887,
+        48.239
+       ],
+       [
+        1.9036,
+        49.135
+       ],
+       [
+        1.9184,
+        50.209
+       ],
+       [
+        1.9333,
+        51.194
+       ],
+       [
+        1.9482,
+        52.268
+       ],
+       [
+        1.9631,
+        53.253
+       ],
+       [
+        1.978,
+        54.327
+       ],
+       [
+        1.9929,
+        55.401
+       ],
+       [
+        2.0078,
+        56.655
+       ],
+       [
+        2.0226,
+        57.729
+       ],
+       [
+        2.0375,
+        58.893
+       ],
+       [
+        2.0524,
+        60.057
+       ],
+       [
+        2.0673,
+        61.221
+       ],
+       [
+        2.0822,
+        62.384
+       ],
+       [
+        2.0971,
+        63.638
+       ],
+       [
+        2.1119,
+        64.802
+       ],
+       [
+        2.1268,
+        66.055
+       ],
+       [
+        2.1417,
+        67.308
+       ],
+       [
+        2.1566,
+        68.562
+       ],
+       [
+        2.1715,
+        69.815
+       ],
+       [
+        2.1864,
+        71.158
+       ],
+       [
+        2.2012,
+        72.411
+       ],
+       [
+        2.2161,
+        73.665
+       ],
+       [
+        2.231,
+        75.097
+       ],
+       [
+        2.2459,
+        76.35
+       ],
+       [
+        2.2608,
+        77.693
+       ],
+       [
+        2.2757,
+        78.947
+       ],
+       [
+        2.2905,
+        80.2
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster: black line traced column-wise (centre of longest run), every 4th column kept",
+     "page": 7,
+     "clip_bbox_pt": [
+      54.6,
+      532.09,
+      298.48,
+      634.64
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        266.5,
+        0
+       ],
+       [
+        535,
+        1
+       ],
+       [
+        804,
+        2
+       ]
+      ],
+      "y": [
+       [
+        634.5,
+        0
+       ],
+       [
+        355,
+        50
+       ],
+       [
+        76,
+        100
+       ]
+      ],
+      "dx_per_px": 0.0037209291592776917,
+      "dy_per_px": -0.17905098170805334,
+      "max_tick_residual_x": 0.0006201548598788742,
+      "max_tick_residual_y": 0.029841830284688342,
+      "log": false
+     },
+     "uncertainty_x": 0.005,
+     "uncertainty_y": 0.4,
+     "uncertainty_basis": "line width ~5 px; 1 px = 0.0037 mm/0.18 kHz (a), 0.0045 mm/1.44 kHz (b)",
+     "figure_png": "taseh_rod_2205_fig7.png",
+     "overlay_png": "taseh_rod_2205_fig7_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   },
+   {
+    "source": "2205.01477 Fig. 7(b)",
+    "description": "HFSS RT coupling rate kappa2/2pi of probe 2 vs insertion depth d2, theta = 85 deg (spline through HFSS points as plotted)",
+    "x": {
+     "label": "d2",
+     "unit": "mm"
+    },
+    "y": {
+     "label": "kappa2/2pi",
+     "unit": "kHz"
+    },
+    "series": [
+     {
+      "label": "Simulation (black line)",
+      "points": [
+       [
+        2.0197,
+        57.718
+       ],
+       [
+        2.0376,
+        59.153
+       ],
+       [
+        2.0555,
+        60.589
+       ],
+       [
+        2.0734,
+        60.589
+       ],
+       [
+        2.0912,
+        62.025
+       ],
+       [
+        2.1091,
+        63.461
+       ],
+       [
+        2.127,
+        64.896
+       ],
+       [
+        2.1449,
+        66.332
+       ],
+       [
+        2.1628,
+        67.768
+       ],
+       [
+        2.1807,
+        69.204
+       ],
+       [
+        2.1986,
+        70.639
+       ],
+       [
+        2.2165,
+        72.075
+       ],
+       [
+        2.2344,
+        73.511
+       ],
+       [
+        2.2522,
+        74.947
+       ],
+       [
+        2.2701,
+        76.382
+       ],
+       [
+        2.288,
+        77.818
+       ],
+       [
+        2.3059,
+        79.254
+       ],
+       [
+        2.3238,
+        80.69
+       ],
+       [
+        2.3417,
+        82.125
+       ],
+       [
+        2.3596,
+        83.561
+       ],
+       [
+        2.3775,
+        84.997
+       ],
+       [
+        2.3954,
+        86.433
+       ],
+       [
+        2.4132,
+        87.868
+       ],
+       [
+        2.4311,
+        89.304
+       ],
+       [
+        2.449,
+        90.74
+       ],
+       [
+        2.4669,
+        92.176
+       ],
+       [
+        2.4848,
+        94.329
+       ],
+       [
+        2.5027,
+        96.483
+       ],
+       [
+        2.5206,
+        97.919
+       ],
+       [
+        2.5385,
+        99.354
+       ],
+       [
+        2.5564,
+        100.79
+       ],
+       [
+        2.5742,
+        103.662
+       ],
+       [
+        2.5921,
+        105.097
+       ],
+       [
+        2.61,
+        106.533
+       ],
+       [
+        2.6279,
+        108.687
+       ],
+       [
+        2.6458,
+        110.84
+       ],
+       [
+        2.6637,
+        112.276
+       ],
+       [
+        2.6816,
+        115.148
+       ],
+       [
+        2.6995,
+        116.583
+       ],
+       [
+        2.7174,
+        118.019
+       ],
+       [
+        2.7352,
+        120.891
+       ],
+       [
+        2.7531,
+        122.326
+       ],
+       [
+        2.771,
+        124.48
+       ],
+       [
+        2.9052,
+        140.991
+       ],
+       [
+        2.9231,
+        143.863
+       ],
+       [
+        2.941,
+        146.016
+       ],
+       [
+        2.9589,
+        148.17
+       ],
+       [
+        2.9767,
+        151.041
+       ],
+       [
+        3.1064,
+        168.988
+       ],
+       [
+        3.1243,
+        171.86
+       ],
+       [
+        3.1422,
+        174.013
+       ],
+       [
+        3.1601,
+        176.885
+       ],
+       [
+        3.178,
+        179.756
+       ],
+       [
+        3.3032,
+        201.292
+       ],
+       [
+        3.3211,
+        203.446
+       ],
+       [
+        3.339,
+        206.318
+       ],
+       [
+        3.3569,
+        209.907
+       ],
+       [
+        3.3748,
+        212.778
+       ],
+       [
+        3.5,
+        236.468
+       ],
+       [
+        3.5179,
+        239.34
+       ],
+       [
+        3.5358,
+        242.211
+       ],
+       [
+        3.5537,
+        246.519
+       ],
+       [
+        3.5716,
+        249.39
+       ],
+       [
+        3.5894,
+        252.979
+       ],
+       [
+        3.7102,
+        278.105
+       ],
+       [
+        3.7281,
+        282.412
+       ],
+       [
+        3.746,
+        286.719
+       ],
+       [
+        3.7639,
+        291.027
+       ],
+       [
+        3.7818,
+        294.616
+       ],
+       [
+        3.898,
+        323.331
+       ],
+       [
+        3.9159,
+        326.92
+       ],
+       [
+        3.9338,
+        331.228
+       ],
+       [
+        3.9517,
+        335.535
+       ],
+       [
+        3.9696,
+        339.842
+       ],
+       [
+        3.9875,
+        344.149
+       ],
+       [
+        4.0993,
+        375.018
+       ],
+       [
+        4.1172,
+        380.043
+       ],
+       [
+        4.1351,
+        385.068
+       ],
+       [
+        4.1529,
+        390.093
+       ],
+       [
+        4.1708,
+        395.118
+       ],
+       [
+        4.2692,
+        426.705
+       ],
+       [
+        4.2871,
+        429.576
+       ],
+       [
+        4.305,
+        434.602
+       ],
+       [
+        4.3229,
+        439.627
+       ],
+       [
+        4.3408,
+        445.37
+       ],
+       [
+        4.3587,
+        451.113
+       ],
+       [
+        4.3766,
+        456.856
+       ],
+       [
+        4.3945,
+        461.881
+       ],
+       [
+        4.4973,
+        497.057
+       ],
+       [
+        4.5152,
+        503.517
+       ],
+       [
+        4.5331,
+        509.26
+       ],
+       [
+        4.551,
+        515.721
+       ],
+       [
+        4.5689,
+        522.182
+       ],
+       [
+        4.5868,
+        528.643
+       ],
+       [
+        4.6046,
+        531.515
+       ],
+       [
+        4.6986,
+        570.998
+       ],
+       [
+        4.7165,
+        577.458
+       ],
+       [
+        4.7343,
+        583.919
+       ],
+       [
+        4.7522,
+        591.098
+       ],
+       [
+        4.7701,
+        598.277
+       ],
+       [
+        4.788,
+        605.456
+       ],
+       [
+        4.8059,
+        613.352
+       ],
+       [
+        4.8238,
+        621.249
+       ],
+       [
+        4.8417,
+        628.428
+       ],
+       [
+        4.8596,
+        635.606
+       ],
+       [
+        4.8775,
+        642.785
+       ],
+       [
+        4.8953,
+        650.682
+       ],
+       [
+        4.9132,
+        658.578
+       ],
+       [
+        4.9311,
+        666.475
+       ],
+       [
+        4.949,
+        674.371
+       ],
+       [
+        4.9669,
+        682.268
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster: black line traced column-wise (centre of longest run), every 4th column kept",
+     "page": 7,
+     "clip_bbox_pt": [
+      54.6,
+      532.09,
+      298.48,
+      634.64
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        1232,
+        2
+       ],
+       [
+        1457,
+        3
+       ],
+       [
+        1680,
+        4
+       ],
+       [
+        1903,
+        5
+       ]
+      ],
+      "y": [
+       [
+        633,
+        0
+       ],
+       [
+        494,
+        200
+       ],
+       [
+        355,
+        400
+       ],
+       [
+        215,
+        600
+       ],
+       [
+        76,
+        800
+       ]
+      ],
+      "dx_per_px": 0.004472250446024981,
+      "dy_per_px": -1.4357479597537075,
+      "max_tick_residual_x": 0.0035802004912235397,
+      "max_tick_residual_y": 0.5742991839018146,
+      "log": false
+     },
+     "uncertainty_x": 0.006,
+     "uncertainty_y": 3.0,
+     "uncertainty_basis": "line width ~5 px; 1 px = 0.0037 mm/0.18 kHz (a), 0.0045 mm/1.44 kHz (b)",
+     "figure_png": "taseh_rod_2205_fig7.png",
+     "overlay_png": "taseh_rod_2205_fig7_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   },
+   {
+    "source": "2205.01477 Fig. 8(a)",
+    "description": "RT HFSS simulation (yellow dots)",
+    "x": {
+     "label": "theta",
+     "unit": "deg"
+    },
+    "y": {
+     "label": "f_c",
+     "unit": "GHz"
+    },
+    "series": [
+     {
+      "label": "Simulation at room temp",
+      "points": [
+       [
+        0.0,
+        4.6614
+       ],
+       [
+        2.5,
+        4.6621
+       ],
+       [
+        5.0,
+        4.6621
+       ],
+       [
+        7.5,
+        4.6621
+       ],
+       [
+        10.0,
+        4.6624
+       ],
+       [
+        12.5,
+        4.6631
+       ],
+       [
+        15.0,
+        4.6637
+       ],
+       [
+        17.5,
+        4.6627
+       ],
+       [
+        20.0,
+        4.6637
+       ],
+       [
+        22.5,
+        4.665
+       ],
+       [
+        25.0,
+        4.6687
+       ],
+       [
+        27.5,
+        4.6703
+       ],
+       [
+        30.0,
+        4.6716
+       ],
+       [
+        32.5,
+        4.6742
+       ],
+       [
+        35.0,
+        4.6762
+       ],
+       [
+        37.5,
+        4.6782
+       ],
+       [
+        40.0,
+        4.6808
+       ],
+       [
+        42.5,
+        4.6834
+       ],
+       [
+        45.0,
+        4.6864
+       ],
+       [
+        47.5,
+        4.6893
+       ],
+       [
+        50.0,
+        4.6923
+       ],
+       [
+        52.5,
+        4.6952
+       ],
+       [
+        55.0,
+        4.6988
+       ],
+       [
+        57.5,
+        4.7028
+       ],
+       [
+        60.0,
+        4.7064
+       ],
+       [
+        62.5,
+        4.7103
+       ],
+       [
+        65.0,
+        4.7146
+       ],
+       [
+        67.5,
+        4.7185
+       ],
+       [
+        70.0,
+        4.7238
+       ],
+       [
+        72.5,
+        4.728
+       ],
+       [
+        75.0,
+        4.733
+       ],
+       [
+        77.5,
+        4.7382
+       ],
+       [
+        80.0,
+        4.7435
+       ],
+       [
+        82.5,
+        4.7487
+       ],
+       [
+        85.0,
+        4.7546
+       ],
+       [
+        87.5,
+        4.7602
+       ],
+       [
+        90.0,
+        4.7664
+       ],
+       [
+        92.5,
+        4.7723
+       ],
+       [
+        95.0,
+        4.7789
+       ],
+       [
+        97.5,
+        4.7848
+       ],
+       [
+        100.0,
+        4.7914
+       ],
+       [
+        102.5,
+        4.7976
+       ],
+       [
+        105.0,
+        4.8045
+       ],
+       [
+        107.5,
+        4.8114
+       ],
+       [
+        110.0,
+        4.818
+       ],
+       [
+        112.5,
+        4.8248
+       ],
+       [
+        115.0,
+        4.8317
+       ],
+       [
+        117.5,
+        4.839
+       ],
+       [
+        120.0,
+        4.8455
+       ],
+       [
+        122.5,
+        4.8524
+       ],
+       [
+        125.0,
+        4.8593
+       ],
+       [
+        127.5,
+        4.8662
+       ],
+       [
+        130.0,
+        4.8728
+       ],
+       [
+        132.5,
+        4.8793
+       ],
+       [
+        135.0,
+        4.8856
+       ],
+       [
+        137.5,
+        4.8921
+       ],
+       [
+        140.0,
+        4.8977
+       ],
+       [
+        142.5,
+        4.9039
+       ],
+       [
+        145.0,
+        4.9088
+       ],
+       [
+        147.5,
+        4.9144
+       ],
+       [
+        150.0,
+        4.9193
+       ],
+       [
+        152.5,
+        4.9243
+       ],
+       [
+        155.0,
+        4.9285
+       ],
+       [
+        157.5,
+        4.9325
+       ],
+       [
+        160.0,
+        4.9364
+       ],
+       [
+        162.5,
+        4.9394
+       ],
+       [
+        165.0,
+        4.9426
+       ],
+       [
+        167.5,
+        4.9449
+       ],
+       [
+        170.0,
+        4.9472
+       ],
+       [
+        172.5,
+        4.9489
+       ],
+       [
+        175.0,
+        4.9492
+       ],
+       [
+        177.5,
+        4.9508
+       ],
+       [
+        180.0,
+        4.9512
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster, grid sampling (sim and RT data every 2.5 deg, base-temp data every 5 deg, verified from marker centroids); colour masks yellow~(237,177,30) / blue~(0,114,190) / orange~(217,83,25) on the grey band; column window +-2 px; y = centre of the vertical marker run. Blue/orange markers are partly hidden under the yellow dots (yellow drawn last)",
+     "page": 8,
+     "clip_bbox_pt": [
+      130.21,
+      52.07,
+      485.89,
+      237.94
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        181,
+        0
+       ],
+       [
+        327,
+        30
+       ],
+       [
+        471.5,
+        60
+       ],
+       [
+        616.5,
+        90
+       ],
+       [
+        761.5,
+        120
+       ],
+       [
+        906.5,
+        150
+       ],
+       [
+        1051.5,
+        180
+       ]
+      ],
+      "y": [
+       [
+        94.5,
+        5.1
+       ],
+       [
+        246.5,
+        5.0
+       ],
+       [
+        399,
+        4.9
+       ],
+       [
+        551,
+        4.8
+       ],
+       [
+        703.5,
+        4.7
+       ],
+       [
+        856.5,
+        4.6
+       ],
+       [
+        1008.5,
+        4.5
+       ]
+      ],
+      "dx_per_px": 0.20687090246932344,
+      "dy_per_px": -0.0006562752121432116,
+      "max_tick_residual_x": 0.11087373513086973,
+      "max_tick_residual_y": 0.00025769330541436375,
+      "log": false
+     },
+     "uncertainty_x": 0.0,
+     "uncertainty_y": 0.0015,
+     "uncertainty_basis": "1 px = 0.00066 GHz (a), 0.0033e4 (b); occluded measured markers biased by up to ~3 px",
+     "figure_png": "taseh_rod_2205_fig8.png",
+     "overlay_png": "taseh_rod_2205_fig8_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   },
+   {
+    "source": "2205.01477 Fig. 8(b)",
+    "description": "RT HFSS simulation (yellow dots) (plotted value = 3.2 x simulated Q0; divide by 3.2 for the HFSS RT Q0)",
+    "x": {
+     "label": "theta",
+     "unit": "deg"
+    },
+    "y": {
+     "label": "Q0 (scaled, see label)",
+     "unit": "1e4"
+    },
+    "series": [
+     {
+      "label": "Simulation at room temp (x3.2)",
+      "points": [
+       [
+        50.0,
+        6.243
+       ],
+       [
+        52.5,
+        6.238
+       ],
+       [
+        55.0,
+        6.23
+       ],
+       [
+        57.5,
+        6.223
+       ],
+       [
+        60.0,
+        6.215
+       ],
+       [
+        62.5,
+        6.2
+       ],
+       [
+        65.0,
+        6.19
+       ],
+       [
+        67.5,
+        6.177
+       ],
+       [
+        70.0,
+        6.164
+       ],
+       [
+        72.5,
+        6.153
+       ],
+       [
+        75.0,
+        6.138
+       ],
+       [
+        77.5,
+        6.12
+       ],
+       [
+        80.0,
+        6.098
+       ],
+       [
+        82.5,
+        6.084
+       ],
+       [
+        85.0,
+        6.069
+       ],
+       [
+        87.5,
+        6.048
+       ],
+       [
+        90.0,
+        6.028
+       ],
+       [
+        92.5,
+        6.01
+       ],
+       [
+        95.0,
+        5.99
+       ],
+       [
+        97.5,
+        5.969
+       ],
+       [
+        100.0,
+        5.946
+       ],
+       [
+        102.5,
+        5.926
+       ],
+       [
+        105.0,
+        5.9
+       ],
+       [
+        107.5,
+        5.88
+       ],
+       [
+        110.0,
+        5.861
+       ],
+       [
+        112.5,
+        5.838
+       ],
+       [
+        115.0,
+        5.816
+       ],
+       [
+        117.5,
+        5.792
+       ],
+       [
+        120.0,
+        5.765
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster, grid sampling (sim and RT data every 2.5 deg, base-temp data every 5 deg, verified from marker centroids); colour masks yellow~(237,177,30) / blue~(0,114,190) / orange~(217,83,25) on the grey band; column window +-2 px; y = centre of the vertical marker run. Blue/orange markers are partly hidden under the yellow dots (yellow drawn last)",
+     "page": 8,
+     "clip_bbox_pt": [
+      130.21,
+      52.07,
+      485.89,
+      237.94
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        1272,
+        50
+       ],
+       [
+        1395.5,
+        60
+       ],
+       [
+        1517.5,
+        70
+       ],
+       [
+        1639.5,
+        80
+       ],
+       [
+        1761.5,
+        90
+       ],
+       [
+        1883.5,
+        100
+       ],
+       [
+        2006,
+        110
+       ],
+       [
+        2126.5,
+        120
+       ]
+      ],
+      "y": [
+       [
+        94.5,
+        7.5
+       ],
+       [
+        246,
+        7.0
+       ],
+       [
+        399,
+        6.5
+       ],
+       [
+        552,
+        6.0
+       ],
+       [
+        704,
+        5.5
+       ],
+       [
+        856.5,
+        5.0
+       ],
+       [
+        1008.5,
+        4.5
+       ]
+      ],
+      "dx_per_px": 0.08191888640165662,
+      "dy_per_px": -0.0032802206079014227,
+      "max_tick_residual_x": 0.08207467129385293,
+      "max_tick_residual_y": 0.0021073957138817434,
+      "log": false
+     },
+     "uncertainty_x": 0.0,
+     "uncertainty_y": 0.01,
+     "uncertainty_basis": "1 px = 0.00066 GHz (a), 0.0033e4 (b); occluded measured markers biased by up to ~3 px",
+     "figure_png": "taseh_rod_2205_fig8.png",
+     "overlay_png": "taseh_rod_2205_fig8_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   }
+  ]
+ },
+ "measured_values": {
+  "tables": [
+   {
+    "source": "2205.01477 p.6-7; 2205.05574 p.2",
+    "description": "measured cavity values (sanity checks only)",
+    "simulated": false,
+    "columns": [
+     "quantity",
+     "value",
+     "unit"
+    ],
+    "units": [
+     "",
+     "",
+     ""
+    ],
+    "rows": [
+     [
+      "kappa0/2pi at theta=85 deg (RT)",
+      "264",
+      "kHz"
+     ],
+     [
+      "RT f_c offset vs HFSS",
+      "~ -14",
+      "MHz"
+     ],
+     [
+      "cold (Tc=155 mK) f_c offset vs RT measured",
+      "~ +20",
+      "MHz"
+     ],
+     [
+      "mean RT Q0",
+      "1.8 x 10^4",
+      ""
+     ],
+     [
+      "mean cold Q0",
+      "6.1 x 10^4",
+      ""
+     ],
+     [
+      "cold Q0 (PRL)",
+      "~60700",
+      ""
+     ],
+     [
+      "example fit (Fig. 6): f_c, Q0, Q1, Q2",
+      "4.70897 GHz, 6.67e4, 3.20e6, 2.81e4",
+      ""
+     ],
+     [
+      "Fig. 6 kappa0/2pi, kappa1/2pi, kappa2/2pi",
+      "70.63, 1.47, 167.59",
+      "kHz"
+     ],
+     [
+      "d1 set at RT",
+      "0.4",
+      "mm"
+     ],
+     [
+      "Q0 increase with B up to 3 T",
+      "5.2",
+      "%"
+     ]
+    ]
+   }
+  ],
+  "curves": [
+   {
+    "source": "2205.01477 Fig. 7(a)",
+    "description": "RT measured kappa1/2pi vs d1; ALREADY shifted by -0.13 mm in the figure (caption)",
+    "x": {
+     "label": "d1",
+     "unit": "mm"
+    },
+    "y": {
+     "label": "kappa1/2pi",
+     "unit": "kHz"
+    },
+    "series": [
+     {
+      "label": "RT measurement (red dots)",
+      "points": [
+       [
+        0.2699,
+        2.949
+       ],
+       [
+        0.4699,
+        3.731
+       ],
+       [
+        0.6696,
+        6.418
+       ],
+       [
+        0.8692,
+        9.146
+       ],
+       [
+        1.3696,
+        22.664
+       ],
+       [
+        1.8691,
+        45.198
+       ],
+       [
+        2.3689,
+        92.314
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster: red mask, centroid",
+     "page": 7,
+     "clip_bbox_pt": [
+      54.6,
+      532.09,
+      298.48,
+      634.64
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        266.5,
+        0
+       ],
+       [
+        535,
+        1
+       ],
+       [
+        804,
+        2
+       ]
+      ],
+      "y": [
+       [
+        634.5,
+        0
+       ],
+       [
+        355,
+        50
+       ],
+       [
+        76,
+        100
+       ]
+      ],
+      "dx_per_px": 0.0037209291592776917,
+      "dy_per_px": -0.17905098170805334,
+      "max_tick_residual_x": 0.0006201548598788742,
+      "max_tick_residual_y": 0.029841830284688342,
+      "log": false
+     },
+     "uncertainty_x": 0.005,
+     "uncertainty_y": 0.5,
+     "uncertainty_basis": "marker centroid ~0.5 px",
+     "figure_png": "taseh_rod_2205_fig7.png",
+     "overlay_png": "taseh_rod_2205_fig7_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   },
+   {
+    "source": "2205.01477 Fig. 7(b)",
+    "description": "RT measured kappa2/2pi vs d2; ALREADY shifted by +0.64 mm in the figure (caption)",
+    "x": {
+     "label": "d2",
+     "unit": "mm"
+    },
+    "y": {
+     "label": "kappa2/2pi",
+     "unit": "kHz"
+    },
+    "series": [
+     {
+      "label": "RT measurement (red dots)",
+      "points": [
+       [
+        2.8392,
+        133.906
+       ],
+       [
+        3.0398,
+        159.149
+       ],
+       [
+        3.2399,
+        195.448
+       ],
+       [
+        3.4404,
+        226.849
+       ],
+       [
+        3.6408,
+        268.584
+       ],
+       [
+        3.8406,
+        311.536
+       ],
+       [
+        4.0412,
+        361.213
+       ],
+       [
+        4.2411,
+        406.897
+       ],
+       [
+        4.4415,
+        479.257
+       ],
+       [
+        4.6416,
+        550.322
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster: red mask, centroid",
+     "page": 7,
+     "clip_bbox_pt": [
+      54.6,
+      532.09,
+      298.48,
+      634.64
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        1232,
+        2
+       ],
+       [
+        1457,
+        3
+       ],
+       [
+        1680,
+        4
+       ],
+       [
+        1903,
+        5
+       ]
+      ],
+      "y": [
+       [
+        633,
+        0
+       ],
+       [
+        494,
+        200
+       ],
+       [
+        355,
+        400
+       ],
+       [
+        215,
+        600
+       ],
+       [
+        76,
+        800
+       ]
+      ],
+      "dx_per_px": 0.004472250446024981,
+      "dy_per_px": -1.4357479597537075,
+      "max_tick_residual_x": 0.0035802004912235397,
+      "max_tick_residual_y": 0.5742991839018146,
+      "log": false
+     },
+     "uncertainty_x": 0.005,
+     "uncertainty_y": 3.0,
+     "uncertainty_basis": "marker centroid ~0.5 px",
+     "figure_png": "taseh_rod_2205_fig7.png",
+     "overlay_png": "taseh_rod_2205_fig7_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   },
+   {
+    "source": "2205.01477 Fig. 8(a)",
+    "description": "measured TM010 frequency",
+    "x": {
+     "label": "theta",
+     "unit": "deg"
+    },
+    "y": {
+     "label": "f_c",
+     "unit": "GHz"
+    },
+    "series": [
+     {
+      "label": "Measurement at base temp (Tc = 155 mK)",
+      "points": [
+       [
+        0.0,
+        4.667
+       ],
+       [
+        5.0,
+        4.6703
+       ],
+       [
+        10.0,
+        4.6709
+       ],
+       [
+        15.0,
+        4.6729
+       ],
+       [
+        20.0,
+        4.6739
+       ],
+       [
+        25.0,
+        4.6775
+       ],
+       [
+        30.0,
+        4.6808
+       ],
+       [
+        35.0,
+        4.6851
+       ],
+       [
+        40.0,
+        4.69
+       ],
+       [
+        50.0,
+        4.7011
+       ],
+       [
+        55.0,
+        4.708
+       ],
+       [
+        60.0,
+        4.7156
+       ],
+       [
+        65.0,
+        4.7238
+       ],
+       [
+        70.0,
+        4.7326
+       ],
+       [
+        75.0,
+        4.7425
+       ],
+       [
+        80.0,
+        4.7523
+       ],
+       [
+        85.0,
+        4.7635
+       ],
+       [
+        90.0,
+        4.7753
+       ],
+       [
+        95.0,
+        4.7878
+       ],
+       [
+        100.0,
+        4.8006
+       ],
+       [
+        105.0,
+        4.8143
+       ],
+       [
+        110.0,
+        4.8278
+       ],
+       [
+        115.0,
+        4.8422
+       ],
+       [
+        120.0,
+        4.857
+       ],
+       [
+        125.0,
+        4.8714
+       ],
+       [
+        130.0,
+        4.8856
+       ],
+       [
+        135.0,
+        4.899
+       ],
+       [
+        140.0,
+        4.9118
+       ],
+       [
+        145.0,
+        4.9233
+       ],
+       [
+        150.0,
+        4.9341
+       ],
+       [
+        155.0,
+        4.943
+       ],
+       [
+        160.0,
+        4.9502
+       ],
+       [
+        165.0,
+        4.9558
+       ],
+       [
+        170.0,
+        4.9594
+       ],
+       [
+        175.0,
+        4.9607
+       ],
+       [
+        180.0,
+        4.9581
+       ]
+      ]
+     },
+     {
+      "label": "Measurement at room temp",
+      "points": [
+       [
+        0.0,
+        4.6477
+       ],
+       [
+        2.5,
+        4.6473
+       ],
+       [
+        5.0,
+        4.6477
+       ],
+       [
+        7.5,
+        4.6473
+       ],
+       [
+        10.0,
+        4.6483
+       ],
+       [
+        12.5,
+        4.6493
+       ],
+       [
+        15.0,
+        4.6496
+       ],
+       [
+        17.5,
+        4.6506
+       ],
+       [
+        20.0,
+        4.6519
+       ],
+       [
+        22.5,
+        4.6526
+       ],
+       [
+        25.0,
+        4.6542
+       ],
+       [
+        27.5,
+        4.6555
+       ],
+       [
+        30.0,
+        4.6582
+       ],
+       [
+        32.5,
+        4.6595
+       ],
+       [
+        35.0,
+        4.6618
+       ],
+       [
+        37.5,
+        4.6644
+       ],
+       [
+        40.0,
+        4.667
+       ],
+       [
+        42.5,
+        4.6683
+       ],
+       [
+        45.0,
+        4.6713
+       ],
+       [
+        47.5,
+        4.6746
+       ],
+       [
+        50.0,
+        4.6775
+       ],
+       [
+        52.5,
+        4.6805
+       ],
+       [
+        55.0,
+        4.6844
+       ],
+       [
+        57.5,
+        4.688
+       ],
+       [
+        60.0,
+        4.6916
+       ],
+       [
+        62.5,
+        4.6956
+       ],
+       [
+        65.0,
+        4.7002
+       ],
+       [
+        67.5,
+        4.7044
+       ],
+       [
+        70.0,
+        4.709
+       ],
+       [
+        72.5,
+        4.7136
+       ],
+       [
+        75.0,
+        4.7185
+       ],
+       [
+        77.5,
+        4.7238
+       ],
+       [
+        80.0,
+        4.729
+       ],
+       [
+        82.5,
+        4.7353
+       ],
+       [
+        85.0,
+        4.7405
+       ],
+       [
+        87.5,
+        4.7464
+       ],
+       [
+        90.0,
+        4.7523
+       ],
+       [
+        92.5,
+        4.7586
+       ],
+       [
+        95.0,
+        4.7651
+       ],
+       [
+        97.5,
+        4.771
+       ],
+       [
+        100.0,
+        4.7776
+       ],
+       [
+        102.5,
+        4.7838
+       ],
+       [
+        105.0,
+        4.7907
+       ],
+       [
+        107.5,
+        4.7973
+       ],
+       [
+        110.0,
+        4.8038
+       ],
+       [
+        112.5,
+        4.8107
+       ],
+       [
+        115.0,
+        4.8176
+       ],
+       [
+        117.5,
+        4.8242
+       ],
+       [
+        120.0,
+        4.8317
+       ],
+       [
+        122.5,
+        4.8386
+       ],
+       [
+        125.0,
+        4.8449
+       ],
+       [
+        127.5,
+        4.8524
+       ],
+       [
+        130.0,
+        4.8596
+       ],
+       [
+        132.5,
+        4.8662
+       ],
+       [
+        135.0,
+        4.8728
+       ],
+       [
+        137.5,
+        4.8796
+       ],
+       [
+        140.0,
+        4.8872
+       ],
+       [
+        142.5,
+        4.8924
+       ],
+       [
+        145.0,
+        4.8983
+       ],
+       [
+        147.5,
+        4.9043
+       ],
+       [
+        150.0,
+        4.9095
+       ],
+       [
+        152.5,
+        4.9144
+       ],
+       [
+        155.0,
+        4.919
+       ],
+       [
+        157.5,
+        4.9223
+       ],
+       [
+        160.0,
+        4.9266
+       ],
+       [
+        162.5,
+        4.9295
+       ],
+       [
+        165.0,
+        4.9325
+       ],
+       [
+        167.5,
+        4.9351
+       ],
+       [
+        170.0,
+        4.9364
+       ],
+       [
+        172.5,
+        4.9377
+       ],
+       [
+        175.0,
+        4.939
+       ],
+       [
+        177.5,
+        4.939
+       ],
+       [
+        180.0,
+        4.939
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster, grid sampling (sim and RT data every 2.5 deg, base-temp data every 5 deg, verified from marker centroids); colour masks yellow~(237,177,30) / blue~(0,114,190) / orange~(217,83,25) on the grey band; column window +-2 px; y = centre of the vertical marker run. Blue/orange markers are partly hidden under the yellow dots (yellow drawn last)",
+     "page": 8,
+     "clip_bbox_pt": [
+      130.21,
+      52.07,
+      485.89,
+      237.94
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        181,
+        0
+       ],
+       [
+        327,
+        30
+       ],
+       [
+        471.5,
+        60
+       ],
+       [
+        616.5,
+        90
+       ],
+       [
+        761.5,
+        120
+       ],
+       [
+        906.5,
+        150
+       ],
+       [
+        1051.5,
+        180
+       ]
+      ],
+      "y": [
+       [
+        94.5,
+        5.1
+       ],
+       [
+        246.5,
+        5.0
+       ],
+       [
+        399,
+        4.9
+       ],
+       [
+        551,
+        4.8
+       ],
+       [
+        703.5,
+        4.7
+       ],
+       [
+        856.5,
+        4.6
+       ],
+       [
+        1008.5,
+        4.5
+       ]
+      ],
+      "dx_per_px": 0.20687090246932344,
+      "dy_per_px": -0.0006562752121432116,
+      "max_tick_residual_x": 0.11087373513086973,
+      "max_tick_residual_y": 0.00025769330541436375,
+      "log": false
+     },
+     "uncertainty_x": 0.0,
+     "uncertainty_y": 0.0045000000000000005,
+     "uncertainty_basis": "1 px = 0.00066 GHz (a), 0.0033e4 (b); occluded measured markers biased by up to ~3 px",
+     "figure_png": "taseh_rod_2205_fig8.png",
+     "overlay_png": "taseh_rod_2205_fig8_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   },
+   {
+    "source": "2205.01477 Fig. 8(b)",
+    "description": "measured TM010 Q0; RT series multiplied by 3.5 in the plot, base-temp series unscaled",
+    "x": {
+     "label": "theta",
+     "unit": "deg"
+    },
+    "y": {
+     "label": "Q0 (scaled, see label)",
+     "unit": "1e4"
+    },
+    "series": [
+     {
+      "label": "Measurement at base temp (Tc = 155 mK)",
+      "points": [
+       [
+        55.0,
+        6.654
+       ],
+       [
+        60.0,
+        6.523
+       ],
+       [
+        65.0,
+        6.348
+       ],
+       [
+        70.0,
+        6.125
+       ],
+       [
+        75.0,
+        6.008
+       ],
+       [
+        80.0,
+        5.939
+       ],
+       [
+        85.0,
+        5.926
+       ],
+       [
+        90.0,
+        6.08
+       ],
+       [
+        95.0,
+        6.156
+       ],
+       [
+        100.0,
+        6.126
+       ],
+       [
+        105.0,
+        5.843
+       ],
+       [
+        110.0,
+        5.639
+       ],
+       [
+        115.0,
+        5.469
+       ],
+       [
+        120.0,
+        5.477
+       ]
+      ]
+     },
+     {
+      "label": "Measurement at room temp (x3.5)",
+      "points": [
+       [
+        50.0,
+        6.804
+       ],
+       [
+        52.5,
+        6.728
+       ],
+       [
+        55.0,
+        6.704
+       ],
+       [
+        57.5,
+        6.643
+       ],
+       [
+        60.0,
+        6.335
+       ],
+       [
+        62.5,
+        6.623
+       ],
+       [
+        65.0,
+        6.28
+       ],
+       [
+        67.5,
+        6.415
+       ],
+       [
+        70.0,
+        6.221
+       ],
+       [
+        72.5,
+        6.192
+       ],
+       [
+        75.0,
+        6.399
+       ],
+       [
+        77.5,
+        6.09
+       ],
+       [
+        80.0,
+        6.125
+       ],
+       [
+        82.5,
+        6.133
+       ],
+       [
+        85.0,
+        6.212
+       ],
+       [
+        87.5,
+        5.979
+       ],
+       [
+        90.0,
+        6.0
+       ],
+       [
+        92.5,
+        5.943
+       ],
+       [
+        95.0,
+        5.926
+       ],
+       [
+        97.5,
+        6.015
+       ],
+       [
+        100.0,
+        5.852
+       ],
+       [
+        102.5,
+        5.826
+       ],
+       [
+        105.0,
+        5.872
+       ],
+       [
+        107.5,
+        5.784
+       ],
+       [
+        110.0,
+        5.795
+       ],
+       [
+        112.5,
+        5.706
+       ],
+       [
+        115.0,
+        5.784
+       ],
+       [
+        117.5,
+        5.642
+       ],
+       [
+        120.0,
+        5.575
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster, grid sampling (sim and RT data every 2.5 deg, base-temp data every 5 deg, verified from marker centroids); colour masks yellow~(237,177,30) / blue~(0,114,190) / orange~(217,83,25) on the grey band; column window +-2 px; y = centre of the vertical marker run. Blue/orange markers are partly hidden under the yellow dots (yellow drawn last)",
+     "page": 8,
+     "clip_bbox_pt": [
+      130.21,
+      52.07,
+      485.89,
+      237.94
+     ],
+     "image": "embedded bitmap extracted at native resolution (no resampling)",
+     "axis_calibration": {
+      "x": [
+       [
+        1272,
+        50
+       ],
+       [
+        1395.5,
+        60
+       ],
+       [
+        1517.5,
+        70
+       ],
+       [
+        1639.5,
+        80
+       ],
+       [
+        1761.5,
+        90
+       ],
+       [
+        1883.5,
+        100
+       ],
+       [
+        2006,
+        110
+       ],
+       [
+        2126.5,
+        120
+       ]
+      ],
+      "y": [
+       [
+        94.5,
+        7.5
+       ],
+       [
+        246,
+        7.0
+       ],
+       [
+        399,
+        6.5
+       ],
+       [
+        552,
+        6.0
+       ],
+       [
+        704,
+        5.5
+       ],
+       [
+        856.5,
+        5.0
+       ],
+       [
+        1008.5,
+        4.5
+       ]
+      ],
+      "dx_per_px": 0.08191888640165662,
+      "dy_per_px": -0.0032802206079014227,
+      "max_tick_residual_x": 0.08207467129385293,
+      "max_tick_residual_y": 0.0021073957138817434,
+      "log": false
+     },
+     "uncertainty_x": 0.0,
+     "uncertainty_y": 0.03,
+     "uncertainty_basis": "1 px = 0.00066 GHz (a), 0.0033e4 (b); occluded measured markers biased by up to ~3 px",
+     "figure_png": "taseh_rod_2205_fig8.png",
+     "overlay_png": "taseh_rod_2205_fig8_overlay.png",
+     "script": "digitize/taseh_rod_2205_digitize.py"
+    }
+   }
+  ]
+ },
+ "gaps": [
+  {
+   "parameter": "theta = 0 reference and rotation sense",
+   "issue": "Not defined in the paper.",
+   "proposal": "Use theta=0 = rod farthest from the axis (inferred from monotone f rise); verify by matching f(0)=4.662, f(180)=4.951 GHz. If the end-point frequencies do not match, fit a theta offset. Rotation sense matters only for probe coupling; run both mirror images for Fig. 7."
+  },
+  {
+   "parameter": "rod end geometry (transverse arms) and the 114 mm length",
+   "issue": "Rod ends are L-shaped (Fig. 4b) with transverse arms to the axle; arm length (= 3.5 mm centre-to-centre), cross-section and whether 114 mm includes the arms are not given. With 1 mm gaps to the TRANSVERSE part, the total copper height would be 118 mm, which is inconsistent with 114 mm unless the gap is measured differently. reading 114 mm as the distance between the centrelines of the 4 mm transverse arms gives 114 + 4 (two arm half-thicknesses) + 2 x 1 mm gaps = 120 mm = L, i.e. baseline (A) with arm centrelines at +-57 mm is self-consistent.",
+   "proposal": "Baseline (A): vertical 4 mm-dia rod section 114 mm long, centred in z, plus 4 mm-dia transverse arms at each end running from the rod to the rotation axis (3.5 mm centre-to-centre), arm outer surface 1 mm from the end wall (total copper height 118 mm). Alternative (B): total height 114 mm including arms (3 mm gaps). Run both; HAYSTAC (1611.07123) shows end gaps matter for C at the % level, so report the A-B spread as a systematic. Fit check: f(0)=4.662, f(180)=4.951 GHz."
+  },
+  {
+   "parameter": "Teflon axles (diameter, length, eps, tan_delta) and end-cap holes",
+   "issue": "Not dimensioned.",
+   "proposal": "First pass: omit (PEC end caps, rod arms float). Second pass: 3 mm-dia PTFE (eps=2.1) cylinder on the rotation axis from arm to end cap; check f shift < 1 MHz."
+  },
+  {
+   "parameter": "corner fillet in the HFSS model",
+   "issue": "Fillet is a fabrication statement; not stated whether the HFSS model includes it.",
+   "proposal": "Include 3 mm torus fillets at both barrel/end-cap edges (affects Q0 at ~1%, f at ~0.1%); also run without."
+  },
+  {
+   "parameter": "wall conductivity used in HFSS",
+   "issue": "Only 'bulk copper resistivity'.",
+   "proposal": "sigma = 5.8e7 S/m (HFSS default copper; IACS 100%). Check: empty pillbox Q = a L/(delta (a+L)) = 21200 at 4.59 GHz; with the rod, a ~10% Q reduction gives ~1.9e4, matching Fig. 5(b). Naively inverting the empty-cavity formula with Q0 = 1.8e4 would give sigma = 4.2e7 S/m, but that ignores rod losses; do not use it. Sweep 5.8e7 / 5.96e7."
+  },
+  {
+   "parameter": "probe geometry for Fig. 7 (depth zero, hole size, dielectric, outer conductor)",
+   "issue": "d=0 reference not defined (presumably flush with end-cap inner surface); probe-2 cable dimensions not given; probes are in the top end cap; probe tip shape unknown.",
+   "proposal": "Model as coax ports in the top end cap at (r = 15 mm, phi = 135 / 225 deg). Probe 1: pin 1.27 mm dia through a 2 mm-dia hole, protruding d1. Probe 2: standard .085 semi-rigid (0.51 / 1.68 PTFE / 2.20 mm), exposed pin protruding d2. Define d = protrusion below the end-cap inner surface and fit one depth offset per probe, as the paper does (-0.13 / +0.64 mm). Only the curve shape kappa(d) is a robust benchmark."
+  },
+  {
+   "parameter": "which probe is probe 1 vs probe 2 in azimuth",
+   "issue": "Fig. 4(c) shows probe 2 at upper-left (phi=135 deg) and probe 1 at lower-left (phi=225 deg) with the axle at phi=0; combined with unknown rotation sense this fixes coupling only up to a mirror.",
+   "proposal": "Use Fig. 4(c) placement; rod at theta=85 on either side; report both."
+  }
+ ],
+ "inconsistencies": [
+  {
+   "description": "Form factor: 2205.01477 says C average 0.62 and 0.62-0.63 in the CD102 search range (Fig. 5 caption, p.5); the PRL 2205.05574 says C = 0.60-0.61 over the operational frequency range.",
+   "evidence": "2205.01477 p.5; 2205.05574 p.2",
+   "proposal": "Benchmark against the Fig. 5(c) HFSS curve (uniform B, Eq. 3). The PRL value may include a later re-evaluation (e.g. magnet field profile of Fig. 3 or cold geometry); treat 0.60-0.61 as a non-simulation comparison only. Digitized Fig. 5(c): 0.616-0.631 over the 58-100 deg search window (grey-free band of Fig. 8), mean 0.618 over 0-180 deg, i.e. consistent with the instrumentation-paper text, not with the PRL."
+  },
+  {
+   "description": "Empty-cavity TM010 frequency: paper says 4.56 GHz for D = 50 mm, but the analytic value for a 25 mm radius is 2.40483 c/(2 pi a) = 4.590 GHz (the 3 mm fillets raise it further). 4.56 GHz corresponds to D = 50.33 mm.",
+   "evidence": "2205.01477 p.4",
+   "proposal": "Treat 4.56 as approximate; do not use as a benchmark. Use the analytic 4.590 GHz (plus fillet correction) for the empty-cavity check."
+  },
+  {
+   "description": "Mean RT Q0: simulation section says HFSS Q0 averages 1.8e4 (p.5); measurement section says the measured RT average 1.8e4 is ~9% LOWER than the simulation using bulk copper (p.7), implying a simulated mean ~2.0e4. Digitized Fig. 5(b) gives 1.69-1.96e4 (mean 1.85e4 over 0-180 deg, 1.86-1.94e4 over the 58-100 deg search window). Fig. 8(b) caption scaling (sim x3.2 vs meas x3.5) implies sim/meas = 3.5/3.2 = 1.094, i.e. measured 9% lower, consistent with the p.7 statement if the 3.2/3.5 factors were chosen to overlay the curves.",
+   "evidence": "2205.01477 p.5, p.7, Fig. 8 caption",
+   "proposal": "Use the Fig. 5(b) curve as the reference (HFSS); quote the 1.8e4 as approximate."
+  },
+  {
+   "description": "Probe-1 depth: d1 = 0.4 mm set at RT for beta1 ~ 0.01 cryogenically, but Fig. 7(a) shows kappa1/2pi ~ 2-3 kHz at d1 ~ 0.3-0.4 mm with kappa0/2pi = 250 kHz (beta1 ~ 0.01 at RT, ~0.035 cold); paper reports beta1 ~ 0.02 realized cold.",
+   "evidence": "2205.01477 p.6-7",
+   "proposal": "Not a simulation inconsistency; no action. Benchmark kappa(d) curve shape, fitting the depth offset."
+  },
+  {
+   "description": "the earlier literature survey: entries for TASEH agree with the PDF (D=50, L=120, 3 mm fillet, 4x114 mm rod, 1 mm gaps, 19 mm / 135 deg / 3.5 mm, probes 15 mm 90 deg apart, V=0.234 L, f 4.662-4.951, Q0 ~1.8e4, C 0.62-0.63 vs PRL 0.60-0.61, kappa0 250/264 kHz, 14/20 MHz offsets, cold Q0 6.1e4). No errors found.",
+   "evidence": "cross-check against 2205.01477 text",
+   "proposal": "none"
+  },
+  {
+   "description": "2205.01477 itself also uses C = 0.67 (with B0 = 7.8 T, V = 0.234 L, Q0 = 60000, f = 4.7 GHz) in the coupling / operating-time study (Sec. II C, near Fig. 12), i.e. a third C value besides 0.62-0.63 (Fig. 5) and 0.60-0.61 (PRL)",
+   "evidence": "2205.01477 text near Fig. 12",
+   "proposal": "benchmark only against the Fig. 5(c) HFSS curve"
+  }
+ ],
+ "solver_class": {
+  "axisymmetric_2d_possible": false,
+  "needs_3d": true,
+  "reason": "The rod is always off-axis: its centre stays between r = 15.5 and 22.5 mm for all theta (rotation axis at 19 mm, arm 3.5 mm), so there is no angle at which the geometry is axisymmetric. Probes are also off-axis. Only the empty-cavity sanity check (4.590 GHz analytic, fillets in 2D-axisym) can be done in 2D. Mirror symmetry about the plane through the cavity axis and the rotation axis holds only at theta = 0 and 180 deg (and only without probes), allowing a half-model there."
+ },
+ "priority": "P1",
+ "priority_reason": "Single-rod 3D tuning benchmark with full f/Q0/C(theta) curves and simulation-vs-measurement comparison; geometry nearly complete (rod-end arms, axles, theta origin inferred). First 3D rod benchmark after the 2D analytic set.",
+ "readme_row": {
+  "quantities": "f_TM010(theta), mode map, Q0(theta), C010(theta) [Fig. 5]; kappa1,2(d) at theta=85 [Fig. 7]; sim vs measured f, Q0 [Fig. 8]",
+  "geometry_complete": "nearly",
+  "axisym_2d": "no (empty-cavity check only)",
+  "needs_3d": "yes"
+ },
+ "digitization_cross_checks": [
+  "Fig. 5(a) TM010 end points digitized 4.6616 GHz (0 deg) / 4.9511 GHz (180 deg) vs text 4.662 / 4.951 GHz.",
+  "Fig. 8(a) simulation (same HFSS run, different plot) vs Fig. 5(a): mean difference +1.2 MHz, max 3.7 MHz (<= 1.5 px in Fig. 5a) -> f digitization uncertainty ~2 MHz.",
+  "Fig. 8(b) simulation / 3.2 vs Fig. 5(b): ratio 1.000 (range 0.9993-1.0016) -> Q0 digitization uncertainty ~0.2%; confirms the x3.2 caption factor.",
+  "Fig. 5(c) mean C = 0.618 vs text 'average value of 0.62'; Fig. 5(b) mean Q0 = 1.85e4 vs text 'average value of 1.8e4'.",
+  "theta sampling: 2.5 deg grid for f and Q0 (73 pts), 5 deg for C (37 pts); measured RT every 2.5 deg, base-temp every 5 deg; verified from isolated-marker centroids (C dots at 0.3+5k deg before phase correction)."
+ ]
+}

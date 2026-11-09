@@ -1,0 +1,218 @@
+{
+ "id": "xcode_stokes_axi_cavity_swirl",
+ "capability": "F1b",
+ "title": "Cross-code: axisymmetric Stokes cavity with a swirling lid against NGSolve (E_kin, dissipation)",
+ "physics": "cylinder r < 1, 0 < z < 1, mu = 1; lid z = 1: (u_r, u_z, u_theta) = (r(1-r^2)^2, 0, 2 r(1-r^2)^2); walls at rest; axis",
+ "levels": [
+  "cross_code"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1b_stokes",
+   "function": "xcode_cavity",
+   "check_module": "f1b_stokes_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2 (u_r, u_z, u_theta)",
+    "pressure": "P1",
+    "geometry": "affine"
+   },
+   "formulation": "weight r in every volume and boundary integral; continuity tested with r q (symmetric saddle point); grad u with the hoop entries (r,theta) = -u_theta/r, (theta,theta) = u_r/r; lap a = int mu grad u : grad v r, sym a = int 2 mu eps(u) : eps(v) r; traction g = sigma_form n (vector (g_r, g_z, g_theta)); grad-div gamma (div_r u, div_r v)_r with div_r u = d_r u_r + u_r/r + d_z u_z, the weight r, gamma in viscosity units (tools/fluids_mms/axi_stokes.py docstring)",
+   "forms": [
+    "lap",
+    "sym"
+   ],
+   "quadrature_error_norms": 10,
+   "solver": {
+    "kind": "direct sparse LU",
+    "tight": "same, plus 2 steps of iterative refinement (vacuous for a direct solve; meaningful for an iterative path)"
+   },
+   "axis_rule": "Axis r = 0 (attribute 'axis'): u_r = u_theta = 0 STRONGLY at every P2 velocity node on the axis (vertices and edge nodes), rows and columns eliminated (the assembled axis-axis entries are never used); u_z and p natural. No quadrature point on r = 0 (the hoop integrands u v / r are rational on elements that touch the axis at one vertex).",
+   "shared_node_rule": "At a velocity node shared by several boundary attributes: (1) Dirichlet beats every natural condition and the axis condition (the fixed data satisfy u_r = u_theta = 0 at r = 0 anyway); (2) between Dirichlet attributes the fixed data AGREE at shared nodes (one exact callable per field: checked by dirichlet_shared_node_mismatch_max), so the result does not depend on attribute order; (3) a node shared by the axis and a natural (traction / do-nothing) attribute takes the axis condition u_r = u_theta = 0 (strong) and the natural condition for u_z.",
+   "dirichlet_data": "Dirichlet data by P2 LAGRANGE NODAL INTERPOLATION of the fixed callable (exact at vertices and edge nodes); checked on the solution by dirichlet_nodal_data_defect_max.",
+   "quadrature": "QUADRATURE REQUIREMENTS: (a) no quadrature point on r = 0; (b) the viscous rule (including the 1/r hoop terms) and the load rule exact to degree >= 4 on affine elements (the order-4 functionals need it; degree 3 drops the torque orders to 2.96); (c) the continuity / pressure coupling (div_r v, q)_r integrated exactly, i.e. degree >= 3 on affine elements; (d) grad-div assembled with the SAME rule as the viscous 1/r terms. The constant-mu identity and continuity_rq_max_rel hold to round-off only under (c) and (d) (measured: a degree-2 grad-div rule gives identity p 5e-7, a degree-2 (div, q) rule continuity 3e-5).",
+   "lid": "f1b_stokes_check.cavity_lid (one callable for every Dirichlet edge)",
+   "meshes": {
+    "structured": {
+     "N": [
+      64,
+      128
+     ],
+     "construction": "f1b_stokes_check.square_mesh(N)"
+    }
+   },
+   "boundaries": {
+    "axis": "axis",
+    "r1": "dirichlet",
+    "z0": "dirichlet",
+    "z1": "dirichlet (lid)"
+   },
+   "quantities": "<form>_Ekin_N<N> = f1b_stokes_check.kinetic_energy_r, <form>_Diss_N<N> = f1b_stokes_check.dissipation_r (per radian)"
+  }
+ },
+ "reference": {
+  "quantities": {
+   "lap_Ekin_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.0050954955634350055,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_axi_cavity_reference.json: quantities.lap_Ekin_N64"
+   },
+   "lap_Ekin_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.005095494684496358,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_axi_cavity_reference.json: quantities.lap_Ekin_N128"
+   },
+   "lap_Diss_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.407607758788691,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_axi_cavity_reference.json: quantities.lap_Diss_N64"
+   },
+   "lap_Diss_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.4076075356520145,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_axi_cavity_reference.json: quantities.lap_Diss_N128"
+   },
+   "sym_Ekin_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.005095495883088845,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_axi_cavity_reference.json: quantities.sym_Ekin_N64"
+   },
+   "sym_Ekin_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.005095494704776396,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_axi_cavity_reference.json: quantities.sym_Ekin_N128"
+   },
+   "sym_Diss_N64": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.4076078061530699,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_axi_cavity_reference.json: quantities.sym_Diss_N64"
+   },
+   "sym_Diss_N128": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.40760753864138305,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/ngsolve_axi_cavity_reference.json: quantities.sym_Diss_N128"
+   }
+  },
+  "tolerance_recipe": {
+   "lap_Ekin_N64": {
+    "rel": 1e-09
+   },
+   "lap_Ekin_N128": {
+    "rel": 1e-09
+   },
+   "lap_Diss_N64": {
+    "rel": 1e-09
+   },
+   "lap_Diss_N128": {
+    "rel": 1e-09
+   },
+   "sym_Ekin_N64": {
+    "rel": 1e-09
+   },
+   "sym_Ekin_N128": {
+    "rel": 1e-09
+   },
+   "sym_Diss_N64": {
+    "rel": 1e-09
+   },
+   "sym_Diss_N128": {
+    "rel": 1e-09
+   }
+  }
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "lap_Ekin_N64",
+    "reference": "lap_Ekin_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Ekin_N128",
+    "reference": "lap_Ekin_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Diss_N64",
+    "reference": "lap_Diss_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Diss_N128",
+    "reference": "lap_Diss_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Ekin_N64",
+    "reference": "sym_Ekin_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Ekin_N128",
+    "reference": "sym_Ekin_N128",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Diss_N64",
+    "reference": "sym_Diss_N64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Diss_N128",
+    "reference": "sym_Diss_N128",
+    "level": "cross_code"
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "cross_code",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "axis_nodal_max_rel",
+    "level": "cross_code",
+    "abs_max": 1e-13
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

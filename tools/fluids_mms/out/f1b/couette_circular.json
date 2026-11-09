@@ -1,0 +1,477 @@
+{
+ "name": "couette_circular",
+ "description": "Circular Couette: inner cylinder r = 1 at u_theta = 1, outer r = 2 at rest, u_theta = -r/3 + 4/(3r) (not in P2), p = 0; do-nothing on z = 0, 1 (holds in both forms); mu = 7/10.",
+ "domain": {
+  "kind": "rect",
+  "r": [
+   1,
+   2
+  ],
+  "z": [
+   0,
+   1
+  ],
+  "axis": "none (annulus R1 = 1 < r < R2 = 2)"
+ },
+ "pressure": "determined",
+ "conventions": {
+  "coordinates": "meridional (r, z), r >= 0; variables r, z in every spelling",
+  "components": "(u_r, u_z, u_theta); grad_u[i][j] = d u_i / d (r, z)_j (meridional derivatives only)",
+  "sigma": "3x3, rows/columns (r, z, theta); sigma_sym = 2 mu eps - p I, sigma_lap = mu grad u - p I with grad u including the hoop entries (r,theta) = -u_t/r and (theta,theta) = u_r/r",
+  "f": "-div sigma_form - gamma grad div u (= -div sigma_form for these divergence-free fields)",
+  "traction": "g = sigma_form n, (sigma n)_i = sigma_ij n_j, n the outward unit normal (n_r, n_z, 0)",
+  "weights": "volume integrals int (.) r dr dz, boundary integrals int (.) r ds; physical 3D values carry a further factor 2 pi"
+ },
+ "u": [
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "-r/3 + 4/(3*r)",
+   "c": "-1.0/3.0*r + (4.0/3.0)/r",
+   "numpy": "-1/3*r + (4/3)/r"
+  }
+ ],
+ "p": {
+  "sympy": "0",
+  "c": "0",
+  "numpy": "0"
+ },
+ "mu": {
+  "sympy": "7/10",
+  "c": "7.0/10.0",
+  "numpy": "7/10"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "-1/3 - 4/(3*r**2)",
+    "c": "-1.0/3.0 - (4.0/3.0)/pow(r, 2)",
+    "numpy": "-1/3 - (4/3)/r**2"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "7*(r/3 - 4/(3*r))/(10*r)",
+      "c": "(7.0/10.0)*((1.0/3.0)*r - (4.0/3.0)/r)/r",
+      "numpy": "(7/10)*((1/3)*r - (4/3)/r)/r"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    [
+     {
+      "sympy": "-7/30 - 14/(15*r**2)",
+      "c": "-7.0/30.0 - (14.0/15.0)/pow(r, 2)",
+      "numpy": "-7/30 - (14/15)/r**2"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "-7/30 + 7*(r/3 - 4/(3*r))/(10*r) - 14/(15*r**2)",
+      "c": "-7.0/30.0 + (7.0/10.0)*((1.0/3.0)*r - (4.0/3.0)/r)/r - (14.0/15.0)/pow(r, 2)",
+      "numpy": "-7/30 + (7/10)*((1/3)*r - (4/3)/r)/r - (14/15)/r**2"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    [
+     {
+      "sympy": "-7/30 + 7*(r/3 - 4/(3*r))/(10*r) - 14/(15*r**2)",
+      "c": "-7.0/30.0 + (7.0/10.0)*((1.0/3.0)*r - (4.0/3.0)/r)/r - (14.0/15.0)/pow(r, 2)",
+      "numpy": "-7/30 + (7/10)*((1/3)*r - (4/3)/r)/r - (14/15)/r**2"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "r1",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    "z": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "r2",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "2",
+     "c": "2",
+     "numpy": "2"
+    },
+    "z": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "z0",
+   "bc": "do_nothing",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "z": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "range": [
+     1,
+     2
+    ]
+   },
+   "traction": {
+    "lap": [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    "sym": [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   }
+  },
+  {
+   "name": "z1",
+   "bc": "do_nothing",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "z": {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    "range": [
+     1,
+     2
+    ]
+   },
+   "traction": {
+    "lap": [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    "sym": [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   }
+  }
+ ],
+ "extra": {
+  "do_nothing_form": "both",
+  "torque_inner_per_radian": {
+   "sympy": "-28/15",
+   "c": "-28.0/15.0",
+   "numpy": "-28/15"
+  }
+ },
+ "constants": {
+  "area": 1.0,
+  "area_r": 1.5,
+  "p_mean": 0.0,
+  "p_mean_r": 0.0,
+  "u_L2r": 0.5617784150909731,
+  "u_L2": 0.5091750772173165,
+  "ut_L2r": 0.5617784150909731,
+  "grad_u_L2r": 1.2909944487358067,
+  "p_minus_mean_L2r": 0.0,
+  "u_max_sampled": 0.9983346653346654,
+  "ut_max_sampled": 0.9983346653346654,
+  "p_max_abs_sampled": 0.0,
+  "p_minus_mean_r_max_abs_sampled": 0.0,
+  "p_minus_mean_max_abs_sampled": 0.0,
+  "mu_min_sampled": 0.7,
+  "mu_max_sampled": 0.7
+ },
+ "selfcheck": {
+  "parity": "u_r, u_t odd; u_z, p, mu even (symbolic)",
+  "forcing_routes": "A == B at 6 random points, 60 digits, both forms, gamma 0 and 1",
+  "fd_residual": {
+   "lap": 1.0,
+   "sym": 1.0
+  },
+  "status": "pass"
+ }
+}

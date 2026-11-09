@@ -1,0 +1,879 @@
+{
+ "id": "chem_analytic_c3_disk_primary",
+ "capability": "C3a",
+ "title": "Primary disk electrode (Newman 1966 resistance problem): graded and uniform nested families, half-space DtN, per-level cross-code",
+ "physics": "Laplace in z > 0, phi = V on the disk, insulating plane, phi -> 0 at infinity",
+ "levels": [
+  "analytic",
+  "conservation",
+  "cross_code"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3_current_distribution",
+   "function": "disk_primary",
+   "check_module": "c3_checks",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "disk": {
+    "Rb_over_r0": "5",
+    "V": "0.1",
+    "kappa": "1",
+    "r0": "0.001"
+   },
+   "domain": "quarter disk rho < Rb = 5 r0 in the meridian (r, z >= 0); z = 0: disk r < r0 (primary, phi_s - E_eq = V; a facet is disk iff BOTH vertices have r <= r0) and insulating plane r > r0; r = 0 axis",
+   "exterior": "half-space even-mode DtN, discretized EXACTLY as follows (two other faithful readings move the per-level values by up to 3.2e-4): for modes n = 0..11, c_n(u) = sum over the outer-boundary facets, sum over the degree-(2k+4) Gauss-Legendre points q of the facet, of w_q |J_q| (r_q / Rb^2) P_2n(z_q / |x_q|) u(x_q), with x_q = (r_q, z_q) the PHYSICAL quadrature point (on the straight P1 facet or on the isoparametric P2 facet) and |J_q| the facet length Jacobian; the bilinear term added to the per-radian stiffness is sum_n kappa Rb (2n+1)(4n+1) c_n(phi) c_n(v), kappa the electrolyte conductivity of the case. Facets are straight for P1; for P2 the outer-arc edge node is the radial projection of the chord midpoint onto rho = Rb (the arc point at the mean polar angle of the two vertices); every other edge node is the straight midpoint. Derivation: phi = sum a_n (Rb/rho)^(2n+1) P_2n(cos th), a_n = (4n+1) int_0^{pi/2} phi P_2n sin th dth (insulating plane z = 0 outside the hemisphere). axi::ElectroProblem's full-sphere map must not be used.",
+   "meshes": {
+    "p1": {
+     "family": "disk_p1",
+     "n": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "beta": 3.0,
+     "h_nominal": [
+      0.000125,
+      6.25e-05,
+      3.125e-05,
+      1.5625e-05,
+      7.8125e-06
+     ],
+     "construction": "meshes.disk_graded: polar grid about the origin with radial nodes rho_i (2n uniform intervals on [0, r0], 4n uniform on [r0, Rb]) and angles th_j (4n uniform intervals on [0, pi/2], th from +z); the fan at the origin is the triangles (origin, (1, j), (1, j+1)); every other quad (i, j), (i+1, j), (i+1, j+1), (i, j+1) is split along the diagonal (i, j)-(i+1, j+1) into [(i,j),(i+1,j),(i+1,j+1)] and [(i,j),(i+1,j+1),(i,j+1)]; then x -> e + (x - e)(|x - e|/Rg)^(beta-1) for |x - e| < Rg = r0/2 about the rim e = (r0, 0); a z = 0 facet is disk iff both vertices have r <= r0 (else insulating plane); P2: only the outer-arc edge node curved (radial projection of the chord midpoint), all other edge nodes straight; verified by vertex and connectivity hashes",
+     "levels": [
+      {
+       "name": "p1_4",
+       "n_elements": 752,
+       "hash_scale": 0.001,
+       "vertex_hash": "cb6a6131ea8c6f47",
+       "connectivity_hash": "0d6911ae21e3ecb1"
+      },
+      {
+       "name": "p1_8",
+       "n_elements": 3040,
+       "hash_scale": 0.001,
+       "vertex_hash": "838054130c9452c7",
+       "connectivity_hash": "2fe77cfd5e9c8761"
+      },
+      {
+       "name": "p1_16",
+       "n_elements": 12224,
+       "hash_scale": 0.001,
+       "vertex_hash": "9c39bce47a2bbe58",
+       "connectivity_hash": "2f7741689443967c"
+      },
+      {
+       "name": "p1_32",
+       "n_elements": 49024,
+       "hash_scale": 0.001,
+       "vertex_hash": "31ba752130bc3e34",
+       "connectivity_hash": "42e71916210729a3"
+      },
+      {
+       "name": "p1_64",
+       "n_elements": 196352,
+       "hash_scale": 0.001,
+       "vertex_hash": "ba04c37756441417",
+       "connectivity_hash": "b8f6e9248ea4d79c"
+      }
+     ]
+    },
+    "p2": {
+     "family": "disk_p2",
+     "n": [
+      2,
+      4,
+      8,
+      16,
+      32
+     ],
+     "beta": 3.0,
+     "h_nominal": [
+      0.00025,
+      0.000125,
+      6.25e-05,
+      3.125e-05,
+      1.5625e-05
+     ],
+     "construction": "meshes.disk_graded: polar grid about the origin with radial nodes rho_i (2n uniform intervals on [0, r0], 4n uniform on [r0, Rb]) and angles th_j (4n uniform intervals on [0, pi/2], th from +z); the fan at the origin is the triangles (origin, (1, j), (1, j+1)); every other quad (i, j), (i+1, j), (i+1, j+1), (i, j+1) is split along the diagonal (i, j)-(i+1, j+1) into [(i,j),(i+1,j),(i+1,j+1)] and [(i,j),(i+1,j+1),(i,j+1)]; then x -> e + (x - e)(|x - e|/Rg)^(beta-1) for |x - e| < Rg = r0/2 about the rim e = (r0, 0); a z = 0 facet is disk iff both vertices have r <= r0 (else insulating plane); P2: only the outer-arc edge node curved (radial projection of the chord midpoint), all other edge nodes straight; verified by vertex and connectivity hashes",
+     "levels": [
+      {
+       "name": "p2_2",
+       "n_elements": 184,
+       "hash_scale": 0.001,
+       "vertex_hash": "175bcddcb1b7eb50",
+       "connectivity_hash": "dc5b157d1deae799"
+      },
+      {
+       "name": "p2_4",
+       "n_elements": 752,
+       "hash_scale": 0.001,
+       "vertex_hash": "cb6a6131ea8c6f47",
+       "connectivity_hash": "0d6911ae21e3ecb1"
+      },
+      {
+       "name": "p2_8",
+       "n_elements": 3040,
+       "hash_scale": 0.001,
+       "vertex_hash": "838054130c9452c7",
+       "connectivity_hash": "2fe77cfd5e9c8761"
+      },
+      {
+       "name": "p2_16",
+       "n_elements": 12224,
+       "hash_scale": 0.001,
+       "vertex_hash": "9c39bce47a2bbe58",
+       "connectivity_hash": "2f7741689443967c"
+      },
+      {
+       "name": "p2_32",
+       "n_elements": 49024,
+       "hash_scale": 0.001,
+       "vertex_hash": "31ba752130bc3e34",
+       "connectivity_hash": "42e71916210729a3"
+      }
+     ]
+    },
+    "uniform_p1": {
+     "family": "disk_uniform_p1",
+     "n": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "beta": 1.0,
+     "h_nominal": [
+      0.000125,
+      6.25e-05,
+      3.125e-05,
+      1.5625e-05,
+      7.8125e-06
+     ],
+     "construction": "meshes.disk_graded: polar grid about the origin with radial nodes rho_i (2n uniform intervals on [0, r0], 4n uniform on [r0, Rb]) and angles th_j (4n uniform intervals on [0, pi/2], th from +z); the fan at the origin is the triangles (origin, (1, j), (1, j+1)); every other quad (i, j), (i+1, j), (i+1, j+1), (i, j+1) is split along the diagonal (i, j)-(i+1, j+1) into [(i,j),(i+1,j),(i+1,j+1)] and [(i,j),(i+1,j+1),(i,j+1)]; then x -> e + (x - e)(|x - e|/Rg)^(beta-1) for |x - e| < Rg = r0/2 about the rim e = (r0, 0); a z = 0 facet is disk iff both vertices have r <= r0 (else insulating plane); P2: only the outer-arc edge node curved (radial projection of the chord midpoint), all other edge nodes straight; verified by vertex and connectivity hashes",
+     "levels": [
+      {
+       "name": "uniform_p1_4",
+       "n_elements": 752,
+       "hash_scale": 0.001,
+       "vertex_hash": "5e30a2a7e49311c8",
+       "connectivity_hash": "cc61deee46f77714"
+      },
+      {
+       "name": "uniform_p1_8",
+       "n_elements": 3040,
+       "hash_scale": 0.001,
+       "vertex_hash": "453478ec40eb5908",
+       "connectivity_hash": "3e46ede582407b26"
+      },
+      {
+       "name": "uniform_p1_16",
+       "n_elements": 12224,
+       "hash_scale": 0.001,
+       "vertex_hash": "951c2555b0b59119",
+       "connectivity_hash": "dfb9db5653999708"
+      },
+      {
+       "name": "uniform_p1_32",
+       "n_elements": 49024,
+       "hash_scale": 0.001,
+       "vertex_hash": "f58656b7e0cb9644",
+       "connectivity_hash": "07f6c8ef039b0e86"
+      },
+      {
+       "name": "uniform_p1_64",
+       "n_elements": 196352,
+       "hash_scale": 0.001,
+       "vertex_hash": "c0cafa8914fe7e75",
+       "connectivity_hash": "53322cab5c3d11d8"
+      }
+     ]
+    },
+    "uniform_p2": {
+     "family": "disk_uniform_p2",
+     "n": [
+      2,
+      4,
+      8,
+      16,
+      32
+     ],
+     "beta": 1.0,
+     "h_nominal": [
+      0.00025,
+      0.000125,
+      6.25e-05,
+      3.125e-05,
+      1.5625e-05
+     ],
+     "construction": "meshes.disk_graded: polar grid about the origin with radial nodes rho_i (2n uniform intervals on [0, r0], 4n uniform on [r0, Rb]) and angles th_j (4n uniform intervals on [0, pi/2], th from +z); the fan at the origin is the triangles (origin, (1, j), (1, j+1)); every other quad (i, j), (i+1, j), (i+1, j+1), (i, j+1) is split along the diagonal (i, j)-(i+1, j+1) into [(i,j),(i+1,j),(i+1,j+1)] and [(i,j),(i+1,j+1),(i,j+1)]; then x -> e + (x - e)(|x - e|/Rg)^(beta-1) for |x - e| < Rg = r0/2 about the rim e = (r0, 0); a z = 0 facet is disk iff both vertices have r <= r0 (else insulating plane); P2: only the outer-arc edge node curved (radial projection of the chord midpoint), all other edge nodes straight; verified by vertex and connectivity hashes",
+     "levels": [
+      {
+       "name": "uniform_p2_2",
+       "n_elements": 184,
+       "hash_scale": 0.001,
+       "vertex_hash": "b85147a23f26ff44",
+       "connectivity_hash": "372c411f325026f8"
+      },
+      {
+       "name": "uniform_p2_4",
+       "n_elements": 752,
+       "hash_scale": 0.001,
+       "vertex_hash": "5e30a2a7e49311c8",
+       "connectivity_hash": "cc61deee46f77714"
+      },
+      {
+       "name": "uniform_p2_8",
+       "n_elements": 3040,
+       "hash_scale": 0.001,
+       "vertex_hash": "453478ec40eb5908",
+       "connectivity_hash": "3e46ede582407b26"
+      },
+      {
+       "name": "uniform_p2_16",
+       "n_elements": 12224,
+       "hash_scale": 0.001,
+       "vertex_hash": "951c2555b0b59119",
+       "connectivity_hash": "dfb9db5653999708"
+      },
+      {
+       "name": "uniform_p2_32",
+       "n_elements": 49024,
+       "hash_scale": 0.001,
+       "vertex_hash": "f58656b7e0cb9644",
+       "connectivity_hash": "07f6c8ef039b0e86"
+      }
+     ]
+    }
+   },
+   "points_r_over_r0": [
+    0.0,
+    0.3,
+    0.6
+   ],
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "I_disk": {
+    "kind": "scalar",
+    "source": "b4_closed_form",
+    "unit": "A",
+    "value": 0.0004,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "dlfx_p1_n4": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.00042055043598831723,
+    "output_key": "p1_n4",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_p1_n8": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.0004066173203485361,
+    "output_key": "p1_n8",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_p1_n16": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.000401865874981393,
+    "output_key": "p1_n16",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_p1_n32": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.00040049373742921484,
+    "output_key": "p1_n32",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_p1_n64": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.0004001268770339428,
+    "output_key": "p1_n64",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_p2_n2": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.00041650011118460144,
+    "output_key": "p2_n2",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_p2_n4": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.000402735398346948,
+    "output_key": "p2_n4",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_p2_n8": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.0004004109865770209,
+    "output_key": "p2_n8",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_p2_n16": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.0004000546578851037,
+    "output_key": "p2_n16",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_p2_n32": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.00040000698334048787,
+    "output_key": "p2_n32",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_uniform_p1_n4": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.0004270870848377875,
+    "output_key": "uniform_p1_n4",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_uniform_p1_n8": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.00041310949634526273,
+    "output_key": "uniform_p1_n8",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_uniform_p1_n16": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.0004064305773453636,
+    "output_key": "uniform_p1_n16",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_uniform_p1_n32": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.00040318097179459315,
+    "output_key": "uniform_p1_n32",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_uniform_p1_n64": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.0004015811719050394,
+    "output_key": "uniform_p1_n64",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_uniform_p2_n2": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.0004167704181490614,
+    "output_key": "uniform_p2_n2",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_uniform_p2_n4": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.0004079170533111946,
+    "output_key": "uniform_p2_n4",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_uniform_p2_n8": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.0004038414698826892,
+    "output_key": "uniform_p2_n8",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_uniform_p2_n16": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.0004018915522640352,
+    "output_key": "uniform_p2_n16",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   },
+   "dlfx_uniform_p2_n32": {
+    "kind": "scalar",
+    "source": "disk_dolfinx",
+    "unit": "A",
+    "value": 0.00040093849565884024,
+    "output_key": "uniform_p2_n32",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "reference_spread"
+   }
+  },
+  "tolerance_recipe": {
+   "dlfx_p1_n4": {
+    "rel": 1e-09
+   },
+   "dlfx_p1_n8": {
+    "rel": 1e-09
+   },
+   "dlfx_p1_n16": {
+    "rel": 1e-09
+   },
+   "dlfx_p1_n32": {
+    "rel": 1e-09
+   },
+   "dlfx_p1_n64": {
+    "rel": 1e-09
+   },
+   "dlfx_p2_n2": {
+    "rel": 1e-09
+   },
+   "dlfx_p2_n4": {
+    "rel": 1e-09
+   },
+   "dlfx_p2_n8": {
+    "rel": 1e-09
+   },
+   "dlfx_p2_n16": {
+    "rel": 1e-09
+   },
+   "dlfx_p2_n32": {
+    "rel": 1e-09
+   },
+   "dlfx_uniform_p1_n4": {
+    "rel": 1e-09
+   },
+   "dlfx_uniform_p1_n8": {
+    "rel": 1e-09
+   },
+   "dlfx_uniform_p1_n16": {
+    "rel": 1e-09
+   },
+   "dlfx_uniform_p1_n32": {
+    "rel": 1e-09
+   },
+   "dlfx_uniform_p1_n64": {
+    "rel": 1e-09
+   },
+   "dlfx_uniform_p2_n2": {
+    "rel": 1e-09
+   },
+   "dlfx_uniform_p2_n4": {
+    "rel": 1e-09
+   },
+   "dlfx_uniform_p2_n8": {
+    "rel": 1e-09
+   },
+   "dlfx_uniform_p2_n16": {
+    "rel": 1e-09
+   },
+   "dlfx_uniform_p2_n32": {
+    "rel": 1e-09
+   }
+  }
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "p1_I_rel",
+    "level": "analytic",
+    "norm": "I_h / (4 kappa r0 V) - 1, I_h the reaction current; the closed form 4 kappa r0 V is a formula of fixed parameters, evaluated in the case",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-12,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "p2_I_rel",
+    "level": "analytic",
+    "norm": "I_h / (4 kappa r0 V) - 1, I_h the reaction current; the closed form 4 kappa r0 V is a formula of fixed parameters, evaluated in the case",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-12,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "uniform_p1_I_rel",
+    "level": "analytic",
+    "norm": "I_h / (4 kappa r0 V) - 1, I_h the reaction current; the closed form 4 kappa r0 V is a formula of fixed parameters, evaluated in the case",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.uniform_p1.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-12,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "uniform_p2_I_rel",
+    "level": "analytic",
+    "norm": "I_h / (4 kappa r0 V) - 1, I_h the reaction current; the closed form 4 kappa r0 V is a formula of fixed parameters, evaluated in the case",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.uniform_p2.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-12,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "functional_convergence": [
+   {
+    "id": "p1_I_gci",
+    "series": "p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1.h_nominal",
+    "order_range": [
+     1.5,
+     2.5
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "p2_I_gci",
+    "series": "p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2.h_nominal",
+    "order_range": [
+     2.5,
+     3.5
+    ],
+    "formal_order": 3.0,
+    "gci_cap_rel": 0.01
+   }
+  ],
+  "comparisons": [
+   {
+    "quantity": "p1_n4",
+    "reference": "dlfx_p1_n4",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "p1_n8",
+    "reference": "dlfx_p1_n8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "p1_n16",
+    "reference": "dlfx_p1_n16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "p1_n32",
+    "reference": "dlfx_p1_n32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "p1_n64",
+    "reference": "dlfx_p1_n64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "p2_n2",
+    "reference": "dlfx_p2_n2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "p2_n4",
+    "reference": "dlfx_p2_n4",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "p2_n8",
+    "reference": "dlfx_p2_n8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "p2_n16",
+    "reference": "dlfx_p2_n16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "p2_n32",
+    "reference": "dlfx_p2_n32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "uniform_p1_n4",
+    "reference": "dlfx_uniform_p1_n4",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "uniform_p1_n8",
+    "reference": "dlfx_uniform_p1_n8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "uniform_p1_n16",
+    "reference": "dlfx_uniform_p1_n16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "uniform_p1_n32",
+    "reference": "dlfx_uniform_p1_n32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "uniform_p1_n64",
+    "reference": "dlfx_uniform_p1_n64",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "uniform_p2_n2",
+    "reference": "dlfx_uniform_p2_n2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "uniform_p2_n4",
+    "reference": "dlfx_uniform_p2_n4",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "uniform_p2_n8",
+    "reference": "dlfx_uniform_p2_n8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "uniform_p2_n16",
+    "reference": "dlfx_uniform_p2_n16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "uniform_p2_n32",
+    "reference": "dlfx_uniform_p2_n32",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "p1_I_react",
+    "reference": "I_disk",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0005,
+     "gci": {
+      "formal_order": 2,
+      "order_window": 0.5,
+      "cap_rel": 0.01,
+      "max_fraction": 1.0
+     }
+    },
+    "gci_from": "p1_I_gci"
+   },
+   {
+    "quantity": "p2_I_react",
+    "reference": "I_disk",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 5e-05,
+     "gci": {
+      "formal_order": 3.0,
+      "order_window": 0.5,
+      "cap_rel": 0.01,
+      "max_fraction": 1.0
+     }
+    },
+    "gci_from": "p2_I_gci"
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "p1_from_above",
+    "level": "analytic",
+    "min": 0.0
+   },
+   {
+    "quantity": "p1_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 3.141592653589793e-06,
+    "scale_quantity": "p1_measure_scale"
+   },
+   {
+    "quantity": "p2_from_above",
+    "level": "analytic",
+    "min": 0.0
+   },
+   {
+    "quantity": "p2_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 3.141592653589793e-06,
+    "scale_quantity": "p2_measure_scale"
+   },
+   {
+    "quantity": "uniform_p1_from_above",
+    "level": "analytic",
+    "min": 0.0
+   },
+   {
+    "quantity": "uniform_p1_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 3.141592653589793e-06,
+    "scale_quantity": "uniform_p1_measure_scale"
+   },
+   {
+    "quantity": "uniform_p2_from_above",
+    "level": "analytic",
+    "min": 0.0
+   },
+   {
+    "quantity": "uniform_p2_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 3.141592653589793e-06,
+    "scale_quantity": "uniform_p2_measure_scale"
+   },
+   {
+    "quantity": "p1_density_var_rel_r0.0",
+    "level": "analytic",
+    "abs_max": 0.02
+   },
+   {
+    "quantity": "p1_density_var_rel_r0.3",
+    "level": "analytic",
+    "abs_max": 0.02
+   },
+   {
+    "quantity": "p1_density_var_rel_r0.6",
+    "level": "analytic",
+    "abs_max": 0.02
+   },
+   {
+    "quantity": "p2_density_var_rel_r0.0",
+    "level": "analytic",
+    "abs_max": 0.02
+   },
+   {
+    "quantity": "p2_density_var_rel_r0.3",
+    "level": "analytic",
+    "abs_max": 0.02
+   },
+   {
+    "quantity": "p2_density_var_rel_r0.6",
+    "level": "analytic",
+    "abs_max": 0.02
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  }
+ }
+}

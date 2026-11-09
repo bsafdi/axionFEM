@@ -1,0 +1,156 @@
+{
+  "check": "port_solenoid",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:54",
+  "template": "solenoid",
+  "L_p_H": 2.4548325387089015e-07,
+  "C_gap_F": 9.791108702458379e-12,
+  "C_gap_port_region_F": 9.012098217428376e-13,
+  "self_resonance_lumped_Hz": 102658108.9534914,
+  "self_resonance_from_port_region_Hz": 338373417.7040851,
+  "dirichlet_bound": {
+    "C_gap_F": 9.791108702458379e-12,
+    "C_gap_over_C_region": 10.86440523198414,
+    "C_gap_plus_quarter_terminal_to_ground_F": 1.951084711220929e-11,
+    "C_gap_port_region_F": 9.012098217428376e-13,
+    "C_terminal_to_ground_F": [
+      2.7190178073630168e-11,
+      1.168877556537347e-11
+    ],
+    "bound_over_C_region": 21.649616594809768,
+    "holds": true,
+    "note": "rigorous (Dirichlet principle, exact for the discrete problems): C_gap_port_region <= C_gap + (C_A_to_ground + C_B_to_ground)/4. The stronger C_gap >= C_gap_port_region is NOT proven; it is observed on every case run so far, with C_gap/C_region falling towards 1 as the gap grows relative to the electrode spacing (1.02 at the widest gap tested, 5.6 at the narrowest), but the bound above is the only guaranteed one."
+  },
+  "fullwave_first_pole_bracket_Hz": [
+    27232196.149953257,
+    33658654.36338598
+  ],
+  "fullwave_first_pole_Hz": 30275387.326460533,
+  "lumped_over_fullwave": 3.3908107548394186,
+  "C_effective_from_fullwave_F": 1.125742276752654e-10,
+  "C_gap_over_C_effective": 0.08697469131835459,
+  "C_gap_over_C_effective_threshold": 0.40528473456935116,
+  "lumped_estimate_is_above_the_pole": true,
+  "sweep": [
+    {
+      "f_Hz": 5000000.0,
+      "k_R": 0.10584017360855993,
+      "L_over_MQS": 1.0203639491140193,
+      "L_H": 2.504822623610608e-07
+    },
+    {
+      "f_Hz": 6179937.55957941,
+      "k_R": 0.130817132839189,
+      "L_over_MQS": 1.0314945872461767,
+      "L_H": 2.532146476274022e-07
+    },
+    {
+      "f_Hz": 7638325.64806006,
+      "k_R": 0.16168834253387854,
+      "L_over_MQS": 1.0490411518658624,
+      "L_H": 2.5752203540449854e-07
+    },
+    {
+      "f_Hz": 9440875.11294902,
+      "k_R": 0.1998447721942514,
+      "L_over_MQS": 1.0771931999538953,
+      "L_H": 2.6443289177227863e-07
+    },
+    {
+      "f_Hz": 11668803.741162429,
+      "k_R": 0.24700564275376896,
+      "L_over_MQS": 1.1236620565469355,
+      "L_H": 2.758402178923979e-07
+    },
+    {
+      "f_Hz": 14422495.703074083,
+      "k_R": 0.3052958898164141,
+      "L_over_MQS": 1.2040808440932451,
+      "L_H": 2.955816835316178e-07
+    },
+    {
+      "f_Hz": 17826024.579660036,
+      "k_R": 0.37734190725233496,
+      "L_over_MQS": 1.3553268363025164,
+      "L_H": 3.3271004183408103e-07
+    },
+    {
+      "f_Hz": 22032743.76756536,
+      "k_R": 0.46638988508640683,
+      "L_over_MQS": 1.689764999586511,
+      "L_H": 4.1480901037564006e-07
+    },
+    {
+      "f_Hz": 27232196.149953257,
+      "k_R": 0.576452073650682,
+      "L_over_MQS": 2.7892475337349385,
+      "L_H": 6.847135604326081e-07
+    },
+    {
+      "f_Hz": 33658654.36338598,
+      "k_R": 0.7124875642502572,
+      "L_over_MQS": -22.25942885521363,
+      "L_H": -5.464317024685425e-06
+    },
+    {
+      "f_Hz": 41601676.46103808,
+      "k_R": 0.8806257318086823,
+      "L_over_MQS": -1.4808112279110028,
+      "L_H": -3.635143585961413e-07
+    },
+    {
+      "f_Hz": 51419152.58060796,
+      "k_R": 1.0884424071873158,
+      "L_over_MQS": -0.5082752331133347,
+      "L_H": -1.247730580866466e-07
+    },
+    {
+      "f_Hz": 63553430.46292875,
+      "k_R": 1.345301222723184,
+      "L_over_MQS": -0.17098290452881365,
+      "L_H": -4.197343976002894e-08
+    },
+    {
+      "f_Hz": 78551246.3915943,
+      "k_R": 1.6627755110510216,
+      "L_over_MQS": 0.04317173934864751,
+      "L_H": 1.0597939050571934e-08
+    },
+    {
+      "f_Hz": 97088359.58543803,
+      "k_R": 2.055169766778611,
+      "L_over_MQS": 0.7485131560996543,
+      "L_H": 1.8374744512451266e-07
+    },
+    {
+      "f_Hz": 120000000.0,
+      "k_R": 2.540164166605438,
+      "L_over_MQS": -0.187359288530545,
+      "L_H": -4.5993567791413137e-08
+    }
+  ],
+  "checks": {
+    "dirichlet_bound": {
+      "C_gap_F": 9.791108702458379e-12,
+      "C_gap_over_C_region": 10.86440523198414,
+      "C_gap_plus_quarter_terminal_to_ground_F": 1.951084711220929e-11,
+      "C_gap_port_region_F": 9.012098217428376e-13,
+      "C_terminal_to_ground_F": [
+        2.7190178073630168e-11,
+        1.168877556537347e-11
+      ],
+      "bound_over_C_region": 21.649616594809768,
+      "holds": true,
+      "note": "rigorous (Dirichlet principle, exact for the discrete problems): C_gap_port_region <= C_gap + (C_A_to_ground + C_B_to_ground)/4. The stronger C_gap >= C_gap_port_region is NOT proven; it is observed on every case run so far, with C_gap/C_region falling towards 1 as the gap grows relative to the electrode spacing (1.02 at the widest gap tested, 5.6 at the narrowest), but the bound above is the only guaranteed one."
+    },
+    "gap_charge_fraction_beyond_terminal_faces": 0.4818164884460212,
+    "gap_charge_reaction_C": 3.6981286776088545e-11,
+    "gap_charge_terminal_faces_C": 1.916309304341828e-11,
+    "gap_energy_relative": 3.6312312057238527e-13,
+    "gap_symmetry_relative": 0.0,
+    "region_charge_gauss_relative": 1.7166964420440949e-06,
+    "region_symmetry_relative": 1.1204293765126306e-15
+  },
+  "pass": true,
+  "headline": "solenoid: C_gap = 9.7911e-12 F (region only 9.0121e-13), lumped f_SR = 102.7 MHz vs full-wave pole 30.3 MHz (x3.39; C_gap/C_eff 0.087 < (2/pi)^2 = 0.405, so the lumped estimate lands above the pole here)"
+}

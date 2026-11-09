@@ -1,0 +1,453 @@
+{
+ "id": "analytic_taylor_green_2d",
+ "capability": "F3a",
+ "title": "Decaying Taylor-Green vortex (translated, exact Dirichlet data): spatial orders of velocity AND pressure at T with the temporal error suppressed, kinetic energy",
+ "physics": "u = (sin pi X cos pi Y, -cos pi X sin pi Y) F, p = (rho/4)(cos 2 pi X + cos 2 pi Y) F^2, X = x + 3/10, Y = y + 3/20, F = exp(-2 pi^2 nu t), nu = 1/20, on [0,1]^2, t in [0, 1/50]",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f3a_transient",
+   "function": "taylor_green",
+   "check_module": "f3a_transient_check",
+   "cost": "long",
+   "timeout_s": 10800
+  },
+  "parameters": {
+   "data": {
+    "path": "tools/fluids_mms/out/f3a_tr_taylor_green.json",
+    "sha256": "eff168953641378ce7c513e94d11fe172b880d9142b7f14294412c9b3124fcc3"
+   },
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "rho": 1.0,
+   "mu": 0.05,
+   "T": 0.02,
+   "N_steps": 80,
+   "dt": 0.00025,
+   "dt_half_at_finest": 0.000125,
+   "meshes": {
+    "rect": {
+     "family": "rect",
+     "builder": "f3a_transient_check.rect_mesh",
+     "nx": 4,
+     "ny": 4,
+     "box": [
+      0,
+      1,
+      0,
+      1
+     ],
+     "k": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "h_nominal": [
+      0.25,
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625
+     ],
+     "construction": "4 x 4 squares of side 1/4 split along the (1,1) diagonal except the two corner cells, refined (red) k times; nested"
+    }
+   },
+   "variants": [
+    {
+     "form": "lap",
+     "scheme": "newton"
+    },
+    {
+     "form": "sym",
+     "scheme": "newton"
+    },
+    {
+     "form": "sym",
+     "scheme": "semi"
+    }
+   ],
+   "order": 2,
+   "time_scheme": {
+    "bdf": "BDF of order k on the actual step sequence, omega_n = dt_n / dt_{n-1}: BDF1 (u^n - u^{n-1}) / dt_n; BDF2 [(1 + 2 w)/(1 + w) u^n - (1 + w) u^{n-1} + w^2/(1 + w) u^{n-2}] / dt_n (f3a_transient_check.bdf_coefficients); the momentum equation, the load f(t_n), Dirichlet data g(t_n) and traction data at t_n; p^n is the Lagrange multiplier of div u^n = 0 (no pressure time derivative, no pressure extrapolation)",
+    "starter": "BDF2 starts with ONE BDF1 step of the same size from the initial state (fixed for the cross-code case X1; any starter with local error O(dt^2) passes the order items)",
+    "newton": "Newton per step: the fully implicit BDF system (convection c(u^n; u^n, v)) solved by Newton to the fixed newton_rtol 1e-12 (dual norm, relative to the step's lifted residual)",
+    "semi": "semi-implicit (linearly implicit): c(w; u^n, v) with the extrapolated advecting velocity w = u^{n-1} (BDF1) or w = (1 + omega_n) u^{n-1} - omega_n u^{n-2} (BDF2; f3a_transient_check.extrapolation_coefficients); one linear solve per step",
+    "convection": "standard form c(w; u, v) = rho ((w. grad) u, v) (F2a; the skew form only if the F2a/F3a notes offer it: not proposed here)",
+    "initial_data": "u_h(t_0) is DISCRETELY DIVERGENCE-FREE and takes the nodal Dirichlet data at t_0 (projection of the initial data); the L2 (Leray) projection is the reference choice, any projection that is discretely divergence-free and O(h^3)-accurate in L2 passes (mms_ns_transient_initial)",
+    "dirichlet_data": "P2 Lagrange NODAL interpolation of the fixed callables at t_n (vertices and edge midpoints); at an axis node u_r = u_theta = 0 beats the data (F2a shared-node rule)",
+    "quadrature_requirement": "As F2a: the convective trilinear form, the mass form and every load integral are integrated EXACTLY for the polynomial integrands of P2 on affine triangles (degree >= 5 planar, >= 6 axisymmetric); the r-weighted viscous form in axisymmetry by a rule of degree >= 6. The mass matrix is the CONSISTENT one. The space-exact temporal MMS, the energy identities and the cross-code values assume it."
+   },
+   "newton_rtol": 1e-12,
+   "boundaries": "exact Dirichlet data at t_n on all four edges (u.n of both signs; translated vortex)",
+   "kinetic_energy": "E_h(T) = rho/2 ||u_h(T)||^2 vs rho/4 exp(-4 pi^2 nu T) (full periods: translation invariant)"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "lap_newton_uL2",
+    "level": "analytic",
+    "norm": "||u_h(T) - u(T)||_L2",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.979369,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   },
+   {
+    "series": "lap_newton_uH1",
+    "level": "analytic",
+    "norm": "|u_h(T) - u(T)|_H1",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.979369,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   },
+   {
+    "series": "lap_newton_pL2m",
+    "level": "analytic",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2: Taylor-Green's (u.grad)u is a pure gradient balanced by the pressure, so convection is tested HERE",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.479162,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   },
+   {
+    "series": "lap_newton_divL2",
+    "level": "conservation",
+    "norm": "||div u_h(T)||_L2",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.979369,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   },
+   {
+    "series": "sym_newton_uL2",
+    "level": "analytic",
+    "norm": "||u_h(T) - u(T)||_L2",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.979369,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   },
+   {
+    "series": "sym_newton_uH1",
+    "level": "analytic",
+    "norm": "|u_h(T) - u(T)|_H1",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.979369,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   },
+   {
+    "series": "sym_newton_pL2m",
+    "level": "analytic",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2: Taylor-Green's (u.grad)u is a pure gradient balanced by the pressure, so convection is tested HERE",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.479162,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   },
+   {
+    "series": "sym_newton_divL2",
+    "level": "conservation",
+    "norm": "||div u_h(T)||_L2",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.979369,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   },
+   {
+    "series": "sym_semi_uL2",
+    "level": "analytic",
+    "norm": "||u_h(T) - u(T)||_L2",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.979369,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   },
+   {
+    "series": "sym_semi_uH1",
+    "level": "analytic",
+    "norm": "|u_h(T) - u(T)|_H1",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.979369,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   },
+   {
+    "series": "sym_semi_pL2m",
+    "level": "analytic",
+    "norm": "mean-free ||p_h(T) - p(T)||_L2: Taylor-Green's (u.grad)u is a pure gradient balanced by the pressure, so convection is tested HERE",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.479162,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   },
+   {
+    "series": "sym_semi_divL2",
+    "level": "conservation",
+    "norm": "||div u_h(T)||_L2",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.rect.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.979369,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "transient": true,
+    "temporal_contamination": {
+     "frac": 0.1
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "kinetic_energy_rel_err_T_finest",
+    "level": "analytic",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "analytic",
+    "abs_max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

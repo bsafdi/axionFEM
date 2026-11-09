@@ -1,0 +1,38 @@
+{
+ "case": "xcode_stokes_cavity_reg_3d",
+ "code": "NGSolve",
+ "diagnostics": {
+  "lap_N16": {
+   "ndof": 94287,
+   "nodal_defect": 0.0,
+   "relres": 6.0623920026026465e-16
+  },
+  "lap_N8": {
+   "ndof": 10855,
+   "nodal_defect": 0.0,
+   "relres": 7.161034855091024e-16
+  },
+  "sym_N16": {
+   "ndof": 94287,
+   "nodal_defect": 0.0,
+   "relres": 8.533747018500333e-16
+  },
+  "sym_N8": {
+   "ndof": 10855,
+   "nodal_defect": 0.0,
+   "relres": 5.912975097904697e-16
+  }
+ },
+ "format": "axionfem.fluids.xcode_output/1",
+ "quantities": {
+  "lap_Diss_N16": 1.473968606968522,
+  "lap_Diss_N8": 1.476398527564103,
+  "lap_Ekin_N16": 0.006479629799262387,
+  "lap_Ekin_N8": 0.006484136168602038,
+  "sym_Diss_N16": 1.4741601928477872,
+  "sym_Diss_N8": 1.478854633441022,
+  "sym_Ekin_N16": 0.006480354601380271,
+  "sym_Ekin_N8": 0.006492802142785805
+ },
+ "version": "6.2.2608"
+}

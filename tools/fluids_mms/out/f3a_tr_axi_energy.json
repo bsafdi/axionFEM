@@ -1,0 +1,172 @@
+{
+ "T": 1.0,
+ "boundaries": [
+  {
+   "kind": "axis",
+   "name": "axis",
+   "normal": [
+    -1,
+    0
+   ],
+   "where": "r = 0"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "r1",
+   "normal": [
+    1,
+    0
+   ],
+   "where": "r = 1"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "z0",
+   "normal": [
+    0,
+    -1
+   ],
+   "where": "z = 0"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "z1",
+   "normal": [
+    0,
+    1
+   ],
+   "where": "z = 1"
+  }
+ ],
+ "box": [
+  0.0,
+  1.0,
+  0.0,
+  1.0
+ ],
+ "constants": {
+  "T": "1",
+  "mu": "1/100",
+  "rho": "5/4"
+ },
+ "coords": [
+  "r",
+  "z",
+  "t"
+ ],
+ "description": "energy identity, axisymmetric with swirl: homogeneous Dirichlet, u(0) = 0, f = (0, 3r s1, 3r^2 s2)",
+ "exact_ns": false,
+ "extra": {},
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "(3/4)*r*np.sin(3*t) - 3/2*r*np.cos(np.pi*t) + (3/2)*r",
+     "sympy": "3*r*sin(3*t)/4 - 3*r*cos(pi*t)/2 + 3*r/2"
+    },
+    {
+     "numpy": "(3/2)*r**2*np.sin(2*t - 1/3) + (3/2)*r**2",
+     "sympy": "3*r**2*sin(2*t - 1/3)/2 + 3*r**2/2"
+    }
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "(3/4)*r*np.sin(3*t) - 3/2*r*np.cos(np.pi*t) + (3/2)*r",
+     "sympy": "3*r*sin(3*t)/4 - 3*r*cos(pi*t)/2 + 3*r/2"
+    },
+    {
+     "numpy": "(3/2)*r**2*np.sin(2*t - 1/3) + (3/2)*r**2",
+     "sympy": "3*r**2*sin(2*t - 1/3)/2 + 3*r**2/2"
+    }
+   ]
+  }
+ },
+ "geometry": "axisymmetric",
+ "grad_u": [
+  [
+   {
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ],
+  [
+   {
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ],
+  [
+   {
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ]
+ ],
+ "homogeneous": true,
+ "mu": 0.01,
+ "name": "f3a_tr_axi_energy",
+ "p": {
+  "numpy": "0",
+  "sympy": "0"
+ },
+ "pressure": "mean_zero",
+ "rho": 1.25,
+ "selfcheck": {
+  "checks": {
+   "curl_f_nonzero": {
+    "pass": true,
+    "value": "-3*r*(sin(2*t - 1/3) + 1)"
+   },
+   "div_u_symbolic_zero": {
+    "pass": true,
+    "value": "0"
+   },
+   "force_space_degree": {
+    "pass": true,
+    "value": "[0, 1, 2]"
+   },
+   "numpy_spelling_vs_sympy_max": {
+    "pass": true,
+    "value": 4.440892098500626e-16
+   }
+  },
+  "status": "pass"
+ },
+ "space_exact": false,
+ "u": [
+  {
+   "numpy": "0",
+   "sympy": "0"
+  },
+  {
+   "numpy": "0",
+   "sympy": "0"
+  },
+  {
+   "numpy": "0",
+   "sympy": "0"
+  }
+ ]
+}

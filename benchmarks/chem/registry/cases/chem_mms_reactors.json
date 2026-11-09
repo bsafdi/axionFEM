@@ -1,0 +1,322 @@
+{
+ "id": "chem_mms_reactors",
+ "capability": "C1c",
+ "title": "Reactor-API MMS: kernel + reactor balances (CSTR, liquid adiabatic with reversible Arrhenius, constant-P gas, invariant-form equilibrium, semibatch with V a state)",
+ "physics": "M1 (orders 0/1/2, explicit orders, nu = 2, Kc and kr paths, Kc with mole change); M2 (+ B<=>D Kc path, C<=>E explicit k_r with n, Ea); M3; M4; M6 semibatch",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "mms_reactors",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "problems": [
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M6"
+   ],
+   "t_end": 2.0,
+   "fields": {
+    "path": "benchmarks/chem/casedata/c1/c1_fields.json",
+    "sha256": "24f967bad7e3a294b201c7dd94b26b386824b752df6d606256c7b2454571c8a5"
+   },
+   "scales": {
+    "M1": [
+     1.399999928878873,
+     1.0999999764387611,
+     0.78642630304418,
+     0.6999999365863669,
+     1.0499999714833903
+    ],
+    "M2": [
+     1.2999999755571918,
+     0.9499999988401435,
+     0.5983329620904938,
+     0.7999999504844041,
+     0.6499999882193805,
+     344.9999987778596
+    ],
+    "M3": [
+     37.99999964876172,
+     25.99999988436737,
+     13.999999271157344
+    ],
+    "M4": [
+     0.6249999841445817,
+     1.8749999524337453,
+     1.399999992291158
+    ],
+    "M6": [
+     1.2999999942183684,
+     0.7999999365863669,
+     0.5294814049973311,
+     2.6
+    ]
+   },
+   "newton": {
+    "rtol": 1e-12,
+    "max_iters": 50
+   },
+   "dt_levels": {
+    "bdf2": [
+     0.125,
+     0.0625,
+     0.03125,
+     0.015625,
+     0.0078125
+    ],
+    "onestep": [
+     0.125,
+     0.0625,
+     0.03125,
+     0.015625,
+     0.0078125
+    ]
+   },
+   "onestep": {
+    "p": 3,
+    "q": 2
+   },
+   "source_hook": "additive source term for manufactured solutions (c1_fields.json mms_forcing)"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "reactor_M1_bdf2_self",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.bdf2",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "reactor_M1_onestep",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.onestep",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "reactor_M2_bdf2_self",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.bdf2",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "reactor_M2_onestep",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.onestep",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "reactor_M3_bdf2_self",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.bdf2",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "reactor_M3_onestep",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.onestep",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "reactor_M4_bdf2_self",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.bdf2",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "reactor_M4_onestep",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.onestep",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "reactor_M6_bdf2_self",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.bdf2",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "reactor_M6_onestep",
+    "level": "mms",
+    "norm": "max over the solver's time points n and components i of |y_i^n - y_i(t_n)| / S_i, S_i fixed in run.parameters.scales (c1_kinetics_check.max_norm_error; exact solution evaluated at the solver's times)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.onestep",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,1043 @@
+{
+ "id": "chem_analytic_c3_concentric",
+ "capability": "C3a",
+ "title": "Concentric cylinders (planar sector, axisymmetric with caps) and spheres (axisymmetric meridian): primary and secondary",
+ "physics": "radial solutions; secondary by a scalar root",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3_current_distribution",
+   "function": "concentric",
+   "check_module": "c3_checks",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "geometry": {
+    "kappa": "1",
+    "r1": "0.005",
+    "r2": "0.02"
+   },
+   "kappa": "1",
+   "V_primary": 0.2,
+   "V_secondary": 0.6,
+   "kinetics": {
+    "bv_sym": "anode BV_SYM_A, cathode BV_SYM_C",
+    "bv_asym": "anode BV_ASYM_A, cathode BV_ASYM_C"
+   },
+   "sectors": {
+    "planar_cyl": "quarter annulus, theta in [0, pi/2], insulating radial sides (per unit length)",
+    "axi_sph": "meridian half annulus, theta in [0, pi] from +z (3D total)",
+    "axi_cyl": "rectangle r1 < r < r2, 0 < z < 0.01 m, insulating caps (3D total)"
+   },
+   "meshes": {
+    "planar_cyl_p1": {
+     "family": "planar_cyl_p1",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875,
+      0.000234375
+     ],
+     "construction": "polar map of a structured (s, t) grid: Nr = N, Ntheta = 2N (planar), 4N (axi_sph); axi_cyl: rect(N, N); P2: isoparametric nodes by the exact map",
+     "levels": [
+      {
+       "name": "planar_cyl_p1_4",
+       "n_elements": 64,
+       "hash_scale": 0.01,
+       "vertex_hash": "9f3254011ea30231",
+       "connectivity_hash": "6822fa510745c62a"
+      },
+      {
+       "name": "planar_cyl_p1_8",
+       "n_elements": 256,
+       "hash_scale": 0.01,
+       "vertex_hash": "fd06354ffb63db52",
+       "connectivity_hash": "106f2b2a80ffa21f"
+      },
+      {
+       "name": "planar_cyl_p1_16",
+       "n_elements": 1024,
+       "hash_scale": 0.01,
+       "vertex_hash": "f2f2f048ece0f62c",
+       "connectivity_hash": "ef5096840b0b9f24"
+      },
+      {
+       "name": "planar_cyl_p1_32",
+       "n_elements": 4096,
+       "hash_scale": 0.01,
+       "vertex_hash": "bb12b9f6b623a49f",
+       "connectivity_hash": "4b5b1f0745eba269"
+      },
+      {
+       "name": "planar_cyl_p1_64",
+       "n_elements": 16384,
+       "hash_scale": 0.01,
+       "vertex_hash": "d1754f1880927601",
+       "connectivity_hash": "7f53c94b100260ca"
+      }
+     ]
+    },
+    "planar_cyl_p2": {
+     "family": "planar_cyl_p2",
+     "N": [
+      2,
+      4,
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.0075,
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875
+     ],
+     "construction": "polar map of a structured (s, t) grid: Nr = N, Ntheta = 2N (planar), 4N (axi_sph); axi_cyl: rect(N, N); P2: isoparametric nodes by the exact map",
+     "levels": [
+      {
+       "name": "planar_cyl_p2_2",
+       "n_elements": 16,
+       "hash_scale": 0.01,
+       "vertex_hash": "6c95930257222656",
+       "connectivity_hash": "8e64e95e10169824"
+      },
+      {
+       "name": "planar_cyl_p2_4",
+       "n_elements": 64,
+       "hash_scale": 0.01,
+       "vertex_hash": "9f3254011ea30231",
+       "connectivity_hash": "6822fa510745c62a"
+      },
+      {
+       "name": "planar_cyl_p2_8",
+       "n_elements": 256,
+       "hash_scale": 0.01,
+       "vertex_hash": "fd06354ffb63db52",
+       "connectivity_hash": "106f2b2a80ffa21f"
+      },
+      {
+       "name": "planar_cyl_p2_16",
+       "n_elements": 1024,
+       "hash_scale": 0.01,
+       "vertex_hash": "f2f2f048ece0f62c",
+       "connectivity_hash": "ef5096840b0b9f24"
+      },
+      {
+       "name": "planar_cyl_p2_32",
+       "n_elements": 4096,
+       "hash_scale": 0.01,
+       "vertex_hash": "bb12b9f6b623a49f",
+       "connectivity_hash": "4b5b1f0745eba269"
+      }
+     ]
+    },
+    "axi_sph_p1": {
+     "family": "axi_sph_p1",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875,
+      0.000234375
+     ],
+     "construction": "polar map of a structured (s, t) grid: Nr = N, Ntheta = 2N (planar), 4N (axi_sph); axi_cyl: rect(N, N); P2: isoparametric nodes by the exact map",
+     "levels": [
+      {
+       "name": "axi_sph_p1_4",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "6e97e4dcdd221140",
+       "connectivity_hash": "533c54af744d5ada"
+      },
+      {
+       "name": "axi_sph_p1_8",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "78fb2ff61ae764d6",
+       "connectivity_hash": "71f17f7fa4491d5b"
+      },
+      {
+       "name": "axi_sph_p1_16",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "0fb6f5e7e016db91",
+       "connectivity_hash": "2ac649c5db60a7e3"
+      },
+      {
+       "name": "axi_sph_p1_32",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "6b14ea5357807e74",
+       "connectivity_hash": "3bdd4c8d60c5d282"
+      },
+      {
+       "name": "axi_sph_p1_64",
+       "n_elements": 32768,
+       "hash_scale": 0.01,
+       "vertex_hash": "fb07674075c42fba",
+       "connectivity_hash": "fd25632bab3f1741"
+      }
+     ]
+    },
+    "axi_sph_p2": {
+     "family": "axi_sph_p2",
+     "N": [
+      2,
+      4,
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.0075,
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875
+     ],
+     "construction": "polar map of a structured (s, t) grid: Nr = N, Ntheta = 2N (planar), 4N (axi_sph); axi_cyl: rect(N, N); P2: isoparametric nodes by the exact map",
+     "levels": [
+      {
+       "name": "axi_sph_p2_2",
+       "n_elements": 32,
+       "hash_scale": 0.01,
+       "vertex_hash": "90622016b62070dc",
+       "connectivity_hash": "5501eba65a6fa331"
+      },
+      {
+       "name": "axi_sph_p2_4",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "6e97e4dcdd221140",
+       "connectivity_hash": "533c54af744d5ada"
+      },
+      {
+       "name": "axi_sph_p2_8",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "78fb2ff61ae764d6",
+       "connectivity_hash": "71f17f7fa4491d5b"
+      },
+      {
+       "name": "axi_sph_p2_16",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "0fb6f5e7e016db91",
+       "connectivity_hash": "2ac649c5db60a7e3"
+      },
+      {
+       "name": "axi_sph_p2_32",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "6b14ea5357807e74",
+       "connectivity_hash": "3bdd4c8d60c5d282"
+      }
+     ]
+    },
+    "axi_cyl_p1": {
+     "family": "axi_cyl_p1",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875,
+      0.000234375
+     ],
+     "construction": "polar map of a structured (s, t) grid: Nr = N, Ntheta = 2N (planar), 4N (axi_sph); axi_cyl: rect(N, N); P2: isoparametric nodes by the exact map",
+     "levels": [
+      {
+       "name": "axi_cyl_p1_4",
+       "n_elements": 32,
+       "hash_scale": 0.01,
+       "vertex_hash": "0c391ef8c7e02444",
+       "connectivity_hash": "3a268613a2de6d2a"
+      },
+      {
+       "name": "axi_cyl_p1_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "15726a9c9a3d2379",
+       "connectivity_hash": "f114fc2d4c37dc38"
+      },
+      {
+       "name": "axi_cyl_p1_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "10dad99cdbdc22d5",
+       "connectivity_hash": "734710db5daacc56"
+      },
+      {
+       "name": "axi_cyl_p1_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "9502f80158aaf5bc",
+       "connectivity_hash": "a2d4256a816ca495"
+      },
+      {
+       "name": "axi_cyl_p1_64",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "0ddbfd533a37d66d",
+       "connectivity_hash": "9d0027fecdfd2fbf"
+      }
+     ]
+    },
+    "axi_cyl_p2": {
+     "family": "axi_cyl_p2",
+     "N": [
+      2,
+      4,
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.0075,
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875
+     ],
+     "construction": "polar map of a structured (s, t) grid: Nr = N, Ntheta = 2N (planar), 4N (axi_sph); axi_cyl: rect(N, N); P2: isoparametric nodes by the exact map",
+     "levels": [
+      {
+       "name": "axi_cyl_p2_2",
+       "n_elements": 8,
+       "hash_scale": 0.01,
+       "vertex_hash": "eab04c44a1569821",
+       "connectivity_hash": "43b2aafcb500acaf"
+      },
+      {
+       "name": "axi_cyl_p2_4",
+       "n_elements": 32,
+       "hash_scale": 0.01,
+       "vertex_hash": "0c391ef8c7e02444",
+       "connectivity_hash": "3a268613a2de6d2a"
+      },
+      {
+       "name": "axi_cyl_p2_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "15726a9c9a3d2379",
+       "connectivity_hash": "f114fc2d4c37dc38"
+      },
+      {
+       "name": "axi_cyl_p2_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "10dad99cdbdc22d5",
+       "connectivity_hash": "734710db5daacc56"
+      },
+      {
+       "name": "axi_cyl_p2_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "9502f80158aaf5bc",
+       "connectivity_hash": "a2d4256a816ca495"
+      }
+     ]
+    }
+   },
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "planar_cyl_primary_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.22661800709135968,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "planar_cyl_bv_sym_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.4570469131271031,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "planar_cyl_bv_asym_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.4235735618476309,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "axi_sph_primary_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.016755160819145565,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "axi_sph_bv_sym_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.03287152306800856,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "axi_sph_bv_asym_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.030314292312729526,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "axi_cyl_primary_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.009064720283654388,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "axi_cyl_bv_sym_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.018281876525084124,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   },
+   "axi_cyl_bv_asym_I": {
+    "kind": "scalar",
+    "source": "b2_closed_form",
+    "unit": "A or A/m",
+    "value": 0.016942942473905237,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "functional_convergence": [
+   {
+    "id": "planar_cyl_primary_p1_I_gci",
+    "series": "planar_cyl_primary_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.planar_cyl_p1.h_nominal",
+    "order_range": [
+     1.5,
+     2.5
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "planar_cyl_primary_p2_I_gci",
+    "series": "planar_cyl_primary_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.planar_cyl_p2.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "planar_cyl_primary_p1_Iflux_gci",
+    "series": "planar_cyl_primary_p1_Iflux",
+    "level": "conservation",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.planar_cyl_p1.h_nominal",
+    "order_range": [
+     0.6,
+     1.4
+    ],
+    "formal_order": 1,
+    "gci_cap_rel": 0.2
+   },
+   {
+    "id": "planar_cyl_bv_sym_p1_I_gci",
+    "series": "planar_cyl_bv_sym_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.planar_cyl_p1.h_nominal",
+    "order_range": [
+     1.5,
+     2.5
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "planar_cyl_bv_sym_p2_I_gci",
+    "series": "planar_cyl_bv_sym_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.planar_cyl_p2.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "planar_cyl_bv_sym_p1_Iflux_gci",
+    "series": "planar_cyl_bv_sym_p1_Iflux",
+    "level": "conservation",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.planar_cyl_p1.h_nominal",
+    "order_range": [
+     0.6,
+     1.4
+    ],
+    "formal_order": 1,
+    "gci_cap_rel": 0.2
+   },
+   {
+    "id": "planar_cyl_bv_asym_p1_I_gci",
+    "series": "planar_cyl_bv_asym_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.planar_cyl_p1.h_nominal",
+    "order_range": [
+     1.5,
+     2.5
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "planar_cyl_bv_asym_p2_I_gci",
+    "series": "planar_cyl_bv_asym_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.planar_cyl_p2.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "planar_cyl_bv_asym_p1_Iflux_gci",
+    "series": "planar_cyl_bv_asym_p1_Iflux",
+    "level": "conservation",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.planar_cyl_p1.h_nominal",
+    "order_range": [
+     0.6,
+     1.4
+    ],
+    "formal_order": 1,
+    "gci_cap_rel": 0.2
+   },
+   {
+    "id": "axi_sph_primary_p1_I_gci",
+    "series": "axi_sph_primary_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_sph_p1.h_nominal",
+    "order_range": [
+     1.5,
+     2.5
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_sph_primary_p2_I_gci",
+    "series": "axi_sph_primary_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_sph_p2.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_sph_primary_p1_Iflux_gci",
+    "series": "axi_sph_primary_p1_Iflux",
+    "level": "conservation",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_sph_p1.h_nominal",
+    "order_range": [
+     0.6,
+     1.4
+    ],
+    "formal_order": 1,
+    "gci_cap_rel": 0.2
+   },
+   {
+    "id": "axi_sph_bv_sym_p1_I_gci",
+    "series": "axi_sph_bv_sym_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_sph_p1.h_nominal",
+    "order_range": [
+     1.5,
+     2.5
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_sph_bv_sym_p2_I_gci",
+    "series": "axi_sph_bv_sym_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_sph_p2.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_sph_bv_sym_p1_Iflux_gci",
+    "series": "axi_sph_bv_sym_p1_Iflux",
+    "level": "conservation",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_sph_p1.h_nominal",
+    "order_range": [
+     0.6,
+     1.4
+    ],
+    "formal_order": 1,
+    "gci_cap_rel": 0.2
+   },
+   {
+    "id": "axi_sph_bv_asym_p1_I_gci",
+    "series": "axi_sph_bv_asym_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_sph_p1.h_nominal",
+    "order_range": [
+     1.5,
+     2.5
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_sph_bv_asym_p2_I_gci",
+    "series": "axi_sph_bv_asym_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_sph_p2.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_sph_bv_asym_p1_Iflux_gci",
+    "series": "axi_sph_bv_asym_p1_Iflux",
+    "level": "conservation",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_sph_p1.h_nominal",
+    "order_range": [
+     0.6,
+     1.4
+    ],
+    "formal_order": 1,
+    "gci_cap_rel": 0.2
+   },
+   {
+    "id": "axi_cyl_primary_p1_I_gci",
+    "series": "axi_cyl_primary_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_cyl_p1.h_nominal",
+    "order_range": [
+     1.5,
+     2.5
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_cyl_primary_p2_I_gci",
+    "series": "axi_cyl_primary_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_cyl_p2.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_cyl_primary_p1_Iflux_gci",
+    "series": "axi_cyl_primary_p1_Iflux",
+    "level": "conservation",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_cyl_p1.h_nominal",
+    "order_range": [
+     0.6,
+     1.4
+    ],
+    "formal_order": 1,
+    "gci_cap_rel": 0.2
+   },
+   {
+    "id": "axi_cyl_bv_sym_p1_I_gci",
+    "series": "axi_cyl_bv_sym_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_cyl_p1.h_nominal",
+    "order_range": [
+     1.5,
+     2.5
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_cyl_bv_sym_p2_I_gci",
+    "series": "axi_cyl_bv_sym_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_cyl_p2.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_cyl_bv_sym_p1_Iflux_gci",
+    "series": "axi_cyl_bv_sym_p1_Iflux",
+    "level": "conservation",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_cyl_p1.h_nominal",
+    "order_range": [
+     0.6,
+     1.4
+    ],
+    "formal_order": 1,
+    "gci_cap_rel": 0.2
+   },
+   {
+    "id": "axi_cyl_bv_asym_p1_I_gci",
+    "series": "axi_cyl_bv_asym_p1_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_cyl_p1.h_nominal",
+    "order_range": [
+     1.5,
+     2.5
+    ],
+    "formal_order": 2,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_cyl_bv_asym_p2_I_gci",
+    "series": "axi_cyl_bv_asym_p2_I",
+    "level": "analytic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_cyl_p2.h_nominal",
+    "order_range": [
+     3.5,
+     4.5
+    ],
+    "formal_order": 4,
+    "gci_cap_rel": 0.01
+   },
+   {
+    "id": "axi_cyl_bv_asym_p1_Iflux_gci",
+    "series": "axi_cyl_bv_asym_p1_Iflux",
+    "level": "conservation",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.axi_cyl_p1.h_nominal",
+    "order_range": [
+     0.6,
+     1.4
+    ],
+    "formal_order": 1,
+    "gci_cap_rel": 0.2
+   }
+  ],
+  "comparisons": [
+   {
+    "quantity": "planar_cyl_primary_p1_I_finest",
+    "reference": "planar_cyl_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0003
+    }
+   },
+   {
+    "quantity": "planar_cyl_primary_p2_I_finest",
+    "reference": "planar_cyl_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-07
+    }
+   },
+   {
+    "quantity": "planar_cyl_bv_sym_p1_I_finest",
+    "reference": "planar_cyl_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0003
+    }
+   },
+   {
+    "quantity": "planar_cyl_bv_sym_p2_I_finest",
+    "reference": "planar_cyl_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-07
+    }
+   },
+   {
+    "quantity": "planar_cyl_bv_asym_p1_I_finest",
+    "reference": "planar_cyl_bv_asym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0003
+    }
+   },
+   {
+    "quantity": "planar_cyl_bv_asym_p2_I_finest",
+    "reference": "planar_cyl_bv_asym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-07
+    }
+   },
+   {
+    "quantity": "axi_sph_primary_p1_I_finest",
+    "reference": "axi_sph_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.001
+    }
+   },
+   {
+    "quantity": "axi_sph_primary_p2_I_finest",
+    "reference": "axi_sph_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-06
+    }
+   },
+   {
+    "quantity": "axi_sph_bv_sym_p1_I_finest",
+    "reference": "axi_sph_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.001
+    }
+   },
+   {
+    "quantity": "axi_sph_bv_sym_p2_I_finest",
+    "reference": "axi_sph_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-06
+    }
+   },
+   {
+    "quantity": "axi_sph_bv_asym_p1_I_finest",
+    "reference": "axi_sph_bv_asym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.001
+    }
+   },
+   {
+    "quantity": "axi_sph_bv_asym_p2_I_finest",
+    "reference": "axi_sph_bv_asym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-06
+    }
+   },
+   {
+    "quantity": "axi_cyl_primary_p1_I_finest",
+    "reference": "axi_cyl_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0002
+    }
+   },
+   {
+    "quantity": "axi_cyl_primary_p2_I_finest",
+    "reference": "axi_cyl_primary_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-07
+    }
+   },
+   {
+    "quantity": "axi_cyl_bv_sym_p1_I_finest",
+    "reference": "axi_cyl_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0002
+    }
+   },
+   {
+    "quantity": "axi_cyl_bv_sym_p2_I_finest",
+    "reference": "axi_cyl_bv_sym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-07
+    }
+   },
+   {
+    "quantity": "axi_cyl_bv_asym_p1_I_finest",
+    "reference": "axi_cyl_bv_asym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 0.0002
+    }
+   },
+   {
+    "quantity": "axi_cyl_bv_asym_p2_I_finest",
+    "reference": "axi_cyl_bv_asym_I",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-07
+    }
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  }
+ }
+}

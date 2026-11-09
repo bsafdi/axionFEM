@@ -1,0 +1,91 @@
+{
+ "id": "control_p1p1_stokes_2d",
+ "capability": "F1a",
+ "title": "Negative control: unstabilized P1/P1 is not inf-sup stable (must fail visibly); Taylor-Hood stable",
+ "physics": "discrete inf-sup constants of P2/P1 and P1/P1 on the unit square; TH mesh-corner check",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1a_stokes",
+   "function": "p1p1_control",
+   "check_module": "f1a_stokes_check",
+   "cost": "short",
+   "timeout_s": 900
+  },
+  "parameters": {
+   "meshes": {
+    "structured": {
+     "family": "structured",
+     "N": [
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(N): the N = 8 BASE mesh (8 x 8 squares split along the (1,1) diagonal, except the two cells at the corners (1,0) and (0,1), split the other way: no triangle with all vertices on the boundary) refined uniformly (red) log2(N/8) times. Nested; the flipped region of level N is a (N/8) x (N/8) block at each of those corners. The check module verifies counts, hash and nestedness.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    },
+    "bad_corner": "structured N = 16 with ALL cells split by the (1,1) diagonal: the cells at the corners (1,0) and (0,1) contain a triangle with all three vertices on the boundary"
+   },
+   "pairs": [
+    "P2/P1",
+    "P1/P1"
+   ],
+   "inf_sup": "f1a_stokes_check.inf_sup: eigenvalues lambda of B A^-1 B^T q = lambda M_p q, A the vector H1-seminorm Gram matrix on the free (non-Dirichlet) velocity DOFs, M_p the pressure mass matrix (dense, N <= 32). lambda <= 1e-10 lambda_max counts as a ZERO MODE (the constant is one); beta_h = sqrt(smallest lambda above that threshold).",
+   "mms_informative": "sq_dirichlet with P1/P1 unstabilized: errors reported in notes, not judged"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "beta_TH_N32",
+    "level": "mms",
+    "min": 0.1
+   },
+   {
+    "quantity": "TH_zero_modes_beyond_constant_max",
+    "level": "mms",
+    "max": 0
+   },
+   {
+    "quantity": "beta_TH_ratio_N32_N8",
+    "level": "mms",
+    "min": 0.8
+   },
+   {
+    "quantity": "beta_P1P1_over_TH_N32",
+    "level": "mms",
+    "max": 0.25
+   },
+   {
+    "quantity": "P1P1_zero_modes_beyond_constant_N32",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "mesh_check_rejects_bad_corner",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "mesh_check_accepts_structured",
+    "level": "mms",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  }
+ }
+}

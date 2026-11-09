@@ -1,0 +1,198 @@
+{
+ "id": "mms_ns_transient_initial",
+ "capability": "F3a",
+ "title": "Projection of the initial data: discretely divergence-free and O(h^3) accurate",
+ "physics": "non-separable divergence-free u(t_0) = curl(sin^2(pi x) sin^2(pi y) exp(xy/2)/pi) (zero on the boundary): its nodal interpolant is NOT discretely divergence-free (unlike the separable Taylor-Green and Womersley fields)",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f3a_transient",
+   "function": "initial_projection",
+   "check_module": "f3a_transient_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "data": {
+    "path": "tools/fluids_mms/out/f3a_tr_sq_proj.json",
+    "sha256": "009f24b8effc39d915bc402a7e571e3430f90911782665be696a02e64d1fef8b"
+   },
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "rho": 1.25,
+   "mu": 0.05,
+   "meshes": {
+    "structured": {
+     "family": "structured",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(N) on [0,1]^2: the N = 8 base mesh refined (red) log2(N/8) times; nested"
+    }
+   },
+   "time": {
+    "steps": 2,
+    "dt": 0.001,
+    "order": 2,
+    "scheme": "newton",
+    "note": "the run takes two steps so that the initial state is the one the integrator uses"
+   },
+   "forms": [
+    "lap",
+    "sym"
+   ],
+   "time_scheme": {
+    "bdf": "BDF of order k on the actual step sequence, omega_n = dt_n / dt_{n-1}: BDF1 (u^n - u^{n-1}) / dt_n; BDF2 [(1 + 2 w)/(1 + w) u^n - (1 + w) u^{n-1} + w^2/(1 + w) u^{n-2}] / dt_n (f3a_transient_check.bdf_coefficients); the momentum equation, the load f(t_n), Dirichlet data g(t_n) and traction data at t_n; p^n is the Lagrange multiplier of div u^n = 0 (no pressure time derivative, no pressure extrapolation)",
+    "starter": "BDF2 starts with ONE BDF1 step of the same size from the initial state (fixed for the cross-code case X1; any starter with local error O(dt^2) passes the order items)",
+    "newton": "Newton per step: the fully implicit BDF system (convection c(u^n; u^n, v)) solved by Newton to the fixed newton_rtol 1e-12 (dual norm, relative to the step's lifted residual)",
+    "semi": "semi-implicit (linearly implicit): c(w; u^n, v) with the extrapolated advecting velocity w = u^{n-1} (BDF1) or w = (1 + omega_n) u^{n-1} - omega_n u^{n-2} (BDF2; f3a_transient_check.extrapolation_coefficients); one linear solve per step",
+    "convection": "standard form c(w; u, v) = rho ((w. grad) u, v) (F2a; the skew form only if the F2a/F3a notes offer it: not proposed here)",
+    "initial_data": "u_h(t_0) is DISCRETELY DIVERGENCE-FREE and takes the nodal Dirichlet data at t_0 (projection of the initial data); the L2 (Leray) projection is the reference choice, any projection that is discretely divergence-free and O(h^3)-accurate in L2 passes (mms_ns_transient_initial)",
+    "dirichlet_data": "P2 Lagrange NODAL interpolation of the fixed callables at t_n (vertices and edge midpoints); at an axis node u_r = u_theta = 0 beats the data (F2a shared-node rule)",
+    "quadrature_requirement": "As F2a: the convective trilinear form, the mass form and every load integral are integrated EXACTLY for the polynomial integrands of P2 on affine triangles (degree >= 5 planar, >= 6 axisymmetric); the r-weighted viscous form in axisymmetry by a rule of degree >= 6. The mass matrix is the CONSISTENT one. The space-exact temporal MMS, the energy identities and the cross-code values assume it."
+   },
+   "newton_rtol": 1e-12
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "lap_u0L2",
+    "level": "mms",
+    "norm": "||u_h(t_0) - u(t_0)||_L2 of the solver's INITIAL state",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.30834,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_u0H1",
+    "level": "mms",
+    "norm": "|u_h(t_0) - u(t_0)|_H1 of the initial state",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.30834,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_u0L2",
+    "level": "mms",
+    "norm": "||u_h(t_0) - u(t_0)||_L2 of the solver's INITIAL state",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.30834,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_u0H1",
+    "level": "mms",
+    "norm": "|u_h(t_0) - u(t_0)|_H1 of the initial state",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.30834,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "initial_div_dual_rel_max",
+    "level": "mms",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_t0_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

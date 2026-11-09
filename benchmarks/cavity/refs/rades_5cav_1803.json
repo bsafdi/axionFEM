@@ -1,0 +1,425 @@
+{
+ "name": "rades_5cav_1803",
+ "title": "RADES 5-subcavity all-inductive WR-90 filter (CAST-RADES 2018)",
+ "benchmark_rank": "1",
+ "citations": [
+  {
+   "arxiv": "1803.01243",
+   "authors_short": "A. Alvarez Melcon et al. (RADES)",
+   "journal": "JCAP 05 (2018) 040",
+   "items_used": [
+    "Table 1 (dimensions 2 K / 298 K)",
+    "Table 2 (CST eigenmodes)",
+    "Table 3 (measured vs CST f)",
+    "Sec. 3-4 text",
+    "Eq. 2.11",
+    "Eq. A.5"
+   ]
+  },
+  {
+   "arxiv": "2107.03137",
+   "authors_short": "P. Navarro, B. Gimeno, et al. (BI-RME 3D); first author corrected",
+   "journal": "see analytic_birme_tab1",
+   "items_used": [
+    "Sec. 4.2.2",
+    "Table II (identical to 1803.01243 Table 2)"
+   ]
+  }
+ ],
+ "software": {
+  "code": "CST Microwave Studio",
+  "version": null,
+  "solver_type": "eigenmode (Table 2); text also mentions time-domain FIT for the design iterations",
+  "boundary": "lossy metal, sigma = 2e9 S/m",
+  "mesh_notes": "not stated"
+ },
+ "geometry": {
+  "units": "mm",
+  "description": "Five WR-90 rectangular sub-cavities in a row along z, coupled by four inductive irises (vertical full-height walls of thickness t with a centred aperture of width W; aperture position assumed centred). Cross-section a (x) by b (y). Order: L1 | iris | L2 | iris | L3 | iris | L4 | iris | L5. Probes (only in the S-parameter simulations/measurements): SMA, centre of the top (y=b) face of cavities 1 and 5; port-1 tip flush with the wall, port-2 tip retracted 1 mm.",
+  "parameters": {
+   "a": {
+    "value": 22.86,
+    "unit": "mm",
+    "source": "Table 1, 2 K",
+    "note": "298 K (incl. 30 um Cu coating): 22.99"
+   },
+   "b": {
+    "value": 10.16,
+    "unit": "mm",
+    "source": "Table 1, 2 K",
+    "note": "298 K: 10.25"
+   },
+   "L1=L5": {
+    "value": 26.68,
+    "unit": "mm",
+    "source": "Table 1, 2 K",
+    "note": "298 K: 26.82"
+   },
+   "L2=L3=L4": {
+    "value": 25.0,
+    "unit": "mm",
+    "source": "Table 1, 2 K",
+    "note": "298 K: 25.14"
+   },
+   "W (iris aperture width, all 4)": {
+    "value": 8.0,
+    "unit": "mm",
+    "source": "Table 1, 2 K",
+    "note": "298 K: 8.14 (printed). Expected from the rule the other entries follow (x1.003 expansion + 2x30 um coating allowance for openings): 8.08; printed is +0.06 mm extra - see inconsistencies"
+   },
+   "t (iris thickness)": {
+    "value": 2.0,
+    "unit": "mm",
+    "source": "Table 1, 2 K",
+    "note": "298 K: 1.95 = bare-steel iris before the 30 um Cu coating (2.00 x 1.003 - 2 x 0.03 = 1.946); the coating brings it back to ~2.006 mm. Column 2 dims are machined (pre-coating) values."
+   },
+   "iris aperture height": {
+    "value": 10.16,
+    "unit": "mm",
+    "source": "inferred: inductive iris = full height b",
+    "note": null
+   },
+   "iris aperture x-position": {
+    "value": "centred",
+    "unit": null,
+    "source": "inferred (standard symmetric inductive iris); Fig. 2 field plots consistent",
+    "note": null
+   },
+   "corner rounding radius": {
+    "value": null,
+    "unit": "mm",
+    "source": "text p. 7: corners rounded to facilitate machining; radius not given",
+    "note": null
+   },
+   "total length": {
+    "value": 136.36,
+    "unit": "mm",
+    "source": "inferred: sum of Table 1 lengths",
+    "note": null
+   }
+  }
+ },
+ "materials": {
+  "walls": {
+   "material": "316L stainless steel with ~30 um Cu coating; simulated as Cu",
+   "sigma_S_per_m": 2000000000.0,
+   "temperature_K": 2,
+   "source": "Sec. 3 text (Table 2 uses sigma = 2e9 S/m); RRR 30-200 expected"
+  }
+ },
+ "conditions": {
+  "temperature_K": 2,
+  "B0_T": 9.0,
+  "B0_direction": "y (along the narrow side b, CAST LHC dipole), parallel to TE101 E-field",
+  "field_map": "uniform"
+ },
+ "conventions": {
+  "form_factor_definition": "Eq. A.5: G_m = (1/(B_e V)) int_V B_e . E_m d^3x with E_m normalized so that int |E_m|^2 = V; Table 2 lists G^2 (= standard C). Volume: total cavity volume (whether iris apertures are included is not stated; effect O(1%)). Single-cavity TE101 limit: G^2 = (8/pi^2)^2 = 0.657",
+  "Q_definition": "unloaded Q_u = omega U / P_c (Eq. 2.10), wall losses only",
+  "notes": "Table 2 eigenmodes presumably WITHOUT the coaxial probes (probes were added for separate S-parameter simulations, Sec. 4)"
+ },
+ "reference_values": {
+  "tables": [
+   {
+    "source": "1803.01243 Table 2",
+    "description": "CST eigenmodes at 2 K: field pattern (signs of eigenvector), f, G^2, Q_u",
+    "simulated": true,
+    "columns": [
+     "mode",
+     "E-field pattern",
+     "f",
+     "G^2",
+     "Q_u (2 K)"
+    ],
+    "units": [
+     "",
+     "",
+     "GHz",
+     "1",
+     "1"
+    ],
+    "rows": [
+     [
+      1,
+      "+ + + + +",
+      "8.428",
+      "0.65",
+      "40386"
+     ],
+     [
+      2,
+      "+ + 0 - -",
+      "8.454",
+      "3.2e-7",
+      "42033"
+     ],
+     [
+      3,
+      "- + + + -",
+      "8.528",
+      "8.1e-5",
+      "43654"
+     ],
+     [
+      4,
+      "- + 0 - +",
+      "8.625",
+      "1.6e-12",
+      "45882"
+     ],
+     [
+      5,
+      "- + - + -",
+      "8.710",
+      "6.4e-6",
+      "48048"
+     ]
+    ]
+   },
+   {
+    "source": "2107.03137 Table II",
+    "description": "BI-RME paper 'parameters of the RADES haloscope': numerically IDENTICAL to 1803.01243 Table 2 (see inconsistencies)",
+    "simulated": true,
+    "columns": [
+     "m",
+     "pattern",
+     "f_m",
+     "Q_m",
+     "C_m"
+    ],
+    "units": [
+     "",
+     "",
+     "GHz",
+     "1",
+     "1"
+    ],
+    "rows": [
+     [
+      1,
+      "+ + + + +",
+      "8.428",
+      "40386",
+      "0.65"
+     ],
+     [
+      2,
+      "+ + 0 - -",
+      "8.454",
+      "42033",
+      "3.2e-7"
+     ],
+     [
+      3,
+      "- + + + -",
+      "8.528",
+      "43654",
+      "8.1e-5"
+     ],
+     [
+      4,
+      "- + 0 - +",
+      "8.625",
+      "45882",
+      "1.6e-12"
+     ],
+     [
+      5,
+      "- + - + -",
+      "8.710",
+      "48048",
+      "6.4e-6"
+     ]
+    ]
+   }
+  ],
+  "curves": [],
+  "curves_note": "Fig. 5 is measured S12 + fitted analytic model + axion power (no CST curve) -> not digitized as a simulation reference; Fig. 2 is field maps only. Measured peak frequencies are tabulated in Table 3."
+ },
+ "analytic_check": {
+  "method": "isolated TE101 cavities (closed form, sigma = 2e9 S/m, Eq. 2.11) - NOT the coupled filter; useful only for scale",
+  "rows": [
+   {
+    "cavity": "L = 26.68 mm",
+    "f_TE101_GHz": 8.6349,
+    "Q_TE101_Eq2.11": 45717
+   },
+   {
+    "cavity": "L = 25.00 mm",
+    "f_TE101_GHz": 8.8852,
+    "Q_TE101_Eq2.11": 45894
+   },
+   {
+    "cavity": "single TE101",
+    "G2": 0.657
+   }
+  ],
+  "notes": "Irises load the cavities strongly: coupled-filter modes sit 0.2-0.5 GHz below the isolated-cavity TE101 frequencies; the paper says the k = -0.0185 coupling and L1/5 were tuned numerically in CST"
+ },
+ "measured_values": {
+  "tables": [
+   {
+    "source": "1803.01243 Table 3",
+    "description": "measured peak frequencies at 298 K and 2 K vs CST (Table 2)",
+    "simulated": false,
+    "columns": [
+     "mode",
+     "f_298K",
+     "f_2K",
+     "f_CST",
+     "(f_298K - f_2K) as printed",
+     "(f_CST - f_2K) as printed"
+    ],
+    "units": [
+     "",
+     "GHz",
+     "GHz",
+     "GHz",
+     "GHz",
+     "GHz"
+    ],
+    "rows": [
+     [
+      1,
+      "8.379",
+      "8.398",
+      "8.428",
+      "0.028",
+      "0.030"
+     ],
+     [
+      2,
+      "8.399",
+      "8.429",
+      "8.454",
+      "0.031",
+      "0.025"
+     ],
+     [
+      3,
+      "8.474",
+      "8.504",
+      "8.528",
+      "0.030",
+      "0.024"
+     ],
+     [
+      4,
+      "8.572",
+      "8.602",
+      "8.625",
+      "0.030",
+      "0.023"
+     ],
+     [
+      5,
+      "8.658",
+      "8.687",
+      "8.710",
+      "0.030",
+      "0.023"
+     ]
+    ]
+   },
+   {
+    "source": "1803.01243 Sec. 4 text",
+    "description": "measured Q (temperature not stated in the text, pp.13-14; presumably the 2 K run)",
+    "simulated": false,
+    "columns": [
+     "quantity",
+     "value"
+    ],
+    "units": [
+     "",
+     ""
+    ],
+    "rows": [
+     [
+      "Q_L at 8.4 GHz",
+      "~6000"
+     ],
+     [
+      "Q_u if critically coupled",
+      "~12000"
+     ],
+     [
+      "port-1 coupling (|S11|)",
+      "~0.64"
+     ],
+     [
+      "Q_u implied",
+      "~16000 (3-4x below CST)"
+     ]
+    ]
+   }
+  ],
+  "curves": []
+ },
+ "gaps": [
+  {
+   "parameter": "corner rounding radius",
+   "issue": "text says corners are rounded for machining; radius not given",
+   "proposal": "baseline with sharp corners; sweep r = 0, 0.5, 1.0, 1.5 mm (vertical edges of cavities and iris apertures) and quote df/dr; expect MHz-level shifts, i.e. below the paper's 3-digit rounding (1 MHz)"
+  },
+  {
+   "parameter": "iris aperture position and edge shape",
+   "issue": "W and t given; centring not stated explicitly",
+   "proposal": "assume centred, square-edged apertures"
+  },
+  {
+   "parameter": "probes in Table 2",
+   "issue": "not stated whether the eigenmode run included the SMA probes",
+   "proposal": "simulate without probes (closed eigenproblem); optional run with flush port-1 pin and 1-mm retracted port-2 pin to bound the shift"
+  },
+  {
+   "parameter": "G^2 integration volume",
+   "issue": "whether irises are included in V",
+   "proposal": "compute both; difference O(t W b / V) ~ 1%"
+  },
+  {
+   "parameter": "B direction",
+   "issue": "dipole field along the narrow side b (y) - stated implicitly (TE101 E along y, CAST dipole)",
+   "proposal": "uniform B along y"
+  }
+ ],
+ "inconsistencies": [
+  {
+   "description": "Table 3 mode 1: f_298K = 8.379, f_2K = 8.398 give a difference of 0.019 GHz, but the column prints 0.028 (all other modes ~0.030). Either f_298K(mode 1) = 8.370 or the difference is mistyped. Column header is f_298K - f_2K but values are f_2K - f_298K (sign). Mode 2 is also misprinted: 8.429 - 8.399 = 0.030, printed 0.031.",
+   "evidence": "1803.01243 Table 3",
+   "proposal": "irrelevant for the CST benchmark (Table 2); flag if measured values are used"
+  },
+  {
+   "description": "Table 3 caption refers to 'column 3' for the 298 K - 2 K difference; it is column 4",
+   "evidence": "1803.01243 Table 3 caption",
+   "proposal": "none"
+  },
+  {
+   "description": "2107.03137 Table II is described in the earlier literature survey as an 'independent BI-RME solution', but it is numerically identical to 1803.01243 Table 2 (same f to 1 MHz, same Q to 1 unit, same G^2 incl. 1.6e-12) and the text says it 'summarizes the most relevant parameters' of the structure. It is a copy, not an independent cross-check.",
+   "evidence": "2107.03137 Sec. 4.2.2 and Table II vs 1803.01243 Table 2; source: the earlier literature survey",
+   "proposal": "treat the CST Table 2 as the single reference; the BI-RME Figs. 12-14 (response, Pw) are BI-RME's own output but are probe-dependent"
+  },
+  {
+   "description": "Text says Q_u ~ 5.5 mm/delta from Eq. 2.11 with delta = 0.1 um (Q ~ 55,000), while sigma = 2e9 S/m gives delta = 0.123 um at 8.43 GHz (Q ~ 45,000) and the CST Q is 40,386-48,048",
+   "evidence": "1803.01243 Sec. 3 text; analytic_check",
+   "proposal": "use sigma = 2e9 S/m directly, not delta = 0.1 um"
+  },
+  {
+   "description": "Table 1 298 K W = 8.14 mm does not follow the column's own rule: a, b, L1, L2, t all equal 2 K x 1.003 +- 2 x 30 um coating (a: 22.99, b: 10.25, L1: 26.82, L2: 25.14, t: 1.95), which predicts W = 8.08 mm, not 8.14 (+0.06 mm unexplained)",
+   "evidence": "1803.01243 Table 1 (p.8)",
+   "proposal": "use the 2 K column (W = 8.00) for the CST benchmark; for room-temperature checks run W = 8.08 and 8.14"
+  }
+ ],
+ "solver_class": {
+  "axisymmetric_2d_possible": false,
+  "needs_3d": true,
+  "reason": "rectangular multi-cavity with thin irises; no rotational symmetry (2D waveguide cross-section reasoning gives only the TE10 cutoff, not the coupled filter modes)"
+ },
+ "priority": "P1",
+ "priority_reason": "fully specified, tabulated CST eigenmodes (f to 1 MHz, G^2, Q); first 3D benchmark after the 3D pillbox/rectangular TM110 checks",
+ "readme_row": {
+  "quantities": "5 modes: f, G^2 (C), Q_u at 2 K (CST); measured f (Table 3)",
+  "geometry_complete": "nearly (corner radius missing)",
+  "axisym_2d": "no",
+  "needs_3d": "yes"
+ }
+}

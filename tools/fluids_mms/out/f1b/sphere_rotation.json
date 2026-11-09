@@ -1,0 +1,405 @@
+{
+ "name": "sphere_rotation",
+ "description": "Sphere of radius 1 rotating about the axis with unit angular velocity in fluid at rest: u_theta = r / rho^3 (checked to solve Stokes with p = 0); exact data on rho = 4; swirl on a curved boundary; mu = 37/100.",
+ "domain": {
+  "kind": "half_annulus",
+  "rho": [
+   1,
+   4
+  ],
+  "axis": "r = 0"
+ },
+ "pressure": "mean_zero",
+ "conventions": {
+  "coordinates": "meridional (r, z), r >= 0; variables r, z in every spelling",
+  "components": "(u_r, u_z, u_theta); grad_u[i][j] = d u_i / d (r, z)_j (meridional derivatives only)",
+  "sigma": "3x3, rows/columns (r, z, theta); sigma_sym = 2 mu eps - p I, sigma_lap = mu grad u - p I with grad u including the hoop entries (r,theta) = -u_t/r and (theta,theta) = u_r/r",
+  "f": "-div sigma_form - gamma grad div u (= -div sigma_form for these divergence-free fields)",
+  "traction": "g = sigma_form n, (sigma n)_i = sigma_ij n_j, n the outward unit normal (n_r, n_z, 0)",
+  "weights": "volume integrals int (.) r dr dz, boundary integrals int (.) r ds; physical 3D values carry a further factor 2 pi"
+ },
+ "u": [
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "r/(r**2 + z**2)**(3/2)",
+   "c": "r/pow(pow(r, 2) + pow(z, 2), 3.0/2.0)",
+   "numpy": "r/(r**2 + z**2)**(3/2)"
+  }
+ ],
+ "p": {
+  "sympy": "0",
+  "c": "0",
+  "numpy": "0"
+ },
+ "mu": {
+  "sympy": "37/100",
+  "c": "37.0/100.0",
+  "numpy": "37/100"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "-3*r**2/(r**2 + z**2)**(5/2) + (r**2 + z**2)**(-3/2)",
+    "c": "-3*pow(r, 2)/pow(pow(r, 2) + pow(z, 2), 5.0/2.0) + pow(pow(r, 2) + pow(z, 2), -3.0/2.0)",
+    "numpy": "-3*r**2/(r**2 + z**2)**(5/2) + (r**2 + z**2)**(-3/2)"
+   },
+   {
+    "sympy": "-3*r*z/(r**2 + z**2)**(5/2)",
+    "c": "-3*r*z/pow(pow(r, 2) + pow(z, 2), 5.0/2.0)",
+    "numpy": "-3*r*z/(r**2 + z**2)**(5/2)"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "-37/(100*(r**2 + z**2)**(3/2))",
+      "c": "-(37.0/100.0)/pow(pow(r, 2) + pow(z, 2), 3.0/2.0)",
+      "numpy": "-(37/100)/(r**2 + z**2)**(3/2)"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    [
+     {
+      "sympy": "-111*r**2/(100*(r**2 + z**2)**(5/2)) + 37/(100*(r**2 + z**2)**(3/2))",
+      "c": "-111.0/100.0*pow(r, 2)/pow(pow(r, 2) + pow(z, 2), 5.0/2.0) + (37.0/100.0)/pow(pow(r, 2) + pow(z, 2), 3.0/2.0)",
+      "numpy": "-111/100*r**2/(r**2 + z**2)**(5/2) + (37/100)/(r**2 + z**2)**(3/2)"
+     },
+     {
+      "sympy": "-111*r*z/(100*(r**2 + z**2)**(5/2))",
+      "c": "-111.0/100.0*r*z/pow(pow(r, 2) + pow(z, 2), 5.0/2.0)",
+      "numpy": "-111/100*r*z/(r**2 + z**2)**(5/2)"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "-111*r**2/(100*(r**2 + z**2)**(5/2))",
+      "c": "-111.0/100.0*pow(r, 2)/pow(pow(r, 2) + pow(z, 2), 5.0/2.0)",
+      "numpy": "-111/100*r**2/(r**2 + z**2)**(5/2)"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "-111*r*z/(100*(r**2 + z**2)**(5/2))",
+      "c": "-111.0/100.0*r*z/pow(pow(r, 2) + pow(z, 2), 5.0/2.0)",
+      "numpy": "-111/100*r*z/(r**2 + z**2)**(5/2)"
+     }
+    ],
+    [
+     {
+      "sympy": "-111*r**2/(100*(r**2 + z**2)**(5/2))",
+      "c": "-111.0/100.0*pow(r, 2)/pow(pow(r, 2) + pow(z, 2), 5.0/2.0)",
+      "numpy": "-111/100*r**2/(r**2 + z**2)**(5/2)"
+     },
+     {
+      "sympy": "-111*r*z/(100*(r**2 + z**2)**(5/2))",
+      "c": "-111.0/100.0*r*z/pow(pow(r, 2) + pow(z, 2), 5.0/2.0)",
+      "numpy": "-111/100*r*z/(r**2 + z**2)**(5/2)"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "axis_top",
+   "bc": "axis",
+   "normal": [
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "z": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     1,
+     4
+    ]
+   }
+  },
+  {
+   "name": "axis_bottom",
+   "bc": "axis",
+   "normal": [
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "z": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     -4,
+     -1
+    ]
+   }
+  },
+  {
+   "name": "sphere",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "-sin(t)",
+     "c": "-sin(t)",
+     "numpy": "-np.sin(t)"
+    },
+    {
+     "sympy": "-cos(t)",
+     "c": "-cos(t)",
+     "numpy": "-np.cos(t)"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "sin(t)",
+     "c": "sin(t)",
+     "numpy": "np.sin(t)"
+    },
+    "z": {
+     "sympy": "cos(t)",
+     "c": "cos(t)",
+     "numpy": "np.cos(t)"
+    },
+    "range": [
+     0,
+     "pi"
+    ]
+   }
+  },
+  {
+   "name": "outer",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "sin(t)",
+     "c": "sin(t)",
+     "numpy": "np.sin(t)"
+    },
+    {
+     "sympy": "cos(t)",
+     "c": "cos(t)",
+     "numpy": "np.cos(t)"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "4*sin(t)",
+     "c": "4*sin(t)",
+     "numpy": "4*np.sin(t)"
+    },
+    "z": {
+     "sympy": "4*cos(t)",
+     "c": "4*cos(t)",
+     "numpy": "4*np.cos(t)"
+    },
+    "range": [
+     0,
+     "pi"
+    ]
+   }
+  }
+ ],
+ "extra": {
+  "torque_z_per_radian": {
+   "sympy": "-37/25",
+   "c": "-37.0/25.0",
+   "numpy": "-37/25"
+  },
+  "torque_z_3d": {
+   "sympy": "-74*pi/25",
+   "c": "-74.0/25.0*M_PI",
+   "numpy": "-74/25*np.pi"
+  }
+ },
+ "constants": {
+  "area": 23.56194490192345,
+  "area_r": 41.99999999999972,
+  "p_mean": 0.0,
+  "p_mean_r": 0.0,
+  "u_L2r": 0.9999999999999961,
+  "u_L2": 0.8580855308097795,
+  "ut_L2r": 0.9999999999999961,
+  "grad_u_L2r": 1.6201851746019562,
+  "p_minus_mean_L2r": 0.0,
+  "u_max_sampled": 0.9978155807942966,
+  "ut_max_sampled": 0.9978155807942966,
+  "p_max_abs_sampled": 0.0,
+  "p_minus_mean_r_max_abs_sampled": 0.0,
+  "p_minus_mean_max_abs_sampled": 0.0,
+  "mu_min_sampled": 0.37,
+  "mu_max_sampled": 0.37
+ },
+ "selfcheck": {
+  "parity": "u_r, u_t odd; u_z, p, mu even (symbolic)",
+  "forcing_routes": "A == B at 6 random points, 60 digits, both forms, gamma 0 and 1",
+  "fd_residual": {
+   "lap": 1.0,
+   "sym": 1.0
+  },
+  "status": "pass"
+ }
+}

@@ -1,0 +1,295 @@
+{
+ "name": "analytic_admx_thesis_tab6_1",
+ "title": "ADMX empty-cylinder mode frequencies (Braine PhD thesis Table 6.1)",
+ "benchmark_rank": "analytic",
+ "citations": [
+  {
+   "arxiv": "2408.03444",
+   "authors_short": "T. Braine (PhD thesis, U. Washington 2024)",
+   "journal": "thesis",
+   "items_used": [
+    "Table 6.1 (PDF page 123, printed p. 96)",
+    "Eqs. 6.21-6.22"
+   ]
+  }
+ ],
+ "software": {
+  "code": "closed form (Eq. 6.21); the thesis does not say whether the table is computed or measured, the caption says 'measurements of a single empty cavity' for run 2 / EFR",
+  "version": null,
+  "solver_type": "analytic eigenfrequency",
+  "boundary": "PEC",
+  "mesh_notes": null
+ },
+ "geometry": {
+  "units": "cm",
+  "description": "four empty right circular cylinders (closed, no rods, no ports)",
+  "parameters": {
+   "ADMX Main": {
+    "value": {
+     "R": 21.0,
+     "H": 101.0
+    },
+    "unit": "cm",
+    "source": "Table 6.1 (column header 'Radius'; caption: all lengths in cm)",
+    "note": null
+   },
+   "ADMX Sidecar": {
+    "value": {
+     "R": 4.6,
+     "H": 12.1
+    },
+    "unit": "cm",
+    "source": "Table 6.1 (column header 'Radius'; caption: all lengths in cm)",
+    "note": null
+   },
+   "ADMX run 2": {
+    "value": {
+     "R": 8.5,
+     "H": 100.0
+    },
+    "unit": "cm",
+    "source": "Table 6.1 (column header 'Radius'; caption: all lengths in cm)",
+    "note": null
+   },
+   "ADMX EFR": {
+    "value": {
+     "R": 6.4,
+     "H": 100.0
+    },
+    "unit": "cm",
+    "source": "Table 6.1 (column header 'Radius'; caption: all lengths in cm)",
+    "note": null
+   }
+  }
+ },
+ "materials": {
+  "walls": {
+   "material": "PEC (frequencies only)",
+   "sigma_S_per_m": null,
+   "temperature_K": null,
+   "source": "n/a"
+  }
+ },
+ "conditions": {
+  "temperature_K": null,
+  "B0_T": null,
+  "B0_direction": "z (axial), for the C cross-check only",
+  "field_map": "uniform"
+ },
+ "conventions": {
+  "form_factor_definition": "C = |int E.z dV|^2 / (V int |E|^2 dV) (not tabulated here; closed form 4/x0n^2 for TM0n0, 0 for TM0np p>=1)",
+  "Q_definition": "not tabulated",
+  "notes": "f = c/(2 pi) sqrt((x/R)^2 + (p pi/H)^2), x = j0n for TM0n, j'11 for TE11"
+ },
+ "reference_values": {
+  "tables": [
+   {
+    "source": "Table 6.1",
+    "description": "empty-cavity base frequencies",
+    "simulated": null,
+    "columns": [
+     "cavity",
+     "R",
+     "H",
+     "f_TM010",
+     "f_TE111",
+     "f_TM011",
+     "f_TM020"
+    ],
+    "units": [
+     "",
+     "cm",
+     "cm",
+     "GHz",
+     "GHz",
+     "GHz",
+     "GHz"
+    ],
+    "rows": [
+     [
+      "ADMX Main",
+      "21.0",
+      "101",
+      "0.547",
+      "0.444",
+      "0.567",
+      "1.25"
+     ],
+     [
+      "ADMX Sidecar",
+      "4.60",
+      "12.1",
+      "2.50",
+      "2.28",
+      "2.79",
+      "5.73"
+     ],
+     [
+      "ADMX run 2",
+      "8.5",
+      "100",
+      "1.35",
+      "1.04",
+      "1.36",
+      "3.1"
+     ],
+     [
+      "ADMX EFR",
+      "6.4",
+      "100",
+      "1.79",
+      "1.38",
+      "1.8",
+      "4.12"
+     ]
+    ]
+   }
+  ],
+  "curves": []
+ },
+ "analytic_check": {
+  "method": "closed form, c = 299792458 m/s, PEC; tabulated values are rounded to 2-4 significant figures",
+  "rows": [
+   {
+    "cavity": "ADMX Main",
+    "R_m": 0.21,
+    "H_m": 1.01,
+    "closed_form_GHz": {
+     "TM010": 0.54639,
+     "TE111": 0.44388,
+     "TM011": 0.56619,
+     "TM020": 1.2542
+    },
+    "table_GHz": {
+     "TM010": 0.547,
+     "TE111": 0.444,
+     "TM011": 0.567,
+     "TM020": 1.25
+    },
+    "pct_diff_table_vs_closed_form": {
+     "TM010": 0.1111,
+     "TE111": 0.0279,
+     "TM011": 0.143,
+     "TM020": -0.3349
+    },
+    "C_TM010_closed_form": 0.69166,
+    "C_TM020_closed_form": 0.13127,
+    "C_TM011_closed_form": 0.0
+   },
+   {
+    "cavity": "ADMX Sidecar",
+    "R_m": 0.046,
+    "H_m": 0.121,
+    "closed_form_GHz": {
+     "TM010": 2.4944,
+     "TE111": 2.27637,
+     "TM011": 2.78509,
+     "TM020": 5.7257
+    },
+    "table_GHz": {
+     "TM010": 2.5,
+     "TE111": 2.28,
+     "TM011": 2.79,
+     "TM020": 5.73
+    },
+    "pct_diff_table_vs_closed_form": {
+     "TM010": 0.2244,
+     "TE111": 0.1595,
+     "TM011": 0.1765,
+     "TM020": 0.0752
+    },
+    "C_TM010_closed_form": 0.69166,
+    "C_TM020_closed_form": 0.13127,
+    "C_TM011_closed_form": 0.0
+   },
+   {
+    "cavity": "ADMX run 2",
+    "R_m": 0.085,
+    "H_m": 1.0,
+    "closed_form_GHz": {
+     "TM010": 1.34991,
+     "TE111": 1.04433,
+     "TM011": 1.35821,
+     "TM020": 3.09861
+    },
+    "table_GHz": {
+     "TM010": 1.35,
+     "TE111": 1.04,
+     "TM011": 1.36,
+     "TM020": 3.1
+    },
+    "pct_diff_table_vs_closed_form": {
+     "TM010": 0.0065,
+     "TE111": -0.415,
+     "TM011": 0.1319,
+     "TM020": 0.0448
+    },
+    "C_TM010_closed_form": 0.69166,
+    "C_TM020_closed_form": 0.13127,
+    "C_TM011_closed_form": 0.0
+   },
+   {
+    "cavity": "ADMX EFR",
+    "R_m": 0.064,
+    "H_m": 1.0,
+    "closed_form_GHz": {
+     "TM010": 1.79285,
+     "TE111": 1.3808,
+     "TM011": 1.79911,
+     "TM020": 4.11534
+    },
+    "table_GHz": {
+     "TM010": 1.79,
+     "TE111": 1.38,
+     "TM011": 1.8,
+     "TM020": 4.12
+    },
+    "pct_diff_table_vs_closed_form": {
+     "TM010": -0.1591,
+     "TE111": -0.0583,
+     "TM011": 0.0496,
+     "TM020": 0.1132
+    },
+    "C_TM010_closed_form": 0.69166,
+    "C_TM020_closed_form": 0.13127,
+    "C_TM011_closed_form": 0.0
+   }
+  ]
+ },
+ "measured_values": {
+  "tables": [],
+  "curves": []
+ },
+ "gaps": [
+  {
+   "parameter": "provenance (computed vs measured)",
+   "issue": "caption says the run-2/EFR entries are 'measurements of a single empty cavity'; the main/Sidecar rows look computed. Precision is 2-4 significant figures only.",
+   "proposal": "use as an analytic sanity check only; the axionFEM reference is the closed form (exact), the table is checked to its rounding"
+  },
+  {
+   "parameter": "Sidecar radius",
+   "issue": "Table 6.1 gives Sidecar R = 4.60 cm, H = 12.1 cm, but the Sidecar paper 1901.00920 quotes 0.064 m inner DIAMETER (R = 3.2 cm). The 4.60 cm row may be the later clamshell Sidecar cavity of the thesis.",
+   "proposal": "take Table 6.1 numbers at face value (they are self-consistent with Eq. 6.21, see analytic_check); do not mix with 1901.00920"
+  }
+ ],
+ "inconsistencies": [
+  {
+   "description": "Table 6.1 rounded entries vs closed form: ADMX Main TM010 0.547 vs 0.54639 GHz (+0.11%), TM011 0.567 vs 0.56619 (+0.14%), Sidecar TM010 2.50 vs 2.4944 (+0.22%). All CONSISTENT within rounding once the rounding of R is included (R = 21.0 cm -> +-0.24% on f; Sidecar R = 4.60 cm and f = 2.50 GHz -> +-0.31% combined). Earlier text called these 'beyond rounding'.",
+   "evidence": "Table 6.1 vs Eq. 6.21 with the tabulated (rounded) R, H",
+   "proposal": "no inconsistency; closed form is the reference, table values are rounded sanity checks"
+  }
+ ],
+ "solver_class": {
+  "axisymmetric_2d_possible": true,
+  "needs_3d": false,
+  "reason": "empty closed cylinder: TM0np exactly axisymmetric (m=0); TE111 is an m=1 azimuthal mode, reachable with an azimuthal-order-m 2D formulation or as a 3D cross-check"
+ },
+ "priority": "P0",
+ "priority_reason": "closed-form, exact, 2D axisymmetric; first regression test",
+ "readme_row": {
+  "quantities": "f TM010/TE111/TM011/TM020 (4 cavities)",
+  "geometry_complete": "yes",
+  "axisym_2d": "yes (TE111 needs m=1)",
+  "needs_3d": "no"
+ }
+}

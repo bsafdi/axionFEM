@@ -1,0 +1,282 @@
+{
+ "id": "mms_stokes_3d_do_nothing",
+ "capability": "F1c",
+ "title": "3D MMS, do-nothing face x = 1 in the form's own sense (each field violates the other form's condition)",
+ "physics": "velocity fields f1c_dn_u_{lap,sym}: sigma_form n = 0 on x = 1 (u0 + curl C, with the pressure the normal condition forces), each solved in its own form; pressure field f1c_dn_p: u = 0, p = (1 - x) P (do-nothing in both forms); Dirichlet elsewhere; pressure determined",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1c_stokes",
+   "function": "mms_do_nothing_3d",
+   "check_module": "f1c_stokes_check",
+   "cost": "long",
+   "timeout_s": 14000
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2 (tet) / Q2 (hex)",
+    "pressure": "P1 / Q1",
+    "geometry": "affine (cube, duct); isoparametric P2/Q2 with the fixed nodes (sphere)"
+   },
+   "forms": [
+    "lap",
+    "sym"
+   ],
+   "ranks": 16,
+   "solver": {
+    "kind": "as mms_stokes_3d"
+   },
+   "mms_data_velocity_lap": {
+    "path": "tools/fluids_mms/out/f1c_dn_u_lap.json",
+    "sha256": "353262f7841f27892d271983a15c3fc724f6d4f4270b4edab731b6e18de432eb"
+   },
+   "mms_data_velocity_sym": {
+    "path": "tools/fluids_mms/out/f1c_dn_u_sym.json",
+    "sha256": "305b94bcebb5f500e641dd5f943fa898258663e975a0629b292fe6eb92c7a1e4"
+   },
+   "mms_data_pressure": {
+    "path": "tools/fluids_mms/out/f1c_dn_p.json",
+    "sha256": "133eb5c9690d20d466d40ab583c3ca4c0b53581834664d314ea7b1abf8128227"
+   },
+   "meshes": {
+    "kuhn": {
+     "family": "kuhn_octant",
+     "N": [
+      4,
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.25,
+      0.125,
+      0.0625,
+      0.03125
+     ],
+     "construction": "f1c_stokes_check.cube_tet(N): N^3 cells, each split into the 6 Kuhn tetrahedra, the Kuhn diagonal of each octant reflected towards that octant's corner of the cube (every tetrahedron has an interior vertex); the level-N mesh IS the Bey red refinement of the level-N/2 mesh (nested; checked by the self-tests)",
+     "h_definition": "h_nominal = 1/N (cell edge); h_max = sqrt(3)/N reported"
+    }
+   },
+   "do_nothing_face": "x1",
+   "shared_node_rule": "At a velocity node shared by several boundary attributes (edges and corners of the cube, the slip-symmetry edge of T4): (1) Dirichlet beats every natural condition and every slip/symmetry constraint; (2) between Dirichlet attributes the fixed data AGREE (one exact callable per field; checked: dirichlet_shared_node_mismatch_max), so no precedence is needed and the result is independent of attribute order; (3) at a node on two slip/symmetry faces BOTH normal constraints are imposed (u along the common edge only); (4) no periodic boundaries in F1c.",
+   "boundary_faces": {
+    "dirichlet": [
+     "x0",
+     "y0",
+     "y1",
+     "z0",
+     "z1"
+    ],
+    "do_nothing": [
+     "x1"
+    ],
+    "predicate": "a node lies on a face iff its coordinate equals the face value to 1e-12 (|r - R| < 1e-9 for the spheres)"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "u_lap_kuhn_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.kuhn.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.70867,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "u_lap_kuhn_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm over all nine gradient components, same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.kuhn.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.70867,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "p_lap_kuhn_pL2",
+    "level": "mms",
+    "norm": "||p_h - p||_L2(Omega) (pressure determined by a natural boundary)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.kuhn.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.258732,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "u_sym_kuhn_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature exact to degree 8 (tet, collapsed Gauss, 216 points) / 5^3 Gauss (hex); exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.kuhn.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.657587,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "u_sym_kuhn_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm over all nine gradient components, same quadrature",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.kuhn.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.657587,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "p_sym_kuhn_pL2",
+    "level": "mms",
+    "norm": "||p_h - p||_L2(Omega) (pressure determined by a natural boundary)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 3
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.kuhn.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.258732,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "nullspace_detected",
+    "level": "mms",
+    "max": 0
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "dirichlet_shared_node_mismatch_max",
+    "level": "mms",
+    "abs_max": 1e-14
+   },
+   {
+    "quantity": "mesh_verify_failures",
+    "level": "mms",
+    "max": 0
+   },
+   {
+    "quantity": "api_th_check_disagreements",
+    "level": "mms",
+    "max": 0
+   },
+   {
+    "quantity": "comm_size_mismatch_runs",
+    "level": "mms",
+    "max": 0
+   },
+   {
+    "quantity": "partition_failures",
+    "level": "mms",
+    "max": 0
+   },
+   {
+    "quantity": "shared_dofs_min_runs",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "geometry_defect_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

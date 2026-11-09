@@ -1,0 +1,428 @@
+{
+ "id": "mms_mhd_2d_insulating",
+ "capability": "F13a",
+ "title": "MMS, source-free with insulating walls everywhere ((u x B).n != 0): conservation identities",
+ "physics": "2.5D inductionless MHD on the unit square, uniform sigma and B = (0, B_y, B_z), q = 0, J.n = 0 on every edge by construction (current stream function), potential up to a constant",
+ "levels": [
+  "mms",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f13a_mhd",
+   "function": "mms_insulating",
+   "check_module": "f13a_mhd_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "formulation": "2.5D planar inductionless MHD (u = (u_x, u_y, u_z) independent of z; J = sigma(-grad phi + E_z e_z + u x B); Lorentz force J x B; conservative potential equation (J, grad psi) = <j_n, psi> - (q, psi))",
+   "element": {
+    "velocity": "P2 (all three components)",
+    "pressure": "P1",
+    "potential": "P2 Lagrange",
+    "geometry": "affine (straight-sided)"
+   },
+   "viscous_form": "lap (mu constant: both forms coincide with Dirichlet data)",
+   "quadrature_error_norms": 10,
+   "dirichlet_data": "P2 Lagrange NODAL interpolation of the fixed callables (velocity and potential)",
+   "solver": {
+    "kind": "direct sparse LU (Newton for rho > 0)",
+    "tight": "same, plus 2 steps of iterative refinement / Newton to 1e-14 (vacuous for a direct linear solve; meaningful for an iterative path)"
+   },
+   "shared_node_rule": "At a node shared by several boundary attributes: (1) velocity Dirichlet beats every natural velocity condition; potential Dirichlet beats insulation and normal-current data; (2) between Dirichlet attributes the fixed data AGREE at shared nodes (one exact callable per MMS field; the Hartmann/duct data vanish or are consistent at the corners), checked by dirichlet_shared_node_mismatch, so the result is independent of attribute order.",
+   "series_magnitude_keys": {
+    "uL2": "u_magnitude",
+    "uH1": "u_magnitude",
+    "divL2": "u_magnitude",
+    "pL2": "p_magnitude",
+    "phiL2": "phi_magnitude",
+    "phiH1": "phi_magnitude",
+    "JL2": "J_magnitude"
+   },
+   "mms_data": {
+    "path": "tools/fluids_mms/out/mhd_insulating.json",
+    "sha256": "b99735041720abdffbd714118ac99da606218b04e56311d1b65f430333a97187"
+   },
+   "meshes": {
+    "structured": {
+     "family": "structured",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(N) (= f13a_mhd_check.mms_mesh('structured', N)): the fixed F1a family (N = 8 base, Taylor-Hood corner cells flipped, red refinement; nested)",
+     "h_definition": "h_nominal = 1/N"
+    }
+   },
+   "rho": {
+    "stokes": 0.0,
+    "ns": 1.0
+   },
+   "physical": {
+    "mu": 0.6,
+    "G_z": 1.3,
+    "E_z": 0.45,
+    "sigma": 1.6,
+    "B": [
+     0.0,
+     1.2,
+     0.8
+    ]
+   },
+   "boundaries": {
+    "velocity": {
+     "x0 x1 y0 y1": "Dirichlet (exact u; (u x B).n != 0 on every edge)"
+    },
+    "potential": {
+     "x0 x1 y0 y1": "insulating (J.n = 0; no data)"
+    }
+   },
+   "sources": "momentum f only; NO current source (q = 0)",
+   "pressure": "no constraint (nullspace)",
+   "potential": "no constraint (nullspace): compared mean-free"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "stokes_struct_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.54865,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "stokes_struct_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.54865,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "stokes_struct_pL2m",
+    "level": "mms",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2 (pressure up to a constant)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.709442,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "stokes_struct_phiL2m",
+    "level": "mms",
+    "norm": "||(phi_h - mean phi_h) - (phi - mean phi)||_L2 (potential up to a constant)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.01944,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "stokes_struct_phiH1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.01944,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "stokes_struct_JL2",
+    "level": "mms",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.41082,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "ns_struct_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.54865,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "ns_struct_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.54865,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "ns_struct_pL2m",
+    "level": "mms",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2 (pressure up to a constant)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.709442,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "ns_struct_phiL2m",
+    "level": "mms",
+    "norm": "||(phi_h - mean phi_h) - (phi - mean phi)||_L2 (potential up to a constant)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.01944,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "ns_struct_phiH1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.01944,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "ns_struct_JL2",
+    "level": "mms",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.41082,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "weak_current_residual_rel_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "net_current_rel_max",
+    "level": "conservation",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "lorentz_joule_defect_max",
+    "level": "conservation",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "nullspace_detected",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "phi_nullspace_detected",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "dirichlet_nodal_defect_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

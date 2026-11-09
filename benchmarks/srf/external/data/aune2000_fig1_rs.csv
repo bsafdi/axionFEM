@@ -1,0 +1,40 @@
+# Aune et al. PRST-AB 3 092001 (2000) Fig. 1 (arXiv:physics/0003011v1 p.5): 9-cell TESLA cavity, 1.3 GHz; digitized from PDF vector markers by digitize_aune_fig1.py
+# R_res line reads 3.018, 3.018 nOhm (labelled 3 nOhm)
+# R_BCS line segment: (2.6376, 333.9973) -> (2.8692, 236.6915) [Tc/T, nOhm]
+# R_BCS line segment: (2.8692, 236.6915) -> (3.0278, 185.9166) [Tc/T, nOhm]
+# R_BCS line segment: (3.0278, 185.9166) -> (3.2182, 138.7069) [Tc/T, nOhm]
+# R_BCS line segment: (3.2182, 138.7069) -> (3.4752, 93.3650) [Tc/T, nOhm]
+# R_BCS line segment: (3.4752, 93.3650) -> (3.7131, 64.3549) [Tc/T, nOhm]
+# R_BCS line segment: (3.6306, 260.2740) -> (3.6306, 258.2253) [Tc/T, nOhm]
+# R_BCS line segment: (3.7131, 64.3549) -> (3.8527, 51.5598) [Tc/T, nOhm]
+# R_BCS line segment: (3.8527, 51.5598) -> (4.0748, 36.2497) [Tc/T, nOhm]
+# R_BCS line segment: (4.0748, 36.2497) -> (4.2430, 27.5854) [Tc/T, nOhm]
+# R_BCS line segment: (4.3825, 21.9263) -> (4.5570, 16.5548) [Tc/T, nOhm]
+# R_BCS line segment: (4.5570, 16.5548) -> (4.8204, 10.7956) [Tc/T, nOhm]
+# R_BCS line segment: (4.8204, 10.7956) -> (5.1155, 6.6342) [Tc/T, nOhm]
+# R_BCS line segment: (5.0583, 7.2954) -> (5.4803, 3.6062) [Tc/T, nOhm]
+# R_BCS line segment: (5.4803, 3.6062) -> (6.0133, 1.4682) [Tc/T, nOhm]
+# R_BCS line segment: (6.0133, 1.4682) -> (6.2354, 1.0080) [Tc/T, nOhm]
+Tc_over_T,Rs_nOhm
+2.5218,372.4147
+2.6360,286.7914
+2.8676,198.4631
+3.0262,148.0674
+3.2166,123.9078
+3.4736,88.5057
+3.7115,61.4915
+3.8511,46.6096
+4.0732,35.1887
+4.2414,28.6427
+4.2794,23.6863
+4.3810,22.1447
+4.5555,17.0533
+4.8188,11.7546
+5.0567,8.1344
+5.1138,7.8809
+5.4787,6.2891
+6.0117,4.3694
+6.3448,2.7715
+6.5257,3.4185
+6.7161,2.4807
+6.7161,2.9762

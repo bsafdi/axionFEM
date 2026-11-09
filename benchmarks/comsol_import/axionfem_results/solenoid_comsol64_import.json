@@ -1,0 +1,37 @@
+{
+ "model": "the shielded solenoid of arXiv:2211.00008 re-saved by COMSOL 6.4: impedance and voltage models (not distributed)",
+ "comsol_reference": "the impedance and voltage tables computed by COMSOL 6.4 from those models (not distributed)",
+ "axionfem_run": "comsol_import_runs/dmimp_p2 (mesh route, curved, order 2, STRUMPACK)",
+ "elements": 187594,
+ "dofs": 1237442,
+ "rows": [
+  {
+   "f_MHz": 5.0,
+   "X_axf_ohm": 8.552398961098007,
+   "X_comsol64_ohm": 8.552191110104083,
+   "X_ratio": 1.0000243038294219,
+   "absVoc_axf_V": 0.9143649519276105,
+   "absVoc_comsol64_V": 0.9154025100438302,
+   "Voc_ratio": 0.9988665553078174
+  },
+  {
+   "f_MHz": 5.1,
+   "X_axf_ohm": 8.736812873832584,
+   "X_comsol64_ohm": 8.736567961986308,
+   "X_ratio": 1.0000280329584044,
+   "absVoc_axf_V": 0.9348391293179096,
+   "absVoc_comsol64_V": 0.9359010272922088,
+   "Voc_ratio": 0.9988653736417283
+  },
+  {
+   "f_MHz": 5.2,
+   "X_axf_ohm": 8.922080827655234,
+   "X_comsol64_ohm": 8.921800295833057,
+   "X_ratio": 1.000031443409724,
+   "absVoc_axf_V": 0.9554533628469385,
+   "absVoc_comsol64_V": 0.956550027247796,
+   "Voc_ratio": 0.9988535211231838
+  }
+ ],
+ "beta": true
+}

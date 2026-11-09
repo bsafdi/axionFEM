@@ -1,0 +1,114 @@
+{
+ "id": "analytic_advdiff_layer_2d",
+ "capability": "F4a",
+ "title": "Exact outflow boundary layer (b = (1, 0), kappa = 1e-6): SUPG has bounded over/undershoots and an accurate interior; Galerkin oscillates (negative control)",
+ "physics": "-eps T'' + T' = s with T = S(x, y) - S(1, y) E(x), the layer of width ~eps at x = 1 unresolved on every fixed mesh",
+ "levels": [
+  "analytic"
+ ],
+ "run": {
+  "runner": {
+   "module": "f4a_heat",
+   "function": "scalar_layer",
+   "check_module": "f4a_heat_check",
+   "cost": "long",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "field": {
+    "path": "tools/fluids_mms/out/heat_layer_2d.json",
+    "sha256": "ed0fb9ee3681e023f4e56663ae41fb43edcda067a4876d69519d750726d95d04"
+   },
+   "element": {
+    "temperature": "P2"
+   },
+   "supg": "Residual-based SUPG: add sum_K int_K tau_K (a b.grad v) R_K(T_h) (r-weighted in axisymmetry) to the Galerkin form, with the FULL element residual R_K(T) = a b.grad T - div(kappa grad T) - s evaluated element-wise (second derivatives of T_h for P2, the grad kappa. grad T term, and in axisymmetry the hoop term kappa T_r / r). FIXED FAMILY: tau_K = C tau_rule(h_K) with tau_coth(h) = h / (2 p a |b|) (coth Pe - 1/Pe), Pe = a |b| h / (2 p kappa), or tau_Shakib(h) = [(2 p a |b| / h)^2 + 9 (4 p^2 kappa / h^2)^2]^(-1/2) (C multiplies tau; it is NOT inside Pe or h); p the element degree; |b| the Euclidean norm of the advecting velocity (in axisymmetry its MERIDIONAL part (b_r, b_z)); tau evaluated at the quadrature points or as an element constant; h_K a length that depends on the element's GEOMETRY only (invariant under a renumbering of its vertices and under rigid motions); admissible pairs (C, h_K): c_adv = C h_K / sqrt(2|K|) in [1/2, 2] AND c_diff = C h_K^2 / (2|K|) in [1/2, 2] (the advective- and diffusive-limit tau relative to C = 1, h_K = sqrt(2|K|)), evaluated on the right isosceles triangles of the unit, channel, pipe and annulus families; the same (rule, C, h_K) is used on every fixed mesh; on the distorted family the per-element values may leave the box (longest edge x 1: c_diff in [1.37, 3.07]), immaterial for its Pe 1e6 items (advective limit: only c_adv matters). Examples: h_K = sqrt(2|K|) (NGSolve mesh_size; MFEM sqrt(T->Weight()) on an affine triangle) with C in [1/2, 2]; the longest edge (sqrt(2) sqrt(2|K|) on the fixed right triangles) with C in [1/(2 sqrt 2), 1] (C = 1 is the library's shakib_hK); MFEM GetElementSize(e, 0) = 1.0746 sqrt(2|K|) with C in [0.47, 1.73].",
+   "quadrature_requirement": "Every Galerkin and SUPG integrand that is a polynomial on affine triangles is integrated EXACTLY: for P2 T and v: a b.grad T v with b in P1 degree 4 planar / 5 axisymmetric; with b = u_h in P2 (the coupled energy equation: B, C1, E1, H1, X1) or the quadratic Poiseuille b (G1, G2) degree 5 planar / 6 axisymmetric (a degree-4 rule for a u_h.grad T v moves X1 by 3.4e-8 against its 1e-8 recipe); the momentum terms as F2a requires. Non-polynomial data (MMS loads, Robin T_ext, Neumann data) by rules of degree >= 6 on elements and edges; the identities that involve such data are then QUADRATURE-LIMITED (worst measured 1.3e-11 with an admissible degree-6 rule, against bounds of 1e-10). Data callables are evaluated at interior quadrature points and at the Dirichlet nodes only (some axisymmetric loads have removable 1/r singularities on the axis).",
+   "dirichlet_data": "P2 (P1) Lagrange NODAL interpolation of the fixed callables at the vertices and edge midpoints of the Dirichlet boundary parts; at a node shared by two Dirichlet parts the data agree (one exact callable per field); Dirichlet beats every natural condition at a shared node",
+   "boundary_conditions": "x = 0 and x = 1 Dirichlet (T = 0, inflow and outflow); y = 0, 1 exact diffusive flux (O(eps) data)",
+   "meshes": {
+    "unit": {
+     "family": "unit",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "scalar_transport_check.box_mesh(8, 8, k), k = 0..4, on [0,1]^2 in (x, y): 8 x 8 squares split along the (1,1) diagonal except the two cells at the corners (1,0) and (0,1) (split the other way: no triangle with all vertices on the boundary), refined uniformly (red) k times (identical to the fixed F1a structured_mesh(N), N = 8 * 2^k). Nested.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    }
+   },
+   "interior_region": [
+    0.0,
+    0.75,
+    0.0,
+    1.0
+   ],
+   "variants": {
+    "p2_supg": "P2, SUPG"
+   },
+   "conditional": {
+    "p1": {
+     "element": "P1 temperature",
+     "variant": "P1, SUPG"
+    }
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "p2_supg_sampled_max_over_levels",
+    "level": "analytic",
+    "max": 3.0
+   },
+   {
+    "quantity": "p2_supg_sampled_min_over_levels",
+    "level": "analytic",
+    "min": -1.0
+   },
+   {
+    "quantity": "p2_supg_interior_TL2_finest",
+    "level": "analytic",
+    "max": 1e-06
+   },
+   {
+    "quantity": "p1_supg_sampled_max_over_levels",
+    "level": "analytic",
+    "max": 3.0
+   },
+   {
+    "quantity": "p1_supg_sampled_min_over_levels",
+    "level": "analytic",
+    "min": -1.0
+   },
+   {
+    "quantity": "p1_supg_interior_TL2_finest",
+    "level": "analytic",
+    "max": 0.0001
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "analytic",
+    "max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

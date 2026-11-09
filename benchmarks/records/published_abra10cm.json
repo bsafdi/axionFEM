@@ -1,0 +1,282 @@
+{
+  "check": "published_abra10cm",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:55",
+  "pass_means": "SELF-CHECK = internal consistency only: identities, convergence and agreement with our own closed forms.  It says NOTHING about agreement with the publication; that is the 'verdict' column of the summary table in docs/validation/published_benchmarks.md, and several rows there disagree while the self-check passes.",
+  "inputs": {
+    "R_in_m": 0.03,
+    "R_out_m": 0.06,
+    "H_m": 0.12,
+    "NI_A": 154880.0,
+    "B_in_from_NI_T": 1.0325333338954195,
+    "B_in_quoted_T": 1.0,
+    "V_field_published_m3": 0.00089,
+    "V_toroid_rect_m3": 0.001017876019763093,
+    "V_published_over_rect": 0.8743697490851039,
+    "pickup_radius_m": 0.0201,
+    "pickup_wire_radius_m": 0.0005
+  },
+  "kst_benchmark": {
+    "r": 0.85,
+    "R": 0.85,
+    "a": 0.85,
+    "h": 2.55,
+    "V_B_quoted_m3": 1.0,
+    "V_B_eq8_m3": 1.004532472638301,
+    "Psi_over_Bmax_exact_m3": 1.0045324726383003,
+    "eq8_over_exact": 1.0000000000000007,
+    "rel_to_quoted": 0.004532472638300922
+  },
+  "semi_analytic": {
+    "V_B_eq8_m3": 2.159768788669447e-05,
+    "Psi_over_Bmax_exact_m3": 2.159768788669447e-05,
+    "eq8_over_exact": 1.0,
+    "G_free_space": 0.024267065041229746,
+    "Psi_natural_T_m3": 2.2300332678081358e-05
+  },
+  "winding_thickness_convergence": [
+    {
+      "winding_thickness_m": 0.001,
+      "mesh_size_m": 0.004,
+      "order": 2,
+      "Psi_natural_T_m3": 2.311655836504058e-05,
+      "V_B_m3": 2.2388195718417306e-05,
+      "G": 0.025155276088109333,
+      "L_p_H": 9.521674340402603e-08,
+      "dofs": 115475,
+      "rel_to_exact": 0.036601502710382115,
+      "warnings": []
+    },
+    {
+      "winding_thickness_m": 0.0005,
+      "mesh_size_m": 0.004,
+      "order": 2,
+      "Psi_natural_T_m3": 2.2674309221447686e-05,
+      "V_B_m3": 2.1959881078032356e-05,
+      "G": 0.024674023683182424,
+      "L_p_H": 9.521664076865322e-08,
+      "dofs": 104222,
+      "rel_to_exact": 0.016769998401588986,
+      "warnings": []
+    },
+    {
+      "winding_thickness_m": 0.0002,
+      "mesh_size_m": 0.004,
+      "order": 2,
+      "Psi_natural_T_m3": 2.2409821186276146e-05,
+      "V_B_m3": 2.1703726601959693e-05,
+      "G": 0.02438620966512325,
+      "L_p_H": 9.521670274798924e-08,
+      "dofs": 95382,
+      "rel_to_exact": 0.00490972532900376,
+      "warnings": []
+    },
+    {
+      "winding_thickness_m": 0.0001,
+      "mesh_size_m": 0.004,
+      "order": 2,
+      "Psi_natural_T_m3": 2.2321810509003648e-05,
+      "V_B_m3": 2.161848898842865e-05,
+      "G": 0.024290437065650167,
+      "L_p_H": 9.521659540009449e-08,
+      "dofs": 92014,
+      "rel_to_exact": 0.0009631170634238107,
+      "warnings": []
+    }
+  ],
+  "mesh_convergence": [
+    {
+      "mesh_size_m": 0.008,
+      "surface_size_m": 0.0004,
+      "order": 2,
+      "V_B_m3": 2.1703714979085365e-05,
+      "G": 0.024386196605713895,
+      "L_p_H": 9.520469610418202e-08,
+      "dofs": 43234,
+      "rel_to_exact": 0.004909187175364873,
+      "L_p_rel_to_thin_ring": -0.0010813278214755946,
+      "warnings": []
+    },
+    {
+      "mesh_size_m": 0.004,
+      "surface_size_m": 0.0002,
+      "order": 2,
+      "V_B_m3": 2.170372660195975e-05,
+      "G": 0.024386209665123317,
+      "L_p_H": 9.521670274798994e-08,
+      "dofs": 95382,
+      "rel_to_exact": 0.004909725329006427,
+      "L_p_rel_to_thin_ring": -0.0009553502050268101,
+      "warnings": []
+    },
+    {
+      "mesh_size_m": 0.002,
+      "surface_size_m": 0.0001,
+      "order": 2,
+      "V_B_m3": 2.1703732184251934e-05,
+      "G": 0.024386215937361726,
+      "L_p_H": 9.521957232555534e-08,
+      "dofs": 226808,
+      "rel_to_exact": 0.004909983796126268,
+      "L_p_rel_to_thin_ring": -0.0009252416628158235,
+      "warnings": []
+    },
+    {
+      "mesh_size_m": 0.004,
+      "surface_size_m": 0.0002,
+      "order": 3,
+      "V_B_m3": 2.1703738884428982e-05,
+      "G": 0.024386223465650544,
+      "L_p_H": 9.522171116057324e-08,
+      "dofs": 214402,
+      "rel_to_exact": 0.004910294022715474,
+      "L_p_rel_to_thin_ring": -0.0009028003093582634,
+      "warnings": []
+    }
+  ],
+  "headline_row": {
+    "selected_by": "most DOFs (the most refined mesh)",
+    "mesh_size_m": 0.002,
+    "order": 2,
+    "dofs": 226808,
+    "note": "Selected by DOFs, not by min|rel_to_exact| (which would pick the coarsest row).  Every FEM row here carries the +0.49 % bias of the t_w = 0.2 mm winding sheet; the t_w -> 0 reference is the semi-analytic value, which is what the report quotes as the headline G."
+  },
+  "shield_scan": [
+    {
+      "shield_radius_m": 0.075,
+      "V_B_m3": 1.5867905992432354e-05,
+      "G": 0.01782910785666557,
+      "L_p_H": 9.449983235530065e-08,
+      "V_B_over_free_space": 0.7347039218122963,
+      "dofs": 223054,
+      "warnings": []
+    },
+    {
+      "shield_radius_m": 0.09,
+      "V_B_m3": 1.8230951280639537e-05,
+      "G": 0.020484214922066896,
+      "L_p_H": 9.478257201471679e-08,
+      "V_B_over_free_space": 0.8441158783422805,
+      "dofs": 260759,
+      "warnings": []
+    },
+    {
+      "shield_radius_m": 0.12,
+      "V_B_m3": 2.018721400804014e-05,
+      "G": 0.02268226293038218,
+      "L_p_H": 9.500213405157285e-08,
+      "V_B_over_free_space": 0.9346932928166226,
+      "dofs": 334307,
+      "warnings": []
+    },
+    {
+      "shield_radius_m": 0.2,
+      "V_B_m3": 2.133536693327797e-05,
+      "G": 0.02397232239694154,
+      "L_p_H": 9.51253645831624e-08,
+      "V_B_over_free_space": 0.9878542113029558,
+      "dofs": 564489,
+      "warnings": []
+    }
+  ],
+  "inductance": {
+    "L_p_FEM_H": 9.521957232555534e-08,
+    "L_p_thin_ring_H": 9.530775503129974e-08,
+    "L_p_FEM_over_thin_ring": -0.0009252416628158235,
+    "L_p_published_H": 9.55e-08,
+    "L_p_FEM_over_published": -0.0029364154392111427,
+    "L_cal_thin_ring_H": 2.981471051864445e-07,
+    "L_cal_published_H": 3e-07,
+    "L_cal_rel_to_published": -0.0061763160451850044,
+    "L_min_KST_eq11_H": 2.960881321938639e-08
+  },
+  "calibration_coupling": {
+    "calibration_radius_m": 0.045,
+    "M_FEM_free_space_H": 1.9180643683030233e-08,
+    "M_FEM_shield_0.09m_H": 1.718826981192846e-08,
+    "M_coplanar_filaments_H": 1.924166417275268e-08,
+    "M_FEM_rel_to_filaments": -0.0031712688244947213,
+    "M_published_H": 1.93e-08,
+    "rel_to_published": -0.006184265127967243,
+    "M_PRL_quoted_H": 5e-08,
+    "note": "The instrument paper fixes the path: 'a 9 cm diameter loop concentric with and in the same plane as the pickup loop', and quotes M_CP = 19.3 nH from both an analytic calculation and COMSOL.  The PRL's '~50 nH' for the same quantity disagrees with its own instrument paper; 19.3 nH is the value consistent with the stated geometry."
+  },
+  "field_volume_variants": {
+    "rows": [
+      {
+        "variant": "shorter: R 3-6 cm, H reduced",
+        "R_in_m": 0.03,
+        "R_out_m": 0.06,
+        "H_m": 0.10492436989021248,
+        "V_field_m3": 0.00089,
+        "V_B_m3": 2.06447523024874e-05,
+        "G": 0.02319635090167124,
+        "rel_to_published_V_B": -0.14087589253069494
+      },
+      {
+        "variant": "narrower: R_out reduced, H = 12 cm",
+        "R_in_m": 0.03,
+        "R_out_m": 0.05710340027117283,
+        "H_m": 0.12,
+        "V_field_m3": 0.0008900000000000002,
+        "V_B_m3": 2.0235027366479178e-05,
+        "G": 0.022735985805032787,
+        "rel_to_published_V_B": -0.15792645166545238
+      },
+      {
+        "variant": "bored out: R_in raised, H = 12 cm",
+        "R_in_m": 0.03520229648006248,
+        "R_out_m": 0.06,
+        "H_m": 0.12,
+        "V_field_m3": 0.0008899999999999997,
+        "V_B_m3": 1.901796623219852e-05,
+        "G": 0.02136850138449272,
+        "rel_to_published_V_B": -0.20857402279656587
+      }
+    ],
+    "note": "Semi-analytic (t_w -> 0) V_B for field boxes of exactly the published 890 cm^3.  All three are FURTHER below the published V_B than the full 3-6 cm x 12 cm envelope, so a field region of 890 cm^3 does not reconcile the published G_V = 0.027 with ours -- it widens the gap."
+  },
+  "geometric_factor": {
+    "V_B_FEM_m3": 2.1703732184251934e-05,
+    "V_B_semi_analytic_m3": 2.159768788669447e-05,
+    "V_B_published_m3": 2.403e-05,
+    "V_B_rel_to_published": -0.09680681713475092,
+    "G_V_FEM": 0.024386215937361726,
+    "G_V_published": 0.027,
+    "rel_to_published": -0.0968068171347509,
+    "G_V_FEM_if_V_were_rectangular": 0.021322569510286132,
+    "rel_to_published_if_V_rectangular": -0.21027520332273583,
+    "G_V_tw_zero": 0.024267065041229746,
+    "G_V_tw_zero_if_V_were_rectangular": 0.02121838757113195,
+    "V_B_tw_zero_rel_to_published": -0.10121981328778723,
+    "tw_bias_of_FEM_headline_row": 0.004909983796126268,
+    "G_V_FEM_with_shield_0.09m": 0.020484214922066896,
+    "what_would_reconcile": {
+      "pickup_radius_m_for_V_B_pub": 0.02119162154541214,
+      "pickup_radius_published_m": 0.0201,
+      "field_volume_m3_for_G_pub": 0.0008038419327500716
+    },
+    "Psi_natural_T_m3_ours": 2.2409826950178963e-05,
+    "Psi_natural_T_m3_published": 2.403e-05,
+    "Psi_rel_to_published": -0.06742293174452918,
+    "Psi_B_max_convention_factor": 1.0325333338954195,
+    "note": "The published G_V is V_B/V with V = 890 cm^3, the paper's 'total volume of magnetic field', which is 12.6 % below the rectangular annulus (1017.9 cm^3).  V_B itself is the quantity a FEM computes, so V_B is the primary comparison and G_V follows.  The published V_B is 0.027 * 890 cm^3 = 24.03 cm^3; it is NOT 0.027 * 1017.9 cm^3 = 27.5 cm^3, and the -22 % that comparison gave is an artefact of the wrong V.  Psi_rel_to_published differs from V_B_rel_to_published by the B_max convention (+3.25 %): use V_B, or G_V, for the geometric comparison."
+  },
+  "limit_rescaling": {
+    "note": "ABRA-10cm used a broadband (untuned) readout, so its limit cannot be reproduced from the resonant optimal-scan machinery (its flux-noise floor, 0.6 uPhi_0^2/Hz, is published but the measured PSD is not).  At fixed data g_95 ~ 1/Psi, so our V_B rescales the published limit by V_B_published/V_B_ours.",
+    "g_scale_free_space": 1.1071828474475918,
+    "g_scale_shield_0.09m": 1.318088103582329,
+    "g_limit_best_published_GeV": 1.4e-10,
+    "g_limit_best_rescaled_GeV": 1.5500559864266288e-10,
+    "g_limit_worst_published_GeV": 3.3e-09,
+    "g_limit_worst_rescaled_GeV": 3.653703396577053e-09
+  },
+  "dmradio_language": {
+    "F_natural_T4_m10": 4.3925962560646954e-17,
+    "V_field_m3": 0.00089,
+    "c_PU": 0.019428364253000884
+  },
+  "pass": true,
+  "pass_scope": "KST Eq. (8) == our reciprocity integral; KST's own quoted V_B; the FEM within 1 % of the semi-analytic free-space integral; L_p within 1 % of the thin-ring formula.  It does NOT test agreement with the published G_V, which disagrees by ~10 %.",
+  "headline": "G_V = 0.02427 (t_w -> 0) vs published 0.027 (-10.1 %); V_B = 21.60 cm^3 (FEM at the finest mesh 21.70, +0.49 % from t_w = 0.2 mm) vs published 24.03 = 0.027 x 890 cm^3; L_p = 95.2 nH vs 95.5 (-0.3 %); M_cal = 19.2 nH vs 19.3 (-0.6 %)"
+}

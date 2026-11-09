@@ -1,0 +1,488 @@
+{
+ "name": "hp_pipe",
+ "description": "Hagen-Poiseuille pipe flow (closed form, in P2 x P1): r in [0,1], z in [0,2], mu = 1/2, u_z = 1 - r^2, p = 4 mu (2 - z); the lap do-nothing condition holds on z = 2, the sym one does not (sigma_rz = -2 mu r).",
+ "domain": {
+  "kind": "rect",
+  "r": [
+   0,
+   1
+  ],
+  "z": [
+   0,
+   2
+  ],
+  "axis": "r = 0"
+ },
+ "pressure": "determined",
+ "conventions": {
+  "coordinates": "meridional (r, z), r >= 0; variables r, z in every spelling",
+  "components": "(u_r, u_z, u_theta); grad_u[i][j] = d u_i / d (r, z)_j (meridional derivatives only)",
+  "sigma": "3x3, rows/columns (r, z, theta); sigma_sym = 2 mu eps - p I, sigma_lap = mu grad u - p I with grad u including the hoop entries (r,theta) = -u_t/r and (theta,theta) = u_r/r",
+  "f": "-div sigma_form - gamma grad div u (= -div sigma_form for these divergence-free fields)",
+  "traction": "g = sigma_form n, (sigma n)_i = sigma_ij n_j, n the outward unit normal (n_r, n_z, 0)",
+  "weights": "volume integrals int (.) r dr dz, boundary integrals int (.) r ds; physical 3D values carry a further factor 2 pi"
+ },
+ "u": [
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "1 - r**2",
+   "c": "1 - pow(r, 2)",
+   "numpy": "1 - r**2"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "p": {
+  "sympy": "4 - 2*z",
+  "c": "4 - 2*z",
+  "numpy": "4 - 2*z"
+ },
+ "mu": {
+  "sympy": "1/2",
+  "c": "1.0/2.0",
+  "numpy": "1/2"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "-2*r",
+    "c": "-2*r",
+    "numpy": "-2*r"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "2*z - 4",
+      "c": "2*z - 4",
+      "numpy": "2*z - 4"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    [
+     {
+      "sympy": "-r",
+      "c": "-r",
+      "numpy": "-r"
+     },
+     {
+      "sympy": "2*z - 4",
+      "c": "2*z - 4",
+      "numpy": "2*z - 4"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "2*z - 4",
+      "c": "2*z - 4",
+      "numpy": "2*z - 4"
+     }
+    ]
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "2*z - 4",
+      "c": "2*z - 4",
+      "numpy": "2*z - 4"
+     },
+     {
+      "sympy": "-r",
+      "c": "-r",
+      "numpy": "-r"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    [
+     {
+      "sympy": "-r",
+      "c": "-r",
+      "numpy": "-r"
+     },
+     {
+      "sympy": "2*z - 4",
+      "c": "2*z - 4",
+      "numpy": "2*z - 4"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "2*z - 4",
+      "c": "2*z - 4",
+      "numpy": "2*z - 4"
+     }
+    ]
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "axis",
+   "bc": "axis",
+   "normal": [
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "z": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     2
+    ]
+   }
+  },
+  {
+   "name": "wall",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    "z": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     2
+    ]
+   }
+  },
+  {
+   "name": "inlet",
+   "bc": "traction",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "z": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "range": [
+     0,
+     1
+    ]
+   },
+   "traction": {
+    "lap": [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "4 - 2*z",
+      "c": "4 - 2*z",
+      "numpy": "4 - 2*z"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    "sym": [
+     {
+      "sympy": "r",
+      "c": "r",
+      "numpy": "r"
+     },
+     {
+      "sympy": "4 - 2*z",
+      "c": "4 - 2*z",
+      "numpy": "4 - 2*z"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   }
+  },
+  {
+   "name": "outlet",
+   "bc": "do_nothing",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "r": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "z": {
+     "sympy": "2",
+     "c": "2",
+     "numpy": "2"
+    },
+    "range": [
+     0,
+     1
+    ]
+   },
+   "traction": {
+    "lap": [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "2*z - 4",
+      "c": "2*z - 4",
+      "numpy": "2*z - 4"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    "sym": [
+     {
+      "sympy": "-r",
+      "c": "-r",
+      "numpy": "-r"
+     },
+     {
+      "sympy": "2*z - 4",
+      "c": "2*z - 4",
+      "numpy": "2*z - 4"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   }
+  }
+ ],
+ "extra": {
+  "do_nothing_form": "lap",
+  "Q_per_radian": {
+   "sympy": "1/4",
+   "c": "1.0/4.0",
+   "numpy": "1/4"
+  },
+  "Q_def": "int_0^1 u_z r dr (the 3D flow rate is 2 pi Q)",
+  "wall_force_z_per_radian": {
+   "sympy": "2",
+   "c": "2",
+   "numpy": "2"
+  },
+  "pressure_drop_times_area_per_radian": {
+   "sympy": "2",
+   "c": "2",
+   "numpy": "2"
+  }
+ },
+ "constants": {
+  "area": 2.0,
+  "area_r": 1.0,
+  "p_mean": 2.0,
+  "p_mean_r": 2.0,
+  "u_L2r": 0.5773502691896245,
+  "u_L2": 1.0327955589886444,
+  "ut_L2r": 0.0,
+  "grad_u_L2r": 1.4142135623730978,
+  "p_minus_mean_L2r": 1.1547005383792561,
+  "u_max_sampled": 0.999999,
+  "ut_max_sampled": 0.0,
+  "p_max_abs_sampled": 3.998,
+  "p_minus_mean_r_max_abs_sampled": 1.9980000000000002,
+  "p_minus_mean_max_abs_sampled": 1.9980000000000002,
+  "mu_min_sampled": 0.5,
+  "mu_max_sampled": 0.5
+ },
+ "selfcheck": {
+  "parity": "u_r, u_t odd; u_z, p, mu even (symbolic)",
+  "forcing_routes": "A == B at 6 random points, 60 digits, both forms, gamma 0 and 1",
+  "fd_residual": {
+   "lap": 1.0,
+   "sym": 1.0
+  },
+  "status": "pass"
+ }
+}

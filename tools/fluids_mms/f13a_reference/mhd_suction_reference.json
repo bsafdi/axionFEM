@@ -1,0 +1,74 @@
+{
+ "derivation": {
+  "inplane": {
+   "ode": "B0**2*sigma*F(y) - G + V*rho*Derivative(F(y), y) - mu*Derivative(F(y), (y, 2))",
+   "other_residuals": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ]
+  },
+  "duct": {
+   "ode": "B0**2*sigma*F(y) - G + V*rho*Derivative(F(y), y) - mu*Derivative(F(y), (y, 2))",
+   "other_residuals": [
+    "0",
+    "0",
+    "0",
+    "0"
+   ]
+  },
+  "general": "C1*exp(y*(V*rho - sqrt(4*B0**2*mu*sigma + V**2*rho**2))/(2*mu)) + C2*exp(y*(V*rho + sqrt(4*B0**2*mu*sigma + V**2*rho**2))/(2*mu)) + G/(B0**2*sigma)"
+ },
+ "variants": {
+  "inplane_Ha3_V2": {
+   "Q": "0.2735724014015305909917756851021153288542",
+   "residual_40digit": 1.1767186841322676e-184,
+   "numpy_vs_mpmath": {
+    "F": 1.450399194733963e-16,
+    "Q": 2.0291210278109307e-16
+   },
+   "B0": 1.5,
+   "V": 2.0,
+   "Ha": 3.0,
+   "mode": "inplane"
+  },
+  "inplane_Ha10_V4": {
+   "Q": "0.03569187382523759594525956051314260697636",
+   "residual_40digit": 1.1767186841322676e-184,
+   "numpy_vs_mpmath": {
+    "F": 1.7350270597725224e-16,
+    "Q": 1.944110286246939e-16
+   },
+   "B0": 5.0,
+   "V": 4.0,
+   "Ha": 10.0,
+   "mode": "inplane"
+  },
+  "duct_Ha3_V2": {
+   "Q": "0.2735724014015305909917756851021153288542",
+   "residual_40digit": 1.1767186841322676e-184,
+   "numpy_vs_mpmath": {
+    "F": 1.450399194733963e-16,
+    "Q": 2.0291210278109307e-16
+   },
+   "B0": 1.5,
+   "V": 2.0,
+   "Ha": 3.0,
+   "mode": "duct"
+  },
+  "duct_Ha10_V4": {
+   "Q": "0.03569187382523759594525956051314260697636",
+   "residual_40digit": 1.1767186841322676e-184,
+   "numpy_vs_mpmath": {
+    "F": 1.7350270597725224e-16,
+    "Q": 1.944110286246939e-16
+   },
+   "B0": 5.0,
+   "V": 4.0,
+   "Ha": 10.0,
+   "mode": "duct"
+  }
+ },
+ "check_module_sha256": "60b7595a9d2644ad46d4842fa433ce502c043ea206cd3fc2bb4f6b3f67c41d6a"
+}

@@ -1,0 +1,234 @@
+{
+ "id": "mms_ns_transient_error_control",
+ "capability": "F3a",
+ "title": "Error control: estimator effectivity (uniform and variable history), tolerance reliability and efficiency, forced rejections, step-ratio bound",
+ "physics": "space-exact planar field with a tanh front at t = 1/2 (width 1/10): adaptive variable-step BDF2",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f3a_transient",
+   "function": "error_control",
+   "check_module": "f3a_transient_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "data": {
+    "path": "tools/fluids_mms/out/f3a_tr_sq_adapt.json",
+    "sha256": "c42fbc39a0642dc193f51748741615cac9f1b1e5e52e829aa55dde508897a05f"
+   },
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "rho": 1.25,
+   "mu": 0.05,
+   "T": 1.0,
+   "mesh": {
+    "builder": "structured",
+    "N": 8,
+    "h_nominal": 0.125,
+    "construction": "f1a_stokes_check.structured_mesh(8): the field is space-exact (u in P2, p in P1)"
+   },
+   "time_scheme": {
+    "bdf": "BDF of order k on the actual step sequence, omega_n = dt_n / dt_{n-1}: BDF1 (u^n - u^{n-1}) / dt_n; BDF2 [(1 + 2 w)/(1 + w) u^n - (1 + w) u^{n-1} + w^2/(1 + w) u^{n-2}] / dt_n (f3a_transient_check.bdf_coefficients); the momentum equation, the load f(t_n), Dirichlet data g(t_n) and traction data at t_n; p^n is the Lagrange multiplier of div u^n = 0 (no pressure time derivative, no pressure extrapolation)",
+    "starter": "BDF2 starts with ONE BDF1 step of the same size from the initial state (fixed for the cross-code case X1; any starter with local error O(dt^2) passes the order items)",
+    "newton": "Newton per step: the fully implicit BDF system (convection c(u^n; u^n, v)) solved by Newton to the fixed newton_rtol 1e-12 (dual norm, relative to the step's lifted residual)",
+    "semi": "semi-implicit (linearly implicit): c(w; u^n, v) with the extrapolated advecting velocity w = u^{n-1} (BDF1) or w = (1 + omega_n) u^{n-1} - omega_n u^{n-2} (BDF2; f3a_transient_check.extrapolation_coefficients); one linear solve per step",
+    "convection": "standard form c(w; u, v) = rho ((w. grad) u, v) (F2a; the skew form only if the F2a/F3a notes offer it: not proposed here)",
+    "initial_data": "u_h(t_0) is DISCRETELY DIVERGENCE-FREE and takes the nodal Dirichlet data at t_0 (projection of the initial data); the L2 (Leray) projection is the reference choice, any projection that is discretely divergence-free and O(h^3)-accurate in L2 passes (mms_ns_transient_initial)",
+    "dirichlet_data": "P2 Lagrange NODAL interpolation of the fixed callables at t_n (vertices and edge midpoints); at an axis node u_r = u_theta = 0 beats the data (F2a shared-node rule)",
+    "quadrature_requirement": "As F2a: the convective trilinear form, the mass form and every load integral are integrated EXACTLY for the polynomial integrands of P2 on affine triangles (degree >= 5 planar, >= 6 axisymmetric); the r-weighted viscous form in axisymmetry by a rule of degree >= 6. The mass matrix is the CONSISTENT one. The space-exact temporal MMS, the energy identities and the cross-code values assume it."
+   },
+   "newton_rtol": 1e-12,
+   "forms": [
+    "lap"
+   ],
+   "scheme": "newton",
+   "effectivity": {
+    "t_n": 0.4,
+    "h": {
+     "1": [
+      0.01,
+      0.005
+     ],
+     "2": [
+      0.02,
+      0.01
+     ]
+    },
+    "varhist": {
+     "omegas": [
+      2.0,
+      0.5
+     ],
+     "h": 0.01
+    },
+    "history": "exact (nodal interpolants of the space-exact field at the history times)",
+    "definition": "f3a_transient_check.effectivity(est, u^n, field, t_n); est = the solver's local-error estimate of the ADVANCED velocity of that step, as a P2 field that vanishes on the Dirichlet boundary (a FUNCTION statement: however the solver builds it); the single-step hook also returns est_norm, its reported (r-weighted) L2 mass norm of the estimate",
+    "axisymmetric": {
+     "data": {
+      "path": "tools/fluids_mms/out/f3a_tr_axi_poly.json",
+      "sha256": "ad6c0139e30934ab71aeea2c358b34cde0bc36b67f0cf4edd1dc0dc9332b1040"
+     },
+     "mesh": {
+      "builder": "structured",
+      "N": [
+       8
+      ]
+     },
+     "t_n": 0.4,
+     "h": {
+      "1": [
+       0.01,
+       0.005
+      ],
+      "2": [
+       0.02,
+       0.01
+      ]
+     },
+     "scope": "est_norm_ratio_axi_bdf{1,2} only (the axisymmetric effectivity is a diagnostic: 0.37... 1.05 depending on how the estimate is restricted to the Dirichlet boundary)"
+    }
+   },
+   "rtol_sweep": {
+    "rtols": [
+     0.01,
+     0.003,
+     0.001,
+     0.0003,
+     0.0001,
+     3e-05,
+     1e-05
+    ],
+    "S_u": 0.9298406832872116,
+    "S_u_definition": "f3a_transient_check.solution_scale(field, T): max over t of ||u(t)||_L2",
+    "tolerance_semantics": "velocity error per step in the L2 (mass) norm against rtol S_u (atol = rtol S_u); the pressure is not error-controlled",
+    "h0": 0.001,
+    "error": "||u_h(T) - u(T)||_L2 / S_u"
+   },
+   "rejection_run": {
+    "rtol": 0.0001,
+    "h0": 0.25
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "effectivity_bdf1_h0.01",
+    "level": "mms",
+    "min": 0.5,
+    "max": 2.0
+   },
+   {
+    "quantity": "effectivity_bdf1_h0.005",
+    "level": "mms",
+    "min": 0.5,
+    "max": 2.0
+   },
+   {
+    "quantity": "effectivity_stability_bdf1",
+    "level": "mms",
+    "min": 0.85,
+    "max": 1.15
+   },
+   {
+    "quantity": "effectivity_bdf2_h0.02",
+    "level": "mms",
+    "min": 0.5,
+    "max": 2.0
+   },
+   {
+    "quantity": "effectivity_bdf2_h0.01",
+    "level": "mms",
+    "min": 0.5,
+    "max": 2.0
+   },
+   {
+    "quantity": "effectivity_stability_bdf2",
+    "level": "mms",
+    "min": 0.85,
+    "max": 1.15
+   },
+   {
+    "quantity": "effectivity_varhist_ratio_om2.0",
+    "level": "mms",
+    "min": 0.9,
+    "max": 1.1
+   },
+   {
+    "quantity": "effectivity_varhist_ratio_om0.5",
+    "level": "mms",
+    "min": 0.9,
+    "max": 1.1
+   },
+   {
+    "quantity": "est_norm_ratio_planar_bdf1",
+    "level": "mms",
+    "min": 0.999,
+    "max": 1.001
+   },
+   {
+    "quantity": "est_norm_ratio_planar_bdf2",
+    "level": "mms",
+    "min": 0.999,
+    "max": 1.001
+   },
+   {
+    "quantity": "est_norm_ratio_axi_bdf1",
+    "level": "mms",
+    "min": 0.999,
+    "max": 1.001
+   },
+   {
+    "quantity": "est_norm_ratio_axi_bdf2",
+    "level": "mms",
+    "min": 0.999,
+    "max": 1.001
+   },
+   {
+    "quantity": "rejected_steps_from_large_h0",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "rtol_sweep_dt_max_ratio",
+    "level": "mms",
+    "max": 2.414
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   }
+  ],
+  "tolerance_behaviour": [
+   {
+    "id": "rtol_bdf2",
+    "series": "rtol_sweep",
+    "level": "mms",
+    "tols_from": "rtol_sweep.rtols",
+    "C_hi": 30.0,
+    "C_lo": 3.0,
+    "tightest_k": 2,
+    "slope_band": [
+     0.45,
+     0.7
+    ],
+    "calibration": "petsc_tsbdf"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

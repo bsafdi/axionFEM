@@ -1,0 +1,82 @@
+{
+ "id": "chem_vo_rtol_sweep",
+ "capability": "C1d",
+ "title": "Variable-order backend: rtol reliability/efficiency on A3",
+ "physics": "A3 through the generic interface",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "vo_rtol_sweep",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "rtol_sweep": {
+    "problem": "A3",
+    "t_end": 10.0,
+    "n_out": 20,
+    "rtols": [
+     0.0001,
+     1e-05,
+     1e-06,
+     1e-07,
+     1e-08
+    ],
+    "atol": "= rtol"
+   },
+   "fields": {
+    "path": "benchmarks/chem/casedata/c1/c1_fields.json",
+    "sha256": "24f967bad7e3a294b201c7dd94b26b386824b752df6d606256c7b2454571c8a5"
+   },
+   "scales": {
+    "A3": [
+     1.0,
+     0.5609869316969336,
+     0.9712278255752979
+    ]
+   },
+   "output_policy": {
+    "rule": "stop_time",
+    "text": "Adaptive runs: the solver steps EXACTLY to every fixed output time (stop-time mode: each output time is an accepted step end) and reports the state there; no interpolated outputs for any compared value. Dense output is used only where an item says so (dense-output query times, maxima located on the dense output, event location)."
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "tolerance_behaviour": [
+   {
+    "id": "rtol_vsvo",
+    "series": "rtol_sweep_vsvo",
+    "level": "mms",
+    "tols_from": "rtol_sweep.rtols",
+    "C_hi": 179.0,
+    "C_lo": 0.135,
+    "tightest_k": 2,
+    "calibration": "scipy_vsvo_c1"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  },
+  "checks": [
+   {
+    "quantity": "A3_invariant_drift_rel",
+    "level": "mms",
+    "abs_max": 1e-07
+   },
+   {
+    "quantity": "outputs_at_step_ends_min",
+    "level": "mms",
+    "min": 1.0
+   }
+  ]
+ }
+}

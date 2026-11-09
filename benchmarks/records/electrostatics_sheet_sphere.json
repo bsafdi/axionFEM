@@ -1,0 +1,23 @@
+{
+  "check": "sheet_sphere",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:54",
+  "a_m": 0.4,
+  "C_F": 4.450600217913836e-11,
+  "C_exact_F": 4.4506002217916754e-11,
+  "relative_error": -8.71307137551014e-10,
+  "checks": {
+    "identity_symmetry_relative": 0.0,
+    "identity_energy_max_relative_difference": 1.0556165809837586e-13,
+    "identity_energy_superposition_relative": 1.0556165809837586e-13,
+    "identity_exterior_monopole_max_relative_difference": 8.049262288216243e-10,
+    "identity_floating_solve_max_difference_V": null,
+    "discretization_charge_gauss_max_relative_difference": 2.856765154788059e-06,
+    "discretization_exterior_flux_max_relative_difference": 1.1695593565858469e-06,
+    "min_slack_relative": 1.0,
+    "off_diagonal_signs_ok": true
+  },
+  "warnings": [],
+  "pass": true,
+  "headline": "sheet C = 4.450600218e-11 F (exact 4.450600222e-11), rel err -8.7e-10"
+}

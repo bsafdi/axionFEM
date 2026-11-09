@@ -1,0 +1,159 @@
+{
+ "name": "flux_pipe",
+ "kind": "uniform_flux",
+ "geometry": "axisymmetric",
+ "coords": [
+  "r",
+  "z"
+ ],
+ "description": "axisymmetric uniform-wall-flux fully developed solution (exact; T quartic in r)",
+ "box": [
+  "0",
+  "1",
+  "0",
+  "2"
+ ],
+ "params": {
+  "A": "1/2"
+ },
+ "a": {
+  "value": 2.0,
+  "sympy": "2"
+ },
+ "T": {
+  "sympy": "-r**4 + 4*r**2 + z/2",
+  "c": "-pow(r, 4) + 4*pow(r, 2) + (1.0/2.0)*z",
+  "numpy": "-r**4 + 4*r**2 + (1/2)*z"
+ },
+ "grad_T": [
+  {
+   "sympy": "-4*r**3 + 8*r",
+   "c": "-4*pow(r, 3) + 8*r",
+   "numpy": "-4*r**3 + 8*r"
+  },
+  {
+   "sympy": "1/2",
+   "c": "1.0/2.0",
+   "numpy": "1/2"
+  }
+ ],
+ "b": [
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "2 - 2*r**2",
+   "c": "2 - 2*pow(r, 2)",
+   "numpy": "2 - 2*r**2"
+  }
+ ],
+ "kappa": {
+  "sympy": "1/8",
+  "c": "1.0/8.0",
+  "numpy": "1/8"
+ },
+ "grad_kappa": [
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "s": {
+  "convective": {
+   "sympy": "-2*r**2 + 2 - (-r**3/2 + r*(1 - 3*r**2/2) + r)/r",
+   "c": "-2*pow(r, 2) + 2 - (-1.0/2.0*pow(r, 3) + r*(1 - 3.0/2.0*pow(r, 2)) + r)/r",
+   "numpy": "-2*r**2 + 2 - (-1/2*r**3 + r*(1 - 3/2*r**2) + r)/r"
+  },
+  "conservative": {
+   "sympy": "-2*r**2 + 2 - (-r**3/2 + r*(1 - 3*r**2/2) + r)/r",
+   "c": "-2*pow(r, 2) + 2 - (-1.0/2.0*pow(r, 3) + r*(1 - 3.0/2.0*pow(r, 2)) + r)/r",
+   "numpy": "-2*r**2 + 2 - (-1/2*r**3 + r*(1 - 3/2*r**2) + r)/r"
+  }
+ },
+ "s_no_advection": {
+  "sympy": "-(-r**3/2 + r*(1 - 3*r**2/2) + r)/r",
+  "c": "-(-1.0/2.0*pow(r, 3) + r*(1 - 3.0/2.0*pow(r, 2)) + r)/r",
+  "numpy": "-(-1/2*r**3 + r*(1 - 3/2*r**2) + r)/r"
+ },
+ "boundaries": [
+  {
+   "name": "z0",
+   "type": "dirichlet"
+  },
+  {
+   "name": "axis",
+   "type": "axis"
+  },
+  {
+   "name": "r1",
+   "type": "neumann",
+   "q_out": {
+    "sympy": "r**3/2 - r",
+    "c": "(1.0/2.0)*pow(r, 3) - r",
+    "numpy": "(1/2)*r**3 - r"
+   },
+   "j_out": {
+    "sympy": "r**3/2 - r",
+    "c": "(1.0/2.0)*pow(r, 3) - r",
+    "numpy": "(1/2)*r**3 - r"
+   },
+   "normal": [
+    1,
+    0
+   ]
+  },
+  {
+   "name": "z1",
+   "type": "neumann",
+   "q_out": {
+    "sympy": "-1/16",
+    "c": "-1.0/16.0",
+    "numpy": "-1/16"
+   },
+   "j_out": {
+    "sympy": "(4 - 4*r**2)*(-r**4 + 4*r**2 + z/2) - 1/16",
+    "c": "(4 - 4*pow(r, 2))*(-pow(r, 4) + 4*pow(r, 2) + (1.0/2.0)*z) - 1.0/16.0",
+    "numpy": "(4 - 4*r**2)*(-r**4 + 4*r**2 + (1/2)*z) - 1/16"
+   },
+   "normal": [
+    0,
+    1
+   ]
+  }
+ ],
+ "nusselt_closed_form": {
+  "sympy": "48/11",
+  "value": 4.363636363636363,
+  "definition": "Closed-form Nu of the uniform-flux fields: Nu = D q_w / (kappa (T_w - T_b)) with T_b the flow-weighted mean\n    over the cross-section, T_w the wall value, q_w = -kappa dT/dn_out at the wall (inward heat flux positive here);\n    D = 4H (plates, D_h) or 2R (pipe)."
+ },
+ "selfcheck": {
+  "status": "pass",
+  "route_AB_convective": 1.5557538194652854e-61,
+  "route_AB_conservative": 1.5557538194652854e-61,
+  "cartesian_route": 1.5557538194652854e-61,
+  "fd_residual_rel": 2.8254383530904896e-11,
+  "fd_teeth_no_advection": 1.0000000000010958,
+  "fd_teeth_kappa": 1.0000000000010958,
+  "bn_z0": [
+   -2.0,
+   -3.999999886872274e-09
+  ],
+  "bn_r1": [
+   0.0,
+   0.0
+  ],
+  "bn_z1": [
+   3.999999886872274e-09,
+   2.0
+  ]
+ },
+ "generator": "tools/fluids_mms/generate_f4a.py (f4a_fields.py)"
+}

@@ -1,0 +1,118 @@
+{
+  "schema": "axionfem.design/1",
+  "name": "dmradio_m3_h1p68",
+  "description": "DMRadio-m^3: published solenoid with the published coaxial pickup (r_i = 0.336 m, r_o = 0.628 m, h = 1.68 m), shorted at the bottom, read out across the annular gap at the open top.  Bucking coils and the segmented magnet are not modelled.",
+  "parameters": {
+    "Rw": 0.725,
+    "tw": 0.135,
+    "H": 1.35,
+    "ri": 0.336,
+    "ro": 0.628,
+    "h": 1.68,
+    "tc": 0.005,
+    "tp": 0.01,
+    "NI": 6626954.668040708
+  },
+  "regions": [
+    {
+      "name": "winding",
+      "shape": {
+        "rect": {
+          "r": [
+            "Rw",
+            "Rw+tw"
+          ],
+          "z": [
+            "-H/2",
+            "H/2"
+          ]
+        }
+      },
+      "material": "winding"
+    },
+    {
+      "name": "coax_inner",
+      "shape": {
+        "rect": {
+          "r": [
+            "ri-tc",
+            "ri"
+          ],
+          "z": [
+            "-h/2",
+            "h/2"
+          ]
+        }
+      },
+      "material": "copper"
+    },
+    {
+      "name": "coax_outer",
+      "shape": {
+        "rect": {
+          "r": [
+            "ro",
+            "ro+tc"
+          ],
+          "z": [
+            "-h/2",
+            "h/2"
+          ]
+        }
+      },
+      "material": "copper"
+    },
+    {
+      "name": "coax_short",
+      "shape": {
+        "rect": {
+          "r": [
+            "ri-tc",
+            "ro+tc"
+          ],
+          "z": [
+            "-h/2",
+            "-h/2+tc"
+          ]
+        }
+      },
+      "material": "copper",
+      "notes": "the shorted end"
+    },
+    {
+      "name": "port",
+      "shape": {
+        "rect": {
+          "r": [
+            "ri",
+            "ro"
+          ],
+          "z": [
+            "h/2-tp",
+            "h/2"
+          ]
+        }
+      },
+      "material": "vacuum",
+      "notes": "the open top: the readout gap"
+    }
+  ],
+  "windings": [
+    {
+      "name": "solenoid",
+      "region": "winding",
+      "type": "azimuthal",
+      "ampere_turns": "NI"
+    }
+  ],
+  "pickup": {
+    "type": "poloidal",
+    "port": "port"
+  },
+  "mesh": {
+    "order": 2,
+    "size": 0.03,
+    "surface_size": 0.005
+  },
+  "notes": "Dimensions and sources: benchmarks/published/sources.json, key 'dmradio_m3'."
+}

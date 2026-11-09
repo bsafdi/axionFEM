@@ -1,0 +1,260 @@
+{
+ "id": "chem_time_dense_events",
+ "capability": "C1a",
+ "title": "Dense-output order at off-grid times; event-time accuracy scaled by rtol^(p/(p+1)) per method",
+ "physics": "M1, M2 generic; A1 and A3 generic",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "time_dense_events",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "dense": {
+    "problems": [
+     "M1",
+     "M2"
+    ],
+    "t_query": [
+     0.3,
+     0.7,
+     1.1,
+     1.7
+    ],
+    "dt_levels": {
+     "bdf1": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "bdf2": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "onestep": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ]
+    }
+   },
+   "events": {
+    "A1": {
+     "c_threshold": 0.5
+    },
+    "A3": "dc_B/dt = 0",
+    "rtols": [
+     0.0001,
+     1e-05,
+     1e-06,
+     1e-07,
+     1e-08
+    ],
+    "atol": "1e-2 rtol",
+    "methods": [
+     "bdf2_adaptive",
+     "onestep_adaptive"
+    ],
+    "location": "root of the event function on the method's dense output"
+   },
+   "fields": {
+    "path": "benchmarks/chem/casedata/c1/c1_fields.json",
+    "sha256": "24f967bad7e3a294b201c7dd94b26b386824b752df6d606256c7b2454571c8a5"
+   },
+   "scales": {
+    "M1": [
+     1.399999928878873,
+     1.0999999764387611,
+     0.78642630304418,
+     0.6999999365863669,
+     1.0499999714833903
+    ],
+    "M2": [
+     1.2999999755571918,
+     0.9499999988401435,
+     0.5983329620904938,
+     0.7999999504844041,
+     0.6499999882193805,
+     344.9999987778596
+    ]
+   },
+   "output_policy": {
+    "rule": "stop_time",
+    "text": "Adaptive runs: the solver steps EXACTLY to every fixed output time (stop-time mode: each output time is an accepted step end) and reports the state there; no interpolated outputs for any compared value. Dense output is used only where an item says so (dense-output query times, maxima located on the dense output, event location)."
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "dense_M1_bdf1",
+    "level": "mms",
+    "norm": "max over off-grid times [0.3, 0.7, 1.1, 1.7] of |y_dense - y| / S_i",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dense.dt_levels.bdf1",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "dense_M1_bdf2",
+    "level": "mms",
+    "norm": "max over off-grid times [0.3, 0.7, 1.1, 1.7] of |y_dense - y| / S_i",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dense.dt_levels.bdf2",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "dense_M1_onestep",
+    "level": "mms",
+    "norm": "max over off-grid times of |y_dense - y| / S_i",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dense.dt_levels.onestep",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "dense_M2_bdf1",
+    "level": "mms",
+    "norm": "max over off-grid times [0.3, 0.7, 1.1, 1.7] of |y_dense - y| / S_i",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dense.dt_levels.bdf1",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "dense_M2_bdf2",
+    "level": "mms",
+    "norm": "max over off-grid times [0.3, 0.7, 1.1, 1.7] of |y_dense - y| / S_i",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dense.dt_levels.bdf2",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "dense_M2_onestep",
+    "level": "mms",
+    "norm": "max over off-grid times of |y_dense - y| / S_i",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dense.dt_levels.onestep",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "event_scaled_max_bdf2",
+    "level": "mms",
+    "max": 9.032210907519554
+   },
+   {
+    "quantity": "event_scaled_max_onestep",
+    "level": "mms",
+    "max": 1.3164780331015344
+   },
+   {
+    "quantity": "outputs_at_step_ends_min",
+    "level": "mms",
+    "min": 1.0
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  }
+ }
+}

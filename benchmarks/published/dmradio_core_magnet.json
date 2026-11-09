@@ -1,0 +1,42 @@
+{
+  "schema": "axionfem.design/1",
+  "name": "dmradio_core_magnet",
+  "description": "DMRadio-Core magnet: uniform-current solenoid with the published envelope.",
+  "parameters": {
+    "Rc": 0.185,
+    "Ro": 0.3,
+    "H": 2.95,
+    "NI": 11894164.2303695
+  },
+  "regions": [
+    {
+      "name": "coil",
+      "shape": {
+        "rect": {
+          "r": [
+            "Rc",
+            "Ro"
+          ],
+          "z": [
+            "-H/2",
+            "H/2"
+          ]
+        }
+      },
+      "material": "winding"
+    }
+  ],
+  "windings": [
+    {
+      "name": "solenoid",
+      "region": "coil",
+      "type": "azimuthal",
+      "ampere_turns": "NI"
+    }
+  ],
+  "mesh": {
+    "order": 2,
+    "size": 0.05
+  },
+  "notes": "Dimensions and sources: benchmarks/published/sources.json, key 'dmradio_core'."
+}

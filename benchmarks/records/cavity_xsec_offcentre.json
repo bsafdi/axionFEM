@@ -1,0 +1,24 @@
+{
+ "design": "admx_one_rod",
+ "row": {
+  "family": "TM",
+  "index": 0,
+  "f_Hz": 625437627.8044156,
+  "C": 0.6162517271557353,
+  "C_full": 0.6072362858114893,
+  "Q0": 308504.65216596005,
+  "Q0_2d": 352799.25844327343,
+  "A_m2": 0.13651740611184518,
+  "A_full_m2": 0.13854423602308016,
+  "V_m3": 0.13788258017296362,
+  "G_ohm": 313.10377132730474,
+  "G_ohm_2d": 358.0587118039372
+ },
+ "normalization": "int eps_r E_z^2 dA = 1 over the cross-section (E_z in m^-1); sign: int E_z dA > 0",
+ "mps_reference": {
+  "f_Hz": 625437620.0611643,
+  "C": 0.6162517276831053
+ },
+ "status": "beta; pivot radius and arm INFERRED (admx_two_rod.json); copper = builtin cold copper",
+ "api": "axionfem.cavity_xsec: res = xsec_design(...).solve(); res.cavity_mode_probe(row, x=(-R, R, n), y=(-R, R, n))['E_z']"
+}

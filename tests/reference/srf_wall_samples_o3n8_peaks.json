@@ -1,0 +1,11 @@
+{
+ "source": "3D SRF cell solve (h = R_eq/8, order 3, smooth wall), pump TM020: wall samples within 6 mm (arclength) of the E/B peaks of both halves",
+ "B_rms": 2.553612063070663e-08,
+ "samples_count": 17218,
+ "expected": {
+  "Epk_over_cB0": 1.8358702713495827,
+  "Epk_flux_over_cB0": 1.8468816859629036,
+  "Bpk_over_B0": 1.4638100758862018,
+  "Bpk_flux_over_B0": 1.4645139565673535
+ }
+}

@@ -1,0 +1,67 @@
+{
+  "check": "ring",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:54",
+  "R_m": 0.5,
+  "rows": [
+    {
+      "b_m": 0.02,
+      "b_over_R": 0.04,
+      "C_F": 3.3033413479987817e-11,
+      "thin_ring_F": 3.298682391395557e-11,
+      "ratio": 1.0014123689553676,
+      "checks": {
+        "identity_symmetry_relative": 0.0,
+        "identity_energy_max_relative_difference": 4.225622291589313e-14,
+        "identity_energy_superposition_relative": 4.225622291589313e-14,
+        "identity_exterior_monopole_max_relative_difference": 8.051573097739086e-10,
+        "identity_floating_solve_max_difference_V": null,
+        "discretization_charge_gauss_max_relative_difference": 0.00012526989139910572,
+        "discretization_exterior_flux_max_relative_difference": 1.3858988228279346e-06,
+        "min_slack_relative": 1.0,
+        "off_diagonal_signs_ok": true
+      },
+      "warnings": []
+    },
+    {
+      "b_m": 0.01,
+      "b_over_R": 0.02,
+      "C_F": 2.9182851406120485e-11,
+      "thin_ring_F": 2.9170607726442243e-11,
+      "ratio": 1.0004197265889372,
+      "checks": {
+        "identity_symmetry_relative": 0.0,
+        "identity_energy_max_relative_difference": 3.100206975628592e-14,
+        "identity_energy_superposition_relative": 3.100206975628592e-14,
+        "identity_exterior_monopole_max_relative_difference": 8.050566542340586e-10,
+        "identity_floating_solve_max_difference_V": null,
+        "discretization_charge_gauss_max_relative_difference": 0.00014964698172675647,
+        "discretization_exterior_flux_max_relative_difference": 1.4203983413056012e-06,
+        "min_slack_relative": 1.0,
+        "off_diagonal_signs_ok": true
+      },
+      "warnings": []
+    },
+    {
+      "b_m": 0.005,
+      "b_over_R": 0.01,
+      "C_F": 2.6149001560156106e-11,
+      "thin_ring_F": 2.614582104853932e-11,
+      "ratio": 1.000121645122977,
+      "checks": {
+        "identity_symmetry_relative": 0.0,
+        "identity_energy_max_relative_difference": 2.0265117147884703e-14,
+        "identity_energy_superposition_relative": 2.0265117147884703e-14,
+        "identity_exterior_monopole_max_relative_difference": 8.050815765180771e-10,
+        "identity_floating_solve_max_difference_V": null,
+        "discretization_charge_gauss_max_relative_difference": 0.00016967011413805547,
+        "discretization_exterior_flux_max_relative_difference": 1.4165287731787627e-06,
+        "min_slack_relative": 1.0,
+        "off_diagonal_signs_ok": true
+      },
+      "warnings": []
+    }
+  ],
+  "pass": true,
+  "headline": "C/C_thin-ring = 1.0014 (b/R=0.040), 1.0004 (b/R=0.020), 1.0001 (b/R=0.010)"
+}

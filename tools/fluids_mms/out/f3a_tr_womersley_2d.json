@@ -1,0 +1,208 @@
+{
+ "T": 1.0,
+ "boundaries": [
+  {
+   "kind": "traction",
+   "name": "x0",
+   "normal": [
+    -1,
+    0
+   ],
+   "where": "x = 0"
+  },
+  {
+   "kind": "traction",
+   "name": "x1",
+   "normal": [
+    1,
+    0
+   ],
+   "where": "x = 1"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "y0",
+   "normal": [
+    0,
+    -1
+   ],
+   "where": "y = -1"
+  },
+  {
+   "kind": "dirichlet",
+   "name": "y1",
+   "normal": [
+    0,
+    1
+   ],
+   "where": "y = 1"
+  }
+ ],
+ "box": [
+  0.0,
+  1.0,
+  -1.0,
+  1.0
+ ],
+ "constants": {
+  "T": "1",
+  "mu": "5*pi/32",
+  "rho": "5/4"
+ },
+ "coords": [
+  "x",
+  "y",
+  "t"
+ ],
+ "description": "planar Womersley flow, alpha = 4, omega = 2 pi (period 1), rho = 5/4, K = omega",
+ "exact_ns": true,
+ "extra": {
+  "K": "omega",
+  "Uhat_sympy": "-I*(-cosh(sqrt(2)*y*(4 + 4*I)/2)/cosh(sqrt(2)*(4 + 4*I)/2) + 1)",
+  "alpha": 4,
+  "nu": "omega / alpha^2",
+  "omega": "2 pi"
+ },
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "0",
+     "sympy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "numpy": "-5/2*np.pi*(1/2 - x)*np.cos(2*np.pi*t)",
+      "sympy": "-5*pi*(1/2 - x)*cos(2*pi*t)/2"
+     },
+     {
+      "numpy": "0.4908738521234052 * (np.real((-1.0j) * (-((2.8284271247461903+2.8284271247461903j)) * np.sinh(((2.8284271247461903+2.8284271247461903j)) * y) / np.cosh((2.8284271247461903+2.8284271247461903j))) * np.exp(1j * 6.283185307179586 * t)))",
+      "sympy": "5*pi/32*Derivative(u_x, y)"
+     }
+    ],
+    [
+     {
+      "numpy": "0",
+      "sympy": "0"
+     },
+     {
+      "numpy": "-5/2*np.pi*(1/2 - x)*np.cos(2*np.pi*t)",
+      "sympy": "-5*pi*(1/2 - x)*cos(2*pi*t)/2"
+     }
+    ]
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "numpy": "0",
+     "sympy": "0"
+    },
+    {
+     "numpy": "0",
+     "sympy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "numpy": "-5/2*np.pi*(1/2 - x)*np.cos(2*np.pi*t)",
+      "sympy": "-5*pi*(1/2 - x)*cos(2*pi*t)/2"
+     },
+     {
+      "numpy": "0.4908738521234052 * (np.real((-1.0j) * (-((2.8284271247461903+2.8284271247461903j)) * np.sinh(((2.8284271247461903+2.8284271247461903j)) * y) / np.cosh((2.8284271247461903+2.8284271247461903j))) * np.exp(1j * 6.283185307179586 * t)))",
+      "sympy": "5*pi/32*Derivative(u_x, y)"
+     }
+    ],
+    [
+     {
+      "numpy": "0.4908738521234052 * (np.real((-1.0j) * (-((2.8284271247461903+2.8284271247461903j)) * np.sinh(((2.8284271247461903+2.8284271247461903j)) * y) / np.cosh((2.8284271247461903+2.8284271247461903j))) * np.exp(1j * 6.283185307179586 * t)))",
+      "sympy": "5*pi/32*Derivative(u_x, y)"
+     },
+     {
+      "numpy": "-5/2*np.pi*(1/2 - x)*np.cos(2*np.pi*t)",
+      "sympy": "-5*pi*(1/2 - x)*cos(2*pi*t)/2"
+     }
+    ]
+   ]
+  }
+ },
+ "geometry": "planar",
+ "grad_u": [
+  [
+   {
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "numpy": "np.real((-1.0j) * (-((2.8284271247461903+2.8284271247461903j)) * np.sinh(((2.8284271247461903+2.8284271247461903j)) * y) / np.cosh((2.8284271247461903+2.8284271247461903j))) * np.exp(1j * 6.283185307179586 * t))",
+    "sympy": "(-2*sqrt(2)*re(sinh(sqrt(2)*y*(4 + 4*I)/2)/cosh(sqrt(2)*(4 + 4*I)/2)) + 2*sqrt(2)*im(sinh(sqrt(2)*y*(4 + 4*I)/2)/cosh(sqrt(2)*(4 + 4*I)/2)))*sin(2*pi*t) - (2*sqrt(2)*re(sinh(sqrt(2)*y*(4 + 4*I)/2)/cosh(sqrt(2)*(4 + 4*I)/2)) + 2*sqrt(2)*im(sinh(sqrt(2)*y*(4 + 4*I)/2)/cosh(sqrt(2)*(4 + 4*I)/2)))*cos(2*pi*t)"
+   }
+  ],
+  [
+   {
+    "numpy": "0",
+    "sympy": "0"
+   },
+   {
+    "numpy": "0",
+    "sympy": "0"
+   }
+  ]
+ ],
+ "homogeneous": false,
+ "mu": 0.4908738521234052,
+ "name": "f3a_tr_womersley_2d",
+ "p": {
+  "numpy": "(5/2)*np.pi*(1/2 - x)*np.cos(2*np.pi*t)",
+  "sympy": "5*pi*(1/2 - x)*cos(2*pi*t)/2"
+ },
+ "pressure": "determined",
+ "rho": 1.25,
+ "selfcheck": {
+  "checks": {
+   "div_u_numeric": {
+    "pass": true,
+    "value": 0
+   },
+   "fd_residual_lap": {
+    "pass": true,
+    "value": 7.449573402595888e-09
+   },
+   "fd_residual_sym": {
+    "pass": true,
+    "value": 7.449573402595888e-09
+   },
+   "numpy_spelling_vs_sympy_max": {
+    "pass": true,
+    "value": 8.881784197001252e-16
+   },
+   "womersley_amplitude_ode_residual": {
+    "pass": true,
+    "value": 3.234541231910102e-173
+   },
+   "womersley_wall_value": {
+    "pass": true,
+    "value": 0.0
+   }
+  },
+  "status": "pass"
+ },
+ "space_exact": false,
+ "u": [
+  {
+   "numpy": "np.real((-1.0j) * (1 - np.cosh(((2.8284271247461903+2.8284271247461903j)) * y) / np.cosh((2.8284271247461903+2.8284271247461903j))) * np.exp(1j * 6.283185307179586 * t))",
+   "sympy": "(1 - re(cosh(sqrt(2)*y*(4 + 4*I)/2)/cosh(sqrt(2)*(4 + 4*I)/2)))*sin(2*pi*t) - cos(2*pi*t)*im(cosh(sqrt(2)*y*(4 + 4*I)/2)/cosh(sqrt(2)*(4 + 4*I)/2))"
+  },
+  {
+   "numpy": "0",
+   "sympy": "0"
+  }
+ ]
+}

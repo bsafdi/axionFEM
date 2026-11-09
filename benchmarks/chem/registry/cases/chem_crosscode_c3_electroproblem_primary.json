@@ -1,0 +1,3009 @@
+{
+ "id": "chem_crosscode_c3_electroproblem_primary",
+ "capability": "C3a",
+ "title": "Primary concentric spheres and capped cylinders (axisymmetric), potentiostatic and galvanostatic: per-level agreement with axi::ElectroProblem (eps -> kappa)",
+ "physics": "Laplace for phi in the electrolyte, primary electrodes (Dirichlet or floating conductor), insulating walls; the electrostatic analogue solved by the existing ElectroProblem",
+ "levels": [
+  "cross_code"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3_electroproblem",
+   "function": "electroproblem_primary",
+   "check_module": "c3_checks",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "geometry": {
+    "r1": "0.005",
+    "r2": "0.02",
+    "H_cyl": "0.01"
+   },
+   "kappa": "5/2",
+   "kappa_note": "kappa != 1 so that a conductivity defect is visible",
+   "electrodes": {
+    "anode": {
+     "attr": 1,
+     "phi_s": "0.25",
+     "E_eq": "0.05",
+     "primary": true
+    },
+    "cathode": {
+     "attr": 2,
+     "phi_s": "-0.03",
+     "E_eq": "-0.05",
+     "primary": true
+    }
+   },
+   "electrode_note": "the cathode wall is at phi_s - E_eq = +0.02 V, not 0, so that a cathode forced to 0 V is visible; positive, so that phi > 0 everywhere and int phi dV has no cancellation (a -0.02 V wall made the galv sphere functional nearly cancel: 4.6e-12 spread)",
+   "galvanostatic": {
+    "electrode": "anode",
+    "current": "0.03",
+    "current_kind": "3D total (A), anodic > 0",
+    "initial_phi_s": "0.25 (the anode's phi_s above)"
+   },
+   "variants": {
+    "pot": "both electrodes potentiostatic primary: phi = 0.2 V on the inner, +0.02 V on the outer electrode",
+    "galv": "anode galvanostatic primary (floating conductor, 3D total 0.03 A), cathode potentiostatic primary"
+   },
+   "sectors": {
+    "axi_sph": "meridian half annulus, theta in [0, pi] from +z (3D total)",
+    "axi_cyl": "rectangle r1 < r < r2, 0 < z < 0.01 m, insulating caps (3D total)"
+   },
+   "quantities": {
+    "I_anode": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)",
+    "I_cathode": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization",
+    "Iflux_anode": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization",
+    "phi_mean": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)",
+    "phi_s_anode": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "discretization": {
+    "domain_degree": {
+     "p1": 6,
+     "p2": 8
+    },
+    "domain_rule": "the stiffness and int phi dV use MFEM 4.10 IntRules.Get(Geometry::TRIANGLE, 2k + 4): 12 points (P1, degree 6) and 16 points (P2, degree 8), the rule of ElectroProblem's axi::Space; the exact points and weights on the reference triangle (x, y, w) are in domain_rule_points (copied from the generator output). On P1 and on the straight P2 cylinder every integrand is a polynomial of degree <= 3, so any rule of degree >= 3 gives the same values; on the CURVED P2 sphere the integrand is rational and the per-level values depend on the point set: another degree-8 rule moves N = 2 by up to 2.5e-8 and N = 4 by 2.1e-10, a converged rule by 3.8e-8 and 3.8e-10. An implementation (or MFEM version) with another rule FAILs the axi_sph_p2 points-per-element check and needs regenerated reference values.",
+    "facet_degree_flux": {
+     "p1": 8,
+     "p2": 10
+    },
+    "facet_rule": "the strong-flux current uses Gauss-Legendre with k + 4 points (degree 2k + 6) on each facet's own (isoparametric) parametrization: ElectroProblem's Gauss-law rule",
+    "p2_edge_nodes": "axi_sph_p2: EVERY P2 edge node, interior edges included, at the polar map of the parametric (s, t) midpoint of its edge (so every node lies on a circle rho = r1 + i (r2 - r1)/(2N)); curving only the electrode arcs is a different discrete problem (moves the values by 3.7e-2 at N = 2... 1.7e-4 at N = 32). axi_cyl_p2: the map is affine, all nodes straight.",
+    "split_diagonal": "every square of the structured (s, t) grid split along (i, j)-(i+1, j+1) into [(i,j),(i+1,j),(i+1,j+1)] and [(i,j),(i+1,j+1),(i,j+1)] (checked by the connectivity hash)",
+    "certificates": "the runner reports the domain quadrature points per element at the assembly degree (12 / 16; checked on axi_sph_p2, where the point set changes the discrete problem) and, on axi_sph_p2, the largest distance of a P2 node from its circle rho = r1 + i (r2 - r1)/(2N) (round-off for the fixed rule; ~1e-6 m for straight interior edges): acceptance.checks",
+    "domain_rule_points": {
+     "p1": [
+      [
+       0.06308901449150223,
+       0.06308901449150223,
+       0.02542245318510341
+      ],
+      [
+       0.06308901449150223,
+       0.8738219710169955,
+       0.02542245318510341
+      ],
+      [
+       0.8738219710169955,
+       0.06308901449150223,
+       0.02542245318510341
+      ],
+      [
+       0.24928674517091043,
+       0.24928674517091043,
+       0.058393137863189684
+      ],
+      [
+       0.24928674517091043,
+       0.5014265096581791,
+       0.058393137863189684
+      ],
+      [
+       0.5014265096581791,
+       0.24928674517091043,
+       0.058393137863189684
+      ],
+      [
+       0.6365024991213987,
+       0.3103524510337844,
+       0.041425537809186785
+      ],
+      [
+       0.3103524510337844,
+       0.6365024991213987,
+       0.041425537809186785
+      ],
+      [
+       0.6365024991213987,
+       0.05314504984481694,
+       0.041425537809186785
+      ],
+      [
+       0.05314504984481694,
+       0.6365024991213987,
+       0.041425537809186785
+      ],
+      [
+       0.3103524510337844,
+       0.05314504984481694,
+       0.041425537809186785
+      ],
+      [
+       0.05314504984481694,
+       0.3103524510337844,
+       0.041425537809186785
+      ]
+     ],
+     "p2": [
+      [
+       0.3333333333333333,
+       0.3333333333333333,
+       0.07215780383889359
+      ],
+      [
+       0.45929258829272324,
+       0.45929258829272324,
+       0.04754581713364231
+      ],
+      [
+       0.45929258829272324,
+       0.08141482341455353,
+       0.04754581713364231
+      ],
+      [
+       0.08141482341455353,
+       0.45929258829272324,
+       0.04754581713364231
+      ],
+      [
+       0.17056930775176027,
+       0.17056930775176027,
+       0.05160868526735912
+      ],
+      [
+       0.17056930775176027,
+       0.6588613844964795,
+       0.05160868526735912
+      ],
+      [
+       0.6588613844964795,
+       0.17056930775176027,
+       0.05160868526735912
+      ],
+      [
+       0.05054722831703096,
+       0.05054722831703096,
+       0.01622924881159904
+      ],
+      [
+       0.05054722831703096,
+       0.8989055433659381,
+       0.01622924881159904
+      ],
+      [
+       0.8989055433659381,
+       0.05054722831703096,
+       0.01622924881159904
+      ],
+      [
+       0.7284923929554042,
+       0.2631128296346381,
+       0.013615157087217496
+      ],
+      [
+       0.2631128296346381,
+       0.7284923929554042,
+       0.013615157087217496
+      ],
+      [
+       0.7284923929554042,
+       0.008394777409957643,
+       0.013615157087217496
+      ],
+      [
+       0.008394777409957643,
+       0.7284923929554042,
+       0.013615157087217496
+      ],
+      [
+       0.2631128296346381,
+       0.008394777409957643,
+       0.013615157087217496
+      ],
+      [
+       0.008394777409957643,
+       0.2631128296346381,
+       0.013615157087217496
+      ]
+     ]
+    }
+   },
+   "meshes": {
+    "axi_sph_p1": {
+     "family": "axi_sph_p1",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875,
+      0.000234375
+     ],
+     "construction": "polar map of a structured (s, t) grid: Nr = N, Ntheta = 2N (planar), 4N (axi_sph); axi_cyl: rect(N, N); P2: isoparametric nodes by the exact map",
+     "levels": [
+      {
+       "name": "axi_sph_p1_4",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "6e97e4dcdd221140",
+       "connectivity_hash": "533c54af744d5ada"
+      },
+      {
+       "name": "axi_sph_p1_8",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "78fb2ff61ae764d6",
+       "connectivity_hash": "71f17f7fa4491d5b"
+      },
+      {
+       "name": "axi_sph_p1_16",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "0fb6f5e7e016db91",
+       "connectivity_hash": "2ac649c5db60a7e3"
+      },
+      {
+       "name": "axi_sph_p1_32",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "6b14ea5357807e74",
+       "connectivity_hash": "3bdd4c8d60c5d282"
+      },
+      {
+       "name": "axi_sph_p1_64",
+       "n_elements": 32768,
+       "hash_scale": 0.01,
+       "vertex_hash": "fb07674075c42fba",
+       "connectivity_hash": "fd25632bab3f1741"
+      }
+     ]
+    },
+    "axi_sph_p2": {
+     "family": "axi_sph_p2",
+     "N": [
+      2,
+      4,
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.0075,
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875
+     ],
+     "construction": "polar map of a structured (s, t) grid: Nr = N, Ntheta = 2N (planar), 4N (axi_sph); axi_cyl: rect(N, N); P2: isoparametric nodes by the exact map",
+     "levels": [
+      {
+       "name": "axi_sph_p2_2",
+       "n_elements": 32,
+       "hash_scale": 0.01,
+       "vertex_hash": "90622016b62070dc",
+       "connectivity_hash": "5501eba65a6fa331"
+      },
+      {
+       "name": "axi_sph_p2_4",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "6e97e4dcdd221140",
+       "connectivity_hash": "533c54af744d5ada"
+      },
+      {
+       "name": "axi_sph_p2_8",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "78fb2ff61ae764d6",
+       "connectivity_hash": "71f17f7fa4491d5b"
+      },
+      {
+       "name": "axi_sph_p2_16",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "0fb6f5e7e016db91",
+       "connectivity_hash": "2ac649c5db60a7e3"
+      },
+      {
+       "name": "axi_sph_p2_32",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "6b14ea5357807e74",
+       "connectivity_hash": "3bdd4c8d60c5d282"
+      }
+     ]
+    },
+    "axi_cyl_p1": {
+     "family": "axi_cyl_p1",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875,
+      0.000234375
+     ],
+     "construction": "polar map of a structured (s, t) grid: Nr = N, Ntheta = 2N (planar), 4N (axi_sph); axi_cyl: rect(N, N); P2: isoparametric nodes by the exact map",
+     "levels": [
+      {
+       "name": "axi_cyl_p1_4",
+       "n_elements": 32,
+       "hash_scale": 0.01,
+       "vertex_hash": "0c391ef8c7e02444",
+       "connectivity_hash": "3a268613a2de6d2a"
+      },
+      {
+       "name": "axi_cyl_p1_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "15726a9c9a3d2379",
+       "connectivity_hash": "f114fc2d4c37dc38"
+      },
+      {
+       "name": "axi_cyl_p1_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "10dad99cdbdc22d5",
+       "connectivity_hash": "734710db5daacc56"
+      },
+      {
+       "name": "axi_cyl_p1_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "9502f80158aaf5bc",
+       "connectivity_hash": "a2d4256a816ca495"
+      },
+      {
+       "name": "axi_cyl_p1_64",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "0ddbfd533a37d66d",
+       "connectivity_hash": "9d0027fecdfd2fbf"
+      }
+     ]
+    },
+    "axi_cyl_p2": {
+     "family": "axi_cyl_p2",
+     "N": [
+      2,
+      4,
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.0075,
+      0.00375,
+      0.001875,
+      0.0009375,
+      0.00046875
+     ],
+     "construction": "polar map of a structured (s, t) grid: Nr = N, Ntheta = 2N (planar), 4N (axi_sph); axi_cyl: rect(N, N); P2: isoparametric nodes by the exact map",
+     "levels": [
+      {
+       "name": "axi_cyl_p2_2",
+       "n_elements": 8,
+       "hash_scale": 0.01,
+       "vertex_hash": "eab04c44a1569821",
+       "connectivity_hash": "43b2aafcb500acaf"
+      },
+      {
+       "name": "axi_cyl_p2_4",
+       "n_elements": 32,
+       "hash_scale": 0.01,
+       "vertex_hash": "0c391ef8c7e02444",
+       "connectivity_hash": "3a268613a2de6d2a"
+      },
+      {
+       "name": "axi_cyl_p2_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "15726a9c9a3d2379",
+       "connectivity_hash": "f114fc2d4c37dc38"
+      },
+      {
+       "name": "axi_cyl_p2_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "10dad99cdbdc22d5",
+       "connectivity_hash": "734710db5daacc56"
+      },
+      {
+       "name": "axi_cyl_p2_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "9502f80158aaf5bc",
+       "connectivity_hash": "a2d4256a816ca495"
+      }
+     ]
+    }
+   },
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "ep_axi_sph_p1_pot_N4_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.04047338403634584,
+    "output_key": "ep_axi_sph_p1_pot_N4_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_sph_p1_pot_N4_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.04047338403634589,
+    "output_key": "ep_axi_sph_p1_pot_N4_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p1_pot_N4_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.020887742400658157,
+    "output_key": "ep_axi_sph_p1_pot_N4_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p1_pot_N4_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.579058297009553e-06,
+    "output_key": "ep_axi_sph_p1_pot_N4_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p1_galv_N4_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.20342101552839514,
+    "output_key": "ep_axi_sph_p1_galv_N4_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p1_galv_N4_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.030000000000000027,
+    "output_key": "ep_axi_sph_p1_galv_N4_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p1_galv_N4_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.3395227263029736e-06,
+    "output_key": "ep_axi_sph_p1_galv_N4_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p1_pot_N8_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.03844694112437357,
+    "output_key": "ep_axi_sph_p1_pot_N8_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_sph_p1_pot_N8_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03844694112437374,
+    "output_key": "ep_axi_sph_p1_pot_N8_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p1_pot_N8_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.027039364351446247,
+    "output_key": "ep_axi_sph_p1_pot_N8_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p1_pot_N8_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.527108277029791e-06,
+    "output_key": "ep_axi_sph_p1_pot_N8_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p1_galv_N8_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.2104533063509869,
+    "output_key": "ep_axi_sph_p1_galv_N8_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p1_galv_N8_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.030000000000000086,
+    "output_key": "ep_axi_sph_p1_galv_N8_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p1_galv_N8_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.336193928516676e-06,
+    "output_key": "ep_axi_sph_p1_galv_N8_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p1_pot_N16_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.03789067520391978,
+    "output_key": "ep_axi_sph_p1_pot_N16_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_sph_p1_pot_N16_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03789067520392,
+    "output_key": "ep_axi_sph_p1_pot_N16_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p1_pot_N16_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.031596103285989906,
+    "output_key": "ep_axi_sph_p1_pot_N16_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p1_pot_N16_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.5128659012752489e-06,
+    "output_key": "ep_axi_sph_p1_pot_N16_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p1_galv_N16_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.21251527508914297,
+    "output_key": "ep_axi_sph_p1_galv_N16_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p1_galv_N16_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03000000000000015,
+    "output_key": "ep_axi_sph_p1_galv_N16_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p1_galv_N16_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.3351198365270693e-06,
+    "output_key": "ep_axi_sph_p1_galv_N16_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p1_pot_N32_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.03774732224839833,
+    "output_key": "ep_axi_sph_p1_pot_N32_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_sph_p1_pot_N32_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03774732224839783,
+    "output_key": "ep_axi_sph_p1_pot_N32_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p1_pot_N32_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.0344196383185209,
+    "output_key": "ep_axi_sph_p1_pot_N32_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p1_pot_N32_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.5091978246695273e-06,
+    "output_key": "ep_axi_sph_p1_pot_N32_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p1_galv_N32_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.21305650515989072,
+    "output_key": "ep_axi_sph_p1_galv_N32_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p1_galv_N32_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.030000000000000367,
+    "output_key": "ep_axi_sph_p1_galv_N32_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p1_galv_N32_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.334832180995333e-06,
+    "output_key": "ep_axi_sph_p1_galv_N32_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p1_pot_N64_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.03771118502144614,
+    "output_key": "ep_axi_sph_p1_pot_N64_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_sph_p1_pot_N64_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03771118502143847,
+    "output_key": "ep_axi_sph_p1_pot_N64_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p1_pot_N64_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.03599743925366989,
+    "output_key": "ep_axi_sph_p1_pot_N64_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p1_pot_N64_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.5082733256865176e-06,
+    "output_key": "ep_axi_sph_p1_pot_N64_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p1_galv_N64_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.21319359089163048,
+    "output_key": "ep_axi_sph_p1_galv_N64_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p1_galv_N64_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.029999999999991565,
+    "output_key": "ep_axi_sph_p1_galv_N64_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p1_galv_N64_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.3347589759752139e-06,
+    "output_key": "ep_axi_sph_p1_galv_N64_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p2_pot_N2_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.03864838552450741,
+    "output_key": "ep_axi_sph_p2_pot_N2_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_sph_p2_pot_N2_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.038648385524507424,
+    "output_key": "ep_axi_sph_p2_pot_N2_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p2_pot_N2_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.026492604911441415,
+    "output_key": "ep_axi_sph_p2_pot_N2_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p2_pot_N2_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.5310238033430647e-06,
+    "output_key": "ep_axi_sph_p2_pot_N2_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p2_galv_N2_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.2097212309573912,
+    "output_key": "ep_axi_sph_p2_galv_N2_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p2_galv_N2_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.029999999999999954,
+    "output_key": "ep_axi_sph_p2_galv_N2_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p2_galv_N2_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.3360436670028303e-06,
+    "output_key": "ep_axi_sph_p2_galv_N2_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p2_pot_N4_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.037809229551293434,
+    "output_key": "ep_axi_sph_p2_pot_N4_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_sph_p2_pot_N4_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03780922955129332,
+    "output_key": "ep_axi_sph_p2_pot_N4_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p2_pot_N4_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.03269674603655684,
+    "output_key": "ep_axi_sph_p2_pot_N4_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p2_pot_N4_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.510675185008883e-06,
+    "output_key": "ep_axi_sph_p2_pot_N4_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p2_galv_N4_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.21282227022569056,
+    "output_key": "ep_axi_sph_p2_galv_N4_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p2_galv_N4_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.029999999999999815,
+    "output_key": "ep_axi_sph_p2_galv_N4_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p2_galv_N4_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.3349187507131526e-06,
+    "output_key": "ep_axi_sph_p2_galv_N4_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p2_pot_N8_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.037708144036258134,
+    "output_key": "ep_axi_sph_p2_pot_N8_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_sph_p2_pot_N8_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03770814403625813,
+    "output_key": "ep_axi_sph_p2_pot_N8_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p2_pot_N8_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.035926072095954734,
+    "output_key": "ep_axi_sph_p2_pot_N8_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p2_pot_N8_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.5081876266715125e-06,
+    "output_key": "ep_axi_sph_p2_pot_N8_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p2_galv_N8_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.2132051387840166,
+    "output_key": "ep_axi_sph_p2_galv_N8_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p2_galv_N8_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03000000000000029,
+    "output_key": "ep_axi_sph_p2_galv_N8_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p2_galv_N8_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.3347502729982776e-06,
+    "output_key": "ep_axi_sph_p2_galv_N8_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p2_pot_N16_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.03769972981297091,
+    "output_key": "ep_axi_sph_p2_pot_N16_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_sph_p2_pot_N16_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03769972981297066,
+    "output_key": "ep_axi_sph_p2_pot_N16_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p2_pot_N16_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.037160497195858684,
+    "output_key": "ep_axi_sph_p2_pot_N16_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p2_pot_N16_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.507979756870801e-06,
+    "output_key": "ep_axi_sph_p2_pot_N16_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p2_galv_N16_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.21323710081715358,
+    "output_key": "ep_axi_sph_p2_galv_N16_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p2_galv_N16_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.029999999999999794,
+    "output_key": "ep_axi_sph_p2_galv_N16_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p2_galv_N16_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.3347355520255017e-06,
+    "output_key": "ep_axi_sph_p2_galv_N16_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p2_pot_N32_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.03769915145299203,
+    "output_key": "ep_axi_sph_p2_pot_N32_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_sph_p2_pot_N32_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03769915145298585,
+    "output_key": "ep_axi_sph_p2_pot_N32_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p2_pot_N32_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.037549714616399166,
+    "output_key": "ep_axi_sph_p2_pot_N32_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p2_pot_N32_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.5079654535816437e-06,
+    "output_key": "ep_axi_sph_p2_pot_N32_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_sph_p2_galv_N32_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.21323929828324323,
+    "output_key": "ep_axi_sph_p2_galv_N32_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_sph_p2_galv_N32_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.029999999999998098,
+    "output_key": "ep_axi_sph_p2_galv_N32_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_sph_p2_galv_N32_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.3347345276349445e-06,
+    "output_key": "ep_axi_sph_p2_galv_N32_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p1_pot_N4_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.020695621810673408,
+    "output_key": "ep_axi_cyl_p1_pot_N4_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_cyl_p1_pot_N4_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.02069562181067337,
+    "output_key": "ep_axi_cyl_p1_pot_N4_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p1_pot_N4_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.015077131495309275,
+    "output_key": "ep_axi_cyl_p1_pot_N4_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p1_pot_N4_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 8.769755961652012e-07,
+    "output_key": "ep_axi_cyl_p1_pot_N4_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p1_galv_N4_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.33092475255877746,
+    "output_key": "ep_axi_cyl_p1_galv_N4_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p1_galv_N4_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.02999999999999993,
+    "output_key": "ep_axi_cyl_p1_galv_N4_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p1_galv_N4_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.1653177489976364e-06,
+    "output_key": "ep_axi_cyl_p1_galv_N4_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p1_pot_N8_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.020474713945135285,
+    "output_key": "ep_axi_cyl_p1_pot_N8_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_cyl_p1_pot_N8_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.020474713945135323,
+    "output_key": "ep_axi_cyl_p1_pot_N8_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p1_pot_N8_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.017250014793954573,
+    "output_key": "ep_axi_cyl_p1_pot_N8_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p1_pot_N8_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 8.637074766591892e-07,
+    "output_key": "ep_axi_cyl_p1_pot_N8_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p1_galv_N8_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.33373994842956173,
+    "output_key": "ep_axi_cyl_p1_galv_N8_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p1_galv_N8_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.030000000000000072,
+    "output_key": "ep_axi_cyl_p1_galv_N8_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p1_galv_N8_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.1559078046802724e-06,
+    "output_key": "ep_axi_cyl_p1_galv_N8_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p1_pot_N16_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.02041571093539678,
+    "output_key": "ep_axi_cyl_p1_pot_N16_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_cyl_p1_pot_N16_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.02041571093539687,
+    "output_key": "ep_axi_cyl_p1_pot_N16_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p1_pot_N16_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.01866768981133027,
+    "output_key": "ep_axi_cyl_p1_pot_N16_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p1_pot_N16_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 8.602511983874253e-07,
+    "output_key": "ep_axi_cyl_p1_pot_N16_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p1_galv_N16_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.33450217761643036,
+    "output_key": "ep_axi_cyl_p1_galv_N16_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p1_galv_N16_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03000000000000035,
+    "output_key": "ep_axi_cyl_p1_galv_N16_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p1_galv_N16_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.1534886596650578e-06,
+    "output_key": "ep_axi_cyl_p1_galv_N16_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p1_pot_N32_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.020400664473934207,
+    "output_key": "ep_axi_cyl_p1_pot_N32_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_cyl_p1_pot_N32_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.020400664473935317,
+    "output_key": "ep_axi_cyl_p1_pot_N32_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p1_pot_N32_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.01948756754925337,
+    "output_key": "ep_axi_cyl_p1_pot_N32_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p1_pot_N32_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 8.5937624649144e-07,
+    "output_key": "ep_axi_cyl_p1_pot_N32_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p1_galv_N32_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.3346972605671524,
+    "output_key": "ep_axi_cyl_p1_galv_N32_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p1_galv_N32_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03000000000000173,
+    "output_key": "ep_axi_cyl_p1_galv_N32_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p1_galv_N32_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.152878979858315e-06,
+    "output_key": "ep_axi_cyl_p1_galv_N32_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p1_pot_N64_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.020396882953052465,
+    "output_key": "ep_axi_cyl_p1_pot_N64_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_cyl_p1_pot_N64_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.02039688295306012,
+    "output_key": "ep_axi_cyl_p1_pot_N64_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p1_pot_N64_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.019929841518105933,
+    "output_key": "ep_axi_cyl_p1_pot_N64_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p1_pot_N64_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 8.591567766145424e-07,
+    "output_key": "ep_axi_cyl_p1_pot_N64_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p1_galv_N64_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.33474633464480336,
+    "output_key": "ep_axi_cyl_p1_galv_N64_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p1_galv_N64_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.03000000000000879,
+    "output_key": "ep_axi_cyl_p1_galv_N64_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p1_galv_N64_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.152726237880752e-06,
+    "output_key": "ep_axi_cyl_p1_galv_N64_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p2_pot_N2_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.020442209912215355,
+    "output_key": "ep_axi_cyl_p2_pot_N2_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_cyl_p2_pot_N2_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.02044220991221527,
+    "output_key": "ep_axi_cyl_p2_pot_N2_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p2_pot_N2_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.01790255332684563,
+    "output_key": "ep_axi_cyl_p2_pot_N2_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p2_pot_N2_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 8.608306513157677e-07,
+    "output_key": "ep_axi_cyl_p2_pot_N2_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p2_galv_N2_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.3341593068063155,
+    "output_key": "ep_axi_cyl_p2_galv_N2_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p2_galv_N2_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.029999999999999853,
+    "output_key": "ep_axi_cyl_p2_galv_N2_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p2_galv_N2_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.153149214609207e-06,
+    "output_key": "ep_axi_cyl_p2_galv_N2_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p2_pot_N4_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.020400359659166027,
+    "output_key": "ep_axi_cyl_p2_pot_N4_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_cyl_p2_pot_N4_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.02040035965916571,
+    "output_key": "ep_axi_cyl_p2_pot_N4_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p2_pot_N4_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.019394470404276606,
+    "output_key": "ep_axi_cyl_p2_pot_N4_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p2_pot_N4_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 8.592612668264106e-07,
+    "output_key": "ep_axi_cyl_p2_pot_N4_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p2_galv_N4_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.3347012155775273,
+    "output_key": "ep_axi_cyl_p2_galv_N4_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p2_galv_N4_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.029999999999999562,
+    "output_key": "ep_axi_cyl_p2_galv_N4_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p2_galv_N4_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.1527236004555594e-06,
+    "output_key": "ep_axi_cyl_p2_galv_N4_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p2_pot_N8_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.02039598422875503,
+    "output_key": "ep_axi_cyl_p2_pot_N8_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_cyl_p2_pot_N8_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.02039598422875434,
+    "output_key": "ep_axi_cyl_p2_pot_N8_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p2_pot_N8_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.020060126482283388,
+    "output_key": "ep_axi_cyl_p2_pot_N8_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p2_pot_N8_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 8.590971881859878e-07,
+    "output_key": "ep_axi_cyl_p2_pot_N8_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p2_galv_N8_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.33475800037082226,
+    "output_key": "ep_axi_cyl_p2_galv_N8_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p2_galv_N8_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.029999999999999187,
+    "output_key": "ep_axi_cyl_p2_galv_N8_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p2_galv_N8_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.152679001783184e-06,
+    "output_key": "ep_axi_cyl_p2_galv_N8_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p2_pot_N16_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.02039564499126945,
+    "output_key": "ep_axi_cyl_p2_pot_N16_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_cyl_p2_pot_N16_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.020395644991267975,
+    "output_key": "ep_axi_cyl_p2_pot_N16_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p2_pot_N16_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.020296463317803697,
+    "output_key": "ep_axi_cyl_p2_pot_N16_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p2_pot_N16_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 8.590844667802582e-07,
+    "output_key": "ep_axi_cyl_p2_pot_N16_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p2_galv_N16_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.3347624040480874,
+    "output_key": "ep_axi_cyl_p2_galv_N16_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p2_galv_N16_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.02999999999999657,
+    "output_key": "ep_axi_cyl_p2_galv_N16_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p2_galv_N16_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.152675543143077e-06,
+    "output_key": "ep_axi_cyl_p2_galv_N16_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p2_pot_N32_I_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.020395622193214148,
+    "output_key": "ep_axi_cyl_p2_pot_N32_I_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the anode (3D total, A): chem = 2 pi x sum of the full weak-form residual (without the electrode's own term) over the anode dofs; ElectroProblem = Q_0 = 2 pi sum_(tied dofs) (K phi). Discretization: run.parameters.discretization (domain rule, P2 edge nodes)"
+   },
+   "ep_axi_cyl_p2_pot_N32_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.0203956221932086,
+    "output_key": "ep_axi_cyl_p2_pot_N32_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p2_pot_N32_Iflux_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": 0.020368481732513554,
+    "output_key": "ep_axi_cyl_p2_pot_N32_Iflux_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "strong-flux anode current int kappa grad phi_h. n_out dA (one-sided element gradients) on the Gauss-Legendre facet rule with k + 4 points (degree 2k + 6, ElectroProblem's Gauss-law rule); ElectroProblem = Q_gauss_0. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p2_pot_N32_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 8.590836118530773e-07,
+    "output_key": "ep_axi_cyl_p2_pot_N32_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   },
+   "ep_axi_cyl_p2_galv_N32_phi_s_anode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V",
+    "value": 0.3347626999972999,
+    "output_key": "ep_axi_cyl_p2_galv_N32_phi_s_anode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "metal potential of the floating (galvanostatic primary) anode (V); ElectroProblem: V_0 + E_eq,anode. Discretization: run.parameters.discretization"
+   },
+   "ep_axi_cyl_p2_galv_N32_I_cathode": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "A",
+    "value": -0.029999999999994757,
+    "output_key": "ep_axi_cyl_p2_galv_N32_I_cathode",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "reaction current of the cathode (3D total, A, negative), as I_anode. A discrete-conservation identity: equals -I_anode (pot) or -I_galv (galv) to round-off for any discretization"
+   },
+   "ep_axi_cyl_p2_galv_N32_phi_mean": {
+    "kind": "scalar",
+    "source": "electroproblem",
+    "unit": "V m^3",
+    "value": 1.1526753107050791e-06,
+    "output_key": "ep_axi_cyl_p2_galv_N32_phi_mean",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "definition": "int phi_h dV = 2 pi int phi_h r dA on the domain rule of run.parameters.discretization (MFEM 4.10 degree 2k + 4: 12 / 16 points) (V m^3)"
+   }
+  },
+  "tolerance_recipe": {
+   "ep_axi_sph_p1_pot_N4_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N4_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N4_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N4_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N4_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N4_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N4_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N8_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N8_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N8_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N8_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N8_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N8_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N8_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N16_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N16_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N16_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N16_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N16_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N16_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N16_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N32_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N32_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N32_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N32_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N32_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N32_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N32_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N64_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N64_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N64_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_pot_N64_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N64_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N64_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p1_galv_N64_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N2_I_anode": {
+    "rel": 5e-07
+   },
+   "ep_axi_sph_p2_pot_N2_I_cathode": {
+    "rel": 5e-07
+   },
+   "ep_axi_sph_p2_pot_N2_Iflux_anode": {
+    "rel": 5e-07
+   },
+   "ep_axi_sph_p2_pot_N2_phi_mean": {
+    "rel": 5e-07
+   },
+   "ep_axi_sph_p2_galv_N2_phi_s_anode": {
+    "rel": 5e-07
+   },
+   "ep_axi_sph_p2_galv_N2_I_cathode": {
+    "rel": 5e-07
+   },
+   "ep_axi_sph_p2_galv_N2_phi_mean": {
+    "rel": 5e-07
+   },
+   "ep_axi_sph_p2_pot_N4_I_anode": {
+    "rel": 5e-09
+   },
+   "ep_axi_sph_p2_pot_N4_I_cathode": {
+    "rel": 5e-09
+   },
+   "ep_axi_sph_p2_pot_N4_Iflux_anode": {
+    "rel": 5e-09
+   },
+   "ep_axi_sph_p2_pot_N4_phi_mean": {
+    "rel": 5e-09
+   },
+   "ep_axi_sph_p2_galv_N4_phi_s_anode": {
+    "rel": 5e-09
+   },
+   "ep_axi_sph_p2_galv_N4_I_cathode": {
+    "rel": 5e-09
+   },
+   "ep_axi_sph_p2_galv_N4_phi_mean": {
+    "rel": 5e-09
+   },
+   "ep_axi_sph_p2_pot_N8_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N8_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N8_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N8_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_galv_N8_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_galv_N8_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_galv_N8_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N16_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N16_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N16_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N16_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_galv_N16_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_galv_N16_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_galv_N16_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N32_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N32_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N32_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_pot_N32_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_galv_N32_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_galv_N32_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_sph_p2_galv_N32_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N4_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N4_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N4_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N4_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N4_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N4_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N4_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N8_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N8_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N8_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N8_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N8_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N8_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N8_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N16_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N16_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N16_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N16_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N16_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N16_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N16_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N32_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N32_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N32_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N32_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N32_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N32_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N32_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N64_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N64_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N64_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_pot_N64_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N64_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N64_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p1_galv_N64_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N2_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N2_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N2_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N2_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N2_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N2_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N2_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N4_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N4_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N4_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N4_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N4_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N4_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N4_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N8_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N8_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N8_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N8_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N8_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N8_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N8_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N16_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N16_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N16_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N16_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N16_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N16_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N16_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N32_I_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N32_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N32_Iflux_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_pot_N32_phi_mean": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N32_phi_s_anode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N32_I_cathode": {
+    "rel": 1e-10
+   },
+   "ep_axi_cyl_p2_galv_N32_phi_mean": {
+    "rel": 1e-10
+   }
+  }
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "axi_sph_p1_pot_N4_I_anode",
+    "reference": "ep_axi_sph_p1_pot_N4_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N4_I_cathode",
+    "reference": "ep_axi_sph_p1_pot_N4_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N4_Iflux_anode",
+    "reference": "ep_axi_sph_p1_pot_N4_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N4_phi_mean",
+    "reference": "ep_axi_sph_p1_pot_N4_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N4_phi_s_anode",
+    "reference": "ep_axi_sph_p1_galv_N4_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N4_I_cathode",
+    "reference": "ep_axi_sph_p1_galv_N4_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N4_phi_mean",
+    "reference": "ep_axi_sph_p1_galv_N4_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N8_I_anode",
+    "reference": "ep_axi_sph_p1_pot_N8_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N8_I_cathode",
+    "reference": "ep_axi_sph_p1_pot_N8_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N8_Iflux_anode",
+    "reference": "ep_axi_sph_p1_pot_N8_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N8_phi_mean",
+    "reference": "ep_axi_sph_p1_pot_N8_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N8_phi_s_anode",
+    "reference": "ep_axi_sph_p1_galv_N8_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N8_I_cathode",
+    "reference": "ep_axi_sph_p1_galv_N8_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N8_phi_mean",
+    "reference": "ep_axi_sph_p1_galv_N8_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N16_I_anode",
+    "reference": "ep_axi_sph_p1_pot_N16_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N16_I_cathode",
+    "reference": "ep_axi_sph_p1_pot_N16_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N16_Iflux_anode",
+    "reference": "ep_axi_sph_p1_pot_N16_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N16_phi_mean",
+    "reference": "ep_axi_sph_p1_pot_N16_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N16_phi_s_anode",
+    "reference": "ep_axi_sph_p1_galv_N16_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N16_I_cathode",
+    "reference": "ep_axi_sph_p1_galv_N16_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N16_phi_mean",
+    "reference": "ep_axi_sph_p1_galv_N16_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N32_I_anode",
+    "reference": "ep_axi_sph_p1_pot_N32_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N32_I_cathode",
+    "reference": "ep_axi_sph_p1_pot_N32_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N32_Iflux_anode",
+    "reference": "ep_axi_sph_p1_pot_N32_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N32_phi_mean",
+    "reference": "ep_axi_sph_p1_pot_N32_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N32_phi_s_anode",
+    "reference": "ep_axi_sph_p1_galv_N32_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N32_I_cathode",
+    "reference": "ep_axi_sph_p1_galv_N32_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N32_phi_mean",
+    "reference": "ep_axi_sph_p1_galv_N32_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N64_I_anode",
+    "reference": "ep_axi_sph_p1_pot_N64_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N64_I_cathode",
+    "reference": "ep_axi_sph_p1_pot_N64_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N64_Iflux_anode",
+    "reference": "ep_axi_sph_p1_pot_N64_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_pot_N64_phi_mean",
+    "reference": "ep_axi_sph_p1_pot_N64_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N64_phi_s_anode",
+    "reference": "ep_axi_sph_p1_galv_N64_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N64_I_cathode",
+    "reference": "ep_axi_sph_p1_galv_N64_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p1_galv_N64_phi_mean",
+    "reference": "ep_axi_sph_p1_galv_N64_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N2_I_anode",
+    "reference": "ep_axi_sph_p2_pot_N2_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N2_I_cathode",
+    "reference": "ep_axi_sph_p2_pot_N2_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N2_Iflux_anode",
+    "reference": "ep_axi_sph_p2_pot_N2_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N2_phi_mean",
+    "reference": "ep_axi_sph_p2_pot_N2_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N2_phi_s_anode",
+    "reference": "ep_axi_sph_p2_galv_N2_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N2_I_cathode",
+    "reference": "ep_axi_sph_p2_galv_N2_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N2_phi_mean",
+    "reference": "ep_axi_sph_p2_galv_N2_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N4_I_anode",
+    "reference": "ep_axi_sph_p2_pot_N4_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N4_I_cathode",
+    "reference": "ep_axi_sph_p2_pot_N4_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N4_Iflux_anode",
+    "reference": "ep_axi_sph_p2_pot_N4_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N4_phi_mean",
+    "reference": "ep_axi_sph_p2_pot_N4_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N4_phi_s_anode",
+    "reference": "ep_axi_sph_p2_galv_N4_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N4_I_cathode",
+    "reference": "ep_axi_sph_p2_galv_N4_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N4_phi_mean",
+    "reference": "ep_axi_sph_p2_galv_N4_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N8_I_anode",
+    "reference": "ep_axi_sph_p2_pot_N8_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N8_I_cathode",
+    "reference": "ep_axi_sph_p2_pot_N8_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N8_Iflux_anode",
+    "reference": "ep_axi_sph_p2_pot_N8_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N8_phi_mean",
+    "reference": "ep_axi_sph_p2_pot_N8_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N8_phi_s_anode",
+    "reference": "ep_axi_sph_p2_galv_N8_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N8_I_cathode",
+    "reference": "ep_axi_sph_p2_galv_N8_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N8_phi_mean",
+    "reference": "ep_axi_sph_p2_galv_N8_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N16_I_anode",
+    "reference": "ep_axi_sph_p2_pot_N16_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N16_I_cathode",
+    "reference": "ep_axi_sph_p2_pot_N16_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N16_Iflux_anode",
+    "reference": "ep_axi_sph_p2_pot_N16_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N16_phi_mean",
+    "reference": "ep_axi_sph_p2_pot_N16_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N16_phi_s_anode",
+    "reference": "ep_axi_sph_p2_galv_N16_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N16_I_cathode",
+    "reference": "ep_axi_sph_p2_galv_N16_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N16_phi_mean",
+    "reference": "ep_axi_sph_p2_galv_N16_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N32_I_anode",
+    "reference": "ep_axi_sph_p2_pot_N32_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N32_I_cathode",
+    "reference": "ep_axi_sph_p2_pot_N32_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N32_Iflux_anode",
+    "reference": "ep_axi_sph_p2_pot_N32_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_pot_N32_phi_mean",
+    "reference": "ep_axi_sph_p2_pot_N32_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N32_phi_s_anode",
+    "reference": "ep_axi_sph_p2_galv_N32_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N32_I_cathode",
+    "reference": "ep_axi_sph_p2_galv_N32_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_sph_p2_galv_N32_phi_mean",
+    "reference": "ep_axi_sph_p2_galv_N32_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N4_I_anode",
+    "reference": "ep_axi_cyl_p1_pot_N4_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N4_I_cathode",
+    "reference": "ep_axi_cyl_p1_pot_N4_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N4_Iflux_anode",
+    "reference": "ep_axi_cyl_p1_pot_N4_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N4_phi_mean",
+    "reference": "ep_axi_cyl_p1_pot_N4_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N4_phi_s_anode",
+    "reference": "ep_axi_cyl_p1_galv_N4_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N4_I_cathode",
+    "reference": "ep_axi_cyl_p1_galv_N4_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N4_phi_mean",
+    "reference": "ep_axi_cyl_p1_galv_N4_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N8_I_anode",
+    "reference": "ep_axi_cyl_p1_pot_N8_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N8_I_cathode",
+    "reference": "ep_axi_cyl_p1_pot_N8_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N8_Iflux_anode",
+    "reference": "ep_axi_cyl_p1_pot_N8_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N8_phi_mean",
+    "reference": "ep_axi_cyl_p1_pot_N8_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N8_phi_s_anode",
+    "reference": "ep_axi_cyl_p1_galv_N8_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N8_I_cathode",
+    "reference": "ep_axi_cyl_p1_galv_N8_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N8_phi_mean",
+    "reference": "ep_axi_cyl_p1_galv_N8_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N16_I_anode",
+    "reference": "ep_axi_cyl_p1_pot_N16_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N16_I_cathode",
+    "reference": "ep_axi_cyl_p1_pot_N16_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N16_Iflux_anode",
+    "reference": "ep_axi_cyl_p1_pot_N16_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N16_phi_mean",
+    "reference": "ep_axi_cyl_p1_pot_N16_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N16_phi_s_anode",
+    "reference": "ep_axi_cyl_p1_galv_N16_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N16_I_cathode",
+    "reference": "ep_axi_cyl_p1_galv_N16_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N16_phi_mean",
+    "reference": "ep_axi_cyl_p1_galv_N16_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N32_I_anode",
+    "reference": "ep_axi_cyl_p1_pot_N32_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N32_I_cathode",
+    "reference": "ep_axi_cyl_p1_pot_N32_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N32_Iflux_anode",
+    "reference": "ep_axi_cyl_p1_pot_N32_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N32_phi_mean",
+    "reference": "ep_axi_cyl_p1_pot_N32_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N32_phi_s_anode",
+    "reference": "ep_axi_cyl_p1_galv_N32_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N32_I_cathode",
+    "reference": "ep_axi_cyl_p1_galv_N32_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N32_phi_mean",
+    "reference": "ep_axi_cyl_p1_galv_N32_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N64_I_anode",
+    "reference": "ep_axi_cyl_p1_pot_N64_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N64_I_cathode",
+    "reference": "ep_axi_cyl_p1_pot_N64_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N64_Iflux_anode",
+    "reference": "ep_axi_cyl_p1_pot_N64_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_pot_N64_phi_mean",
+    "reference": "ep_axi_cyl_p1_pot_N64_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N64_phi_s_anode",
+    "reference": "ep_axi_cyl_p1_galv_N64_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N64_I_cathode",
+    "reference": "ep_axi_cyl_p1_galv_N64_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p1_galv_N64_phi_mean",
+    "reference": "ep_axi_cyl_p1_galv_N64_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N2_I_anode",
+    "reference": "ep_axi_cyl_p2_pot_N2_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N2_I_cathode",
+    "reference": "ep_axi_cyl_p2_pot_N2_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N2_Iflux_anode",
+    "reference": "ep_axi_cyl_p2_pot_N2_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N2_phi_mean",
+    "reference": "ep_axi_cyl_p2_pot_N2_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N2_phi_s_anode",
+    "reference": "ep_axi_cyl_p2_galv_N2_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N2_I_cathode",
+    "reference": "ep_axi_cyl_p2_galv_N2_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N2_phi_mean",
+    "reference": "ep_axi_cyl_p2_galv_N2_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N4_I_anode",
+    "reference": "ep_axi_cyl_p2_pot_N4_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N4_I_cathode",
+    "reference": "ep_axi_cyl_p2_pot_N4_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N4_Iflux_anode",
+    "reference": "ep_axi_cyl_p2_pot_N4_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N4_phi_mean",
+    "reference": "ep_axi_cyl_p2_pot_N4_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N4_phi_s_anode",
+    "reference": "ep_axi_cyl_p2_galv_N4_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N4_I_cathode",
+    "reference": "ep_axi_cyl_p2_galv_N4_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N4_phi_mean",
+    "reference": "ep_axi_cyl_p2_galv_N4_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N8_I_anode",
+    "reference": "ep_axi_cyl_p2_pot_N8_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N8_I_cathode",
+    "reference": "ep_axi_cyl_p2_pot_N8_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N8_Iflux_anode",
+    "reference": "ep_axi_cyl_p2_pot_N8_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N8_phi_mean",
+    "reference": "ep_axi_cyl_p2_pot_N8_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N8_phi_s_anode",
+    "reference": "ep_axi_cyl_p2_galv_N8_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N8_I_cathode",
+    "reference": "ep_axi_cyl_p2_galv_N8_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N8_phi_mean",
+    "reference": "ep_axi_cyl_p2_galv_N8_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N16_I_anode",
+    "reference": "ep_axi_cyl_p2_pot_N16_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N16_I_cathode",
+    "reference": "ep_axi_cyl_p2_pot_N16_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N16_Iflux_anode",
+    "reference": "ep_axi_cyl_p2_pot_N16_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N16_phi_mean",
+    "reference": "ep_axi_cyl_p2_pot_N16_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N16_phi_s_anode",
+    "reference": "ep_axi_cyl_p2_galv_N16_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N16_I_cathode",
+    "reference": "ep_axi_cyl_p2_galv_N16_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N16_phi_mean",
+    "reference": "ep_axi_cyl_p2_galv_N16_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N32_I_anode",
+    "reference": "ep_axi_cyl_p2_pot_N32_I_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N32_I_cathode",
+    "reference": "ep_axi_cyl_p2_pot_N32_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N32_Iflux_anode",
+    "reference": "ep_axi_cyl_p2_pot_N32_Iflux_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_pot_N32_phi_mean",
+    "reference": "ep_axi_cyl_p2_pot_N32_phi_mean",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N32_phi_s_anode",
+    "reference": "ep_axi_cyl_p2_galv_N32_phi_s_anode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N32_I_cathode",
+    "reference": "ep_axi_cyl_p2_galv_N32_I_cathode",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "axi_cyl_p2_galv_N32_phi_mean",
+    "reference": "ep_axi_cyl_p2_galv_N32_phi_mean",
+    "level": "cross_code"
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "axi_sph_p2_domain_points_per_element_min",
+    "level": "cross_code",
+    "min": 15.5,
+    "max": 16.5
+   },
+   {
+    "quantity": "axi_sph_p2_domain_points_per_element_max",
+    "level": "cross_code",
+    "min": 15.5,
+    "max": 16.5
+   },
+   {
+    "quantity": "axi_sph_p2_p2_node_radius_dev_max",
+    "level": "cross_code",
+    "abs_max": 1e-14
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,795 @@
+{
+ "id": "chem_mms_c3_axi",
+ "capability": "C3a",
+ "title": "MMS, axisymmetric meridian with the axis: r-weights, horizontal electrodes, junction-weighted current, galvanostatic 3D-total control",
+ "physics": "-(1/r) d_r(r kappa d_r phi) - d_z(kappa d_z phi) = f; kinetic electrodes on z = 0, L",
+ "levels": [
+  "mms",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3_current_distribution",
+   "function": "mms_axi",
+   "check_module": "c3_checks",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "field": {
+    "path": "benchmarks/chem/casedata/c3/mms_bvaxi.json",
+    "sha256": "a6f43c5801f066f7f76fa5bdf9dacbbbc237bc63cde57984bdda4f338dabf4e7"
+   },
+   "meshes": {
+    "p1_struct": {
+     "family": "bvaxi_struct_p1",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625,
+      7.8125e-05
+     ],
+     "levels": [
+      {
+       "name": "p1_struct_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "74975e5d25d12aa0",
+       "connectivity_hash": "715527f07411437f"
+      },
+      {
+       "name": "p1_struct_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "9a9e611e9d41065f",
+       "connectivity_hash": "e38e9617367a01eb"
+      },
+      {
+       "name": "p1_struct_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "95203f415b742553",
+       "connectivity_hash": "d5c1f5f473ff6547"
+      },
+      {
+       "name": "p1_struct_64",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "12b6a3ec2cd12e68",
+       "connectivity_hash": "b216ae5f54773251"
+      },
+      {
+       "name": "p1_struct_128",
+       "n_elements": 32768,
+       "hash_scale": 0.01,
+       "vertex_hash": "51eaa74d253980ff",
+       "connectivity_hash": "2acefadab9be568e"
+      }
+     ]
+    },
+    "p2_struct": {
+     "family": "bvaxi_struct_p2",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.0025,
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625
+     ],
+     "levels": [
+      {
+       "name": "p2_struct_4",
+       "n_elements": 32,
+       "hash_scale": 0.01,
+       "vertex_hash": "5d51020794e08935",
+       "connectivity_hash": "e50370e20e2713d5"
+      },
+      {
+       "name": "p2_struct_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "74975e5d25d12aa0",
+       "connectivity_hash": "715527f07411437f"
+      },
+      {
+       "name": "p2_struct_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "9a9e611e9d41065f",
+       "connectivity_hash": "e38e9617367a01eb"
+      },
+      {
+       "name": "p2_struct_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "95203f415b742553",
+       "connectivity_hash": "d5c1f5f473ff6547"
+      },
+      {
+       "name": "p2_struct_64",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "12b6a3ec2cd12e68",
+       "connectivity_hash": "b216ae5f54773251"
+      }
+     ]
+    },
+    "p2_axi_current": {
+     "family": "bvaxi_struct_p2c",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625,
+      7.8125e-05
+     ],
+     "levels": [
+      {
+       "name": "p2_axi_current_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "74975e5d25d12aa0",
+       "connectivity_hash": "715527f07411437f"
+      },
+      {
+       "name": "p2_axi_current_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "9a9e611e9d41065f",
+       "connectivity_hash": "e38e9617367a01eb"
+      },
+      {
+       "name": "p2_axi_current_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "95203f415b742553",
+       "connectivity_hash": "d5c1f5f473ff6547"
+      },
+      {
+       "name": "p2_axi_current_64",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "12b6a3ec2cd12e68",
+       "connectivity_hash": "b216ae5f54773251"
+      },
+      {
+       "name": "p2_axi_current_128",
+       "n_elements": 32768,
+       "hash_scale": 0.01,
+       "vertex_hash": "51eaa74d253980ff",
+       "connectivity_hash": "2acefadab9be568e"
+      }
+     ]
+    }
+   },
+   "attributes": "(r, z) in [0, L]^2: 1 r = 0 axis, 2 r = L insulating (manufactured flux), 3 z = 0 anode, 4 z = L cathode",
+   "galvanostatic": "variant bv_asym, anode at galvanostatic_I_exact (3D total), initial phi_s + 0.02 V",
+   "weight": "w(r) = (1 - (r/L)^2)^2",
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "bv_sym_p1_struct_L2w",
+    "level": "mms",
+    "norm": "r-weighted ||phi - phi_h||_L2,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 5.116251988503071e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p1_struct_H1w",
+    "level": "mms",
+    "norm": "r-weighted |phi - phi_h|_H1,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.01814587972220255,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_struct_L2w",
+    "level": "mms",
+    "norm": "r-weighted ||phi - phi_h||_L2,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 5.116251988503071e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_struct_H1w",
+    "level": "mms",
+    "norm": "r-weighted |phi - phi_h|_H1,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.01814587972220255,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p1_struct_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on z = 0 (3D total; the r-weight varies along the electrode)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.018021798435217753,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_cur_Jw_anode",
+    "level": "mms",
+    "norm": "junction-weighted anode current J_w = 2 pi int (i(eta_h) + g)(1 - (r/L)^2)^2 r dr minus its exact value (casedata weighted_I_exact)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_axi_current.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.006796307350303694,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p1_struct_L2w",
+    "level": "mms",
+    "norm": "r-weighted ||phi - phi_h||_L2,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 5.116251988503071e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p1_struct_H1w",
+    "level": "mms",
+    "norm": "r-weighted |phi - phi_h|_H1,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.01814587972220255,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p2_struct_L2w",
+    "level": "mms",
+    "norm": "r-weighted ||phi - phi_h||_L2,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 5.116251988503071e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p2_struct_H1w",
+    "level": "mms",
+    "norm": "r-weighted |phi - phi_h|_H1,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.01814587972220255,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p1_struct_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on z = 0 (3D total; the r-weight varies along the electrode)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.018021798435217753,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p2_cur_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact (plain anode current)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_axi_current.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.018021798435217753,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "tafel_p1_struct_L2w",
+    "level": "mms",
+    "norm": "r-weighted ||phi - phi_h||_L2,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 5.116251988503071e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "tafel_p1_struct_H1w",
+    "level": "mms",
+    "norm": "r-weighted |phi - phi_h|_H1,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.01814587972220255,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "tafel_p2_struct_L2w",
+    "level": "mms",
+    "norm": "r-weighted ||phi - phi_h||_L2,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 5.116251988503071e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "tafel_p2_struct_H1w",
+    "level": "mms",
+    "norm": "r-weighted |phi - phi_h|_H1,r",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.01814587972220255,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "tafel_p1_struct_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on z = 0 (3D total; the r-weight varies along the electrode)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.018021798435217753,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "tafel_p2_cur_Jw_anode",
+    "level": "mms",
+    "norm": "junction-weighted anode current J_w = 2 pi int (i(eta_h) + g)(1 - (r/L)^2)^2 r dr minus its exact value (casedata weighted_I_exact)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_axi_current.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.006796307350303694,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_galv_p1_phis",
+    "level": "mms",
+    "norm": "|phi_s,h - phi_s| with the anode galvanostatic at the exact 3D TOTAL current (2 pi int r dr)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.16,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_galv_p2_phis",
+    "level": "mms",
+    "norm": "|phi_s,h - phi_s| with the anode galvanostatic at the exact 3D TOTAL current (2 pi int r dr)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_axi_current.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.16,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "bv_sym_p1_struct_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0727,
+    "scale_quantity": "bv_sym_p1_struct_I_scale"
+   },
+   {
+    "quantity": "bv_sym_p2_cur_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0727,
+    "scale_quantity": "bv_sym_p2_cur_I_scale"
+   },
+   {
+    "quantity": "bv_sym_p1_struct_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0003141592653589793,
+    "scale_quantity": "bv_sym_p1_struct_measure_scale"
+   },
+   {
+    "quantity": "bv_asym_p1_struct_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0727,
+    "scale_quantity": "bv_asym_p1_struct_I_scale"
+   },
+   {
+    "quantity": "bv_asym_p2_cur_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0727,
+    "scale_quantity": "bv_asym_p2_cur_I_scale"
+   },
+   {
+    "quantity": "bv_asym_p1_struct_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0003141592653589793,
+    "scale_quantity": "bv_asym_p1_struct_measure_scale"
+   },
+   {
+    "quantity": "tafel_p1_struct_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0727,
+    "scale_quantity": "tafel_p1_struct_I_scale"
+   },
+   {
+    "quantity": "tafel_p2_cur_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0727,
+    "scale_quantity": "tafel_p2_cur_I_scale"
+   },
+   {
+    "quantity": "tafel_p1_struct_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0003141592653589793,
+    "scale_quantity": "tafel_p1_struct_measure_scale"
+   },
+   {
+    "quantity": "bv_asym_galv_p1_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0727,
+    "scale_quantity": "bv_asym_galv_p1_I_scale"
+   },
+   {
+    "quantity": "bv_asym_galv_p2_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0727,
+    "scale_quantity": "bv_asym_galv_p2_I_scale"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  },
+  "solver_sensitivity": [
+   {
+    "quantity": "bv_sym_p2_cur_Jw_finest",
+    "tight_quantity": "bv_sym_p2_cur_Jw_finest_plus1",
+    "level": "mms",
+    "abs_max": 4.29e-14
+   },
+   {
+    "quantity": "tafel_p2_cur_Jw_finest",
+    "tight_quantity": "tafel_p2_cur_Jw_finest_plus1",
+    "level": "mms",
+    "abs_max": 6.64e-14
+   },
+   {
+    "quantity": "bv_asym_p2_cur_Ikin_finest",
+    "tight_quantity": "bv_asym_p2_cur_Ikin_finest_plus1",
+    "level": "mms",
+    "abs_max": 1.74e-14
+   }
+  ]
+ }
+}

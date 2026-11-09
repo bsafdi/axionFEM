@@ -1,0 +1,75 @@
+{
+  "check": "cube",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:33",
+  "side_m": 0.4,
+  "published_factor": 0.66067813,
+  "mesh_series": {
+    "0.04": {
+      "surface_size_m": 0.04,
+      "C_F": 2.9545973081628774e-11,
+      "C_over_4pi_eps0_L": 0.6638649083097037,
+      "relative_error": 0.004823495988437898,
+      "dofs": 49616,
+      "checks": {
+        "symmetry_relative": 0.0,
+        "energy_max_relative_difference": 7.0598278301130705e-06,
+        "charge_gauss_max_relative_difference": 0.1040915234711613,
+        "exterior_monopole_max_relative_difference": 0.015498914599977947,
+        "energy_superposition_relative": 7.0598278801498885e-06,
+        "mixed_potential_max_relative_difference": 1.6824754159629172e-16,
+        "floating_max_relative_charge": null,
+        "min_slack_relative": 1.0,
+        "off_diagonal_signs_ok": true,
+        "max_relative_residual": 3.939260929050205e-14,
+        "dofs": 49616
+      },
+      "warnings": []
+    },
+    "0.028": {
+      "surface_size_m": 0.028,
+      "C_F": 2.94868859604937e-11,
+      "C_over_4pi_eps0_L": 0.662537286906061,
+      "relative_error": 0.002814013089945888,
+      "dofs": 103434,
+      "checks": {
+        "symmetry_relative": 0.0,
+        "energy_max_relative_difference": 2.616986440667505e-06,
+        "charge_gauss_max_relative_difference": 0.07908486133321974,
+        "exterior_monopole_max_relative_difference": 0.006496489674263777,
+        "energy_superposition_relative": 2.616986449300338e-06,
+        "mixed_potential_max_relative_difference": 1.685846834323031e-15,
+        "floating_max_relative_charge": null,
+        "min_slack_relative": 1.0,
+        "off_diagonal_signs_ok": true,
+        "max_relative_residual": 5.5247627525976406e-14,
+        "dofs": 103434
+      },
+      "warnings": []
+    },
+    "0.02": {
+      "surface_size_m": 0.02,
+      "C_F": 2.945946022356179e-11,
+      "C_over_4pi_eps0_L": 0.6619210613282698,
+      "relative_error": 0.0018812963103074232,
+      "dofs": 237769,
+      "checks": {
+        "symmetry_relative": 0.0,
+        "energy_max_relative_difference": 8.034900667567526e-07,
+        "charge_gauss_max_relative_difference": 0.06524937473067284,
+        "exterior_monopole_max_relative_difference": 0.003371446122628931,
+        "energy_superposition_relative": 8.034901225193711e-07,
+        "mixed_potential_max_relative_difference": 2.0248995591895053e-15,
+        "floating_max_relative_charge": null,
+        "min_slack_relative": 1.0,
+        "off_diagonal_signs_ok": true,
+        "max_relative_residual": 7.786773772217035e-14,
+        "dofs": 237769
+      },
+      "warnings": []
+    }
+  },
+  "relative_error": 0.0018812963103074232,
+  "pass": true,
+  "headline": "C/(4 pi eps0 L) = 0.6619211 (published 0.66067813), rel err +1.88e-03"
+}

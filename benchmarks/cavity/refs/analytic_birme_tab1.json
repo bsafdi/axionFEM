@@ -1,0 +1,296 @@
+{
+ "name": "analytic_birme_tab1",
+ "title": "D = 90 mm, L = 1 m copper cylinder with axial coaxial probe: TM01p f, Q, C (BI-RME paper Table I, CST)",
+ "benchmark_rank": "analytic",
+ "citations": [
+  {
+   "arxiv": "2107.03137",
+   "authors_short": "P. Navarro, B. Gimeno, et al. (BI-RME 3D modal analysis of axion-photon coupling in microwave resonators)",
+   "journal": "journal NOT verified (earlier 'J. Comput. Phys. (2022)' unsupported; possibly Phys. Dark Univ.); cite as arXiv:2107.03137",
+   "items_used": [
+    "Sec. 4.2.1 text (geometry, sigma, probe, B)",
+    "Table I",
+    "Eq. (23) form factor",
+    "Figs. 5-10 (not digitized)"
+   ]
+  },
+  {
+   "arxiv": null,
+   "authors_short": "Y. Kim, D. Kim, J. Jeong, J. Kim, Y.C. Shin, Y.K. Semertzidis",
+   "journal": "Phys. Dark Univ. 26 (2019) 100362, 'Effective approximation of electromagnetism for axion haloscope searches'",
+   "items_used": [
+    "upstream source of the benchmark cavity ('Figure 4 of [16]', 2107.03137 Sec. 4.2.1 p.17) and of g a0 = -8.51e-22"
+   ],
+   "note": ". Its own f/Q/C values were NOT checked here (PDF not retrieved); TODO before using this benchmark beyond TM010."
+  }
+ ],
+ "software": {
+  "code": "CST Studio Suite (eigenmode/driven) + MATLAB post-processing; BI-RME 3D",
+  "version": null,
+  "solver_type": "eigenmode values tabulated (CST), wide-band BI-RME response in figures",
+  "boundary": "lossy metal sigma = 6e7 S/m",
+  "mesh_notes": "not stated"
+ },
+ "geometry": {
+  "units": "mm",
+  "description": "closed copper cylinder; 50-ohm coaxial probe inserted at the centre of the top cap, designed for critical coupling of TM010",
+  "parameters": {
+   "D": {
+    "value": 90.0,
+    "unit": "mm",
+    "source": "Sec. 4.2.1 text",
+    "note": "diameter"
+   },
+   "L": {
+    "value": 1000.0,
+    "unit": "mm",
+    "source": "Sec. 4.2.1 text",
+    "note": null
+   },
+   "coax_inner_radius_b": {
+    "value": 0.635,
+    "unit": "mm",
+    "source": "Sec. 4.2.1 text",
+    "note": null
+   },
+   "coax_outer_radius_a": {
+    "value": 2.11,
+    "unit": "mm",
+    "source": "Sec. 4.2.1 text",
+    "note": null
+   },
+   "coax_eps_r": {
+    "value": 2.08,
+    "unit": "1",
+    "source": "Sec. 4.2.1 text (PTFE)",
+    "note": null
+   },
+   "probe_insertion_depth": {
+    "value": null,
+    "unit": "mm",
+    "source": "not given",
+    "note": "'designed under critical coupling for TM010'"
+   }
+  }
+ },
+ "materials": {
+  "walls": {
+   "material": "metal",
+   "sigma_S_per_m": 60000000.0,
+   "temperature_K": null,
+   "source": "Sec. 4.2.1"
+  },
+  "coax_dielectric": {
+   "material": "PTFE",
+   "eps_r": 2.08,
+   "tan_delta": null,
+   "source": "Sec. 4.2.1"
+  }
+ },
+ "conditions": {
+  "temperature_K": null,
+  "B0_T": 8.0,
+  "B0_direction": "z (axial)",
+  "field_map": "uniform"
+ },
+ "conventions": {
+  "form_factor_definition": "Eq. (23): C_m = |int_V E_m . B_e dV|^2 / int_V ||B_e||^2 dV with E_m normalized (int |E_m|^2 dV = 1 implied by the BI-RME basis); equivalent to the standard C = |int E.z|^2/(V int |E|^2)",
+  "Q_definition": "unloaded Q_m (wall losses)",
+  "notes": "Table I modes are those coupled to the axial probe"
+ },
+ "reference_values": {
+  "tables": [
+   {
+    "source": "Table I",
+    "description": "TM01p modes of the probed cylinder",
+    "simulated": true,
+    "columns": [
+     "m",
+     "mode",
+     "f_m",
+     "Q_m",
+     "C_m"
+    ],
+    "units": [
+     "",
+     "",
+     "GHz",
+     "1",
+     "1"
+    ],
+    "rows": [
+     [
+      1,
+      "TM010",
+      "2.55920",
+      "33069.1",
+      "0.68505"
+     ],
+     [
+      2,
+      "TM011",
+      "2.56334",
+      "33260.6",
+      "0.00523"
+     ],
+     [
+      3,
+      "TM012",
+      "2.57646",
+      "33119.7",
+      "0.00027"
+     ],
+     [
+      4,
+      "TM013",
+      "2.59817",
+      "33292.4",
+      "5.305e-5"
+     ],
+     [
+      5,
+      "TM014",
+      "2.62827",
+      "33493.8",
+      "1.710e-5"
+     ],
+     [
+      6,
+      "TM015",
+      "2.66646",
+      "33781.9",
+      "7.247e-6"
+     ]
+    ]
+   }
+  ],
+  "curves": []
+ },
+ "analytic_check": {
+  "method": "closed form for the EMPTY cylinder (no probe), PEC frequencies, perturbative wall Q with sigma = 6e7: Q = (R/delta)/(1+R/L) for p=0, (R/delta)/(1+2R/L) for p>=1; C = 4/x01^2 for p=0, 0 otherwise",
+  "rows": [
+   {
+    "mode": "TM010",
+    "f_closed_form_GHz": 2.54983,
+    "f_table_GHz": 2.5592,
+    "pct_diff_f": 0.3673,
+    "Q_closed_form": 33466.3,
+    "Q_table": 33069.1,
+    "pct_diff_Q": -1.1869,
+    "C_closed_form": 0.69166,
+    "C_table": 0.68505
+   },
+   {
+    "mode": "TM011",
+    "f_closed_form_GHz": 2.55424,
+    "f_table_GHz": 2.56334,
+    "pct_diff_f": 0.3564,
+    "Q_closed_form": 32112.3,
+    "Q_table": 33260.6,
+    "pct_diff_Q": 3.5757,
+    "C_closed_form": 0.0,
+    "C_table": 0.00523,
+    "L_eff_from_table_spacing_m": 1.0293
+   },
+   {
+    "mode": "TM012",
+    "f_closed_form_GHz": 2.5674,
+    "f_table_GHz": 2.57646,
+    "pct_diff_f": 0.353,
+    "Q_closed_form": 32195.0,
+    "Q_table": 33119.7,
+    "pct_diff_Q": 2.8723,
+    "C_closed_form": 0.0,
+    "C_table": 0.00027,
+    "L_eff_from_table_spacing_m": 1.0069
+   },
+   {
+    "mode": "TM013",
+    "f_closed_form_GHz": 2.58918,
+    "f_table_GHz": 2.59817,
+    "pct_diff_f": 0.3471,
+    "Q_closed_form": 32331.3,
+    "Q_table": 33292.4,
+    "pct_diff_Q": 2.9727,
+    "C_closed_form": 0.0,
+    "C_table": 5.305e-05,
+    "L_eff_from_table_spacing_m": 1.0031
+   },
+   {
+    "mode": "TM014",
+    "f_closed_form_GHz": 2.61938,
+    "f_table_GHz": 2.62827,
+    "pct_diff_f": 0.3394,
+    "Q_closed_form": 32519.3,
+    "Q_table": 33493.8,
+    "pct_diff_Q": 2.9968,
+    "C_closed_form": 0.0,
+    "C_table": 1.71e-05,
+    "L_eff_from_table_spacing_m": 1.0017
+   },
+   {
+    "mode": "TM015",
+    "f_closed_form_GHz": 2.6577,
+    "f_table_GHz": 2.66646,
+    "pct_diff_f": 0.3296,
+    "Q_closed_form": 32756.3,
+    "Q_table": 33781.9,
+    "pct_diff_Q": 3.1311,
+    "C_closed_form": 0.0,
+    "C_table": 7.247e-06,
+    "L_eff_from_table_spacing_m": 1.0011
+   }
+  ]
+ },
+ "measured_values": {
+  "tables": [],
+  "curves": []
+ },
+ "gaps": [
+  {
+   "parameter": "probe insertion depth / pin geometry",
+   "issue": "not given (only 'critical coupling for TM010')",
+   "proposal": "benchmark the EMPTY cylinder against the closed form; treat Table I as a probe-perturbed reference: model the probe as a flush (zero-depth) coax aperture first, then sweep depth 0-10 mm and report which depth reproduces f1 = 2.55920 GHz"
+  },
+  {
+   "parameter": "temperature / anomalous skin",
+   "issue": "sigma = 6e7 S/m quoted without temperature",
+   "proposal": "use sigma = 6e7 S/m, classical skin effect"
+  }
+ ],
+ "inconsistencies": [
+  {
+   "description": "All six TM01p frequencies are uniformly +0.33..+0.37% above the R = 45 mm closed form (TM010 2.5592 vs 2.5501 GHz). A uniform offset points to a radius offset (R = 44.835 mm fits all rows), not to the probe (an axial pin in the high-E region would LOWER TM010 and affect modes differently).",
+   "evidence": "Table I vs f = c sqrt((x01/R)^2 + (p pi/L)^2)/(2 pi)",
+   "proposal": "benchmark f at the 0.5% level, or run R = 44.835 mm as the 'as-simulated' radius; record the discrepancy"
+  },
+  {
+   "description": "Q_m increases with p in Table I (33069 -> 33782), whereas the closed form predicts Q(TM011) ~4% BELOW Q(TM010) (end-cap losses double for p>=1)",
+   "evidence": "Table I Q column vs closed form (analytic_check)",
+   "proposal": "use only Q(TM010) as a benchmark (1.2% below closed form, plausibly probe loss / mesh); report TM01p Q discrepancies"
+  },
+  {
+   "description": "C for TM01p (p>=1) is exactly 0 for an ideal cylinder in uniform axial B; Table I gives 5.2e-3 ... 7e-6 (probe-induced asymmetry and numerical noise)",
+   "evidence": "Table I",
+   "proposal": "benchmark only C(TM010) = 0.68505 vs 0.69166 (-0.96%); p>=1 values are noise-level"
+  },
+  {
+   "description": "TM01p frequency spacing implies an effective length 1.001-1.029 m (not 1 m) relative to the table's own TM010",
+   "evidence": "analytic_check L_eff_from_table_spacing_m",
+   "proposal": "consistent with a probe perturbation of mainly TM010/TM011; no action"
+  }
+ ],
+ "solver_class": {
+  "axisymmetric_2d_possible": true,
+  "needs_3d": false,
+  "reason": "cylinder + centred axial coax probe is fully axisymmetric (TM0np); the 2D solver needs a coax port/PEC pin for the probed case"
+ },
+ "priority": "P0",
+ "priority_reason": "empty case is closed form; probed case is a 2D-axisym test of a centred pin",
+ "readme_row": {
+  "quantities": "f, Q, C of TM010-TM015 (probed cylinder)",
+  "geometry_complete": "nearly (probe depth missing)",
+  "axisym_2d": "yes",
+  "needs_3d": "no"
+ }
+}

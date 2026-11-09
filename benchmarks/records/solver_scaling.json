@@ -1,0 +1,275 @@
+{
+ "threads": "32",
+ "threshold": 300000,
+ "strumpack": "8.0.0",
+ "rows": [
+  {
+   "size": 0.05,
+   "surface_size": 0.01,
+   "eigen-ldlt": {
+    "dofs": 36093,
+    "wall_s": 1.185426950454712,
+    "timing": {
+     "post_s": 0.042887428,
+     "solve_s": 0.311381425
+    },
+    "peak_rss_GB": 0.145696,
+    "backend": "eigen-ldlt",
+    "ordering": "amd",
+    "unknowns": 26320,
+    "nonzeros_L": 896618,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 5.755496264415679e-14,
+    "symbolic_s": 0.023134158,
+    "factor_s": 0.133370459,
+    "Psi": 1.1943258209599058e-06,
+    "L_p": 6.355244132340479e-07,
+    "W": 22867384.111692127
+   },
+   "eigen-metis": {
+    "dofs": 36093,
+    "wall_s": 1.2011256217956543,
+    "timing": {
+     "post_s": 0.046917664,
+     "solve_s": 0.427317119
+    },
+    "peak_rss_GB": 0.14398,
+    "backend": "eigen-ldlt",
+    "ordering": "metis",
+    "unknowns": 26320,
+    "nonzeros_L": 857668,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 2.4174393160881734e-13,
+    "symbolic_s": 0.130384309,
+    "factor_s": 0.143516291,
+    "Psi": 1.1943258209601178e-06,
+    "L_p": 6.355244132342758e-07,
+    "W": 22867384.11169212
+   },
+   "strumpack": {
+    "dofs": 36093,
+    "wall_s": 1.3811612129211426,
+    "timing": {
+     "post_s": 0.042967633,
+     "solve_s": 0.492349004
+    },
+    "peak_rss_GB": 0.247516,
+    "backend": "strumpack",
+    "ordering": "strumpack",
+    "unknowns": 26320,
+    "nonzeros_L": 1785572,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 2.886677937136043e-14,
+    "symbolic_s": 0.136297802,
+    "factor_s": 0.138013714,
+    "Psi": 1.1943258209600212e-06,
+    "L_p": 6.355244132341718e-07,
+    "W": 22867384.111692123
+   }
+  },
+  {
+   "size": 0.025,
+   "surface_size": 0.005,
+   "eigen-ldlt": {
+    "dofs": 123963,
+    "wall_s": 4.092328310012817,
+    "timing": {
+     "post_s": 0.112695748,
+     "solve_s": 1.42546882
+    },
+    "peak_rss_GB": 0.506684,
+    "backend": "eigen-ldlt",
+    "ordering": "amd",
+    "unknowns": 94214,
+    "nonzeros_L": 4312557,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 8.76341710116089e-14,
+    "symbolic_s": 0.109142613,
+    "factor_s": 0.781685479,
+    "Psi": 1.1942870693330258e-06,
+    "L_p": 6.355264912138133e-07,
+    "W": 22866362.37008718
+   },
+   "eigen-metis": {
+    "dofs": 123963,
+    "wall_s": 5.055093288421631,
+    "timing": {
+     "post_s": 0.103589095,
+     "solve_s": 1.797491621
+    },
+    "peak_rss_GB": 0.496328,
+    "backend": "eigen-ldlt",
+    "ordering": "metis",
+    "unknowns": 94214,
+    "nonzeros_L": 3785875,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 2.280067598723172e-13,
+    "symbolic_s": 0.556176173,
+    "factor_s": 0.735103728,
+    "Psi": 1.194287069332809e-06,
+    "L_p": 6.355264912135827e-07,
+    "W": 22866362.370087184
+   },
+   "strumpack": {
+    "dofs": 123963,
+    "wall_s": 4.708953142166138,
+    "timing": {
+     "post_s": 0.10579167,
+     "solve_s": 1.751941702
+    },
+    "peak_rss_GB": 0.653172,
+    "backend": "strumpack",
+    "ordering": "strumpack",
+    "unknowns": 94214,
+    "nonzeros_L": 7821036,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 1.1401027128324874e-13,
+    "symbolic_s": 0.557926277,
+    "factor_s": 0.450645995,
+    "Psi": 1.1942870693332661e-06,
+    "L_p": 6.355264912140703e-07,
+    "W": 22866362.370087184
+   }
+  },
+  {
+   "size": 0.0125,
+   "surface_size": 0.0025,
+   "eigen-ldlt": {
+    "dofs": 443729,
+    "wall_s": 18.8633451461792,
+    "timing": {
+     "post_s": 0.30299673,
+     "solve_s": 7.835594678
+    },
+    "peak_rss_GB": 1.47092,
+    "backend": "eigen-ldlt",
+    "ordering": "amd",
+    "unknowns": 357188,
+    "nonzeros_L": 21531083,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 5.135452048492244e-13,
+    "symbolic_s": 0.51875897,
+    "factor_s": 5.172209058,
+    "Psi": 1.1942739213055933e-06,
+    "L_p": 6.355269121427947e-07,
+    "W": 22866076.207511414
+   },
+   "eigen-metis": {
+    "dofs": 443729,
+    "wall_s": 19.70465087890625,
+    "timing": {
+     "post_s": 0.302138382,
+     "solve_s": 8.789217988
+    },
+    "peak_rss_GB": 1.464984,
+    "backend": "eigen-ldlt",
+    "ordering": "metis",
+    "unknowns": 357188,
+    "nonzeros_L": 17696774,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 1.0238331401995838e-12,
+    "symbolic_s": 2.495941072,
+    "factor_s": 4.183044092,
+    "Psi": 1.194273921303668e-06,
+    "L_p": 6.355269121407465e-07,
+    "W": 22866076.207511418
+   },
+   "strumpack": {
+    "dofs": 443729,
+    "wall_s": 18.30428171157837,
+    "timing": {
+     "post_s": 0.320069621,
+     "solve_s": 7.361448489
+    },
+    "peak_rss_GB": 1.625024,
+    "backend": "strumpack",
+    "ordering": "strumpack",
+    "unknowns": 357188,
+    "nonzeros_L": 36344296,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 3.982036721747986e-13,
+    "symbolic_s": 2.446745245,
+    "factor_s": 1.960269269,
+    "Psi": 1.1942739213059598e-06,
+    "L_p": 6.355269121431849e-07,
+    "W": 22866076.207511406
+   }
+  },
+  {
+   "size": 0.008,
+   "surface_size": 0.0016,
+   "eigen-ldlt": {
+    "dofs": 1020298,
+    "wall_s": 748.2129130363464,
+    "timing": {
+     "post_s": 0.990481003,
+     "solve_s": 717.785192293
+    },
+    "peak_rss_GB": 2.768364,
+    "backend": "eigen-ldlt",
+    "ordering": "amd",
+    "unknowns": 855703,
+    "nonzeros_L": 60818177,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 2.047623820667867e-12,
+    "symbolic_s": 690.4136159,
+    "factor_s": 21.586671345,
+    "Psi": 1.1942694554709518e-06,
+    "L_p": 6.355269893158799e-07,
+    "W": 22865985.091860306
+   },
+   "eigen-metis": {
+    "dofs": 1020298,
+    "wall_s": 56.39887881278992,
+    "timing": {
+     "post_s": 0.749093182,
+     "solve_s": 26.566194895
+    },
+    "peak_rss_GB": 2.645272,
+    "backend": "eigen-ldlt",
+    "ordering": "metis",
+    "unknowns": 855703,
+    "nonzeros_L": 47604918,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 5.157535377376993e-13,
+    "symbolic_s": 6.607890353,
+    "factor_s": 14.593337698,
+    "Psi": 1.1942694554736684e-06,
+    "L_p": 6.355269893187733e-07,
+    "W": 22865985.09186028
+   },
+   "strumpack": {
+    "dofs": 1020298,
+    "wall_s": 51.61910820007324,
+    "timing": {
+     "post_s": 0.745666205,
+     "solve_s": 22.628957609
+    },
+    "peak_rss_GB": 2.850788,
+    "backend": "strumpack",
+    "ordering": "strumpack",
+    "unknowns": 855703,
+    "nonzeros_L": 97490391,
+    "dtn_modes": 80,
+    "dtn_assembly": "low-rank",
+    "solve_residual": 2.2853502033862344e-13,
+    "symbolic_s": 7.1773293,
+    "factor_s": 8.104466798,
+    "Psi": 1.1942694554753521e-06,
+    "L_p": 6.355269893205636e-07,
+    "W": 22865985.09186028
+   }
+  }
+ ]
+}

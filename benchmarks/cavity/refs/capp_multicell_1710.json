@@ -1,0 +1,500 @@
+{
+ "name": "capp_multicell_1710",
+ "title": "CAPP multiple-cell (\"pizza\") cavity concept: ideal sector cells and multi-cell vs multi-cavity",
+ "benchmark_rank": "7",
+ "citations": [
+  {
+   "arxiv": "1710.06969",
+   "authors_short": "J. Jeong, S. Youn, S. Ahn, J. E. Kim, Y. K. Semertzidis",
+   "journal": "Phys. Lett. B 777, 412 (2018)",
+   "items_used": [
+    "Table 1",
+    "Table 2",
+    "Table 3",
+    "Eqs. 10-15",
+    "Sec. 5 (double-cell prototype)"
+   ]
+  }
+ ],
+ "software": {
+  "code": "COMSOL Multiphysics",
+  "version": null,
+  "solver_type": "eigenmode (Numerical) and driven with axion source (Numerical^ax)",
+  "boundary": "Table 2: copper impedance walls, no end caps",
+  "mesh_notes": "not given"
+ },
+ "geometry": {
+  "units": "mm",
+  "description": "Table 2/3: ideal circular-sector cells, radius Rc = 25 mm, N = 2,4,6,8 cells of angle theta = 2 pi/N, zero-thickness PEC-like partitions meeting on the axis, infinite length (\"no end caps\"). Table 1: 100 mm magnet bore, cavity height 200 mm, wall thickness 5 mm, quad-cavity (4 separate cylinders) vs quad-cell vs sext-cell. Prototype (Sec. 5): double-cell OFHC, 90 mm ID, 100 mm length, 5 mm wall, 10 mm hollow gap, alumina rods",
+  "parameters": {
+   "Rc_table2": {
+    "value": 25.0,
+    "unit": "mm",
+    "source": "Table 2 caption"
+   },
+   "length_table2": {
+    "value": "infinite (no end caps)",
+    "unit": "",
+    "source": "Table 2 caption"
+   },
+   "partition_thickness_table2": {
+    "value": 0.0,
+    "unit": "mm",
+    "source": "inferred: analytic PEC sector solution (Eq. 11)"
+   },
+   "bore_table1": {
+    "value": 100.0,
+    "unit": "mm",
+    "source": "text p.2"
+   },
+   "height_table1": {
+    "value": 200.0,
+    "unit": "mm",
+    "source": "text p.2"
+   },
+   "wall_thickness_table1": {
+    "value": 5.0,
+    "unit": "mm",
+    "source": "text p.2"
+   },
+   "inner_radius_table1": {
+    "value": 45.0,
+    "unit": "mm",
+    "source": "inferred: bore/2 - wall",
+    "note": "quad-cavity: 4 cylinders of R ~15.7 mm (from f = 7.30 GHz and V = 0.62 L)"
+   },
+   "partition_thickness_table1": {
+    "value": null,
+    "unit": "mm",
+    "source": "not given",
+    "note": "V = 1.08 L (quad) and 1.02 L (sext) vs pi*45^2*200 = 1.272 L imply ~5 mm partitions"
+   },
+   "center_gap_table1": {
+    "value": null,
+    "unit": "mm",
+    "source": "not given",
+    "note": "Sec. 3.4 optimum for quad-cell is d/D = 0.1"
+   },
+   "prototype_ID": {
+    "value": 90.0,
+    "unit": "mm",
+    "source": "Sec. 5"
+   },
+   "prototype_length": {
+    "value": 100.0,
+    "unit": "mm",
+    "source": "Sec. 5"
+   },
+   "prototype_gap": {
+    "value": 10.0,
+    "unit": "mm",
+    "source": "Sec. 5"
+   },
+   "prototype_wall": {
+    "value": 5.0,
+    "unit": "mm",
+    "source": "Sec. 5"
+   },
+   "tuning_rod": {
+    "value": "eps_r = 10 lossless, r/R = 0.1 (simulation); 99.5% Al2O3 in the prototype",
+    "unit": "",
+    "source": "Sec. 3.2, Sec. 5"
+   }
+  }
+ },
+ "materials": {
+  "walls": {
+   "material": "copper",
+   "sigma_S_per_m": 59600000.0,
+   "temperature_K": 293,
+   "source": "Table 2 caption (\"nominal copper ... room temperature\")"
+  }
+ },
+ "conditions": {
+  "temperature_K": 293,
+  "B0_T": null,
+  "B0_direction": "z",
+  "field_map": "uniform (Table 1: \"homogeneous within the magnet bore\")"
+ },
+ "conventions": {
+  "form_factor_definition": "C = |int E.B0 dV|^2 / (int eps|E|^2 dV int |B0|^2 dV) (Eq. 2)",
+  "Q_definition": "Q = omega U / P_loss with P_loss = (1/(2 sigma mu^2 delta)) int |n x B|^2 dA (Eqs. 12-14); Table 2 excludes end caps",
+  "notes": "Table 3 ratios are relative to the empty cylinder (N=0) of the same Rc at its own frequency"
+ },
+ "reference_values": {
+  "tables": [
+   {
+    "source": "Table 1 p.2",
+    "simulated": true,
+    "description": "multi-cavity vs multi-cell in a 100 mm bore (COMSOL, RT, unloaded Q); P and df/dt relative to quad-cavity",
+    "columns": [
+     "quantity",
+     "quad-cavity",
+     "quad-cell",
+     "sext-cell"
+    ],
+    "units": [
+     "",
+     "",
+     "",
+     ""
+    ],
+    "rows": [
+     [
+      "V [L]",
+      0.62,
+      1.08,
+      1.02
+     ],
+     [
+      "f_TM010 [GHz]",
+      7.3,
+      5.89,
+      7.6
+     ],
+     [
+      "Q",
+      19150,
+      19100,
+      16910
+     ],
+     [
+      "C",
+      0.69,
+      0.65,
+      0.63
+     ],
+     [
+      "P_a->gg (rel.)",
+      1.0,
+      1.65,
+      1.32
+     ],
+     [
+      "df/dt (rel.)",
+      1.0,
+      2.72,
+      1.98
+     ]
+    ]
+   },
+   {
+    "source": "Table 2 p.3",
+    "simulated": true,
+    "description": "Q of N-cell cavity, no end caps, Rc = 25 mm, sigma = 5.96e7 S/m; parentheses = % deviation from analytic",
+    "columns": [
+     "N_cells",
+     "theta",
+     "Q_analytical",
+     "Q_numerical",
+     "Q_numerical_ax"
+    ],
+    "units": [
+     "",
+     "rad",
+     "",
+     "",
+     ""
+    ],
+    "rows": [
+     [
+      2,
+      "pi",
+      17794,
+      "17,819 (0.1)",
+      "17,836 (0.2)"
+     ],
+     [
+      4,
+      "pi/2",
+      16151,
+      "16,151 (0.0)",
+      "16,335 (1.1)"
+     ],
+     [
+      6,
+      "pi/3",
+      14320,
+      "14,310 (0.1)",
+      "14,325 (0.0)"
+     ],
+     [
+      8,
+      "pi/4",
+      12907,
+      "12,851 (0.4)",
+      "12,930 (0.2)"
+     ]
+    ]
+   },
+   {
+    "source": "Table 3 p.3",
+    "simulated": true,
+    "description": "TM010-like frequency, Q and loss ratio relative to N = 0 (same geometry as Table 2)",
+    "columns": [
+     "N_cells",
+     "theta",
+     "omega/omega0",
+     "Q/Q0",
+     "P_loss(rad B_phi)/P_loss(azi B_r)"
+    ],
+    "units": [
+     "",
+     "rad",
+     "",
+     "",
+     ""
+    ],
+    "rows": [
+     [
+      0,
+      "no wall",
+      1.0,
+      1.0,
+      0.0
+     ],
+     [
+      2,
+      "pi",
+      1.59,
+      0.68,
+      0.84
+     ],
+     [
+      4,
+      "pi/2",
+      2.14,
+      0.62,
+      1.36
+     ],
+     [
+      6,
+      "pi/3",
+      2.65,
+      0.55,
+      1.96
+     ],
+     [
+      8,
+      "pi/4",
+      3.16,
+      0.5,
+      2.59
+     ]
+    ]
+   }
+  ],
+  "curves": [],
+  "analytic_check": {
+   "description": "closed-form TM_{nu 1} sector mode, Ez = J_nu(chi r/Rc) sin(nu phi), nu = N/2, computed by digitize/capp_sector_analytic.py (quadrature to 1e-13): Q = (2/delta) k^2 int|Ez|^2 dA / oint|dEz/dn|^2 dl, C = |int Ez dA|^2/(A int|Ez|^2 dA)",
+   "rows": [
+    {
+     "N_cells": 0,
+     "nu": 0.0,
+     "chi": 2.404826,
+     "f_GHz": 4.5897,
+     "delta_um": 0.96229,
+     "Q_no_endcaps": 25979.8,
+     "Q_over_Q0": 1.0,
+     "w_over_w0": 1.0,
+     "Prad_over_Pazi": 0.0,
+     "C": 0.69166,
+     "paper_table3": {
+      "w_over_w0": 1.0,
+      "Q_over_Q0": 1.0,
+      "Prad_over_Pazi": 0.0
+     }
+    },
+    {
+     "N_cells": 2,
+     "nu": 1.0,
+     "chi": 3.831706,
+     "f_GHz": 7.31296,
+     "delta_um": 0.76234,
+     "Q_no_endcaps": 17737.5,
+     "Q_over_Q0": 0.6827,
+     "w_over_w0": 1.5933,
+     "Prad_over_Pazi": 0.8488,
+     "C": 0.64402,
+     "paper_table3": {
+      "w_over_w0": 1.59,
+      "Q_over_Q0": 0.68,
+      "Prad_over_Pazi": 0.84
+     },
+     "paper_table2": {
+      "analytical": 17794,
+      "numerical": 17819,
+      "numerical_ax": 17836
+     },
+     "our_Q_minus_paper_analytical_pct": -0.317,
+     "paper_COMSOL_minus_our_Q_pct": 0.459
+    },
+    {
+     "N_cells": 4,
+     "nu": 2.0,
+     "chi": 5.135622,
+     "f_GHz": 9.80153,
+     "delta_um": 0.65849,
+     "Q_no_endcaps": 16099.9,
+     "Q_over_Q0": 0.6197,
+     "w_over_w0": 2.1355,
+     "Prad_over_Pazi": 1.3581,
+     "C": 0.64928,
+     "paper_table3": {
+      "w_over_w0": 2.14,
+      "Q_over_Q0": 0.62,
+      "Prad_over_Pazi": 1.36
+     },
+     "paper_table2": {
+      "analytical": 16151,
+      "numerical": 16151,
+      "numerical_ax": 16335
+     },
+     "our_Q_minus_paper_analytical_pct": -0.316,
+     "paper_COMSOL_minus_our_Q_pct": 0.317
+    },
+    {
+     "N_cells": 6,
+     "nu": 3.0,
+     "chi": 6.380162,
+     "f_GHz": 12.17678,
+     "delta_um": 0.59079,
+     "Q_no_endcaps": 14274.8,
+     "Q_over_Q0": 0.5495,
+     "w_over_w0": 2.6531,
+     "Prad_over_Pazi": 1.9644,
+     "C": 0.63411,
+     "paper_table3": {
+      "w_over_w0": 2.65,
+      "Q_over_Q0": 0.55,
+      "Prad_over_Pazi": 1.96
+     },
+     "paper_table2": {
+      "analytical": 14320,
+      "numerical": 14310,
+      "numerical_ax": 14325
+     },
+     "our_Q_minus_paper_analytical_pct": -0.316,
+     "paper_COMSOL_minus_our_Q_pct": 0.247
+    },
+    {
+     "N_cells": 8,
+     "nu": 4.0,
+     "chi": 7.588342,
+     "f_GHz": 14.48264,
+     "delta_um": 0.54172,
+     "Q_no_endcaps": 12866.1,
+     "Q_over_Q0": 0.4952,
+     "w_over_w0": 3.1555,
+     "Prad_over_Pazi": 2.5869,
+     "C": 0.61317,
+     "paper_table3": {
+      "w_over_w0": 3.16,
+      "Q_over_Q0": 0.5,
+      "Prad_over_Pazi": 2.59
+     },
+     "paper_table2": {
+      "analytical": 12907,
+      "numerical": 12851,
+      "numerical_ax": 12930
+     },
+     "our_Q_minus_paper_analytical_pct": -0.317,
+     "paper_COMSOL_minus_our_Q_pct": -0.118
+    }
+   ],
+   "findings": [
+    "omega/omega0, Q/Q0, Prad/Pazi (0.849 vs printed 0.84 for N=2; others agree to rounding) and C reproduce Table 3 / 2205.01319 Table 2",
+    "our analytic Q with the stated sigma = 5.96e7 S/m is 0.32% BELOW the paper analytic values for every N; the constant ratio implies the paper effectively used sigma = 5.998e+07 S/m, which is exactly COMSOL's built-in copper (5.998e7 S/m) - the likely explanation (analytic column evaluated with the material-library value, not the caption value). Use our closed form (stated sigma) as the axionFEM target; the paper COMSOL values agree with it to +0.46/+0.32/+0.25/-0.12 % (N = 2/4/6/8)",
+    "C (uniform Bz) is the same for one cell and for all N cells in phase: 0.6440 / 0.6493 / 0.6341 / 0.6132 for N = 2/4/6/8"
+   ]
+  }
+ },
+ "measured_values": {
+  "tables": [
+   {
+    "source": "Sec. 5 text",
+    "simulated": false,
+    "description": "double-cell prototype at RT",
+    "columns": [
+     "quantity",
+     "value"
+    ],
+    "units": [
+     "",
+     ""
+    ],
+    "rows": [
+     [
+      "f TM010-like (no rods?) [GHz]",
+      4.2
+     ],
+     [
+      "Q0",
+      13500
+     ],
+     [
+      "TM010-like tuning range with rods [GHz]",
+      "3.6-4.0 (Fig. 9)"
+     ],
+     [
+      "TE211-like crossing [GHz]",
+      3.625
+     ]
+    ]
+   }
+  ],
+  "note": "Fig. 9 measured mode map not digitized (rod positions unknown, measurement only)"
+ },
+ "gaps": [
+  {
+   "parameter": "Table 1 partition thickness, centre gap, rod presence",
+   "issue": "not stated",
+   "proposal": "infer from volumes (5 mm partitions; V(quad) = 1.08 L suggests partitions nearly to the axis, V(sext) = 1.02 L suggests a ~4.5 mm gap); sweep t in {0, 5 mm} and Rg in {0, 0.05, 0.1}*Rc and match f and V; treat Table 1 as P2 sanity only"
+  },
+  {
+   "parameter": "prototype rod size / pivot",
+   "issue": "alumina rod diameter and trajectory not given",
+   "proposal": "do not benchmark Fig. 9"
+  }
+ ],
+ "inconsistencies": [
+  {
+   "description": "Table 2 analytic Q vs stated sigma",
+   "evidence": "closed form with sigma = 5.96e7 S/m gives 17737.5/16099.9/14274.8/12866.1, uniformly 0.32% below the printed 17794/16151/14320/12907; the implied sigma = 5.998e7 S/m equals COMSOL's built-in copper conductivity (likely explanation: the analytic column used the COMSOL material value)",
+   "proposal": "benchmark against the closed form with the stated sigma (or with 5.998e7 to compare digit-for-digit with the paper); quote the paper COMSOL numbers as secondary (agreement within 0.5%)"
+  },
+  {
+   "description": "mode naming of the double-cell prototype",
+   "evidence": "Sec. 3.3/5 text: second mode is TM110-like; Fig. 9 caption: \"TM011-like\"; Fig. 7 caption: \"TM010-like and TM020-like\"",
+   "proposal": "irrelevant for the ideal-sector benchmark; ignore"
+  },
+  {
+   "description": "prototype frequency",
+   "evidence": "Sec. 5: TM010-like at 4.2 GHz; Fig. 9 tuning range 3.6-4.0 GHz",
+   "proposal": "4.2 GHz presumably without rods (empty double cell: chi11 c/(2 pi 45 mm) = 4.06 GHz for zero-thickness partition, higher with 5 mm partition) - unverified"
+  },
+  {
+   "description": "Eq. 16 (loss ratio P_rad/P_azi) has a typo in the paper itself (rendered p.3, not an extraction artefact)",
+   "evidence": "with J_{n/2}(chi) = 0 the printed form reduces to 4 n^3/(pi (n^2 - 1)) = 3.40 at n = 2, vs Table 3 0.84. With the denominator corrected to (J_{n/2-1}(chi) - J_{n/2+1}(chi))^2 it reduces to n^3/(pi (n^2 - 1)) = 0.849/1.358/1.964/2.587 for n = 2/4/6/8 = Table 3 (0.84/1.36/1.96/2.59) and = our quadrature",
+   "proposal": "use the corrected closed form n^3/(pi (n^2 - 1)) (n = number of cells) or the direct integral"
+  },
+  {
+   "description": "form-factor volume convention",
+   "evidence": "Eq. 2 integrates |B0|^2 over \"the cavity volume\" without saying whether partitions are excluded. For Tables 2-3 (zero-thickness partitions) the question is moot. Table 1 gives V = 1.08 L (quad-cell) and 1.02 L (sext-cell) vs pi 45^2 200 mm^3 = 1.272 L for the full 90 mm x 200 mm bore cylinder, i.e. V is the vacuum volume (partitions excluded, 15% / 20% of the cylinder); its relative columns follow P ~ C V Q (1.636 vs printed 1.65 quad-cell, 1.326 vs 1.32 sext-cell) and df/dt ~ C^2 V^2 Q (2.68 vs 2.72, 1.99 vs 1.98), so C is quoted together with the vacuum V. Whether C itself was normalized by V_vac is not stated",
+   "proposal": "for Table 1, report axionFEM C both ways (V = vacuum volume and V = full cylinder) and compare the products C V"
+  }
+ ],
+ "solver_class": {
+  "axisymmetric_2d_possible": false,
+  "needs_3d": false,
+  "reason": "ideal sector cells are z-invariant TM modes: a 2D scalar Helmholtz problem on the sector (or a 3D extrusion with PEC/impedance ends). Not axisymmetric. Closed forms exist (P0 analytic check, no FEM needed). Table 1 and the prototype need 3D"
+ },
+ "priority": "P0",
+ "priority_reason": "closed-form analytic reference for f, Q (walls only), C; tabulated COMSOL agrees to <0.5%",
+ "readme_row": {
+  "quantities": "Tab 2: Q (no end caps) for 2/4/6/8 sector cells; Tab 3: w/w0, Q/Q0, loss ratio; Tab 1: f, Q, C, V; closed-form check",
+  "geometry_complete": "yes (Tables 2-3); no (Table 1: partition thickness/gap)",
+  "axisym_2d": "no (2D cross-section / closed form)",
+  "needs_3d": "Table 1 only"
+ }
+}

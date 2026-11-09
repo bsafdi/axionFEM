@@ -1,0 +1,212 @@
+{
+ "schema": "axionfem.design/1",
+ "name": "toroid_small_shield_epoxy",
+ "symmetry": "3d",
+ "notes": "Replica of the 2022 COMSOL model Toroid_With_Epoxy/Small_Shield.mph (arXiv:2211.00008, shielded LOSSY toroid). Identical to toroid_small_shield_lossless.json (same sheath, bridge, port, shield, source, mesh C settings) plus the TACHYON 100G region of the COMSOL file: wp1 squares sq2 (corner 0.525,0.025; side 0.45) and sq3 (corner 0.5475,0.0475; side 0.405) revolved 0-355 deg; COMSOL domain 3 = sq2 minus sq3 (decoded mesh: r 0.530-0.974, z 0.027-0.469) carries mat4, i.e. a hollow square lining 2.25 cm thick on the inside of the 2.5 cm walls, open at the gap faces like the interior. Area (= volume, both centroids at R = 0.75) fraction of the interior: (0.45^2-0.405^2)/0.45^2 = 19.0 %, the paper's ~20 % 'lossier' case (Fig. S3). Material (COMSOL LossTangentDF): eps' = linear interpolation/extrapolation of (2 GHz, 3.04), (5 GHz, 3.02), (10 GHz, 3.02) -> 3.05333 - 6.667e-12 f[Hz] (3.0533 at 5 MHz, 3.0523 at 150 MHz), tan_delta = 0.0021, mu_r 1, sigma 0. COMSOL (exp(+jwt)) eps = eps'(1 - j tan_delta) == axionFEM (exp(-iwt)) eps'(1 + i tan_delta). The per-frequency production jobs set eps_r to eps'(f). The axion source (COMSOL Je on domains 3 and 4 = whole interior) is the same toroidal_box as the lossless replica. Solver: AMS-GMRES (the STRUMPACK path rejects complex material coefficients), one frequency per job.",
+ "regions": [
+  {
+   "name": "sheath",
+   "material": "superconductor",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "frame": {
+       "r": [
+        0.5,
+        1.0
+       ],
+       "z": [
+        0.0,
+        0.5
+       ],
+       "thickness": 0.025
+      }
+     },
+     "angles": [
+      0,
+      355
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "epoxy",
+   "material": "tachyon_100g",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "frame": {
+       "r": [
+        0.525,
+        0.975
+       ],
+       "z": [
+        0.025,
+        0.475
+       ],
+       "thickness": 0.0225
+      }
+     },
+     "angles": [
+      0,
+      355
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "bridge",
+   "material": "superconductor",
+   "surface_size": 0.0003,
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        1.0,
+        1.0002
+       ],
+       "z": [
+        0.24,
+        0.241
+       ]
+      }
+     },
+     "angles": [
+      354,
+      361
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "name": "port",
+   "material": "vacuum",
+   "surface_size": 0.0001,
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        1.0,
+        1.0002
+       ],
+       "z": [
+        0.24,
+        0.241
+       ]
+      }
+     },
+     "angles": [
+      357.0,
+      357.01
+     ],
+     "center": [
+      0,
+      0,
+      0
+     ],
+     "axis": [
+      0,
+      0,
+      1
+     ]
+    }
+   }
+  }
+ ],
+ "pickup": {
+  "type": "port",
+  "port": "port",
+  "toward": [
+   0.052248809176828365,
+   0.9986340981258368,
+   0.0
+  ]
+ },
+ "fullwave": {
+  "frequencies": [
+   20000000.0
+  ],
+  "boundary": "pec",
+  "source": {
+   "kind": "toroidal_box",
+   "B0_T": 1.0,
+   "r_m": [
+    0.525,
+    0.975
+   ],
+   "z_m": [
+    0.025,
+    0.475
+   ],
+   "phi_deg": [
+    0,
+    355
+   ],
+   "profile": "uniform"
+  },
+  "rf_only": true
+ },
+ "mesh": {
+  "order": 2,
+  "size": 0.1,
+  "surface_size": 0.02,
+  "domain_radius": 1.65,
+  "remove_pec": true,
+  "domain_solid": {
+   "cylinder": {
+    "base": [
+     0,
+     0,
+     -0.25
+    ],
+    "axis": [
+     0,
+     0,
+     1.0
+    ],
+    "radius": 1.5
+   }
+  },
+  "threads": 16
+ },
+ "materials": {
+  "tachyon_100g": {
+   "kind": "linear",
+   "mu_r": 1.0,
+   "eps_r": 3.05333,
+   "tan_delta": 0.0021
+  }
+ }
+}

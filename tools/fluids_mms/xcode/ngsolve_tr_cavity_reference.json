@@ -1,0 +1,104 @@
+{
+ "code": "NGSolve",
+ "quantities": {
+  "lap_newton_Diss_t1_N32": 0.017281326027609862,
+  "lap_newton_Diss_t1_N64": 0.01730193940403064,
+  "lap_newton_Diss_t2_N32": 0.015818885512927604,
+  "lap_newton_Diss_t2_N64": 0.015839820340170646,
+  "lap_newton_Ekin_t1_N32": 0.004342818702658724,
+  "lap_newton_Ekin_t1_N64": 0.0043432675237740845,
+  "lap_newton_Ekin_t2_N32": 0.007696258191941953,
+  "lap_newton_Ekin_t2_N64": 0.007690008209955924,
+  "lap_newton_Enst_t1_N32": 6.911753072274153,
+  "lap_newton_Enst_t1_N64": 6.920727843262045,
+  "lap_newton_Enst_t2_N32": 6.32603506178152,
+  "lap_newton_Enst_t2_N64": 6.335849083570096,
+  "lap_semi_Diss_t1_N32": 0.017283734343035755,
+  "lap_semi_Diss_t1_N64": 0.017304444688526942,
+  "lap_semi_Diss_t2_N32": 0.015820037373201708,
+  "lap_semi_Diss_t2_N64": 0.015840974523007197,
+  "lap_semi_Ekin_t1_N32": 0.004343074665960424,
+  "lap_semi_Ekin_t1_N64": 0.004343511542888128,
+  "lap_semi_Ekin_t2_N32": 0.007696088546221448,
+  "lap_semi_Ekin_t2_N64": 0.007689834899080809,
+  "lap_semi_Enst_t1_N32": 6.912714316029696,
+  "lap_semi_Enst_t1_N64": 6.9217298238896054,
+  "lap_semi_Enst_t2_N32": 6.326495279006078,
+  "lap_semi_Enst_t2_N64": 6.33631073628289,
+  "sym_newton_Diss_t1_N32": 0.017281522108229537,
+  "sym_newton_Diss_t1_N64": 0.01730191407049333,
+  "sym_newton_Diss_t2_N32": 0.01582049780752941,
+  "sym_newton_Diss_t2_N64": 0.015839789086488636,
+  "sym_newton_Ekin_t1_N32": 0.004343182728703396,
+  "sym_newton_Ekin_t1_N64": 0.004343296014733427,
+  "sym_newton_Ekin_t2_N32": 0.007696539317346807,
+  "sym_newton_Ekin_t2_N64": 0.007690018221078237,
+  "sym_newton_Enst_t1_N32": 6.911462836980401,
+  "sym_newton_Enst_t1_N64": 6.920684584975391,
+  "sym_newton_Enst_t2_N32": 6.326197101114216,
+  "sym_newton_Enst_t2_N64": 6.335783938404115
+ },
+ "solver": {
+  "lap_newton_t1_N32": {
+   "converged": true,
+   "iterations": 100,
+   "relative_residual": 8.66537991672197e-15
+  },
+  "lap_newton_t1_N64": {
+   "converged": true,
+   "iterations": 100,
+   "relative_residual": 4.101762934238692e-15
+  },
+  "lap_newton_t2_N32": {
+   "converged": true,
+   "iterations": 200,
+   "relative_residual": 8.66537991672197e-15
+  },
+  "lap_newton_t2_N64": {
+   "converged": true,
+   "iterations": 200,
+   "relative_residual": 4.101762934238692e-15
+  },
+  "lap_semi_t1_N32": {
+   "converged": true,
+   "iterations": 50,
+   "relative_residual": 1.1615099739447065e-15
+  },
+  "lap_semi_t1_N64": {
+   "converged": true,
+   "iterations": 50,
+   "relative_residual": 2.6927846799998204e-15
+  },
+  "lap_semi_t2_N32": {
+   "converged": true,
+   "iterations": 100,
+   "relative_residual": 1.1615099739447065e-15
+  },
+  "lap_semi_t2_N64": {
+   "converged": true,
+   "iterations": 100,
+   "relative_residual": 2.6927846799998204e-15
+  },
+  "sym_newton_t1_N32": {
+   "converged": true,
+   "iterations": 100,
+   "relative_residual": 7.0264889116339776e-15
+  },
+  "sym_newton_t1_N64": {
+   "converged": true,
+   "iterations": 100,
+   "relative_residual": 3.959256839387507e-15
+  },
+  "sym_newton_t2_N32": {
+   "converged": true,
+   "iterations": 200,
+   "relative_residual": 7.0264889116339776e-15
+  },
+  "sym_newton_t2_N64": {
+   "converged": true,
+   "iterations": 200,
+   "relative_residual": 3.959256839387507e-15
+  }
+ },
+ "version": "6.2.2608"
+}

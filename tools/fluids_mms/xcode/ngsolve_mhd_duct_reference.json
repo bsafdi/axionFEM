@@ -1,0 +1,40 @@
+{
+ "case": "xcode_mhd_duct_2d",
+ "code": "NGSolve",
+ "diagnostics": {
+  "hunt_Ha100_k1": {
+   "ndof": 17092,
+   "relative_residual": 2.936686874861266e-15
+  },
+  "hunt_Ha100_k2": {
+   "ndof": 68996,
+   "relative_residual": 9.740336636941835e-15
+  },
+  "shercliff_Ha100_k1": {
+   "ndof": 17223,
+   "relative_residual": 1.359418061040626e-13
+  },
+  "shercliff_Ha100_k2": {
+   "ndof": 69255,
+   "relative_residual": 5.805025748292399e-13
+  }
+ },
+ "format": "axionfem.fluids.xcode_output/1",
+ "quantities": {
+  "hunt_Ha100_k1_M_var_h": -0.03751287190866605,
+  "hunt_Ha100_k1_Q_h": 0.003103064955147698,
+  "hunt_Ha100_k1_phi_side_h": -0.04284030699527584,
+  "hunt_Ha100_k1_w_center_h": 0.00020256773796081617,
+  "hunt_Ha100_k2_M_var_h": -0.03751968859326111,
+  "hunt_Ha100_k2_Q_h": 0.003120601911871004,
+  "hunt_Ha100_k2_phi_side_h": -0.04305624969684452,
+  "hunt_Ha100_k2_w_center_h": 0.00020257982523565318,
+  "shercliff_Ha100_k1_Q_h": 0.07239731003024905,
+  "shercliff_Ha100_k1_dphi_side_h": -1.8298073540736284,
+  "shercliff_Ha100_k1_w_center_h": 0.01999764969960887,
+  "shercliff_Ha100_k2_Q_h": 0.07243219705523143,
+  "shercliff_Ha100_k2_dphi_side_h": -1.8306341301705933,
+  "shercliff_Ha100_k2_w_center_h": 0.019999842774233854
+ },
+ "version": "6.2.2608"
+}

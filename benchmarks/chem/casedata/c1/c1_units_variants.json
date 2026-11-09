@@ -1,0 +1,897 @@
+{
+ "conversions": "1 L = 1e-3 m^3, 1 cm^3 = 1e-6 m^3, 1 min = 60 s, 1 cal = 4.184 J",
+ "variants": {
+  "A2m_SI": {
+   "T": null,
+   "c": [
+    0.9,
+    0.4
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 0.8,
+      "Ea": 0.0,
+      "Kc": 2.0,
+      "products": {
+       "B": 2
+      },
+      "reactants": {
+       "A": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B"
+    ],
+    "units": {
+     "concentration": "mol/m^3",
+     "energy": "J/mol",
+     "time": "s"
+    }
+   }
+  },
+  "A2m_molL_min": {
+   "T": null,
+   "c": [
+    0.0009,
+    0.0004
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 48.0,
+      "Ea": 0.0,
+      "Kc": 0.002,
+      "products": {
+       "B": 2
+      },
+      "reactants": {
+       "A": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B"
+    ],
+    "units": {
+     "concentration": "mol/L",
+     "energy": "cal/mol",
+     "time": "min"
+    }
+   }
+  },
+  "A2m_molL_s_J": {
+   "T": null,
+   "c": [
+    0.0009,
+    0.0004
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 0.8,
+      "Ea": 0.0,
+      "Kc": 0.002,
+      "products": {
+       "B": 2
+      },
+      "reactants": {
+       "A": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B"
+    ],
+    "units": {
+     "concentration": "mol/L",
+     "energy": "J/mol",
+     "time": "s"
+    }
+   }
+  },
+  "A2m_molcm3_s_kcal": {
+   "T": null,
+   "c": [
+    9.000000000000001e-07,
+    4.0000000000000003e-07
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 0.8,
+      "Ea": 0.0,
+      "Kc": 2e-06,
+      "products": {
+       "B": 2
+      },
+      "reactants": {
+       "A": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B"
+    ],
+    "units": {
+     "concentration": "mol/cm^3",
+     "energy": "kcal/mol",
+     "time": "s"
+    }
+   }
+  },
+  "M1_SI": {
+   "T": null,
+   "c": [
+    1.1,
+    0.8,
+    0.6,
+    0.5,
+    0.7
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 0.9,
+      "Ea": 0.0,
+      "products": {
+       "B": 1
+      },
+      "reactants": {
+       "A": 1
+      }
+     },
+     {
+      "A": 0.6,
+      "Ea": 0.0,
+      "Kc": 2.5,
+      "products": {
+       "C": 1
+      },
+      "reactants": {
+       "A": 1,
+       "B": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 0.35,
+      "Ea": 0.0,
+      "products": {
+       "D": 1
+      },
+      "reactants": {
+       "C": 2
+      }
+     },
+     {
+      "A": 0.25,
+      "Ea": 0.0,
+      "products": {
+       "E": 1
+      },
+      "reactants": {}
+     },
+     {
+      "A": 0.5,
+      "Ea": 0.0,
+      "kr": {
+       "A": 0.15,
+       "Ea": 0.0
+      },
+      "products": {
+       "A": 2,
+       "E": 1
+      },
+      "reactants": {
+       "B": 1,
+       "D": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 0.3,
+      "Ea": 0.0,
+      "orders": {
+       "A": 0.5,
+       "C": 1.5
+      },
+      "products": {
+       "E": 1
+      },
+      "reactants": {
+       "A": 1,
+       "C": 1
+      }
+     },
+     {
+      "A": 0.4,
+      "Ea": 0.0,
+      "Kc": 0.8,
+      "products": {
+       "E": 2
+      },
+      "reactants": {
+       "D": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B",
+     "C",
+     "D",
+     "E"
+    ],
+    "units": {
+     "concentration": "mol/m^3",
+     "energy": "J/mol",
+     "time": "s"
+    }
+   }
+  },
+  "M1_molL_min": {
+   "T": null,
+   "c": [
+    0.0011,
+    0.0008,
+    0.0006,
+    0.0005,
+    0.0007
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 54.0,
+      "Ea": 0.0,
+      "products": {
+       "B": 1
+      },
+      "reactants": {
+       "A": 1
+      }
+     },
+     {
+      "A": 36000.0,
+      "Ea": 0.0,
+      "Kc": 2500.0,
+      "products": {
+       "C": 1
+      },
+      "reactants": {
+       "A": 1,
+       "B": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 21000.0,
+      "Ea": 0.0,
+      "products": {
+       "D": 1
+      },
+      "reactants": {
+       "C": 2
+      }
+     },
+     {
+      "A": 0.015,
+      "Ea": 0.0,
+      "products": {
+       "E": 1
+      },
+      "reactants": {}
+     },
+     {
+      "A": 30000.0,
+      "Ea": 0.0,
+      "kr": {
+       "A": 9000000.0,
+       "Ea": 0.0
+      },
+      "products": {
+       "A": 2,
+       "E": 1
+      },
+      "reactants": {
+       "B": 1,
+       "D": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 18000.0,
+      "Ea": 0.0,
+      "orders": {
+       "A": 0.5,
+       "C": 1.5
+      },
+      "products": {
+       "E": 1
+      },
+      "reactants": {
+       "A": 1,
+       "C": 1
+      }
+     },
+     {
+      "A": 24.0,
+      "Ea": 0.0,
+      "Kc": 0.0008,
+      "products": {
+       "E": 2
+      },
+      "reactants": {
+       "D": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B",
+     "C",
+     "D",
+     "E"
+    ],
+    "units": {
+     "concentration": "mol/L",
+     "energy": "cal/mol",
+     "time": "min"
+    }
+   }
+  },
+  "M1_molL_s_J": {
+   "T": null,
+   "c": [
+    0.0011,
+    0.0008,
+    0.0006,
+    0.0005,
+    0.0007
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 0.9,
+      "Ea": 0.0,
+      "products": {
+       "B": 1
+      },
+      "reactants": {
+       "A": 1
+      }
+     },
+     {
+      "A": 600.0,
+      "Ea": 0.0,
+      "Kc": 2500.0,
+      "products": {
+       "C": 1
+      },
+      "reactants": {
+       "A": 1,
+       "B": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 350.0,
+      "Ea": 0.0,
+      "products": {
+       "D": 1
+      },
+      "reactants": {
+       "C": 2
+      }
+     },
+     {
+      "A": 0.00025,
+      "Ea": 0.0,
+      "products": {
+       "E": 1
+      },
+      "reactants": {}
+     },
+     {
+      "A": 500.0,
+      "Ea": 0.0,
+      "kr": {
+       "A": 150000.0,
+       "Ea": 0.0
+      },
+      "products": {
+       "A": 2,
+       "E": 1
+      },
+      "reactants": {
+       "B": 1,
+       "D": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 300.0,
+      "Ea": 0.0,
+      "orders": {
+       "A": 0.5,
+       "C": 1.5
+      },
+      "products": {
+       "E": 1
+      },
+      "reactants": {
+       "A": 1,
+       "C": 1
+      }
+     },
+     {
+      "A": 0.4,
+      "Ea": 0.0,
+      "Kc": 0.0008,
+      "products": {
+       "E": 2
+      },
+      "reactants": {
+       "D": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B",
+     "C",
+     "D",
+     "E"
+    ],
+    "units": {
+     "concentration": "mol/L",
+     "energy": "J/mol",
+     "time": "s"
+    }
+   }
+  },
+  "M1_molcm3_s_kcal": {
+   "T": null,
+   "c": [
+    1.1e-06,
+    8.000000000000001e-07,
+    6e-07,
+    5e-07,
+    7e-07
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 0.9,
+      "Ea": 0.0,
+      "products": {
+       "B": 1
+      },
+      "reactants": {
+       "A": 1
+      }
+     },
+     {
+      "A": 600000.0,
+      "Ea": 0.0,
+      "Kc": 2500000.0,
+      "products": {
+       "C": 1
+      },
+      "reactants": {
+       "A": 1,
+       "B": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 350000.0,
+      "Ea": 0.0,
+      "products": {
+       "D": 1
+      },
+      "reactants": {
+       "C": 2
+      }
+     },
+     {
+      "A": 2.5e-07,
+      "Ea": 0.0,
+      "products": {
+       "E": 1
+      },
+      "reactants": {}
+     },
+     {
+      "A": 500000.0,
+      "Ea": 0.0,
+      "kr": {
+       "A": 150000000000.0,
+       "Ea": 0.0
+      },
+      "products": {
+       "A": 2,
+       "E": 1
+      },
+      "reactants": {
+       "B": 1,
+       "D": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 300000.0,
+      "Ea": 0.0,
+      "orders": {
+       "A": 0.5,
+       "C": 1.5
+      },
+      "products": {
+       "E": 1
+      },
+      "reactants": {
+       "A": 1,
+       "C": 1
+      }
+     },
+     {
+      "A": 0.4,
+      "Ea": 0.0,
+      "Kc": 8.000000000000001e-07,
+      "products": {
+       "E": 2
+      },
+      "reactants": {
+       "D": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B",
+     "C",
+     "D",
+     "E"
+    ],
+    "units": {
+     "concentration": "mol/cm^3",
+     "energy": "kcal/mol",
+     "time": "s"
+    }
+   }
+  },
+  "M2_SI": {
+   "T": 330.0,
+   "c": [
+    0.9,
+    0.7,
+    0.4,
+    0.6,
+    0.5
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 2000.0,
+      "Ea": 20000.0,
+      "dH": -40000.0,
+      "n": 0.0,
+      "products": {
+       "B": 1
+      },
+      "reactants": {
+       "A": 1
+      }
+     },
+     {
+      "A": 5.0,
+      "Ea": 12000.0,
+      "dH": -25000.0,
+      "n": 0.5,
+      "products": {
+       "C": 1
+      },
+      "reactants": {
+       "B": 1
+      }
+     },
+     {
+      "A": 8.0,
+      "Ea": 6000.0,
+      "Kc": 1.5,
+      "dH": 0.0,
+      "products": {
+       "D": 1
+      },
+      "reactants": {
+       "B": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 3.0,
+      "Ea": 9000.0,
+      "dH": -10000.0,
+      "kr": {
+       "A": 0.2,
+       "Ea": 19000.0,
+       "n": 0.5
+      },
+      "products": {
+       "E": 1
+      },
+      "reactants": {
+       "C": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B",
+     "C",
+     "D",
+     "E"
+    ],
+    "units": {
+     "concentration": "mol/m^3",
+     "energy": "J/mol",
+     "time": "s"
+    }
+   }
+  },
+  "M2_molL_min": {
+   "T": 330.0,
+   "c": [
+    0.0009,
+    0.0007,
+    0.0004,
+    0.0006,
+    0.0005
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 120000.0,
+      "Ea": 4780.114722753346,
+      "dH": -9560.229445506691,
+      "n": 0.0,
+      "products": {
+       "B": 1
+      },
+      "reactants": {
+       "A": 1
+      }
+     },
+     {
+      "A": 300.0,
+      "Ea": 2868.0688336520075,
+      "dH": -5975.1434034416825,
+      "n": 0.5,
+      "products": {
+       "C": 1
+      },
+      "reactants": {
+       "B": 1
+      }
+     },
+     {
+      "A": 480.0,
+      "Ea": 1434.0344168260037,
+      "Kc": 1.5,
+      "dH": 0.0,
+      "products": {
+       "D": 1
+      },
+      "reactants": {
+       "B": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 180.0,
+      "Ea": 2151.0516252390057,
+      "dH": -2390.057361376673,
+      "kr": {
+       "A": 12.0,
+       "Ea": 4541.108986615679,
+       "n": 0.5
+      },
+      "products": {
+       "E": 1
+      },
+      "reactants": {
+       "C": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B",
+     "C",
+     "D",
+     "E"
+    ],
+    "units": {
+     "concentration": "mol/L",
+     "energy": "cal/mol",
+     "time": "min"
+    }
+   }
+  },
+  "M2_molL_s_J": {
+   "T": 330.0,
+   "c": [
+    0.0009,
+    0.0007,
+    0.0004,
+    0.0006,
+    0.0005
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 2000.0,
+      "Ea": 20000.0,
+      "dH": -40000.0,
+      "n": 0.0,
+      "products": {
+       "B": 1
+      },
+      "reactants": {
+       "A": 1
+      }
+     },
+     {
+      "A": 5.0,
+      "Ea": 12000.0,
+      "dH": -25000.0,
+      "n": 0.5,
+      "products": {
+       "C": 1
+      },
+      "reactants": {
+       "B": 1
+      }
+     },
+     {
+      "A": 8.0,
+      "Ea": 6000.0,
+      "Kc": 1.5,
+      "dH": 0.0,
+      "products": {
+       "D": 1
+      },
+      "reactants": {
+       "B": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 3.0,
+      "Ea": 9000.0,
+      "dH": -10000.0,
+      "kr": {
+       "A": 0.2,
+       "Ea": 19000.0,
+       "n": 0.5
+      },
+      "products": {
+       "E": 1
+      },
+      "reactants": {
+       "C": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B",
+     "C",
+     "D",
+     "E"
+    ],
+    "units": {
+     "concentration": "mol/L",
+     "energy": "J/mol",
+     "time": "s"
+    }
+   }
+  },
+  "M2_molcm3_s_kcal": {
+   "T": 330.0,
+   "c": [
+    9.000000000000001e-07,
+    7e-07,
+    4.0000000000000003e-07,
+    6e-07,
+    5e-07
+   ],
+   "mechanism": {
+    "reactions": [
+     {
+      "A": 2000.0,
+      "Ea": 4.780114722753346,
+      "dH": -9.560229445506693,
+      "n": 0.0,
+      "products": {
+       "B": 1
+      },
+      "reactants": {
+       "A": 1
+      }
+     },
+     {
+      "A": 5.0,
+      "Ea": 2.8680688336520075,
+      "dH": -5.975143403441683,
+      "n": 0.5,
+      "products": {
+       "C": 1
+      },
+      "reactants": {
+       "B": 1
+      }
+     },
+     {
+      "A": 8.0,
+      "Ea": 1.4340344168260037,
+      "Kc": 1.5,
+      "dH": 0.0,
+      "products": {
+       "D": 1
+      },
+      "reactants": {
+       "B": 1
+      },
+      "reversible": true
+     },
+     {
+      "A": 3.0,
+      "Ea": 2.1510516252390057,
+      "dH": -2.390057361376673,
+      "kr": {
+       "A": 0.2,
+       "Ea": 4.541108986615678,
+       "n": 0.5
+      },
+      "products": {
+       "E": 1
+      },
+      "reactants": {
+       "C": 1
+      },
+      "reversible": true
+     }
+    ],
+    "species": [
+     "A",
+     "B",
+     "C",
+     "D",
+     "E"
+    ],
+    "units": {
+     "concentration": "mol/cm^3",
+     "energy": "kcal/mol",
+     "time": "s"
+    }
+   }
+  }
+ }
+}

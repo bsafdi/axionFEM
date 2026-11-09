@@ -1,0 +1,105 @@
+{
+ "id": "analytic_conduction_limit_cavity",
+ "capability": "F4a",
+ "title": "Differentially heated cavity at Ra = 0 (pure conduction: Nu = 1, u = 0 exactly) and at small Ra (Batchelor's limit: u ~ Ra, Nu - 1 ~ Ra^2; circulation sense); centro-symmetry Nu_hot = Nu_cold",
+ "physics": "Differentially heated square cavity [0,1]^2 in the de Vahl Davis scaling: rho0 = c_p = k = 1 (alpha = 1), mu = Pr, beta g = Ra Pr, T = +1/2 on x = 0 (hot), -1/2 on x = 1 (cold), adiabatic y = 0, 1, no slip, T_ref = 0, gravity -e_y; the hot / cold walls include their end points (corner vertices take the wall value); velocities in units of alpha / L; Nu_wall = q_in / (k Delta T) with q_in = -Q_out the VARIATIONAL heat flux entering through the wall; the case reports BOTH Nusselt numbers, Nu_hot (wall x = 0, heat entering) and Nu_cold (wall x = 1, heat leaving: q_in = -Q_out there too)",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f4a_heat",
+   "function": "cavity_small_ra",
+   "check_module": "f4a_heat_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "cavity": "Differentially heated square cavity [0,1]^2 in the de Vahl Davis scaling: rho0 = c_p = k = 1 (alpha = 1), mu = Pr, beta g = Ra Pr, T = +1/2 on x = 0 (hot), -1/2 on x = 1 (cold), adiabatic y = 0, 1, no slip, T_ref = 0, gravity -e_y; the hot / cold walls include their end points (corner vertices take the wall value); velocities in units of alpha / L; Nu_wall = q_in / (k Delta T) with q_in = -Q_out the VARIATIONAL heat flux entering through the wall; the case reports BOTH Nusselt numbers, Nu_hot (wall x = 0, heat entering) and Nu_cold (wall x = 1, heat leaving: q_in = -Q_out there too)",
+   "Pr": 0.71,
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "temperature": "P2"
+   },
+   "runs": {
+    "conduction": "Ra = 0, N = 32, lap and sym",
+    "small_ra": "Ra = 10 and 100, N = 32, lap, Galerkin",
+    "symmetry": "Ra = 1e5, N = 16 and 32, lap and sym, Galerkin and SUPG (the pinned tau family; Ra continuation 1e3, 1e4, 1e5)"
+   },
+   "meshes": {
+    "unit": {
+     "family": "unit",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "scalar_transport_check.box_mesh(8, 8, k), k = 0..4, on [0,1]^2 in (x, y): 8 x 8 squares split along the (1,1) diagonal except the two cells at the corners (1,0) and (0,1) (split the other way: no triangle with all vertices on the boundary), refined uniformly (red) k times (identical to the fixed F1a structured_mesh(N), N = 8 * 2^k). Nested.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    }
+   },
+   "dirichlet_data": "P2 (P1) Lagrange NODAL interpolation of the fixed callables at the vertices and edge midpoints of the Dirichlet boundary parts; at a node shared by two Dirichlet parts the data agree (one exact callable per field); Dirichlet beats every natural condition at a shared node",
+   "nonlinear_solver": "Newton (exact Jacobian) from the lift, Armijo line search allowed, newton_rtol 1e-12; Ra continuation as listed"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "ra0_nu_minus_one_abs_max",
+    "level": "analytic",
+    "abs_max": 1e-10
+   },
+   {
+    "quantity": "ra0_umax_nodal",
+    "level": "analytic",
+    "max": 1e-10
+   },
+   {
+    "quantity": "small_ra_nu_ratio",
+    "level": "analytic",
+    "min": 97.0,
+    "max": 101.0
+   },
+   {
+    "quantity": "small_ra_umax_ratio",
+    "level": "analytic",
+    "min": 9.9,
+    "max": 10.05
+   },
+   {
+    "quantity": "small_ra_vleft_ra100",
+    "level": "analytic",
+    "min": 0.05
+   },
+   {
+    "quantity": "small_ra_nu_minus_one_ra10",
+    "level": "analytic",
+    "min": 1e-05
+   },
+   {
+    "quantity": "ra1e5_nu_hot_minus_cold_abs_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

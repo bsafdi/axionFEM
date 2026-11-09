@@ -1,0 +1,161 @@
+{
+ "check": "tree_cotree_fail_closed",
+ "provenance": {
+  "git_describe": "a49ffec",
+  "git_head": "a49ffecbd447f3c6d0efd9d7b9625f57d1b99a8c",
+  "git_diff_sha256": null,
+  "AXF_EXE": {
+   "path": "build7/axf",
+   "mtime": "2026-10-21T08:17:10",
+   "sha256": "502d9020d3e30710036b75c561d8928ac90c141efa4cd90b16810da6fa9007a8"
+  },
+  "libaxionfem": {
+   "path": "build7/libaxionfem.so",
+   "mtime": "2026-10-21T08:17:09",
+   "sha256": "16a3e5b3c71b807d661ee8d7266a367db58a49d480882d2ddd31a252870f7f4d"
+  },
+  "AXF_MESHER": {
+   "path": "build7/axf-mesher",
+   "mtime": "2026-10-21T08:16:47",
+   "sha256": "91dcb2717afc871f5e74a1ed5bc656a32d44b6ac1a6df41a1ba3131bf89286e7"
+  },
+  "python_core": {
+   "path": "runs/pkg7/axionfem/_core.cpython-312-x86_64-linux-gnu.so",
+   "mtime": "2026-10-21T08:17:10",
+   "sha256": "74cf16fcf34c8714882ac69be531537b1eafe9410e102f82bd01b9c710262247"
+  },
+  "driver": {
+   "path": "benchmarks/tree_cotree_fail_closed.py",
+   "mtime": "2026-10-21T17:26:36",
+   "sha256": "3a5ae9b8e45ed887488b3ea5c7c8ecc13f68b1bcae931fbfa6a22a31ee29ba05"
+  },
+  "date": "2026-10-21"
+ },
+ "frequencies_Hz": [
+  10.0,
+  100.0,
+  1000.0
+ ],
+ "runs": [
+  {
+   "config": "tree_cotree",
+   "f_Hz": 10.0,
+   "refused": false,
+   "warnings": [],
+   "relative_residual": 3.275699131956916e-13,
+   "status": "provisional"
+  },
+  {
+   "config": "tree_cotree",
+   "f_Hz": 100.0,
+   "refused": false,
+   "warnings": [],
+   "relative_residual": 3.2236100693116e-13,
+   "status": "provisional"
+  },
+  {
+   "config": "tree_cotree",
+   "f_Hz": 1000.0,
+   "refused": false,
+   "warnings": [],
+   "relative_residual": 3.492423421373459e-13,
+   "status": "provisional"
+  },
+  {
+   "config": "ams",
+   "f_Hz": 10.0,
+   "refused": false,
+   "warnings": [],
+   "relative_residual": 1.1172866248460809e-08,
+   "status": "provisional",
+   "Z_vs_gauged": 5.440660048196887e-11,
+   "Psi_vs_gauged": 3.920182157935192e-08,
+   "U_e_vs_gauged": [
+    161.68250796056583,
+    276.49049931180576
+   ],
+   "field_error": [
+    12.71544367926522,
+    16.628003467398177
+   ]
+  },
+  {
+   "config": "ams",
+   "f_Hz": 100.0,
+   "refused": false,
+   "warnings": [],
+   "relative_residual": 2.9892151047401922e-09,
+   "status": "provisional",
+   "Z_vs_gauged": 9.67774455484272e-12,
+   "Psi_vs_gauged": 2.848219664993332e-09,
+   "U_e_vs_gauged": [
+    0.0014295990023225347,
+    0.0006011677006181326
+   ],
+   "field_error": [
+    0.037810038380336704,
+    0.024518721431145887
+   ]
+  },
+  {
+   "config": "ams",
+   "f_Hz": 1000.0,
+   "refused": false,
+   "warnings": [],
+   "relative_residual": 8.59092325517933e-10,
+   "status": "provisional",
+   "Z_vs_gauged": 5.50815826961422e-12,
+   "Psi_vs_gauged": 9.027004669690341e-10,
+   "U_e_vs_gauged": [
+    1.7029892052100593e-07,
+    7.3286183566168e-08
+   ],
+   "field_error": [
+    0.0004126728977301586,
+    0.0002707142101297381
+   ]
+  },
+  {
+   "config": "strumpack",
+   "f_Hz": 10.0,
+   "refused": true,
+   "error": "AxionFEMError: direct full-wave setup failed: STRUMPACK full-wave factorization failed [at /fullwave]"
+  },
+  {
+   "config": "strumpack",
+   "f_Hz": 100.0,
+   "refused": false,
+   "warnings": [],
+   "relative_residual": 2.576171387252275e-12,
+   "status": "provisional",
+   "Z_vs_gauged": 2.7117340842625126e-12,
+   "Psi_vs_gauged": 8.251979169126237e-12,
+   "U_e_vs_gauged": [
+    0.0031990439920746017,
+    0.0013530216403458972
+   ],
+   "field_error": [
+    0.05656009186762873,
+    0.03678344247546574
+   ]
+  },
+  {
+   "config": "strumpack",
+   "f_Hz": 1000.0,
+   "refused": false,
+   "warnings": [],
+   "relative_residual": 9.034020674907659e-13,
+   "status": "provisional",
+   "Z_vs_gauged": 9.227612434724093e-13,
+   "Psi_vs_gauged": 3.1891650262101408e-12,
+   "U_e_vs_gauged": [
+    2.700408663347531e-07,
+    1.2304505170313007e-07
+   ],
+   "field_error": [
+    0.0005196545644317513,
+    0.00035077778108530487
+   ]
+  }
+ ]
+}

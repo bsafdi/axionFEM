@@ -1,0 +1,661 @@
+{
+ "id": "mms_stokes_2d",
+ "capability": "F1a",
+ "title": "MMS, all-Dirichlet, variable mu, both viscous forms, structured and distorted nested meshes; grad-div",
+ "physics": "Stokes -div sigma_form + grad p = f, div u = 0 on the unit square; variable mu; Dirichlet on all edges; pressure up to a constant",
+ "levels": [
+  "mms",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1a_stokes",
+   "function": "mms_dirichlet",
+   "check_module": "f1a_stokes_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "forms": [
+    "lap",
+    "sym"
+   ],
+   "quadrature_error_norms": 10,
+   "solver": {
+    "kind": "direct sparse LU",
+    "tight": "same, plus 2 steps of iterative refinement (vacuous for a direct solve; meaningful only for an iterative solver)"
+   },
+   "pressure_constant_treatment": "the residual reported is that of the consistent system solved; the measured flux defect is reported",
+   "mms_data": {
+    "path": "tools/fluids_mms/out/sq_dirichlet.json",
+    "sha256": "ca166b6b9467630217e56fe1ab00f4fd9edf8ee890783b52f7f17758a7c5e931"
+   },
+   "mms_data_constmu": {
+    "path": "tools/fluids_mms/out/sq_dirichlet_constmu.json",
+    "sha256": "f0c9ab0340384ca2142db17386f44e3460f034712f6d045b4b63ff4df20d75ad"
+   },
+   "meshes": {
+    "structured": {
+     "family": "structured",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(N): the N = 8 BASE mesh (8 x 8 squares split along the (1,1) diagonal, except the two cells at the corners (1,0) and (0,1), split the other way: no triangle with all vertices on the boundary) refined uniformly (red) log2(N/8) times. Nested; the flipped region of level N is a (N/8) x (N/8) block at each of those corners. The check module verifies counts, hash and nestedness.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    },
+    "distorted": {
+     "family": "distorted",
+     "N0": 4,
+     "refinements": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "perturb_rel": 0.2,
+     "seed": 20261031,
+     "rng": "numpy.random.Generator(PCG64(seed)).uniform(-1, 1, (n_interior, 2))",
+     "construction": "f1a_stokes_check.distorted_mesh(k): structured N0 = 4 base mesh (corner cells flipped); every INTERIOR vertex displaced by perturb_rel * (1/N0) * U(-1,1)^2 (boundary vertices fixed); then k uniform red refinements (nested; element sizes and Jacobians vary from element to element at every level).",
+     "h_definition": "h_nominal = 0.25 / 2^k (base nominal size halved per red refinement); h_max reported"
+    }
+   },
+   "pressure": "no constraint given: the solver must detect the constant-pressure nullspace (all-Dirichlet) and return a pressure up to a constant",
+   "grad_div_gamma": [
+    0.0,
+    1.0
+   ],
+   "identity": {
+    "field": "sq_dirichlet_constmu",
+    "mu": 0.37,
+    "N": [
+     16,
+     32
+    ],
+    "compare": "sym form gamma=0 vs lap form gamma=mu=0.37"
+   },
+   "shared_node_rule": "At a velocity node shared by several boundary attributes: (1) Dirichlet beats every natural condition (traction, do-nothing) and every slip/symmetry constraint (the slip constraint is not imposed at such nodes); (2) between Dirichlet attributes the fixed data AGREE at shared nodes (checked: dirichlet_shared_node_mismatch_max), so no precedence between them is needed and the result is independent of attribute order; (3) between two slip/symmetry attributes both normal constraints are imposed (u = 0 at a convex corner); (4) a periodic pair at a Dirichlet corner takes the (periodic-consistent) Dirichlet value."
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "lap_struct_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_pL2m",
+    "level": "mms",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature (pressure up to a constant)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.717786,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_divL2",
+    "level": "conservation",
+    "norm": "||div u_h||_L2(Omega) (Taylor-Hood is only weakly divergence-free)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_dist_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.distorted.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_dist_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.distorted.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_dist_pL2m",
+    "level": "mms",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature (pressure up to a constant)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.distorted.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.717786,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_dist_divL2",
+    "level": "conservation",
+    "norm": "||div u_h||_L2(Omega) (Taylor-Hood is only weakly divergence-free)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.distorted.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_pL2m",
+    "level": "mms",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature (pressure up to a constant)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.717786,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_divL2",
+    "level": "conservation",
+    "norm": "||div u_h||_L2(Omega) (Taylor-Hood is only weakly divergence-free)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_dist_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.distorted.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_dist_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.distorted.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_dist_pL2m",
+    "level": "mms",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature (pressure up to a constant)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.distorted.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.717786,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_dist_divL2",
+    "level": "conservation",
+    "norm": "||div u_h||_L2(Omega) (Taylor-Hood is only weakly divergence-free)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.distorted.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_gd1_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_gd1_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_gd1_pL2m",
+    "level": "mms",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature (pressure up to a constant)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.717786,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_gd1_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_gd1_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.921334,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_gd1_pL2m",
+    "level": "mms",
+    "norm": "||(p_h - mean p_h) - (p - mean p)||_L2(Omega), both means by the same quadrature (pressure up to a constant)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.717786,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "identity_sym_vs_lap_graddiv_mu_u_rel_max",
+    "level": "mms",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "identity_sym_vs_lap_graddiv_mu_p_rel_max",
+    "level": "mms",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "nullspace_detected",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "discrete_flux_defect_rel_max",
+    "level": "conservation",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "dirichlet_shared_node_mismatch_max",
+    "level": "mms",
+    "abs_max": 1e-14
+   }
+  ],
+  "solver_sensitivity": [
+   {
+    "quantity": "sym_struct_uL2_finest",
+    "tight_quantity": "sym_struct_uL2_finest_tight",
+    "level": "mms",
+    "rel_max": 0.001
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,5 @@
+# Generated files: collapsed in diffs on GitHub and left out of its language statistics
+*.ipynb linguist-generated
+benchmarks/records/*.json linguist-generated
+tools/fluids_mms/out/** linguist-generated
+*.f64 binary

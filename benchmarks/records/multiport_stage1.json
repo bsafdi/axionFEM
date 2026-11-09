@@ -1,0 +1,2175 @@
+{
+  "status": "passed",
+  "date": "2026-10-08",
+  "scope": "small-model tooling, not detector convergence",
+  "metrics": {
+    "reciprocity_relative_error": 6.240961083941301e-12,
+    "source_reciprocity_relative_error": 1.8079550580100717e-07,
+    "loaded_closure_relative_error": 1.1017837427385388e-10,
+    "oneport_max_relative_L_Z_error": 3.1756037745428656e-14,
+    "orientation_matrix_relative_error": 4.041840704991928e-14,
+    "lossy_power_relative_error": 8.620380848684493e-08,
+    "lossy_resistance_eigenvalues_ohm": [
+      8.245643958804359e-07,
+      0.007348509488971309
+    ]
+  },
+  "cases": {
+    "multiport": {
+      "case": "multiport",
+      "elapsed_s": 80.9731712937355,
+      "returncode": 0,
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/multiport/time.txt",
+        "build-stage1/axf",
+        "solve",
+        "realistic_toroid_fw/results/stage1_multiport/run/multiport/design.json",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/multiport",
+        "-v",
+        "1",
+        "--no-self-force",
+        "--mesher",
+        "build-stage1/axf-mesher"
+      ],
+      "design_sha256": "3354a6f53dfdb1213f44d308736607dd5eeb083a36d5c1e9d5cc8060bc4b8371",
+      "binary_sha256": "7e06b2091781732329feeec9f477c94f9f828bd92c360cbeb7da221c0e058441",
+      "library_sha256": "e15619dc80c43e496f5b8b709a91d876ad53d4b7d31d4cba807e5df030e81633",
+      "mesher_sha256": "ed7f42c660013e941270f1d6e2f1f0547dd5f8132329ecd015db13b3c67ea1cb",
+      "mesh": {
+        "dofs": 108964,
+        "elements": 85562,
+        "info": {
+          "device_radius": 0.4272004154961316,
+          "domain_center": [
+            0,
+            0,
+            0
+          ],
+          "domain_radius": 0.7,
+          "elements_3d": 85562,
+          "gmsh_version": "4.15.2",
+          "groups": [
+            {
+              "attr": 1,
+              "dim": 3,
+              "entities": 1,
+              "name": "air"
+            },
+            {
+              "attr": 2,
+              "dim": 3,
+              "entities": 1,
+              "name": "loop"
+            },
+            {
+              "attr": 3,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap0"
+            },
+            {
+              "attr": 4,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap1"
+            },
+            {
+              "attr": 898,
+              "dim": 3,
+              "entities": 1,
+              "name": "infinity_shell"
+            },
+            {
+              "attr": 901,
+              "dim": 2,
+              "name": "outer"
+            }
+          ],
+          "maximum_jacobian_aspect_ratio": 29.37872130986755,
+          "ok": true,
+          "seconds": 8.286879323,
+          "shell_attr": 898,
+          "shell_inner_radius": 0.7,
+          "shell_outer_radius": 0.875,
+          "size": 0.32,
+          "surface_size": 0.16,
+          "worst_aspect_element": 81523
+        },
+        "mpi_ranks": 1,
+        "order": 1
+      },
+      "warnings": [],
+      "sweep": [
+        {
+          "F_SI_T4_H2_m8": 9.831577009491496e-27,
+          "L_H": 4.495887265463366e-07,
+          "L_over_MQS": 0.9441771180983303,
+          "Psi_abs": 2.1113658979834284e-10,
+          "Psi_im": -0.0,
+          "Psi_re": -2.1113658979834284e-10,
+          "Psi_vector": {
+            "im": [
+              -0.0,
+              -0.0
+            ],
+            "re": [
+              -2.1113658979834284e-10,
+              -2.1057272209884135e-10
+            ]
+          },
+          "Z_im_ohm": -2.8248492809095227,
+          "Z_matrix_im_ohm": [
+            [
+              -2.8248492809095227,
+              -2.7672363414482692
+            ],
+            [
+              -2.7672363414309107,
+              -2.8232746111112186
+            ]
+          ],
+          "Z_matrix_re_ohm": [
+            [
+              -0.0,
+              -0.0
+            ],
+            [
+              -0.0,
+              -0.0
+            ]
+          ],
+          "Z_re_ohm": -0.0,
+          "circuit_loaded_voltage": {
+            "im": [
+              -2.361603763508094,
+              -2.306580490915314
+            ],
+            "re": [
+              1.0425794316042851,
+              1.0365768781078228
+            ]
+          },
+          "direct_loaded_solver": {
+            "gmres_iterations": 50,
+            "relative_residual": 7.05692947423707e-10
+          },
+          "direct_loaded_voltage": {
+            "im": [
+              -2.3616037635198985,
+              -2.306580490924579
+            ],
+            "re": [
+              1.0425794316065484,
+              1.0365768781106637
+            ]
+          },
+          "direct_source_solver": {
+            "gmres_iterations": 36,
+            "relative_residual": 8.605556276170084e-10
+          },
+          "direct_source_voltage": {
+            "im": [
+              0.0013266103273430793,
+              0.0013230674431802872
+            ],
+            "re": [
+              -0.0,
+              -0.0
+            ]
+          },
+          "f_Hz": 1000000.0,
+          "k_R": 0.006374263784419869,
+          "loaded_closure_relative_error": 4.272452120113608e-12,
+          "operator_assemblies": 1,
+          "port_rhs_solves": 2,
+          "port_solutions": [
+            {
+              "F_SI_T4_H2_m8": 9.831577009491496e-27,
+              "L_H": 4.495887265463366e-07,
+              "L_over_MQS": 0.9441771180983303,
+              "Psi_abs": 2.1113658979834284e-10,
+              "Psi_im": -0.0,
+              "Psi_re": -2.1113658979834284e-10,
+              "Z_im_ohm": -2.8248492809095227,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 1000000.0,
+              "k_R": 0.006374263784419869,
+              "port_index": 0,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 6.037851947834043e-10
+              }
+            },
+            {
+              "F_SI_T4_H2_m8": 9.737824355375278e-27,
+              "L_H": 4.4933811006419895e-07,
+              "Psi_abs": 2.1057272209884135e-10,
+              "Psi_im": -0.0,
+              "Psi_re": -2.1057272209884135e-10,
+              "Z_im_ohm": -2.8232746111112186,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 1000000.0,
+              "k_R": 0.006374263784419869,
+              "port_index": 1,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 6.192388935169634e-10
+              }
+            }
+          ],
+          "preconditioner_setups": 1,
+          "reciprocal_source_voltage": {
+            "im": [
+              0.001326610318828951,
+              0.0013230674335842501
+            ],
+            "re": [
+              -0.0,
+              -0.0
+            ]
+          },
+          "reciprocity_relative_error": 4.390293654212284e-12,
+          "resistance_max_eigenvalue_ohm": 8.679279517309622e-12,
+          "resistance_min_eigenvalue_ohm": -8.679279517309622e-12,
+          "solver": {
+            "gmres_iterations": 37,
+            "relative_residual": 6.037851947834043e-10
+          },
+          "source_reciprocity_relative_error": 6.847035306385261e-09
+        },
+        {
+          "F_SI_T4_H2_m8": 2.0232456904734532e-23,
+          "L_H": 4.66887485117781e-07,
+          "L_over_MQS": 0.9805060806595874,
+          "Psi_abs": 1.4491664547030187e-09,
+          "Psi_im": -0.0,
+          "Psi_re": -1.4491664547030187e-09,
+          "Psi_vector": {
+            "im": [
+              -0.0,
+              -0.0
+            ],
+            "re": [
+              -1.4491664547030187e-09,
+              -1.449145601671139e-09
+            ]
+          },
+          "Z_im_ohm": -35.20248703917683,
+          "Z_matrix_im_ohm": [
+            [
+              -35.20248703917683,
+              -34.512185206268114
+            ],
+            [
+              -34.512185206000794,
+              -35.18608936728667
+            ]
+          ],
+          "Z_matrix_re_ohm": [
+            [
+              -0.0,
+              -0.0
+            ],
+            [
+              -0.0,
+              -0.0
+            ]
+          ],
+          "Z_re_ohm": -0.0,
+          "circuit_loaded_voltage": {
+            "im": [
+              -1.2903697840899697,
+              -0.7825549749787379
+            ],
+            "re": [
+              6.131109750049769,
+              6.073056878710304
+            ]
+          },
+          "direct_loaded_solver": {
+            "gmres_iterations": 46,
+            "relative_residual": 1.6921465087062243e-09
+          },
+          "direct_loaded_voltage": {
+            "im": [
+              -1.290369784081995,
+              -0.7825549750379956
+            ],
+            "re": [
+              6.131109750009412,
+              6.073056878738812
+            ]
+          },
+          "direct_source_solver": {
+            "gmres_iterations": 36,
+            "relative_residual": 1.0351381032313151e-09
+          },
+          "direct_source_voltage": {
+            "im": [
+              0.1092645766431417,
+              0.10926300437491038
+            ],
+            "re": [
+              -0.0,
+              -0.0
+            ]
+          },
+          "f_Hz": 12000000.0,
+          "k_R": 0.07649116541303842,
+          "loaded_closure_relative_error": 8.853836241454038e-12,
+          "operator_assemblies": 1,
+          "port_rhs_solves": 2,
+          "port_solutions": [
+            {
+              "F_SI_T4_H2_m8": 2.0232456904734532e-23,
+              "L_H": 4.66887485117781e-07,
+              "L_over_MQS": 0.9805060806595874,
+              "Psi_abs": 1.4491664547030187e-09,
+              "Psi_im": -0.0,
+              "Psi_re": -1.4491664547030187e-09,
+              "Z_im_ohm": -35.20248703917683,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 0,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 7.511517658741935e-10
+              }
+            },
+            {
+              "F_SI_T4_H2_m8": 2.025015343178449e-23,
+              "L_H": 4.666700042397378e-07,
+              "Psi_abs": 1.449145601671139e-09,
+              "Psi_im": -0.0,
+              "Psi_re": -1.449145601671139e-09,
+              "Z_im_ohm": -35.18608936728667,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 1,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 7.747683151639129e-10
+              }
+            }
+          ],
+          "preconditioner_setups": 1,
+          "reciprocal_source_voltage": {
+            "im": [
+              0.10926457651017046,
+              0.10926300422860827
+            ],
+            "re": [
+              -0.0,
+              -0.0
+            ]
+          },
+          "reciprocity_relative_error": 5.423169415718026e-12,
+          "resistance_max_eigenvalue_ohm": 1.3366019402383242e-10,
+          "resistance_min_eigenvalue_ohm": -1.3366019402383242e-10,
+          "solver": {
+            "gmres_iterations": 37,
+            "relative_residual": 7.511517658741935e-10
+          },
+          "source_reciprocity_relative_error": 1.2794326816974453e-09
+        }
+      ],
+      "mesh_sha256": {
+        "mesh3d.msh": "47f1d79570e0ce622cdfbe5491dc5389875b845554f7b19b797beb9918c45d5f"
+      }
+    },
+    "reversed": {
+      "case": "reversed",
+      "elapsed_s": 68.50016489624977,
+      "returncode": 0,
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/reversed/time.txt",
+        "build-stage1/axf",
+        "solve",
+        "realistic_toroid_fw/results/stage1_multiport/run/reversed/design.json",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/reversed",
+        "-v",
+        "1",
+        "--no-self-force",
+        "--mesher",
+        "build-stage1/axf-mesher"
+      ],
+      "design_sha256": "52a6f2b98de92f9e8d802dcfcfff14c75253a40bda1308f5530dc62a6c0cd08a",
+      "binary_sha256": "7e06b2091781732329feeec9f477c94f9f828bd92c360cbeb7da221c0e058441",
+      "library_sha256": "e15619dc80c43e496f5b8b709a91d876ad53d4b7d31d4cba807e5df030e81633",
+      "mesher_sha256": "ed7f42c660013e941270f1d6e2f1f0547dd5f8132329ecd015db13b3c67ea1cb",
+      "mesh": {
+        "dofs": 108964,
+        "elements": 85562,
+        "info": {
+          "device_radius": 0.4272004154961316,
+          "domain_center": [
+            0,
+            0,
+            0
+          ],
+          "domain_radius": 0.7,
+          "elements_3d": 85562,
+          "gmsh_version": "4.15.2",
+          "groups": [
+            {
+              "attr": 1,
+              "dim": 3,
+              "entities": 1,
+              "name": "air"
+            },
+            {
+              "attr": 2,
+              "dim": 3,
+              "entities": 1,
+              "name": "loop"
+            },
+            {
+              "attr": 3,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap0"
+            },
+            {
+              "attr": 4,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap1"
+            },
+            {
+              "attr": 898,
+              "dim": 3,
+              "entities": 1,
+              "name": "infinity_shell"
+            },
+            {
+              "attr": 901,
+              "dim": 2,
+              "name": "outer"
+            }
+          ],
+          "maximum_jacobian_aspect_ratio": 29.37872130986755,
+          "ok": true,
+          "seconds": 4.113018028,
+          "shell_attr": 898,
+          "shell_inner_radius": 0.7,
+          "shell_outer_radius": 0.875,
+          "size": 0.32,
+          "surface_size": 0.16,
+          "worst_aspect_element": 81523
+        },
+        "mpi_ranks": 1,
+        "order": 1
+      },
+      "warnings": [],
+      "sweep": [
+        {
+          "F_SI_T4_H2_m8": 9.831577009491496e-27,
+          "L_H": 4.495887265463366e-07,
+          "L_over_MQS": 0.9441771180983303,
+          "Psi_abs": 2.1113658979834284e-10,
+          "Psi_im": -0.0,
+          "Psi_re": -2.1113658979834284e-10,
+          "Psi_vector": {
+            "im": [
+              -0.0,
+              0.0
+            ],
+            "re": [
+              -2.1113658979834284e-10,
+              2.1057272209902302e-10
+            ]
+          },
+          "Z_im_ohm": -2.8248492809095227,
+          "Z_matrix_im_ohm": [
+            [
+              -2.8248492809095227,
+              2.767236341448267
+            ],
+            [
+              2.767236341430933,
+              -2.8232746111112363
+            ]
+          ],
+          "Z_matrix_re_ohm": [
+            [
+              -0.0,
+              -0.0
+            ],
+            [
+              -0.0,
+              -0.0
+            ]
+          ],
+          "Z_re_ohm": -0.0,
+          "circuit_loaded_voltage": {
+            "im": [
+              -2.361603763508092,
+              2.306580490915331
+            ],
+            "re": [
+              1.0425794316042873,
+              -1.036576878107833
+            ]
+          },
+          "direct_loaded_solver": {
+            "gmres_iterations": 50,
+            "relative_residual": 7.056703094626381e-10
+          },
+          "direct_loaded_voltage": {
+            "im": [
+              -2.36160376351985,
+              2.3065804909245524
+            ],
+            "re": [
+              1.0425794316065475,
+              -1.0365768781106712
+            ]
+          },
+          "direct_source_solver": {
+            "gmres_iterations": 36,
+            "relative_residual": 8.605556276170084e-10
+          },
+          "direct_source_voltage": {
+            "im": [
+              0.0013266103273430793,
+              -0.0013230674431809874
+            ],
+            "re": [
+              -0.0,
+              -0.0
+            ]
+          },
+          "f_Hz": 1000000.0,
+          "k_R": 0.006374263784419869,
+          "loaded_closure_relative_error": 4.255193267478011e-12,
+          "operator_assemblies": 1,
+          "port_rhs_solves": 2,
+          "port_solutions": [
+            {
+              "F_SI_T4_H2_m8": 9.831577009491496e-27,
+              "L_H": 4.495887265463366e-07,
+              "L_over_MQS": 0.9441771180983303,
+              "Psi_abs": 2.1113658979834284e-10,
+              "Psi_im": -0.0,
+              "Psi_re": -2.1113658979834284e-10,
+              "Z_im_ohm": -2.8248492809095227,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 1000000.0,
+              "k_R": 0.006374263784419869,
+              "port_index": 0,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 6.037851947834043e-10
+              }
+            },
+            {
+              "F_SI_T4_H2_m8": 9.73782435540876e-27,
+              "L_H": 4.4933811006420176e-07,
+              "Psi_abs": 2.1057272209902302e-10,
+              "Psi_im": 0.0,
+              "Psi_re": 2.1057272209902302e-10,
+              "Z_im_ohm": -2.8232746111112363,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 1000000.0,
+              "k_R": 0.006374263784419869,
+              "port_index": 1,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 6.192342999633577e-10
+              }
+            }
+          ],
+          "preconditioner_setups": 1,
+          "reciprocal_source_voltage": {
+            "im": [
+              0.001326610318828951,
+              -0.0013230674335853916
+            ],
+            "re": [
+              -0.0,
+              0.0
+            ]
+          },
+          "reciprocity_relative_error": 4.384116153419656e-12,
+          "resistance_max_eigenvalue_ohm": 8.667067064038745e-12,
+          "resistance_min_eigenvalue_ohm": -8.667067064038745e-12,
+          "solver": {
+            "gmres_iterations": 37,
+            "relative_residual": 6.037851947834043e-10
+          },
+          "source_reciprocity_relative_error": 6.8468591360658645e-09
+        },
+        {
+          "F_SI_T4_H2_m8": 2.0232456904734532e-23,
+          "L_H": 4.66887485117781e-07,
+          "L_over_MQS": 0.9805060806595874,
+          "Psi_abs": 1.4491664547030187e-09,
+          "Psi_im": -0.0,
+          "Psi_re": -1.4491664547030187e-09,
+          "Psi_vector": {
+            "im": [
+              -0.0,
+              0.0
+            ],
+            "re": [
+              -1.4491664547030187e-09,
+              1.449145601671767e-09
+            ]
+          },
+          "Z_im_ohm": -35.20248703917683,
+          "Z_matrix_im_ohm": [
+            [
+              -35.20248703917683,
+              34.51218520626992
+            ],
+            [
+              34.51218520600107,
+              -35.186089367288815
+            ]
+          ],
+          "Z_matrix_re_ohm": [
+            [
+              -0.0,
+              -0.0
+            ],
+            [
+              -0.0,
+              -0.0
+            ]
+          ],
+          "Z_re_ohm": -0.0,
+          "circuit_loaded_voltage": {
+            "im": [
+              -1.2903697840899397,
+              0.7825549749786842
+            ],
+            "re": [
+              6.131109750049639,
+              -6.073056878710226
+            ]
+          },
+          "direct_loaded_solver": {
+            "gmres_iterations": 46,
+            "relative_residual": 1.6921720189464968e-09
+          },
+          "direct_loaded_voltage": {
+            "im": [
+              -1.290369784082116,
+              0.782554975038129
+            ],
+            "re": [
+              6.1311097500093465,
+              -6.073056878738784
+            ]
+          },
+          "direct_source_solver": {
+            "gmres_iterations": 36,
+            "relative_residual": 1.0351381032313151e-09
+          },
+          "direct_source_voltage": {
+            "im": [
+              0.1092645766431417,
+              -0.10926300437491954
+            ],
+            "re": [
+              -0.0,
+              -0.0
+            ]
+          },
+          "f_Hz": 12000000.0,
+          "k_R": 0.07649116541303842,
+          "loaded_closure_relative_error": 8.866689121200236e-12,
+          "operator_assemblies": 1,
+          "port_rhs_solves": 2,
+          "port_solutions": [
+            {
+              "F_SI_T4_H2_m8": 2.0232456904734532e-23,
+              "L_H": 4.66887485117781e-07,
+              "L_over_MQS": 0.9805060806595874,
+              "Psi_abs": 1.4491664547030187e-09,
+              "Psi_im": -0.0,
+              "Psi_re": -1.4491664547030187e-09,
+              "Z_im_ohm": -35.20248703917683,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 0,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 7.511517658741935e-10
+              }
+            },
+            {
+              "F_SI_T4_H2_m8": 2.025015343181711e-23,
+              "L_H": 4.666700042397663e-07,
+              "Psi_abs": 1.449145601671767e-09,
+              "Psi_im": 0.0,
+              "Psi_re": 1.449145601671767e-09,
+              "Z_im_ohm": -35.186089367288815,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 1,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 7.7493838377591e-10
+              }
+            }
+          ],
+          "preconditioner_setups": 1,
+          "reciprocal_source_voltage": {
+            "im": [
+              0.10926457651017046,
+              -0.1092630042286556
+            ],
+            "re": [
+              -0.0,
+              0.0
+            ]
+          },
+          "reciprocity_relative_error": 5.454161426360022e-12,
+          "resistance_max_eigenvalue_ohm": 1.3442402746477453e-10,
+          "resistance_min_eigenvalue_ohm": -1.3442402746477453e-10,
+          "solver": {
+            "gmres_iterations": 37,
+            "relative_residual": 7.511517658741935e-10
+          },
+          "source_reciprocity_relative_error": 1.2792498565959405e-09
+        }
+      ],
+      "mesh_sha256": {
+        "mesh3d.msh": "47f1d79570e0ce622cdfbe5491dc5389875b845554f7b19b797beb9918c45d5f"
+      }
+    },
+    "oneport_new": {
+      "case": "oneport_new",
+      "elapsed_s": 37.40578119363636,
+      "returncode": 0,
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/oneport_new/time.txt",
+        "build-stage1/axf",
+        "solve",
+        "realistic_toroid_fw/results/stage1_multiport/run/oneport_new/design.json",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/oneport_new",
+        "-v",
+        "1",
+        "--no-self-force",
+        "--mesher",
+        "build-stage1/axf-mesher"
+      ],
+      "design_sha256": "c266d833b07f33f961b624eb34dd94832f900fd32917af0b0290121d4e335ba9",
+      "binary_sha256": "7e06b2091781732329feeec9f477c94f9f828bd92c360cbeb7da221c0e058441",
+      "library_sha256": "e15619dc80c43e496f5b8b709a91d876ad53d4b7d31d4cba807e5df030e81633",
+      "mesher_sha256": "ed7f42c660013e941270f1d6e2f1f0547dd5f8132329ecd015db13b3c67ea1cb",
+      "mesh": {
+        "dofs": 108964,
+        "elements": 85562,
+        "info": {
+          "device_radius": 0.4272004154961316,
+          "domain_center": [
+            0,
+            0,
+            0
+          ],
+          "domain_radius": 0.7,
+          "elements_3d": 85562,
+          "gmsh_version": "4.15.2",
+          "groups": [
+            {
+              "attr": 1,
+              "dim": 3,
+              "entities": 1,
+              "name": "air"
+            },
+            {
+              "attr": 2,
+              "dim": 3,
+              "entities": 1,
+              "name": "loop"
+            },
+            {
+              "attr": 3,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap0"
+            },
+            {
+              "attr": 4,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap1"
+            },
+            {
+              "attr": 898,
+              "dim": 3,
+              "entities": 1,
+              "name": "infinity_shell"
+            },
+            {
+              "attr": 901,
+              "dim": 2,
+              "name": "outer"
+            }
+          ],
+          "maximum_jacobian_aspect_ratio": 29.37872130986755,
+          "ok": true,
+          "seconds": 4.183251853,
+          "shell_attr": 898,
+          "shell_inner_radius": 0.7,
+          "shell_outer_radius": 0.875,
+          "size": 0.32,
+          "surface_size": 0.16,
+          "worst_aspect_element": 81523
+        },
+        "mpi_ranks": 1,
+        "order": 1
+      },
+      "warnings": [],
+      "sweep": [
+        {
+          "F_SI_T4_H2_m8": 0.0,
+          "L_H": 4.495887265463366e-07,
+          "L_over_MQS": 0.9441771180983303,
+          "Psi_abs": 0.0,
+          "Psi_im": 0.0,
+          "Psi_re": 0.0,
+          "Psi_vector": {
+            "im": [
+              0.0
+            ],
+            "re": [
+              0.0
+            ]
+          },
+          "Z_im_ohm": -2.8248492809095227,
+          "Z_matrix_im_ohm": [
+            [
+              -2.8248492809095227
+            ]
+          ],
+          "Z_matrix_re_ohm": [
+            [
+              -0.0
+            ]
+          ],
+          "Z_re_ohm": -0.0,
+          "f_Hz": 1000000.0,
+          "k_R": 0.006374263784419869,
+          "operator_assemblies": 1,
+          "port_rhs_solves": 1,
+          "port_solutions": [
+            {
+              "F_SI_T4_H2_m8": 0.0,
+              "L_H": 4.495887265463366e-07,
+              "L_over_MQS": 0.9441771180983303,
+              "Psi_abs": 0.0,
+              "Psi_im": 0.0,
+              "Psi_re": 0.0,
+              "Z_im_ohm": -2.8248492809095227,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 1000000.0,
+              "k_R": 0.006374263784419869,
+              "port_index": 0,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 6.037851947834043e-10
+              }
+            }
+          ],
+          "preconditioner_setups": 1,
+          "reciprocity_relative_error": 0.0,
+          "resistance_max_eigenvalue_ohm": -0.0,
+          "resistance_min_eigenvalue_ohm": -0.0,
+          "solver": {
+            "gmres_iterations": 37,
+            "relative_residual": 6.037851947834043e-10
+          }
+        },
+        {
+          "F_SI_T4_H2_m8": 0.0,
+          "L_H": 4.66887485117781e-07,
+          "L_over_MQS": 0.9805060806595874,
+          "Psi_abs": 0.0,
+          "Psi_im": 0.0,
+          "Psi_re": 0.0,
+          "Psi_vector": {
+            "im": [
+              0.0
+            ],
+            "re": [
+              0.0
+            ]
+          },
+          "Z_im_ohm": -35.20248703917683,
+          "Z_matrix_im_ohm": [
+            [
+              -35.20248703917683
+            ]
+          ],
+          "Z_matrix_re_ohm": [
+            [
+              -0.0
+            ]
+          ],
+          "Z_re_ohm": -0.0,
+          "f_Hz": 12000000.0,
+          "k_R": 0.07649116541303842,
+          "operator_assemblies": 1,
+          "port_rhs_solves": 1,
+          "port_solutions": [
+            {
+              "F_SI_T4_H2_m8": 0.0,
+              "L_H": 4.66887485117781e-07,
+              "L_over_MQS": 0.9805060806595874,
+              "Psi_abs": 0.0,
+              "Psi_im": 0.0,
+              "Psi_re": 0.0,
+              "Z_im_ohm": -35.20248703917683,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 0,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 7.511517658741935e-10
+              }
+            }
+          ],
+          "preconditioner_setups": 1,
+          "reciprocity_relative_error": 0.0,
+          "resistance_max_eigenvalue_ohm": -0.0,
+          "resistance_min_eigenvalue_ohm": -0.0,
+          "solver": {
+            "gmres_iterations": 37,
+            "relative_residual": 7.511517658741935e-10
+          }
+        }
+      ],
+      "mesh_sha256": {
+        "mesh3d.msh": "47f1d79570e0ce622cdfbe5491dc5389875b845554f7b19b797beb9918c45d5f"
+      }
+    },
+    "oneport_main": {
+      "case": "oneport_main",
+      "elapsed_s": 38.861602562479675,
+      "returncode": 0,
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/oneport_main/time.txt",
+        "axionFEM/build/axf",
+        "solve",
+        "realistic_toroid_fw/results/stage1_multiport/run/oneport_main/design.json",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/oneport_main",
+        "-v",
+        "1",
+        "--no-self-force",
+        "--mesher",
+        "build-stage1/axf-mesher"
+      ],
+      "design_sha256": "c266d833b07f33f961b624eb34dd94832f900fd32917af0b0290121d4e335ba9",
+      "binary_sha256": "d07dd5d7b1fee3b209861f684f3881f6983a4dbb7571a8e77a07557f488ff6c9",
+      "library_sha256": "fdbb25d785ddc06d0869dcfd4eaef5403865f18b1dd2ca7535f0274ef4643191",
+      "mesher_sha256": "ed7f42c660013e941270f1d6e2f1f0547dd5f8132329ecd015db13b3c67ea1cb",
+      "mesh": {
+        "dofs": 108964,
+        "elements": 85562,
+        "info": {
+          "device_radius": 0.4272004154961316,
+          "domain_center": [
+            0,
+            0,
+            0
+          ],
+          "domain_radius": 0.7,
+          "elements_3d": 85562,
+          "gmsh_version": "4.15.2",
+          "groups": [
+            {
+              "attr": 1,
+              "dim": 3,
+              "entities": 1,
+              "name": "air"
+            },
+            {
+              "attr": 2,
+              "dim": 3,
+              "entities": 1,
+              "name": "loop"
+            },
+            {
+              "attr": 3,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap0"
+            },
+            {
+              "attr": 4,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap1"
+            },
+            {
+              "attr": 898,
+              "dim": 3,
+              "entities": 1,
+              "name": "infinity_shell"
+            },
+            {
+              "attr": 901,
+              "dim": 2,
+              "name": "outer"
+            }
+          ],
+          "maximum_jacobian_aspect_ratio": 29.37872130986755,
+          "ok": true,
+          "seconds": 4.3131667,
+          "shell_attr": 898,
+          "shell_inner_radius": 0.7,
+          "shell_outer_radius": 0.875,
+          "size": 0.32,
+          "surface_size": 0.16,
+          "worst_aspect_element": 81523
+        },
+        "mpi_ranks": 1,
+        "order": 1
+      },
+      "warnings": [],
+      "sweep": [
+        {
+          "F_SI_T4_H2_m8": 0.0,
+          "L_H": 4.4958872654635084e-07,
+          "L_over_MQS": 0.9441771180983601,
+          "Psi_abs": 0.0,
+          "Psi_im": 0.0,
+          "Psi_re": 0.0,
+          "Z_im_ohm": -2.8248492809096124,
+          "Z_re_ohm": -0.0,
+          "f_Hz": 1000000.0,
+          "k_R": 0.006374263784419869,
+          "solver": {
+            "gmres_iterations": 37,
+            "relative_residual": 6.038069432954985e-10
+          }
+        },
+        {
+          "F_SI_T4_H2_m8": 0.0,
+          "L_H": 4.6688748511779116e-07,
+          "L_over_MQS": 0.9805060806596088,
+          "Psi_abs": 0.0,
+          "Psi_im": 0.0,
+          "Psi_re": 0.0,
+          "Z_im_ohm": -35.2024870391776,
+          "Z_re_ohm": -0.0,
+          "f_Hz": 12000000.0,
+          "k_R": 0.07649116541303842,
+          "solver": {
+            "gmres_iterations": 37,
+            "relative_residual": 7.512726470203608e-10
+          }
+        }
+      ],
+      "mesh_sha256": {
+        "mesh3d.msh": "47f1d79570e0ce622cdfbe5491dc5389875b845554f7b19b797beb9918c45d5f"
+      }
+    },
+    "lossy": {
+      "case": "lossy",
+      "elapsed_s": 50.038369317539036,
+      "returncode": 0,
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/lossy/time.txt",
+        "build-stage1/axf",
+        "solve",
+        "realistic_toroid_fw/results/stage1_multiport/run/lossy/design.json",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/lossy",
+        "-v",
+        "1",
+        "--no-self-force",
+        "--mesher",
+        "build-stage1/axf-mesher"
+      ],
+      "design_sha256": "26b482b1021717d778d1d930b70dda9527282e8d0773277f89a2b9398261ca08",
+      "binary_sha256": "7e06b2091781732329feeec9f477c94f9f828bd92c360cbeb7da221c0e058441",
+      "library_sha256": "e15619dc80c43e496f5b8b709a91d876ad53d4b7d31d4cba807e5df030e81633",
+      "mesher_sha256": "ed7f42c660013e941270f1d6e2f1f0547dd5f8132329ecd015db13b3c67ea1cb",
+      "mesh": {
+        "dofs": 108986,
+        "elements": 85583,
+        "info": {
+          "device_radius": 0.4272004154961316,
+          "domain_center": [
+            0,
+            0,
+            0
+          ],
+          "domain_radius": 0.7,
+          "elements_3d": 85583,
+          "gmsh_version": "4.15.2",
+          "groups": [
+            {
+              "attr": 1,
+              "dim": 3,
+              "entities": 1,
+              "name": "air"
+            },
+            {
+              "attr": 2,
+              "dim": 3,
+              "entities": 1,
+              "name": "loop"
+            },
+            {
+              "attr": 3,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap0"
+            },
+            {
+              "attr": 4,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap1"
+            },
+            {
+              "attr": 898,
+              "dim": 3,
+              "entities": 1,
+              "name": "infinity_shell"
+            },
+            {
+              "attr": 901,
+              "dim": 2,
+              "name": "outer"
+            }
+          ],
+          "maximum_jacobian_aspect_ratio": 29.37872130986755,
+          "ok": true,
+          "seconds": 4.099990351,
+          "shell_attr": 898,
+          "shell_inner_radius": 0.7,
+          "shell_outer_radius": 0.875,
+          "size": 0.32,
+          "surface_size": 0.16,
+          "worst_aspect_element": 81539
+        },
+        "mpi_ranks": 1,
+        "order": 1
+      },
+      "warnings": [
+        "magnetic body 'gap0' touches a winding, superconductor or other magnetic body, so its force uses the surface Maxwell stress, which converges slowly (a few percent)",
+        "magnetic body 'gap1' touches a winding, superconductor or other magnetic body, so its force uses the surface Maxwell stress, which converges slowly (a few percent)"
+      ],
+      "sweep": [
+        {
+          "F_SI_T4_H2_m8": 2.1207981813548957e-23,
+          "L_H": 4.683053910122501e-07,
+          "L_over_MQS": 0.983153035818862,
+          "Psi_abs": 1.4685522879268727e-09,
+          "Psi_im": -1.5480507778427268e-13,
+          "Psi_re": -1.4685522797676084e-09,
+          "Psi_vector": {
+            "im": [
+              -1.5480507778427268e-13,
+              -1.5479106630091602e-13
+            ],
+            "re": [
+              -1.4685522797676084e-09,
+              -1.4690019907209166e-09
+            ]
+          },
+          "Q_bulk": 9606.587822633577,
+          "R_bulk_ohm": 0.0036755396689117153,
+          "Z_im_ohm": -35.30939462497393,
+          "Z_matrix_im_ohm": [
+            [
+              -35.30939462497393,
+              -34.6192655549048
+            ],
+            [
+              -34.61926555476701,
+              -35.29360406335445
+            ]
+          ],
+          "Z_matrix_re_ohm": [
+            [
+              0.0036755393520661976,
+              0.0036738424967768
+            ],
+            [
+              0.0036738422206717292,
+              0.0036737947013009906
+            ]
+          ],
+          "Z_re_ohm": 0.0036755393520661976,
+          "circuit_loaded_voltage": {
+            "im": [
+              -1.2871844097052894,
+              -0.7793046070752524
+            ],
+            "re": [
+              6.13207646575787,
+              6.074156141727903
+            ]
+          },
+          "direct_loaded_solver": {
+            "gmres_iterations": 46,
+            "relative_residual": 2.065381206388674e-09
+          },
+          "direct_loaded_voltage": {
+            "im": [
+              -1.2871844096756424,
+              -0.7793046070414146
+            ],
+            "re": [
+              6.132076465777147,
+              6.074156141754306
+            ]
+          },
+          "direct_source_solver": {
+            "gmres_iterations": 46,
+            "relative_residual": 2.4741810209304395e-09
+          },
+          "direct_source_voltage": {
+            "im": [
+              0.11072623320099416,
+              0.11076014059816211
+            ],
+            "re": [
+              -1.1672377938826742e-05,
+              -1.1671340640043869e-05
+            ]
+          },
+          "f_Hz": 12000000.0,
+          "k_R": 0.07649116541303842,
+          "loaded_closure_relative_error": 6.347405359714065e-12,
+          "operator_assemblies": 1,
+          "port_rhs_solves": 2,
+          "port_solutions": [
+            {
+              "F_SI_T4_H2_m8": 2.1207981813548957e-23,
+              "L_H": 4.683053910122501e-07,
+              "L_over_MQS": 0.983153035818862,
+              "Psi_abs": 1.4685522879268727e-09,
+              "Psi_im": -1.5480507778427268e-13,
+              "Psi_re": -1.4685522797676084e-09,
+              "Q_bulk": 9606.587822633577,
+              "R_bulk_ohm": 0.0036755396689117153,
+              "Z_im_ohm": -35.30939462497393,
+              "Z_re_ohm": 0.0036755393520661976,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 0,
+              "solver": {
+                "gmres_iterations": 48,
+                "relative_residual": 1.846387202676858e-09
+              }
+            },
+            {
+              "F_SI_T4_H2_m8": 2.12529762619296e-23,
+              "L_H": 4.680959621842553e-07,
+              "Psi_abs": 1.4690019988762065e-09,
+              "Psi_im": -1.5479106630091602e-13,
+              "Psi_re": -1.4690019907209166e-09,
+              "Q_bulk": 9606.852418245602,
+              "R_bulk_ohm": 0.0036737947588664785,
+              "Z_im_ohm": -35.29360406335445,
+              "Z_re_ohm": 0.0036737947013009906,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 1,
+              "solver": {
+                "gmres_iterations": 49,
+                "relative_residual": 2.659343770241641e-10
+              }
+            }
+          ],
+          "preconditioner_setups": 1,
+          "reciprocal_source_voltage": {
+            "im": [
+              0.11072623328473108,
+              0.11076014069178272
+            ],
+            "re": [
+              -1.1672027882531222e-05,
+              -1.1670971441574921e-05
+            ]
+          },
+          "reciprocity_relative_error": 6.240961083941301e-12,
+          "resistance_max_eigenvalue_ohm": 0.007348509488971309,
+          "resistance_min_eigenvalue_ohm": 8.245643958804359e-07,
+          "solver": {
+            "gmres_iterations": 48,
+            "relative_residual": 1.846387202676858e-09
+          },
+          "source_reciprocity_relative_error": 3.3460845688498632e-09
+        }
+      ],
+      "mesh_sha256": {
+        "mesh3d.msh": "3303a98e97983b81a397e25fa7b030d53b4b31272db313b2d83b15ac9c05a42d"
+      }
+    },
+    "exact_source": {
+      "case": "exact_source",
+      "elapsed_s": 41.66541722882539,
+      "returncode": 0,
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/exact_source/time.txt",
+        "build-stage1/axf",
+        "solve",
+        "realistic_toroid_fw/results/stage1_multiport/run/exact_source/design.json",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/exact_source",
+        "-v",
+        "1",
+        "--no-self-force",
+        "--mesher",
+        "build-stage1/axf-mesher"
+      ],
+      "design_sha256": "2929e3a8b5fa4a79f43e1afc2ffc750e50641e00351ebda22a76d5d107920e77",
+      "binary_sha256": "7e06b2091781732329feeec9f477c94f9f828bd92c360cbeb7da221c0e058441",
+      "library_sha256": "e15619dc80c43e496f5b8b709a91d876ad53d4b7d31d4cba807e5df030e81633",
+      "mesher_sha256": "ed7f42c660013e941270f1d6e2f1f0547dd5f8132329ecd015db13b3c67ea1cb",
+      "mesh": {
+        "dofs": 108964,
+        "elements": 85562,
+        "info": {
+          "device_radius": 0.4272004154961316,
+          "domain_center": [
+            0,
+            0,
+            0
+          ],
+          "domain_radius": 0.7,
+          "elements_3d": 85562,
+          "gmsh_version": "4.15.2",
+          "groups": [
+            {
+              "attr": 1,
+              "dim": 3,
+              "entities": 1,
+              "name": "air"
+            },
+            {
+              "attr": 2,
+              "dim": 3,
+              "entities": 1,
+              "name": "loop"
+            },
+            {
+              "attr": 3,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap0"
+            },
+            {
+              "attr": 4,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap1"
+            },
+            {
+              "attr": 898,
+              "dim": 3,
+              "entities": 1,
+              "name": "infinity_shell"
+            },
+            {
+              "attr": 901,
+              "dim": 2,
+              "name": "outer"
+            }
+          ],
+          "maximum_jacobian_aspect_ratio": 29.37872130986755,
+          "ok": true,
+          "seconds": 4.319273141,
+          "shell_attr": 898,
+          "shell_inner_radius": 0.7,
+          "shell_outer_radius": 0.875,
+          "size": 0.32,
+          "surface_size": 0.16,
+          "worst_aspect_element": 81523
+        },
+        "mpi_ranks": 1,
+        "order": 1
+      },
+      "warnings": [],
+      "sweep": [
+        {
+          "F_SI_T4_H2_m8": 9.113606686179062e-33,
+          "L_H": 4.66887485117781e-07,
+          "L_over_MQS": 0.9805060806595874,
+          "Psi_abs": 6.676189984394338e-12,
+          "Psi_im": -0.0,
+          "Psi_re": -6.676189984394338e-12,
+          "Psi_vector": {
+            "im": [
+              -0.0,
+              -0.0
+            ],
+            "re": [
+              -6.676189984394338e-12,
+              -6.703760600746919e-12
+            ]
+          },
+          "Z_im_ohm": -35.20248703917683,
+          "Z_matrix_im_ohm": [
+            [
+              -35.20248703917683,
+              -34.512185206268114
+            ],
+            [
+              -34.512185206000794,
+              -35.18608936728667
+            ]
+          ],
+          "Z_matrix_re_ohm": [
+            [
+              -0.0,
+              -0.0
+            ],
+            [
+              -0.0,
+              -0.0
+            ]
+          ],
+          "Z_re_ohm": -0.0,
+          "direct_source_solver": {
+            "gmres_iterations": 36,
+            "relative_residual": 9.70804246867143e-10
+          },
+          "direct_source_voltage": {
+            "im": [
+              0.000503372866956708,
+              0.0005054516424784717
+            ],
+            "re": [
+              -0.0,
+              -0.0
+            ]
+          },
+          "f_Hz": 12000000.0,
+          "k_R": 0.07649116541303842,
+          "operator_assemblies": 1,
+          "port_rhs_solves": 2,
+          "port_solutions": [
+            {
+              "F_SI_T4_H2_m8": 9.113606686179062e-33,
+              "L_H": 4.66887485117781e-07,
+              "L_over_MQS": 0.9805060806595874,
+              "Psi_abs": 6.676189984394338e-12,
+              "Psi_im": -0.0,
+              "Psi_re": -6.676189984394338e-12,
+              "Z_im_ohm": -35.20248703917683,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 0,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 7.511517658741935e-10
+              }
+            },
+            {
+              "F_SI_T4_H2_m8": 9.273724991284691e-33,
+              "L_H": 4.666700042397378e-07,
+              "Psi_abs": 6.703760600746919e-12,
+              "Psi_im": -0.0,
+              "Psi_re": -6.703760600746919e-12,
+              "Z_im_ohm": -35.18608936728667,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 1,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 7.747683151639129e-10
+              }
+            }
+          ],
+          "preconditioner_setups": 1,
+          "reciprocal_source_voltage": {
+            "im": [
+              0.0005033728658146322,
+              0.0005054516413135492
+            ],
+            "re": [
+              -0.0,
+              -0.0
+            ]
+          },
+          "reciprocity_relative_error": 5.423169415718026e-12,
+          "resistance_max_eigenvalue_ohm": 1.3366019402383242e-10,
+          "resistance_min_eigenvalue_ohm": -1.3366019402383242e-10,
+          "solver": {
+            "gmres_iterations": 37,
+            "relative_residual": 7.511517658741935e-10
+          },
+          "source_reciprocity_relative_error": 2.2869254702610354e-09
+        }
+      ],
+      "mesh_sha256": {
+        "mesh3d.msh": "47f1d79570e0ce622cdfbe5491dc5389875b845554f7b19b797beb9918c45d5f"
+      }
+    },
+    "averaged_source": {
+      "case": "averaged_source",
+      "elapsed_s": 55.3598616681993,
+      "returncode": 0,
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/averaged_source/time.txt",
+        "build-stage1/axf",
+        "solve",
+        "realistic_toroid_fw/results/stage1_multiport/run/averaged_source/design.json",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/averaged_source",
+        "-v",
+        "1",
+        "--no-self-force",
+        "--mesher",
+        "build-stage1/axf-mesher"
+      ],
+      "design_sha256": "e0bc6c5cc4a0f1c074bb8c35b0943da4b4723bf3514fca721b28d4b93aa7bd38",
+      "binary_sha256": "7e06b2091781732329feeec9f477c94f9f828bd92c360cbeb7da221c0e058441",
+      "library_sha256": "e15619dc80c43e496f5b8b709a91d876ad53d4b7d31d4cba807e5df030e81633",
+      "mesher_sha256": "ed7f42c660013e941270f1d6e2f1f0547dd5f8132329ecd015db13b3c67ea1cb",
+      "mesh": {
+        "dofs": 108964,
+        "elements": 85562,
+        "info": {
+          "device_radius": 0.4272004154961316,
+          "domain_center": [
+            0,
+            0,
+            0
+          ],
+          "domain_radius": 0.7,
+          "elements_3d": 85562,
+          "gmsh_version": "4.15.2",
+          "groups": [
+            {
+              "attr": 1,
+              "dim": 3,
+              "entities": 1,
+              "name": "air"
+            },
+            {
+              "attr": 2,
+              "dim": 3,
+              "entities": 1,
+              "name": "loop"
+            },
+            {
+              "attr": 3,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap0"
+            },
+            {
+              "attr": 4,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap1"
+            },
+            {
+              "attr": 898,
+              "dim": 3,
+              "entities": 1,
+              "name": "infinity_shell"
+            },
+            {
+              "attr": 901,
+              "dim": 2,
+              "name": "outer"
+            }
+          ],
+          "maximum_jacobian_aspect_ratio": 29.37872130986755,
+          "ok": true,
+          "seconds": 4.408673828,
+          "shell_attr": 898,
+          "shell_inner_radius": 0.7,
+          "shell_outer_radius": 0.875,
+          "size": 0.32,
+          "surface_size": 0.16,
+          "worst_aspect_element": 81523
+        },
+        "mpi_ranks": 1,
+        "order": 1
+      },
+      "warnings": [],
+      "sweep": [
+        {
+          "F_SI_T4_H2_m8": 9.09705704377767e-40,
+          "L_H": 4.66887485117781e-07,
+          "L_over_MQS": 0.9805060806595874,
+          "Psi_abs": 1.1866737782379904e-13,
+          "Psi_im": -0.0,
+          "Psi_re": -1.1866737782379904e-13,
+          "Psi_vector": {
+            "im": [
+              -0.0,
+              -0.0
+            ],
+            "re": [
+              -1.1866737782379904e-13,
+              -1.5933147161506504e-13
+            ]
+          },
+          "Z_im_ohm": -35.20248703917683,
+          "Z_matrix_im_ohm": [
+            [
+              -35.20248703917683,
+              -34.512185206268114
+            ],
+            [
+              -34.512185206000794,
+              -35.18608936728667
+            ]
+          ],
+          "Z_matrix_re_ohm": [
+            [
+              -0.0,
+              -0.0
+            ],
+            [
+              -0.0,
+              -0.0
+            ]
+          ],
+          "Z_re_ohm": -0.0,
+          "direct_source_solver": {
+            "gmres_iterations": 36,
+            "relative_residual": 1.0508067818517953e-09
+          },
+          "direct_source_voltage": {
+            "im": [
+              8.947309893310827e-06,
+              1.2013310329745227e-05
+            ],
+            "re": [
+              -0.0,
+              -0.0
+            ]
+          },
+          "f_Hz": 12000000.0,
+          "k_R": 0.07649116541303842,
+          "operator_assemblies": 1,
+          "port_rhs_solves": 2,
+          "port_solutions": [
+            {
+              "F_SI_T4_H2_m8": 9.09705704377767e-40,
+              "L_H": 4.66887485117781e-07,
+              "L_over_MQS": 0.9805060806595874,
+              "Psi_abs": 1.1866737782379904e-13,
+              "Psi_im": -0.0,
+              "Psi_re": -1.1866737782379904e-13,
+              "Z_im_ohm": -35.20248703917683,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 0,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 7.511517658741935e-10
+              }
+            },
+            {
+              "F_SI_T4_H2_m8": 2.959282974471099e-39,
+              "L_H": 4.666700042397378e-07,
+              "Psi_abs": 1.5933147161506504e-13,
+              "Psi_im": -0.0,
+              "Psi_re": -1.5933147161506504e-13,
+              "Z_im_ohm": -35.18608936728667,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 1,
+              "solver": {
+                "gmres_iterations": 37,
+                "relative_residual": 7.747683151639129e-10
+              }
+            }
+          ],
+          "preconditioner_setups": 1,
+          "reciprocal_source_voltage": {
+            "im": [
+              8.947309497408273e-06,
+              1.2013309937076936e-05
+            ],
+            "re": [
+              -0.0,
+              -0.0
+            ]
+          },
+          "reciprocity_relative_error": 5.423169415718026e-12,
+          "resistance_max_eigenvalue_ohm": 1.3366019402383242e-10,
+          "resistance_min_eigenvalue_ohm": -1.3366019402383242e-10,
+          "solver": {
+            "gmres_iterations": 37,
+            "relative_residual": 7.511517658741935e-10
+          },
+          "source_reciprocity_relative_error": 3.722572305245447e-08
+        }
+      ],
+      "mesh_sha256": {
+        "mesh3d.msh": "47f1d79570e0ce622cdfbe5491dc5389875b845554f7b19b797beb9918c45d5f"
+      }
+    },
+    "floating_port": {
+      "case": "floating_port",
+      "elapsed_s": 50.58948635030538,
+      "returncode": 0,
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/floating_port/time.txt",
+        "build-stage1/axf",
+        "solve",
+        "realistic_toroid_fw/results/stage1_multiport/run/floating_port/design.json",
+        "-o",
+        "realistic_toroid_fw/results/stage1_multiport/run/floating_port",
+        "-v",
+        "1",
+        "--no-self-force",
+        "--mesher",
+        "build-stage1/axf-mesher"
+      ],
+      "design_sha256": "1e6f6bc0b6f664febad4acbd23708014020a489f3ca477ccdd24f25a798cce7c",
+      "binary_sha256": "7e06b2091781732329feeec9f477c94f9f828bd92c360cbeb7da221c0e058441",
+      "library_sha256": "e15619dc80c43e496f5b8b709a91d876ad53d4b7d31d4cba807e5df030e81633",
+      "mesher_sha256": "ed7f42c660013e941270f1d6e2f1f0547dd5f8132329ecd015db13b3c67ea1cb",
+      "mesh": {
+        "dofs": 109483,
+        "elements": 86024,
+        "info": {
+          "device_radius": 0.4272004154961316,
+          "domain_center": [
+            0,
+            0,
+            0
+          ],
+          "domain_radius": 0.7,
+          "elements_3d": 86024,
+          "gmsh_version": "4.15.2",
+          "groups": [
+            {
+              "attr": 1,
+              "dim": 3,
+              "entities": 1,
+              "name": "air"
+            },
+            {
+              "attr": 2,
+              "dim": 3,
+              "entities": 1,
+              "name": "loop"
+            },
+            {
+              "attr": 3,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap0"
+            },
+            {
+              "attr": 4,
+              "dim": 3,
+              "entities": 1,
+              "name": "gap1"
+            },
+            {
+              "attr": 5,
+              "dim": 3,
+              "entities": 1,
+              "name": "floating_electrode"
+            },
+            {
+              "attr": 6,
+              "dim": 3,
+              "entities": 1,
+              "name": "floating_gap"
+            },
+            {
+              "attr": 898,
+              "dim": 3,
+              "entities": 1,
+              "name": "infinity_shell"
+            },
+            {
+              "attr": 901,
+              "dim": 2,
+              "name": "outer"
+            }
+          ],
+          "maximum_jacobian_aspect_ratio": 27.013574270568057,
+          "ok": true,
+          "seconds": 5.589507047,
+          "shell_attr": 898,
+          "shell_inner_radius": 0.7,
+          "shell_outer_radius": 0.875,
+          "size": 0.32,
+          "surface_size": 0.16,
+          "worst_aspect_element": 83241
+        },
+        "mpi_ranks": 1,
+        "order": 1
+      },
+      "warnings": [],
+      "sweep": [
+        {
+          "F_SI_T4_H2_m8": 5.592360959890946e-23,
+          "L_H": 4.551673402415338e-07,
+          "L_over_MQS": 0.9781540389293805,
+          "Psi_abs": 1.8449489133115469e-09,
+          "Psi_im": -0.0,
+          "Psi_re": -1.8449489133115469e-09,
+          "Psi_vector": {
+            "im": [
+              -0.0,
+              0.0
+            ],
+            "re": [
+              -1.8449489133115469e-09,
+              3.7496025708377603e-10
+            ]
+          },
+          "Z_im_ohm": -34.3188089341634,
+          "Z_matrix_im_ohm": [
+            [
+              -34.3188089341634,
+              0.06760240557899129
+            ],
+            [
+              0.06760240532276013,
+              526.2847949323277
+            ]
+          ],
+          "Z_matrix_re_ohm": [
+            [
+              -0.0,
+              -0.0
+            ],
+            [
+              -0.0,
+              -0.0
+            ]
+          ],
+          "Z_re_ohm": -0.0,
+          "circuit_loaded_voltage": {
+            "im": [
+              -2.6858132150073315,
+              0.0005914005635291599
+            ],
+            "re": [
+              9.217393407639404,
+              0.00015179336530294228
+            ]
+          },
+          "direct_loaded_solver": {
+            "gmres_iterations": 56,
+            "relative_residual": 4.941768751451816e-10
+          },
+          "direct_loaded_voltage": {
+            "im": [
+              -2.685813215023589,
+              0.00059140094526687
+            ],
+            "re": [
+              9.217393407661783,
+              0.00015179435142457154
+            ]
+          },
+          "direct_source_solver": {
+            "gmres_iterations": 43,
+            "relative_residual": 7.571099442088744e-10
+          },
+          "direct_source_voltage": {
+            "im": [
+              0.13910587078295572,
+              -0.028271363000782816
+            ],
+            "re": [
+              -0.0,
+              -0.0
+            ]
+          },
+          "f_Hz": 12000000.0,
+          "k_R": 0.07649116541303842,
+          "loaded_closure_relative_error": 1.1017837427385388e-10,
+          "operator_assemblies": 1,
+          "port_rhs_solves": 2,
+          "port_solutions": [
+            {
+              "F_SI_T4_H2_m8": 5.592360959890946e-23,
+              "L_H": 4.551673402415338e-07,
+              "L_over_MQS": 0.9781540389293805,
+              "Psi_abs": 1.8449489133115469e-09,
+              "Psi_im": -0.0,
+              "Psi_re": -1.8449489133115469e-09,
+              "Z_im_ohm": -34.3188089341634,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 0,
+              "solver": {
+                "gmres_iterations": 43,
+                "relative_residual": 4.453427475101068e-10
+              }
+            },
+            {
+              "L_H": -6.980068882298702e-06,
+              "Psi_abs": 3.7496025708377603e-10,
+              "Psi_im": 0.0,
+              "Psi_re": 3.7496025708377603e-10,
+              "Z_im_ohm": 526.2847949323277,
+              "Z_re_ohm": -0.0,
+              "f_Hz": 12000000.0,
+              "k_R": 0.07649116541303842,
+              "port_index": 1,
+              "solver": {
+                "gmres_iterations": 44,
+                "relative_residual": 6.280798679386822e-11
+              }
+            }
+          ],
+          "preconditioner_setups": 1,
+          "reciprocal_source_voltage": {
+            "im": [
+              0.13910587085539267,
+              -0.02827133733702074
+            ],
+            "re": [
+              -0.0,
+              0.0
+            ]
+          },
+          "reciprocity_relative_error": 6.870758718187674e-13,
+          "resistance_max_eigenvalue_ohm": 1.281155806442946e-10,
+          "resistance_min_eigenvalue_ohm": -1.281155806442946e-10,
+          "solver": {
+            "gmres_iterations": 43,
+            "relative_residual": 4.453427475101068e-10
+          },
+          "source_reciprocity_relative_error": 1.8079550580100717e-07
+        }
+      ],
+      "mesh_sha256": {
+        "mesh3d.msh": "1019782430c8c85a1b1fa909adc6965fba764b06437f99b5166dea5defc7efef"
+      }
+    }
+  },
+  "source_comparison": {
+    "scope": "offset tilted external loop; no realistic N=50 detector inference",
+    "azimuthal_samples": 32,
+    "mesh_identical": true,
+    "rows": [
+      {
+        "f_Hz": 12000000.0,
+        "norm_Psi_exact": 9.461073876672455e-12,
+        "norm_exact_minus_average_over_exact": 0.9792211398100222
+      }
+    ],
+    "source_sha256": "79b66aa72f262bea2af210161551850c4c9a3050e52ba705eb6223c896dc018d"
+  },
+  "compute": {
+    "node_seconds": 983,
+    "node_hours": 0.27305555555555555,
+    "ledger": [
+      {
+        "state": "FAILED",
+        "elapsed_s": 6,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "FAILED",
+        "elapsed_s": 6,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": "7216K"
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 7,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "FAILED",
+        "elapsed_s": 9,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "FAILED",
+        "elapsed_s": 9,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": "15404K"
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 10,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 81,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 81,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": "13097708K"
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 81,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 350,
+        "allocated_cpus": 4,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 350,
+        "allocated_cpus": 4,
+        "nodes": 1,
+        "max_rss": "495892K"
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 351,
+        "allocated_cpus": 4,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 74,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 74,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": "13791756K"
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 75,
+        "allocated_cpus": 16,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 402,
+        "allocated_cpus": 4,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 402,
+        "allocated_cpus": 4,
+        "nodes": 1,
+        "max_rss": "437868K"
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 402,
+        "allocated_cpus": 4,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 61,
+        "allocated_cpus": 4,
+        "nodes": 1,
+        "max_rss": ""
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 61,
+        "allocated_cpus": 4,
+        "nodes": 1,
+        "max_rss": "416076K"
+      },
+      {
+        "state": "COMPLETED",
+        "elapsed_s": 61,
+        "allocated_cpus": 4,
+        "nodes": 1,
+        "max_rss": ""
+      }
+    ]
+  },
+  "source_sha256": {
+    "cpp/src/model3d.cpp": "bbfa197f9de0e37db7eed7427af752fd55785b5c431d13e7e6cfcc5b273f0c81",
+    "cpp/src/model3d_fullwave.cpp": "f60a2a0ea41aac3e3fe7b91052bdb9f424fd9596768c4549004c4ae2cc966d0f",
+    "cpp/src/model3d_impl.hpp": "fd947703660ef88e1c3e668bad76c289152962111c2d3e2776541567bd3e671b",
+    "cpp/src/spec.cpp": "b625a4b789cf777811ca32e51c8764fce2b846b4ca942647486945c27bb8803c",
+    "cpp/include/axionfem/spec.hpp": "5113d705d8f70a14b04080b823c15e86460d64b9a29d9a74209c2b8348c61c47",
+    "cpp/src/prescribed_source.cpp": "d9ec45044d39b1a04024eecffec230b7ed314eeb0cee3aea6fb921b55fa4c9ad",
+    "cpp/include/axionfem/prescribed_source.hpp": "042df4ebb5cb9ceef5245b3de31521a7a4447abb3b41895f564c53e32e544300",
+    "python/axionfem/prescribed_source.py": "b37e7d068325b15fd167c6beee733c35ce4d5bda1414d036e4d284888fd8d2c1"
+  },
+  "failure_history": [
+    {
+      "reason": "wrong Tcl module initialization; failed before compilation"
+    },
+    {
+      "reason": "Ninja missing from exported PATH; failed before compilation"
+    }
+  ],
+  "checks": {
+    "cpp_ctest": "8/8",
+    "python": "98 passed"
+  }
+}

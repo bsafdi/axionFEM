@@ -1,0 +1,1764 @@
+{
+ "id": "chem_analytic_batch_kinetics",
+ "capability": "C1c",
+ "title": "Closed forms: first order, reversible (k_r, K_c, K_c with mole change), Wegscheider cycle, consecutive (incl. degenerate), second order",
+ "physics": "constant-volume isothermal batch",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "analytic_batch_kinetics",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "cases": {
+    "A1": {
+     "k": "7/10",
+     "A0": "2"
+    },
+    "A2": {
+     "kf": "13/10",
+     "kr": "9/20",
+     "A0": "3/2",
+     "Kc": "26/9"
+    },
+    "A2m": {
+     "kf": "4/5",
+     "Kc": "2",
+     "A0": "3/2"
+    },
+    "A3": {
+     "k1": "11/10",
+     "k2": "2/5",
+     "A0": "1",
+     "kdeg": "4/5"
+    },
+    "A4": {
+     "k": "7/20",
+     "A0": "6/5",
+     "B0": "2"
+    },
+    "A11": {
+     "k1": "6/5",
+     "k2": "7/10",
+     "k3": "9/10",
+     "K1": "2",
+     "K2": "3/2",
+     "c0": "[1, 1/5, 1/10]"
+    }
+   },
+   "adaptive": {
+    "methods": {
+     "bdf2": "bdf2_adaptive",
+     "onestep": "onestep_adaptive"
+    },
+    "rtol": 1e-08,
+    "atol": "1e-10 S_i"
+   },
+   "fixed": {
+    "start": "exact",
+    "error": "final time"
+   },
+   "dt_levels": {
+    "A1": [
+     0.125,
+     0.0625,
+     0.03125,
+     0.015625,
+     0.0078125
+    ],
+    "A2_kr": [
+     0.125,
+     0.0625,
+     0.03125,
+     0.015625,
+     0.0078125
+    ],
+    "A2_Kc": [
+     0.125,
+     0.0625,
+     0.03125,
+     0.015625,
+     0.0078125
+    ],
+    "A2m": [
+     0.125,
+     0.0625,
+     0.03125,
+     0.015625,
+     0.0078125
+    ],
+    "A11": [
+     0.125,
+     0.0625,
+     0.03125,
+     0.015625,
+     0.0078125
+    ],
+    "A3": [
+     0.25,
+     0.125,
+     0.0625,
+     0.03125,
+     0.015625
+    ],
+    "A3_deg": [
+     0.25,
+     0.125,
+     0.0625,
+     0.03125,
+     0.015625
+    ],
+    "A4": [
+     0.125,
+     0.0625,
+     0.03125,
+     0.015625,
+     0.0078125
+    ]
+   },
+   "scales": {
+    "A1": [
+     2.0,
+     1.939605233155363
+    ],
+    "A2_kr": [
+     1.5,
+     1.114109143094871
+    ],
+    "A2_Kc": [
+     1.5,
+     1.114109143094871
+    ],
+    "A2m": [
+     1.5,
+     1.3027745257302925
+    ],
+    "A11": [
+     1.0,
+     0.43332929133770987,
+     0.6520413379846152
+    ],
+    "A3": [
+     1.0,
+     0.5609869316969336,
+     0.9712278255752979
+    ],
+    "A3_deg": [
+     1.0,
+     0.36787944117144233,
+     0.9969808363488774
+    ],
+    "A4": [
+     1.2,
+     2.0,
+     1.061078952128394
+    ]
+   },
+   "output_policy": {
+    "rule": "stop_time",
+    "text": "Adaptive runs: the solver steps EXACTLY to every fixed output time (stop-time mode: each output time is an accepted step end) and reports the state there; no interpolated outputs for any compared value. Dense output is used only where an item says so (dense-output query times, maxima located on the dense output, event location)."
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "A1_A_t0.5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.4093761794374269,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A1_A_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.493193927883213,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A1_A_t5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.060394766844637,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A1_B_t0.5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.5906238205625731,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A1_B_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.506806072116787,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A1_B_t5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.939605233155363,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_kr_A_t0.5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.850217679070338,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_kr_A_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.41936279867058346,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_kr_A_t5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.385890856905129,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_kr_B_t0.5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.649782320929662,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_kr_B_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.0806372013294165,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_kr_B_t5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.114109143094871,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_Kc_A_t0.5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.850217679070338,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_Kc_A_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.41936279867058346,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_Kc_A_t5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.385890856905129,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_Kc_B_t0.5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.649782320929662,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_Kc_B_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.0806372013294165,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2_Kc_B_t5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.114109143094871,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2m_A_t0.5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.061277576622647,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2m_A_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.8517919777743378,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2m_A_t5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.8486127371348536,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2m_B_t0.5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.877444846754706,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2m_B_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.2964160444513244,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A2m_B_t5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.3027745257302927,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A3_A_t1": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.33287108369807955,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A3_A_t3": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.03688316740124001,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A3_A_t10": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.670170079024566e-05,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A3_B_t1": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.5302769408161653,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A3_B_t3": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.4153459270886547,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A3_B_t10": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.028755472723911896,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A3_C_t1": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.13685197548575512,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A3_C_t3": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.5477709055101053,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A3_C_t10": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.9712278255752979,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A4_A_t0.5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.8722930312088867,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A4_A_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.41714736371685446,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A4_A_t5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.13892104787160586,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A4_B_t0.5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.6722930312088866,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A4_B_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.2171473637168544,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A4_B_t5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.9389210478716059,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A4_C_t0.5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.3277069687911133,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A4_C_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.7828526362831455,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A4_C_t5": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.061078952128394,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A11_A_t0.5": {
+    "kind": "scalar",
+    "source": "expm_c1",
+    "value": 0.29166044684484665,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A11_B_t0.5": {
+    "kind": "scalar",
+    "source": "expm_c1",
+    "value": 0.39913436034025723,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A11_C_t0.5": {
+    "kind": "scalar",
+    "source": "expm_c1",
+    "value": 0.6092051928148962,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A11_A_t2": {
+    "kind": "scalar",
+    "source": "expm_c1",
+    "value": 0.2168305195982375,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A11_B_t2": {
+    "kind": "scalar",
+    "source": "expm_c1",
+    "value": 0.4323060532556977,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A11_C_t2": {
+    "kind": "scalar",
+    "source": "expm_c1",
+    "value": 0.6508634271460648,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A11_A_t40": {
+    "kind": "scalar",
+    "source": "expm_c1",
+    "value": 0.21666666666666667,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A11_B_t40": {
+    "kind": "scalar",
+    "source": "expm_c1",
+    "value": 0.43333333333333335,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A11_C_t40": {
+    "kind": "scalar",
+    "source": "expm_c1",
+    "value": 0.65,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A3_t_star": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.4451441595406855,
+    "unit": "s",
+    "uncertainty_kind": "exact"
+   },
+   "A3_B_max": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.5609869342619699,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A3deg_t_star": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.25,
+    "unit": "s",
+    "uncertainty_kind": "exact"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "A1_bdf2_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error), history y_1 from the exact solution (start = exact)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A1",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A1_onestep_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A1",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A2_kr_bdf2_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error), history y_1 from the exact solution (start = exact)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A2_kr",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A2_kr_onestep_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A2_kr",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A2_Kc_bdf2_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error), history y_1 from the exact solution (start = exact)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A2_Kc",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A2_Kc_onestep_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A2_Kc",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A2m_bdf2_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error), history y_1 from the exact solution (start = exact)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A2m",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A2m_onestep_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A2m",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A11_bdf2_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error), history y_1 from the exact solution (start = exact)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A11",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A11_onestep_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A11",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A3_bdf2_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error), history y_1 from the exact solution (start = exact)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A3",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A3_onestep_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A3",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A3_deg_bdf2_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error), history y_1 from the exact solution (start = exact)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A3_deg",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A3_deg_onestep_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A3_deg",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A4_bdf2_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error), history y_1 from the exact solution (start = exact)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A4",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A4_onestep_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / S_i at the FINAL time (c1_kinetics_check.final_time_error)",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels.A4",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "comparisons": [
+   {
+    "quantity": "A1_A_t0.5__bdf2",
+    "reference": "A1_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.4965402343953343e-05
+    }
+   },
+   {
+    "quantity": "A1_A_t0.5__onestep",
+    "reference": "A1_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.3894438238003746e-07
+    }
+   },
+   {
+    "quantity": "A1_A_t2__bdf2",
+    "reference": "A1_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.4965402343953343e-05
+    }
+   },
+   {
+    "quantity": "A1_A_t2__onestep",
+    "reference": "A1_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.3894438238003746e-07
+    }
+   },
+   {
+    "quantity": "A1_A_t5__bdf2",
+    "reference": "A1_A_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.4965402343953343e-05
+    }
+   },
+   {
+    "quantity": "A1_A_t5__onestep",
+    "reference": "A1_A_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.3894438238003746e-07
+    }
+   },
+   {
+    "quantity": "A1_B_t0.5__bdf2",
+    "reference": "A1_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.4211512517080536e-05
+    }
+   },
+   {
+    "quantity": "A1_B_t0.5__onestep",
+    "reference": "A1_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.3474862559093023e-07
+    }
+   },
+   {
+    "quantity": "A1_B_t2__bdf2",
+    "reference": "A1_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.4211512517080536e-05
+    }
+   },
+   {
+    "quantity": "A1_B_t2__onestep",
+    "reference": "A1_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.3474862559093023e-07
+    }
+   },
+   {
+    "quantity": "A1_B_t5__bdf2",
+    "reference": "A1_B_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.4211512517080536e-05
+    }
+   },
+   {
+    "quantity": "A1_B_t5__onestep",
+    "reference": "A1_B_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.3474862559093023e-07
+    }
+   },
+   {
+    "quantity": "A2_kr_A_t0.5__bdf2",
+    "reference": "A2_kr_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.6901547400308607e-05
+    }
+   },
+   {
+    "quantity": "A2_kr_A_t0.5__onestep",
+    "reference": "A2_kr_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.7025069874057848e-07
+    }
+   },
+   {
+    "quantity": "A2_kr_A_t2__bdf2",
+    "reference": "A2_kr_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.6901547400308607e-05
+    }
+   },
+   {
+    "quantity": "A2_kr_A_t2__onestep",
+    "reference": "A2_kr_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.7025069874057848e-07
+    }
+   },
+   {
+    "quantity": "A2_kr_A_t5__bdf2",
+    "reference": "A2_kr_A_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.6901547400308607e-05
+    }
+   },
+   {
+    "quantity": "A2_kr_A_t5__onestep",
+    "reference": "A2_kr_A_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.7025069874057848e-07
+    }
+   },
+   {
+    "quantity": "A2_kr_B_t0.5__bdf2",
+    "reference": "A2_kr_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.255344566075678e-05
+    }
+   },
+   {
+    "quantity": "A2_kr_B_t0.5__onestep",
+    "reference": "A2_kr_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2645190672344597e-07
+    }
+   },
+   {
+    "quantity": "A2_kr_B_t2__bdf2",
+    "reference": "A2_kr_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.255344566075678e-05
+    }
+   },
+   {
+    "quantity": "A2_kr_B_t2__onestep",
+    "reference": "A2_kr_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2645190672344597e-07
+    }
+   },
+   {
+    "quantity": "A2_kr_B_t5__bdf2",
+    "reference": "A2_kr_B_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.255344566075678e-05
+    }
+   },
+   {
+    "quantity": "A2_kr_B_t5__onestep",
+    "reference": "A2_kr_B_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2645190672344597e-07
+    }
+   },
+   {
+    "quantity": "A2_Kc_A_t0.5__bdf2",
+    "reference": "A2_Kc_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.6901547400308607e-05
+    }
+   },
+   {
+    "quantity": "A2_Kc_A_t0.5__onestep",
+    "reference": "A2_Kc_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.7025069874057848e-07
+    }
+   },
+   {
+    "quantity": "A2_Kc_A_t2__bdf2",
+    "reference": "A2_Kc_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.6901547400308607e-05
+    }
+   },
+   {
+    "quantity": "A2_Kc_A_t2__onestep",
+    "reference": "A2_Kc_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.7025069874057848e-07
+    }
+   },
+   {
+    "quantity": "A2_Kc_A_t5__bdf2",
+    "reference": "A2_Kc_A_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.6901547400308607e-05
+    }
+   },
+   {
+    "quantity": "A2_Kc_A_t5__onestep",
+    "reference": "A2_Kc_A_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.7025069874057848e-07
+    }
+   },
+   {
+    "quantity": "A2_Kc_B_t0.5__bdf2",
+    "reference": "A2_Kc_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.255344566075678e-05
+    }
+   },
+   {
+    "quantity": "A2_Kc_B_t0.5__onestep",
+    "reference": "A2_Kc_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2645190672344597e-07
+    }
+   },
+   {
+    "quantity": "A2_Kc_B_t2__bdf2",
+    "reference": "A2_Kc_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.255344566075678e-05
+    }
+   },
+   {
+    "quantity": "A2_Kc_B_t2__onestep",
+    "reference": "A2_Kc_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2645190672344597e-07
+    }
+   },
+   {
+    "quantity": "A2_Kc_B_t5__bdf2",
+    "reference": "A2_Kc_B_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.255344566075678e-05
+    }
+   },
+   {
+    "quantity": "A2_Kc_B_t5__onestep",
+    "reference": "A2_Kc_B_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2645190672344597e-07
+    }
+   },
+   {
+    "quantity": "A2m_A_t0.5__bdf2",
+    "reference": "A2m_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.4883601424928954e-05
+    }
+   },
+   {
+    "quantity": "A2m_A_t0.5__onestep",
+    "reference": "A2m_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 3.339987905386351e-07
+    }
+   },
+   {
+    "quantity": "A2m_A_t2__bdf2",
+    "reference": "A2m_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.4883601424928954e-05
+    }
+   },
+   {
+    "quantity": "A2m_A_t2__onestep",
+    "reference": "A2m_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 3.339987905386351e-07
+    }
+   },
+   {
+    "quantity": "A2m_A_t5__bdf2",
+    "reference": "A2m_A_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.4883601424928954e-05
+    }
+   },
+   {
+    "quantity": "A2m_A_t5__onestep",
+    "reference": "A2m_A_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 3.339987905386351e-07
+    }
+   },
+   {
+    "quantity": "A2m_B_t0.5__bdf2",
+    "reference": "A2m_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.292665119168035e-05
+    }
+   },
+   {
+    "quantity": "A2m_B_t0.5__onestep",
+    "reference": "A2m_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.9008341062564114e-07
+    }
+   },
+   {
+    "quantity": "A2m_B_t2__bdf2",
+    "reference": "A2m_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.292665119168035e-05
+    }
+   },
+   {
+    "quantity": "A2m_B_t2__onestep",
+    "reference": "A2m_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.9008341062564114e-07
+    }
+   },
+   {
+    "quantity": "A2m_B_t5__bdf2",
+    "reference": "A2m_B_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.292665119168035e-05
+    }
+   },
+   {
+    "quantity": "A2m_B_t5__onestep",
+    "reference": "A2m_B_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.9008341062564114e-07
+    }
+   },
+   {
+    "quantity": "A3_A_t1__bdf2",
+    "reference": "A3_A_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.7811948818900106e-05
+    }
+   },
+   {
+    "quantity": "A3_A_t1__onestep",
+    "reference": "A3_A_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 8.396065144546523e-08
+    }
+   },
+   {
+    "quantity": "A3_A_t3__bdf2",
+    "reference": "A3_A_t3",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.7811948818900106e-05
+    }
+   },
+   {
+    "quantity": "A3_A_t3__onestep",
+    "reference": "A3_A_t3",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 8.396065144546523e-08
+    }
+   },
+   {
+    "quantity": "A3_A_t10__onestep",
+    "reference": "A3_A_t10",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 8.396065144546523e-08
+    }
+   },
+   {
+    "quantity": "A3_B_t1__bdf2",
+    "reference": "A3_B_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 9.99227051545759e-06
+    }
+   },
+   {
+    "quantity": "A3_B_t1__onestep",
+    "reference": "A3_B_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 4.710082823766725e-08
+    }
+   },
+   {
+    "quantity": "A3_B_t3__bdf2",
+    "reference": "A3_B_t3",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 9.99227051545759e-06
+    }
+   },
+   {
+    "quantity": "A3_B_t3__onestep",
+    "reference": "A3_B_t3",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 4.710082823766725e-08
+    }
+   },
+   {
+    "quantity": "A3_B_t10__bdf2",
+    "reference": "A3_B_t10",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 9.99227051545759e-06
+    }
+   },
+   {
+    "quantity": "A3_B_t10__onestep",
+    "reference": "A3_B_t10",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 4.710082823766725e-08
+    }
+   },
+   {
+    "quantity": "A3_C_t1__bdf2",
+    "reference": "A3_C_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.7299460320638843e-05
+    }
+   },
+   {
+    "quantity": "A3_C_t1__onestep",
+    "reference": "A3_C_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 8.154492093726467e-08
+    }
+   },
+   {
+    "quantity": "A3_C_t3__bdf2",
+    "reference": "A3_C_t3",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.7299460320638843e-05
+    }
+   },
+   {
+    "quantity": "A3_C_t3__onestep",
+    "reference": "A3_C_t3",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 8.154492093726467e-08
+    }
+   },
+   {
+    "quantity": "A3_C_t10__bdf2",
+    "reference": "A3_C_t10",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.7299460320638843e-05
+    }
+   },
+   {
+    "quantity": "A3_C_t10__onestep",
+    "reference": "A3_C_t10",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 8.154492093726467e-08
+    }
+   },
+   {
+    "quantity": "A4_A_t0.5__bdf2",
+    "reference": "A4_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.091032796788721e-05
+    }
+   },
+   {
+    "quantity": "A4_A_t0.5__onestep",
+    "reference": "A4_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1471099038785065e-07
+    }
+   },
+   {
+    "quantity": "A4_A_t2__bdf2",
+    "reference": "A4_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.091032796788721e-05
+    }
+   },
+   {
+    "quantity": "A4_A_t2__onestep",
+    "reference": "A4_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1471099038785065e-07
+    }
+   },
+   {
+    "quantity": "A4_A_t5__bdf2",
+    "reference": "A4_A_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 2.091032796788721e-05
+    }
+   },
+   {
+    "quantity": "A4_A_t5__onestep",
+    "reference": "A4_A_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1471099038785065e-07
+    }
+   },
+   {
+    "quantity": "A4_B_t0.5__bdf2",
+    "reference": "A4_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 3.485054661314535e-05
+    }
+   },
+   {
+    "quantity": "A4_B_t0.5__onestep",
+    "reference": "A4_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.911849839797511e-07
+    }
+   },
+   {
+    "quantity": "A4_B_t2__bdf2",
+    "reference": "A4_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 3.485054661314535e-05
+    }
+   },
+   {
+    "quantity": "A4_B_t2__onestep",
+    "reference": "A4_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.911849839797511e-07
+    }
+   },
+   {
+    "quantity": "A4_B_t5__bdf2",
+    "reference": "A4_B_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 3.485054661314535e-05
+    }
+   },
+   {
+    "quantity": "A4_B_t5__onestep",
+    "reference": "A4_B_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.911849839797511e-07
+    }
+   },
+   {
+    "quantity": "A4_C_t0.5__bdf2",
+    "reference": "A4_C_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.848959074068901e-05
+    }
+   },
+   {
+    "quantity": "A4_C_t0.5__onestep",
+    "reference": "A4_C_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.0143118123195904e-07
+    }
+   },
+   {
+    "quantity": "A4_C_t2__bdf2",
+    "reference": "A4_C_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.848959074068901e-05
+    }
+   },
+   {
+    "quantity": "A4_C_t2__onestep",
+    "reference": "A4_C_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.0143118123195904e-07
+    }
+   },
+   {
+    "quantity": "A4_C_t5__bdf2",
+    "reference": "A4_C_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.848959074068901e-05
+    }
+   },
+   {
+    "quantity": "A4_C_t5__onestep",
+    "reference": "A4_C_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.0143118123195904e-07
+    }
+   },
+   {
+    "quantity": "A11_A_t0.5__bdf2",
+    "reference": "A11_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.4924110245191094e-05
+    }
+   },
+   {
+    "quantity": "A11_A_t0.5__onestep",
+    "reference": "A11_A_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2368998268892163e-07
+    }
+   },
+   {
+    "quantity": "A11_B_t0.5__bdf2",
+    "reference": "A11_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 6.467054116394512e-06
+    }
+   },
+   {
+    "quantity": "A11_B_t0.5__onestep",
+    "reference": "A11_B_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 5.359849254416401e-08
+    }
+   },
+   {
+    "quantity": "A11_C_t0.5__bdf2",
+    "reference": "A11_C_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 9.731136812504304e-06
+    }
+   },
+   {
+    "quantity": "A11_C_t0.5__onestep",
+    "reference": "A11_C_t0.5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 8.065098180777834e-08
+    }
+   },
+   {
+    "quantity": "A11_A_t2__bdf2",
+    "reference": "A11_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.4924110245191094e-05
+    }
+   },
+   {
+    "quantity": "A11_A_t2__onestep",
+    "reference": "A11_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2368998268892163e-07
+    }
+   },
+   {
+    "quantity": "A11_B_t2__bdf2",
+    "reference": "A11_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 6.467054116394512e-06
+    }
+   },
+   {
+    "quantity": "A11_B_t2__onestep",
+    "reference": "A11_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 5.359849254416401e-08
+    }
+   },
+   {
+    "quantity": "A11_C_t2__bdf2",
+    "reference": "A11_C_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 9.731136812504304e-06
+    }
+   },
+   {
+    "quantity": "A11_C_t2__onestep",
+    "reference": "A11_C_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 8.065098180777834e-08
+    }
+   },
+   {
+    "quantity": "A11_A_t40__bdf2",
+    "reference": "A11_A_t40",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.4924110245191094e-05
+    }
+   },
+   {
+    "quantity": "A11_A_t40__onestep",
+    "reference": "A11_A_t40",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2368998268892163e-07
+    }
+   },
+   {
+    "quantity": "A11_B_t40__bdf2",
+    "reference": "A11_B_t40",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 6.467054116394512e-06
+    }
+   },
+   {
+    "quantity": "A11_B_t40__onestep",
+    "reference": "A11_B_t40",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 5.359849254416401e-08
+    }
+   },
+   {
+    "quantity": "A11_C_t40__bdf2",
+    "reference": "A11_C_t40",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 9.731136812504304e-06
+    }
+   },
+   {
+    "quantity": "A11_C_t40__onestep",
+    "reference": "A11_C_t40",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 8.065098180777834e-08
+    }
+   },
+   {
+    "quantity": "A3_t_star__bdf2",
+    "reference": "A3_t_star",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 4.8e-05
+    }
+   },
+   {
+    "quantity": "A3_t_star__onestep",
+    "reference": "A3_t_star",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3.22e-07
+    }
+   },
+   {
+    "quantity": "A3deg_t_star__bdf2",
+    "reference": "A3deg_t_star",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 4.52e-05
+    }
+   },
+   {
+    "quantity": "A3deg_t_star__onestep",
+    "reference": "A3deg_t_star",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 5.77e-07
+    }
+   },
+   {
+    "quantity": "A3_B_max__onestep",
+    "reference": "A3_B_max",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1.6e-07
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "A3_invariant_drift_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1.0,
+    "scale_quantity": "A3_invariant_scale"
+   },
+   {
+    "quantity": "A3_min_scaled",
+    "level": "conservation",
+    "min": -10.0
+   },
+   {
+    "quantity": "A4_invariant_drift_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 2.0,
+    "scale_quantity": "A4_invariant_scale"
+   },
+   {
+    "quantity": "A4_min_scaled",
+    "level": "conservation",
+    "min": -10.0
+   },
+   {
+    "quantity": "A2m_Q_over_K_minus_1",
+    "level": "analytic",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "A11_ratio1_minus_1",
+    "level": "analytic",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "A11_ratio2_minus_1",
+    "level": "analytic",
+    "abs_max": 1e-06
+   },
+   {
+    "quantity": "outputs_at_step_ends_min",
+    "level": "analytic",
+    "min": 1.0
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  }
+ }
+}

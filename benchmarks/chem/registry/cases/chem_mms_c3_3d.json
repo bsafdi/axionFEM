@@ -1,0 +1,847 @@
+{
+ "id": "chem_mms_c3_3d",
+ "capability": "C3b",
+ "title": "MMS 3D (P5): variable kappa, BV sym/asym on two faces, manufactured flux on four; P1/P2 on nested Kuhn boxes to N = 64/32; 1 and 4 ranks",
+ "physics": "as chem_mms_c3_bv_2d in 3D: -div(kappa grad phi) = f on [0, L]^3, kinetic faces x = 0, L",
+ "levels": [
+  "mms",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3b_current_distribution",
+   "function": "mms_3d",
+   "check_module": "c3b_checks",
+   "cost": "long",
+   "timeout_s": 21600
+  },
+  "parameters": {
+   "field": {
+    "path": "benchmarks/chem/casedata/c3/mms_bv3d.json",
+    "sha256": "6455743a5b984bf9e00b024ed18dce0d6642ab58207799e5b5ea7b21da514d21"
+   },
+   "variants": [
+    "bv_sym",
+    "bv_asym"
+   ],
+   "elements": {
+    "p1": "Lagrange P1",
+    "p2": "Lagrange P2 (straight-sided)"
+   },
+   "quadrature": {
+    "domain_degree": "2k + 4",
+    "boundary_degree": "2k + 4",
+    "error_norms": "2k + 8"
+   },
+   "meshes": {
+    "p1_3d": {
+     "family": "bv3d_kuhn_p1",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.0025,
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625
+     ],
+     "construction": "[0, L]^3, L = 0.01 m: the unit cube's N^3 cells, each split into the 6 Kuhn (Freudenthal) tetrahedra around the main diagonal (i,j,k)->(i+1,j+1,k+1): one tetrahedron per permutation of the axes, vertices (i,j,k)/N in ij-order (meshes.box); nested under doubling",
+     "attributes": "1 x=0 anode, 2 x=L cathode, 3 y=0, 4 y=L, 5 z=0, 6 z=L insulating (manufactured flux); a facet belongs to a face when ALL its vertices lie on it",
+     "levels": [
+      {
+       "name": "p1_3d_4",
+       "n_elements": 384,
+       "hash_scale": 0.01,
+       "vertex_hash": "97c5f26ce20b0d6a",
+       "connectivity_hash": "3fc7da7f1212b0d7"
+      },
+      {
+       "name": "p1_3d_8",
+       "n_elements": 3072,
+       "hash_scale": 0.01,
+       "vertex_hash": "0e0bbc8cd95c87ab",
+       "connectivity_hash": "dcb4b82cd27a1410"
+      },
+      {
+       "name": "p1_3d_16",
+       "n_elements": 24576,
+       "hash_scale": 0.01,
+       "vertex_hash": "c9e6115802f45cb5",
+       "connectivity_hash": "e48e0c85c07b63c1"
+      },
+      {
+       "name": "p1_3d_32",
+       "n_elements": 196608,
+       "hash_scale": 0.01,
+       "vertex_hash": "75af360d3d4324b0",
+       "connectivity_hash": "21a7383d491c987c"
+      },
+      {
+       "name": "p1_3d_64",
+       "n_elements": 1572864,
+       "hash_scale": 0.01,
+       "vertex_hash": "bd1f1d0b0bceec4a",
+       "connectivity_hash": "fe2b3792fa9d2fdf"
+      }
+     ]
+    },
+    "p2_3d": {
+     "family": "bv3d_kuhn_p2",
+     "N": [
+      4,
+      8,
+      16,
+      32
+     ],
+     "h_nominal": [
+      0.0025,
+      0.00125,
+      0.000625,
+      0.0003125
+     ],
+     "construction": "[0, L]^3, L = 0.01 m: the unit cube's N^3 cells, each split into the 6 Kuhn (Freudenthal) tetrahedra around the main diagonal (i,j,k)->(i+1,j+1,k+1): one tetrahedron per permutation of the axes, vertices (i,j,k)/N in ij-order (meshes.box); nested under doubling",
+     "attributes": "1 x=0 anode, 2 x=L cathode, 3 y=0, 4 y=L, 5 z=0, 6 z=L insulating (manufactured flux); a facet belongs to a face when ALL its vertices lie on it",
+     "levels": [
+      {
+       "name": "p2_3d_4",
+       "n_elements": 384,
+       "hash_scale": 0.01,
+       "vertex_hash": "97c5f26ce20b0d6a",
+       "connectivity_hash": "3fc7da7f1212b0d7"
+      },
+      {
+       "name": "p2_3d_8",
+       "n_elements": 3072,
+       "hash_scale": 0.01,
+       "vertex_hash": "0e0bbc8cd95c87ab",
+       "connectivity_hash": "dcb4b82cd27a1410"
+      },
+      {
+       "name": "p2_3d_16",
+       "n_elements": 24576,
+       "hash_scale": 0.01,
+       "vertex_hash": "c9e6115802f45cb5",
+       "connectivity_hash": "e48e0c85c07b63c1"
+      },
+      {
+       "name": "p2_3d_32",
+       "n_elements": 196608,
+       "hash_scale": 0.01,
+       "vertex_hash": "75af360d3d4324b0",
+       "connectivity_hash": "21a7383d491c987c"
+      }
+     ]
+    }
+   },
+   "control": {
+    "potentiostatic": "both variants, phi_s as in the case data",
+    "galvanostatic": "bv_asym only: anode current = galvanostatic_I_exact.bv_asym.anode of the case data (the exact 3D total, 5.2697e-3 A), cathode potentiostatic (grounded electrode rule); initial phi_s = 0.16 + 0.02 V; the bordered (galvanostatic) row, its current reduced over ALL ranks"
+   },
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   },
+   "newton_note": "the fixed criterion iterates to stagnation also where the problem is linear: one direct solve is not enough (the round-off identities FAIL then)",
+   "taylor": {
+    "variants": [
+     "bv_sym",
+     "bv_asym"
+    ],
+    "state": "the converged potentiostatic solution (P2, Kuhn box N = 8) plus a perturbation",
+    "perturbation_scale": 0.01,
+    "direction_scale": 1.0,
+    "rng": "numpy.random.Generator(PCG64(7)) over the solver's dof order: first n standard normals -> perturbation, next n -> direction (serial run)",
+    "eps": [
+     0.001,
+     0.0001,
+     1e-05,
+     1e-06,
+     1e-07
+    ],
+    "norm": "Euclidean norm of the full residual vector",
+    "statistic": "minimum pairwise slope of log remainder vs log eps",
+    "mesh": "p2_3d at N = 8"
+   },
+   "ranks": "every level (potentiostatic and galvanostatic) on exactly 4 MPI ranks (single-node mpirun); the finest P2 bv_asym level, potentiostatic and galvanostatic, also on 1 rank. Every run reports the world size and the cells owned per rank as seen from inside the run (ranks_*, owned_cells_min)",
+   "raw_data_volume": "the error norms at degree 2k + 8 on P1 N = 64 are 1e8-3e8 quadrature points: the runner may pass them per rank to c3b_checks.field_error_sums and combine the sums with c3b_checks.combine_error_sums (fixed arithmetic)"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "bv_sym_p1_3d_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p1_3d.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 7.045813153959373e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p1_3d_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p1_3d.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.024727782143418947,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p1_3d_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on x = 0 (kinetic integral incl. g)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p1_3d.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.005269673980178749,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p1_3d_Ikin_cathode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on x = L",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p1_3d.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.0037696984300091075,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_3d_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p2_3d.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 7.045813153959373e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_3d_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p2_3d.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.024727782143418947,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_3d_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on x = 0 (kinetic integral incl. g)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p2_3d.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.005269673980178749,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_3d_Ikin_cathode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on x = L",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p2_3d.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.0037696984300091075,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p1_3d_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p1_3d.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 7.045813153959373e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p1_3d_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p1_3d.h_nominal",
+    "expected_order": 1,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.024727782143418947,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p1_3d_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on x = 0 (kinetic integral incl. g)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p1_3d.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.005269673980178749,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p1_3d_Ikin_cathode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on x = L",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p1_3d.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.0037696984300091075,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p2_3d_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p2_3d.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 7.045813153959373e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p2_3d_H1",
+    "level": "mms",
+    "norm": "|phi - phi_h|_H1(Omega)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p2_3d.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.024727782143418947,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p2_3d_Ikin_anode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on x = 0 (kinetic integral incl. g)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p2_3d.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.005269673980178749,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_p2_3d_Ikin_cathode",
+    "level": "mms",
+    "norm": "I_kin,h - I_exact on x = L",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p2_3d.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.0037696984300091075,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_galv_p1_3d_phis",
+    "level": "mms",
+    "norm": "phi_s,h - phi_s of the galvanostatic anode (bv_asym, I = the exact 3D total of the case data)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p1_3d.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.16,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_galv_p1_3d_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2(Omega), galvanostatic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p1_3d.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 7.045813153959373e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_galv_p2_3d_phis",
+    "level": "mms",
+    "norm": "phi_s,h - phi_s of the galvanostatic anode (bv_asym, I = the exact 3D total of the case data)",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p2_3d.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.16,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_asym_galv_p2_3d_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2(Omega), galvanostatic",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 3
+    },
+    "levels_from": "meshes.p2_3d.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 7.045813153959373e-05,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "bv_sym_p1_3d_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0119,
+    "scale_quantity": "bv_sym_p1_3d_I_scale"
+   },
+   {
+    "quantity": "bv_sym_p1_3d_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0001,
+    "scale_quantity": "bv_sym_p1_3d_measure_scale"
+   },
+   {
+    "quantity": "bv_sym_p1_3d_newton_window_ratio",
+    "level": "mms",
+    "max": 0.01
+   },
+   {
+    "quantity": "bv_sym_p2_3d_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0119,
+    "scale_quantity": "bv_sym_p2_3d_I_scale"
+   },
+   {
+    "quantity": "bv_sym_p2_3d_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0001,
+    "scale_quantity": "bv_sym_p2_3d_measure_scale"
+   },
+   {
+    "quantity": "bv_sym_p2_3d_newton_window_ratio",
+    "level": "mms",
+    "max": 0.01
+   },
+   {
+    "quantity": "taylor_bv_sym_min_slope",
+    "level": "mms",
+    "min": 1.9
+   },
+   {
+    "quantity": "bv_asym_p1_3d_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.012,
+    "scale_quantity": "bv_asym_p1_3d_I_scale"
+   },
+   {
+    "quantity": "bv_asym_p1_3d_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0001,
+    "scale_quantity": "bv_asym_p1_3d_measure_scale"
+   },
+   {
+    "quantity": "bv_asym_p1_3d_newton_window_ratio",
+    "level": "mms",
+    "max": 0.01
+   },
+   {
+    "quantity": "bv_asym_p2_3d_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0119,
+    "scale_quantity": "bv_asym_p2_3d_I_scale"
+   },
+   {
+    "quantity": "bv_asym_p2_3d_measure_dev_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0001,
+    "scale_quantity": "bv_asym_p2_3d_measure_scale"
+   },
+   {
+    "quantity": "bv_asym_p2_3d_newton_window_ratio",
+    "level": "mms",
+    "max": 0.01
+   },
+   {
+    "quantity": "taylor_bv_asym_min_slope",
+    "level": "mms",
+    "min": 1.9
+   },
+   {
+    "quantity": "bv_asym_galv_p1_3d_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0119,
+    "scale_quantity": "bv_asym_galv_p1_3d_I_scale"
+   },
+   {
+    "quantity": "bv_asym_galv_p2_3d_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 0.0119,
+    "scale_quantity": "bv_asym_galv_p2_3d_I_scale"
+   },
+   {
+    "quantity": "ranks_4_min",
+    "level": "conservation",
+    "min": 4
+   },
+   {
+    "quantity": "ranks_4_max",
+    "level": "conservation",
+    "max": 4
+   },
+   {
+    "quantity": "ranks_1_max",
+    "level": "conservation",
+    "max": 1
+   },
+   {
+    "quantity": "owned_cells_min",
+    "level": "conservation",
+    "min": 1
+   },
+   {
+    "quantity": "rank_invariance_L2_rel",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "rank_invariance_I_abs",
+    "level": "conservation",
+    "abs_max": 3.2e-13
+   },
+   {
+    "quantity": "rank_invariance_phis_abs",
+    "level": "conservation",
+    "abs_max": 3e-11
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  },
+  "solver_sensitivity": [
+   {
+    "quantity": "bv_sym_p1_3d_Ikin_finest",
+    "tight_quantity": "bv_sym_p1_3d_Ikin_finest_plus1",
+    "level": "mms",
+    "abs_max": 5.5e-10
+   },
+   {
+    "quantity": "bv_sym_p2_3d_Ikin_finest",
+    "tight_quantity": "bv_sym_p2_3d_Ikin_finest_plus1",
+    "level": "mms",
+    "abs_max": 1.1e-12
+   },
+   {
+    "quantity": "bv_asym_p1_3d_Ikin_finest",
+    "tight_quantity": "bv_asym_p1_3d_Ikin_finest_plus1",
+    "level": "mms",
+    "abs_max": 2.4999999999999996e-10
+   },
+   {
+    "quantity": "bv_asym_p2_3d_Ikin_finest",
+    "tight_quantity": "bv_asym_p2_3d_Ikin_finest_plus1",
+    "level": "mms",
+    "abs_max": 3.2e-13
+   },
+   {
+    "quantity": "bv_asym_galv_p1_3d_phis_finest",
+    "tight_quantity": "bv_asym_galv_p1_3d_phis_finest_plus1",
+    "level": "mms",
+    "abs_max": 2.4000000000000003e-08
+   },
+   {
+    "quantity": "bv_asym_galv_p2_3d_phis_finest",
+    "tight_quantity": "bv_asym_galv_p2_3d_phis_finest_plus1",
+    "level": "mms",
+    "abs_max": 3e-11
+   }
+  ]
+ }
+}

@@ -1,0 +1,178 @@
+# axionFEM
+
+> Finite-element simulation for axion dark-matter detectors: lumped-element detectors (toroidal ABRACADABRA,
+> solenoidal DMRadio and DMRadio-Core topologies, custom geometries) and, as beta modules, cavity haloscopes, SRF
+> heterodyne cavities and dc SQUID readout chains. C++17 core on MFEM; Python API, `axf` command line, three.js
+> viewer and an MCP server.
+> For lumped-element detectors it computes the signal coupling Psi = (1/I) int A_I . B_lab, the pickup inductance
+> L_p, the scan figure of merit F = Psi^4/L_p^2 against the optimal-scan requirement F_req, fields, forces and a
+> size/cost metric. Version 0.1.0 is installed from a clone (not yet on PyPI): the sequential build has no 3D engine
+> and no fluids module; an MPI source build adds both.
+> Modules marked beta below are usable but less validated.
+
+Repository paths below are relative to the repository root. Documentation site: https://bsafdi.github.io/axionFEM/
+
+## Docs
+- [Installation](docs/guides/install.md): wheels, sequential and MPI source builds, `af.build_info()`
+- [Designs and solvers](docs/guides/solvers.md): design documents, engines, solver choices
+- [Visualization](docs/guides/visualization.md): widget, HTML export, live viewer, PNG snapshots
+- [Readout and multi-band scans](docs/guides/readout_multiband.md) (`axionfem.multipole` is beta)
+- [Shape optimization](docs/guides/optimization.md): adjoint sensitivities and optimizers
+- [COMSOL export and import](docs/guides/comsol.md)
+- [AI assistants (MCP)](docs/guides/mcp.md): client configuration and the tool list
+- [User guide index](docs/guides/index.md), [concepts](docs/guides/concepts.md),
+  [scope and limitations](docs/guides/limitations.md), [running the tests](docs/developer/testing.md)
+- Executed notebooks (`examples/`): quickstart, lumped_element, fullwave, readout_squid, cavity_haloscope (beta),
+  srf_heterodyne (beta), mechanics_thermal, reach_optimization, fluids_beta (beta), chemistry_beta (beta)
+
+## Start here
+- [AGENTS.md](AGENTS.md): Part A for agents changing axionFEM, Part B for agents designing detectors with it
+- [docs/design_format.md](docs/design_format.md): the design document (JSON): everything a design can contain, and the results
+- [docs/physics/scan_and_signal.md](docs/physics/scan_and_signal.md): signal, noise, PSD, optimal scan, F_req conventions
+- [docs/scene_format.md](docs/scene_format.md): solved-design scenes for viewers and PNG renders
+- [docs/cli.md](docs/cli.md): the `axf` command line
+
+## Design expressions
+- Any numeric design field may be a string expression over `parameters` (functions sqrt exp log log10 sin cos
+  tan asin acos atan atan2 abs min max pow; constants pi, e, mu0). Standard math precedence: `^` binds tighter
+  than unary minus and is right-associative, so `-2^2` = -4, `exp(-z^2/(2*s^2))` is a Gaussian, `2^3^2` = 512,
+  `2^-2` = 0.25 (as Python's `**`; not MATLAB's left-associative 2^3^2 = 64). Malformed numbers (`1.2.5`),
+  out-of-range literals (`1e400`, `1e-310`), NaN arguments of min/max and nesting deeper than 1000 levels are
+  errors. Grammar: docs/design_format.md.
+
+## Python API
+- `af.templates()`, `af.template(name, **params)` -> `Design`; `Design.set(**params)`, `.validate()`, `.solve()` -> `Results`;
+  `af.load(path)`, `af.schema()`, `af.requirement(benchmark)`
+- `Results`: `.Psi`, `.L_p`, `.F`, `.W`, `.g`, `.data` (the results document), `.benchmark(name)`, `.summary()`,
+  `.reach(...)`, `.sample(r, z)` (lists of points), `.scene()`, `.png(view=...)`, `.export_html()`, `.write_vtu()`,
+  `.show()` (Jupyter widget)
+- `af.build_info()` -> what this build can do (`mpi`, `engine_3d`, `fluids`, `openmp`, `gpu_backend`, `device`).
+  The wheels are sequential: `engine_3d` is False and a 3D design raises an error saying so.
+- Sensitivities and optimization: `Results.sensitivities(params, objectives)` / `Design.gradient(...)` ->
+  dJ/dp and d log J / d log p (adjoint on a morphed mesh; axisymmetric designs with linear materials);
+  `af.objectives()` lists the quantities; `af.optimize(design, objective, params={name: (lo, hi)}, constraints=[...])`
+  (scipy L-BFGS-B / SLSQP; `method="global"` for differential evolution, also `af.global_optimize`)
+- `axionfem.scan`: `reach`, `psd`, `g_qcd`, `Q_axion_shm`; `axionfem.plots`: `reach`, `psd`, `section`,
+  `force_distribution`. Every reach call returns a `"band"` dict echoing what was scanned (mass/frequency range,
+  number of settings, allocation, live time, benchmark and the Q_axion/Theta/rho conventions)
+- Readout circuit: `axionfem.circuit` (`series_readout`, `Readout.analyze/sweep/noise_curve/draw`, `Results.readout`)
+  and its reduction to the scan inputs (Psi, L_eff, Q, T_eff, eta_A); `scan.finite_band(readout, f_min, f_max, ...)`
+  plans a scan with the exact network noise N_V(omega) instead of that single pole and reports how far the
+  reduction is off (docs/physics/readout_circuit.md Sec. 5.3, docs/validation/finite_band.md)
+- `Results.forces`: winding `Fz_N` / hoop load, `Fz_self_N` and `Fz_excluding_self_N` (self-force removed),
+  superconductor and iron Maxwell-pressure forces, `closure` (Newton's third law) and `distributions`
+  (distributed surface traction / Lorentz density per body)
+- Conductors: `af.conductors()`, `af.jc(conductor, B_perp, B_par, T)`; a winding's `conductor` gives
+  `Results.conductors` (J_e and J_sc, peak |B| and the field angle to the tape, Jc at the worst point, load-line and
+  temperature margins), also per benchmark and at the cost-optimal size
+- HTS critical state: a design's `hts` section (regions, drive waveform, field_of_view) adds screening currents:
+  `Results.hts` (distribution and profiles, SCIF, field quality, trapped flux, AC loss per cycle, Psi with the
+  critical-state field) and `Results.hts_sample(r, z)`. Azimuthal screening currents only (poloidal static fields)
+- Beyond MQS: a design's `fullwave` section (frequencies, boundary, modes) adds time-harmonic Maxwell results:
+  `Results.fullwave` (Z(omega), L(omega), R_rad, Q_rad, Psi(omega), F(omega), eigenmodes);
+  `scan.reach_fullwave(results, benchmark)` turns them into a beyond-MQS reach curve (Psi(omega), tuned-pole
+  L_eff = L + 0.5 dL/dln(omega), Q = omega L_eff/(R_rad + R_material + omega L_p/Q_other)) against the MQS one;
+  `scan.reach_dispersive` is the general frequency-dependent-detector scan. Local full-wave reach refuses unresolved
+  slopes, optimized noise widths above 0.1*f, variations above 5% across that width, and bands outside the computed
+  pre-resonance interval. Radiation has optional T_radiation_K; omitting it assumes the material bath temperature.
+  Both L_reactive_H and L_eff_H are returned. The axisymmetric full-wave model is the uniform-feed (m = 0) limit.
+  - Imposed backgrounds (beta in 3D): 3D sweeps couple a `background` (int curl E . A_bg inside and outside the domain sphere);
+    axisymmetric TM sweeps include a grid background's exterior term with the same `Psi_background` rows,
+    grid-coverage diagnostics and warnings. With a uniform background only the background's own exterior term is
+    omitted (it diverges, with a warning). `Psi_exterior` is a different part of Psi in the two engines: compare
+    totals (docs/physics/fullwave_background.md).
+  - 3D full wave: current ports and multiport impedance matrices are validated; the prescribed source, perfectly
+    matched layers, the imposed background, the error indicator, the Gauss-law guard, the adaptive sweep, the
+    tree-cotree solve, 3D eigenmodes, closed RF-only models (`fullwave.rf_only`, `mesh.symmetry`, `mesh.remove_pec`)
+    and the energy-matrix, field-export and reactive-load diagnostics are beta. `"status": "provisional"` is a fixed label of every 3D full-wave (and 2D imported-mesh) output,
+    not a per-row verdict: acceptance is `validation_accepted`, `refused` and the warnings; a row or diagnostic that a
+    solver or validation gate rejected carries `"status": "provisional_rejected"` and is kept for inspection only.
+  - 3D adaptive sweep (beta): `fullwave.adaptive` {f_min_Hz, f_max_Hz, tolerance} fits a rational model (set-valued AAA,
+    dZ/dw as Hermite data) to Z and Psi and solves where it is least certain until it holds to the tolerance over
+    the band; `Results.fullwave_dense()` / `circuit.fullwave_dense(results)` give the dense curve,
+    `circuit.fullwave_model(results)` evaluates the model; self_resonances are its poles with Q
+    (docs/physics/adaptive_sweep.md).
+  - 3D sweep rows carry perturbative surface losses per port from the `rf` surface-resistance models (beta):
+    surface_Gamma, R_loss_ohm, the headline Q_loss_tuned = omega L_eff / R_loss, Q_loss = omega L / R_loss,
+    R_loss_over_abs_X; Q_total is withheld where the solve's residual can move it by more than 1 %; rows whose Re Z
+    the residual cannot resolve carry Re_Z_unresolved; `Results.fullwave_losses()` /
+    `circuit.fullwave_losses(results, port)` give the columns (docs/physics/fullwave_surface_losses.md).
+  - S/Y/Z parameters and Touchstone v1: `Results.write_touchstone(path, kind="S"|"Z"|"Y", z0=50, dense=False,
+    surface_losses=False)` / `circuit.write_touchstone(results, path, ...)` / `axf export-touchstone results.json`
+    write `.sNp` in exp(+j omega t): the engine's exp(-i omega t) Z is conjugated. They report sigma_max(S)
+    (passivity violations warned, never clipped) and ||Z - Z^T||/||Z||. CLI exit 0 ok, 3 not passive, 2 error.
+    `axionfem.touchstone`: `read_touchstone`, `z_to_s`, `s_to_z`, `z_to_y`, `port_parameters`,
+    `write_touchstone_data(..., convention=)` (docs/physics/touchstone.md).
+- Electrostatics (axisymmetric and 3D): a design's `electrostatics` section (`boundary: open | grounded`) adds the
+  Maxwell capacitance matrix and pairwise capacitances: `Results.electrostatics`, `Results.C_matrix`; a port pickup
+  reports `Results.port_capacitance` (readout-gap capacitance and a lumped self-resonance estimate). In 3D the open
+  boundary is an infinity-shell map; capacitances require h/p convergence. The matrix does not depend on the rank count
+- Thin magnetic layers: a curve with `thickness` and a linear `mu_r` material is a mu-metal or iron shield in the
+  axisymmetric magnetostatic engine (docs/physics/thin_magnetic_layer.md)
+- Mechanics and heat conduction: a design's `mechanics` / `thermal` sections (material blocks `mechanical`,
+  `thermal`) give `Results.mechanics`, `Results.thermal`, `Results.sample_mech(...)`; axisymmetric, 3D in MPI builds
+- `axionfem.convert.to_3d(design)`: axisymmetric -> 3D design; `Design.solve()` on a 3D design returns `Results3D`
+  (same numbers; `.sample(x, y, z)`, `.scene()` with a quarter cutaway, `.png()`, `.export_html()`, `.write_vtu()`
+  -> ParaView). `Design.solve(mpi_ranks=N)` runs a 3D solve on N ranks
+- Cavity haloscopes (beta): a design's `cavity` section (axisymmetric, `"symmetry": "xsec"` cross-sections, 3D) gives
+  eigenmodes, form factors, geometry factors and Q0 (`Results.cavity_modes()`); `axionfem.cavity` (pillbox, coaxial
+  and rod designs, tuning sweeps with mode tracking), `axionfem.cavity_xsec`, `axionfem.haloscope` (`scan_rate`,
+  `beta_opt`, `g_limit_scan`, `preset_limit`), `axionfem.haloscope_presets` (published runs)
+- SRF heterodyne cavities (beta): `axionfem.srf` (elliptical-cell geometry, mode pairs `cylinder_pair`, wall peaks),
+  `axionfem.heterodyne` (`design_A`: volume, frequency, RF power and cost metric for a scan)
+- dc SQUID readout chains (beta): `axionfem.squid.chain(preset)` (added noise, `.draw()`)
+- Torsional dynamics (beta; m = 0, axisymmetric): `Results.torsion(nmodes=..., load=..., loads=[...],
+  freqs_Hz=... | band={"f_Hz": [f0, f1], "n": N}, eta=...)` -> modes and the mobility Y = -i omega q of a load
+  (e^{-i omega t}; Brownian S_q = 4 kB T Re Y/omega^2); `Results.torsion_band(f0, f1, loads=..., eta=..., length_m=L)`;
+  `axionfem.torsion_waveguide.Tube(...).mobility(f, TubeLoad(...), eta)` (all-branch analytic mobility of an infinite
+  tube; `Tube.finite_tube_mobility`, the finite tube) (docs/validation/torsion_highfreq.md)
+- COMSOL: `axionfem.comsol` exports a design (mesh `.mphtxt`, Java model, STEP); `af.import_comsol(path)` (beta)
+  imports a `.mph` model as a `Design` with an import report. No COMSOL installation is needed
+
+## Beta modules without MCP tools
+- `axionfem.fluids` (MPI builds only; not in the wheels): `Mesh` (`from_arrays`, `unit_square`, `annulus`),
+  `solve_stokes` (Taylor-Hood, planar or axisymmetric with swirl), `Mesh3D` / `solve_stokes_3d` (distributed 3D),
+  `solve_navier_stokes` (steady, planar or axisymmetric with swirl; `mhd={...}` with `geometry="planar25d"` for
+  inductionless MHD on one rank), `solve_gls` (stabilized P1/P1, planar), `TransientNavierStokes` (BDF1/BDF2),
+  `solve_heat` and `solve_boussinesq` (one rank). Meshes come from arrays: no design document, mesher, CLI or viewer
+  integration. Point evaluation needs one rank
+- `axionfem.transport.ScalarTransport` (MPI builds, one rank): the SUPG scalar-transport operator
+- `axionfem.chem`: `CurrentDistribution` (primary and secondary current distribution, planar or axisymmetric;
+  Butler-Volmer, Tafel or linearized kinetics), `CurrentDistribution3D` (MPI builds only), `PorousElectrode` (1D,
+  linearized Butler-Volmer only), `Reaction`, `meshes`; `axionfem.chem.kinetics`: mechanisms, 0D reactors (`batch`,
+  `cstr`, `semibatch`, `const_p_gas`, `adiabatic_liquid`, `pfr`), `equilibrium` (index-1 DAE) and `adaptive`
+  (variable-step BDF2, ESDIRK3(2) or variable-order BDF). No species transport
+- `axionfem.cavity_coupling`: a coaxial probe on the axis of an axisymmetric pillbox, TM0np modes only
+  (`ProbePillbox`, `coupling_study`, `driven_coupling`, `to_haloscope_cavity`)
+
+## MCP server
+`axionfem-mcp` or `python -m axionfem.mcp_server` (stdio; workspace `$AXF_WORKSPACE`, default `./axf_workspace`).
+Call `axionfem_guide` first. Tools:
+- designs: `list_templates`, `create_design`, `get_design`, `put_design`, `set_parameters`, `list_designs`,
+  `design_schema`, `make_3d`, `set_fullwave`, `set_hts`, `list_conductors`
+- solving and looking: `solve_design`, `render_design`, `start_viewer`, `requirement`
+- exploring: `sweep`, `sensitivities`, `list_objectives`, `optimize_design`, `optimize_global`, `optimize`
+- jobs: `list_jobs`, `cancel_job`
+- cavity haloscopes (beta): `cavity_presets`, `cavity_preset_limit`, `cavity_scan`, `create_cavity`
+- SRF heterodyne (beta): `srf_design`, `srf_mode_pair`
+- dc SQUID readout (beta): `squid_chain`, `squid_reach`
+- COMSOL: `export_comsol`, `inspect_comsol` and `import_comsol` (the last two beta); Touchstone: `export_touchstone`
+`solve_design`, `sweep`, `sensitivities`, `optimize_design`, `optimize_global` and `optimize` run in a worker
+subprocess: they send MCP progress notifications, and `cancel_job(job_id)` (or the client's own cancellation) stops them.
+
+## Command line
+`axf solve design.json [-o DIR] [--order P] [-v N] [--scene] [--vtu] [--save] [--no-self-force] [--force-samples N]
+[--status-file F]`, `axf sensitivities design.json [--param P]... [--objective Q]... [--method adjoint|fd_morph|fd_remesh]
+[--step S] [--benchmark NAME]`, `axf validate design.json`, `axf mesh design.json [-o DIR]`, `axf resolve design.json`,
+`axf schema`, `axf requirement [--benchmark NAME]`, `axf templates`, `axf template NAME [--set key=value ...]`,
+`axf render scene.json -o out.png [--view section|3d] [--quantity Q] [--log] [--theme dark]`,
+`axf export-comsol --help`, `axf import-comsol model.mph --help`,
+`axf export-touchstone results.json [-o OUT.sNp] [--kind S|Z|Y] [--z0 50] [--dense] [--surface-losses]`.
+
+## Optional
+- [docs/validation/published_benchmarks.md](docs/validation/published_benchmarks.md): comparisons with published detectors, each quantity with a verdict
+- [docs/physics/readout_circuit.md](docs/physics/readout_circuit.md): readout network, noise and the single-pole reduction
+- [docs/physics/adaptive_sweep.md](docs/physics/adaptive_sweep.md): the rational-fit adaptive frequency sweep
+- [docs/physics/touchstone.md](docs/physics/touchstone.md): S/Y/Z parameters and the Touchstone export
+- [docs/install.md](docs/install.md): CMake options, GPU and STRUMPACK builds, wheel licensing (developer notes)
+- [docs/developer/design_notes.md](docs/developer/design_notes.md): why the formulations, solvers and dependencies are what they are

@@ -1,0 +1,325 @@
+{
+ "id": "xcode_mhd_duct_2d",
+ "capability": "F13a",
+ "title": "Cross-code: Shercliff and Hunt ducts at Ha = 100 on the fixed meshes against NGSolve (confirmed by FEniCSx)",
+ "physics": "the discrete problems of analytic_shercliff_duct_2d / analytic_hunt_duct_2d at Ha = 100, k = 1, 2",
+ "levels": [
+  "cross_code"
+ ],
+ "run": {
+  "runner": {
+   "module": "f13a_mhd",
+   "function": "xcode_duct",
+   "check_module": "f13a_mhd_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "formulation": "2.5D planar inductionless MHD (u = (u_x, u_y, u_z) independent of z; J = sigma(-grad phi + E_z e_z + u x B); Lorentz force J x B; conservative potential equation (J, grad psi) = <j_n, psi> - (q, psi))",
+   "element": {
+    "velocity": "P2 (all three components)",
+    "pressure": "P1",
+    "potential": "P2 Lagrange",
+    "geometry": "affine (straight-sided)"
+   },
+   "viscous_form": "lap (mu constant: both forms coincide with Dirichlet data)",
+   "quadrature_error_norms": 10,
+   "dirichlet_data": "P2 Lagrange NODAL interpolation of the fixed callables (velocity and potential)",
+   "solver": {
+    "kind": "direct sparse LU (Newton for rho > 0)",
+    "tight": "same, plus 2 steps of iterative refinement / Newton to 1e-14 (vacuous for a direct linear solve; meaningful for an iterative path)"
+   },
+   "shared_node_rule": "At a node shared by several boundary attributes: (1) velocity Dirichlet beats every natural velocity condition; potential Dirichlet beats insulation and normal-current data; (2) between Dirichlet attributes the fixed data AGREE at shared nodes (one exact callable per MMS field; the Hartmann/duct data vanish or are consistent at the corners), checked by dirichlet_shared_node_mismatch, so the result is independent of attribute order.",
+   "series_magnitude_keys": {
+    "uL2": "u_magnitude",
+    "uH1": "u_magnitude",
+    "divL2": "u_magnitude",
+    "pL2": "p_magnitude",
+    "phiL2": "phi_magnitude",
+    "phiH1": "phi_magnitude",
+    "JL2": "J_magnitude"
+   },
+   "meshes": {
+    "duct": {
+     "family": "duct_Ha<Ha>",
+     "Ha": [
+      100.0
+     ],
+     "k": [
+      1,
+      2
+     ],
+     "h_nominal": [
+      0.03125,
+      0.015625
+     ],
+     "construction": "f13a_mhd_check.duct_mesh(Ha, k): base 16 x 16 cells on [-1, 1]^2, y nodes graded_nodes(16, 1, 1/Ha) (first interval = Hartmann-layer thickness), x nodes graded_nodes(16, 1, 1/sqrt(Ha)) (side layers); uniform for Ha = 0; corner cells flipped (Taylor-Hood condition); k red refinements (NESTED: the grading is fixed by the base mesh)",
+     "h_definition": "h_nominal = 1/(16 * 2^k) (computational, base intervals halved per refinement); h_max reported"
+    }
+   },
+   "Ha": 100.0,
+   "physical": {
+    "mu": 0.5,
+    "sigma": 2.0,
+    "G_z": 1.0,
+    "B": "(0, 50, 0)"
+   },
+   "variants": {
+    "shercliff": "insulating everywhere",
+    "hunt": "phi = 0 on y = +-1, insulating x = +-1"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "hunt_Ha100_k1_M_var_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": -0.03751287190866605,
+    "unit": "1",
+    "uncertainty": 2.1e-14,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.hunt_Ha100_k1_M_var_h"
+   },
+   "hunt_Ha100_k1_Q_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.003103064955147698,
+    "unit": "1",
+    "uncertainty": 4.8e-16,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.hunt_Ha100_k1_Q_h"
+   },
+   "hunt_Ha100_k1_phi_side_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": -0.04284030699527584,
+    "unit": "1",
+    "uncertainty": 3.5e-15,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.hunt_Ha100_k1_phi_side_h"
+   },
+   "hunt_Ha100_k1_w_center_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.00020256773796081617,
+    "unit": "1",
+    "uncertainty": 3.3e-18,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.hunt_Ha100_k1_w_center_h"
+   },
+   "hunt_Ha100_k2_M_var_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": -0.03751968859326111,
+    "unit": "1",
+    "uncertainty": 6.4e-15,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.hunt_Ha100_k2_M_var_h"
+   },
+   "hunt_Ha100_k2_Q_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.003120601911871004,
+    "unit": "1",
+    "uncertainty": 3.8e-16,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.hunt_Ha100_k2_Q_h"
+   },
+   "hunt_Ha100_k2_phi_side_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": -0.04305624969684452,
+    "unit": "1",
+    "uncertainty": 4.4e-15,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.hunt_Ha100_k2_phi_side_h"
+   },
+   "hunt_Ha100_k2_w_center_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.00020257982523565318,
+    "unit": "1",
+    "uncertainty": 1.1e-18,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.hunt_Ha100_k2_w_center_h"
+   },
+   "shercliff_Ha100_k1_Q_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.07239731003024905,
+    "unit": "1",
+    "uncertainty": 7.9e-13,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.shercliff_Ha100_k1_Q_h"
+   },
+   "shercliff_Ha100_k1_dphi_side_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": -1.8298073540736284,
+    "unit": "1",
+    "uncertainty": 2e-11,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.shercliff_Ha100_k1_dphi_side_h"
+   },
+   "shercliff_Ha100_k1_w_center_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.01999764969960887,
+    "unit": "1",
+    "uncertainty": 2.6e-13,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.shercliff_Ha100_k1_w_center_h"
+   },
+   "shercliff_Ha100_k2_Q_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.07243219705523143,
+    "unit": "1",
+    "uncertainty": 3.2e-12,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.shercliff_Ha100_k2_Q_h"
+   },
+   "shercliff_Ha100_k2_dphi_side_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": -1.8306341301705933,
+    "unit": "1",
+    "uncertainty": 8.1e-11,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.shercliff_Ha100_k2_dphi_side_h"
+   },
+   "shercliff_Ha100_k2_w_center_h": {
+    "kind": "scalar",
+    "source": "ngsolve",
+    "value": 0.019999842774233854,
+    "unit": "1",
+    "uncertainty": 9.3e-13,
+    "uncertainty_kind": "reference_spread",
+    "locator": "tools/fluids_mms/xcode/ngsolve_mhd_duct_reference.json: quantities.shercliff_Ha100_k2_w_center_h"
+   }
+  },
+  "tolerance_recipe": {
+   "hunt_Ha100_k1_M_var_h": {
+    "rel": 1e-09
+   },
+   "hunt_Ha100_k1_Q_h": {
+    "rel": 1e-09
+   },
+   "hunt_Ha100_k1_phi_side_h": {
+    "rel": 1e-09
+   },
+   "hunt_Ha100_k1_w_center_h": {
+    "rel": 1e-09
+   },
+   "hunt_Ha100_k2_M_var_h": {
+    "rel": 1e-09
+   },
+   "hunt_Ha100_k2_Q_h": {
+    "rel": 1e-09
+   },
+   "hunt_Ha100_k2_phi_side_h": {
+    "rel": 1e-09
+   },
+   "hunt_Ha100_k2_w_center_h": {
+    "rel": 1e-09
+   },
+   "shercliff_Ha100_k1_Q_h": {
+    "rel": 1e-09
+   },
+   "shercliff_Ha100_k1_dphi_side_h": {
+    "rel": 1e-09
+   },
+   "shercliff_Ha100_k1_w_center_h": {
+    "rel": 1e-09
+   },
+   "shercliff_Ha100_k2_Q_h": {
+    "rel": 1e-09
+   },
+   "shercliff_Ha100_k2_dphi_side_h": {
+    "rel": 1e-09
+   },
+   "shercliff_Ha100_k2_w_center_h": {
+    "rel": 1e-09
+   }
+  }
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "hunt_Ha100_k1_M_var_h",
+    "reference": "hunt_Ha100_k1_M_var_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "hunt_Ha100_k1_Q_h",
+    "reference": "hunt_Ha100_k1_Q_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "hunt_Ha100_k1_phi_side_h",
+    "reference": "hunt_Ha100_k1_phi_side_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "hunt_Ha100_k1_w_center_h",
+    "reference": "hunt_Ha100_k1_w_center_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "hunt_Ha100_k2_M_var_h",
+    "reference": "hunt_Ha100_k2_M_var_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "hunt_Ha100_k2_Q_h",
+    "reference": "hunt_Ha100_k2_Q_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "hunt_Ha100_k2_phi_side_h",
+    "reference": "hunt_Ha100_k2_phi_side_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "hunt_Ha100_k2_w_center_h",
+    "reference": "hunt_Ha100_k2_w_center_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "shercliff_Ha100_k1_Q_h",
+    "reference": "shercliff_Ha100_k1_Q_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "shercliff_Ha100_k1_dphi_side_h",
+    "reference": "shercliff_Ha100_k1_dphi_side_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "shercliff_Ha100_k1_w_center_h",
+    "reference": "shercliff_Ha100_k1_w_center_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "shercliff_Ha100_k2_Q_h",
+    "reference": "shercliff_Ha100_k2_Q_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "shercliff_Ha100_k2_dphi_side_h",
+    "reference": "shercliff_Ha100_k2_dphi_side_h",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "shercliff_Ha100_k2_w_center_h",
+    "reference": "shercliff_Ha100_k2_w_center_h",
+    "level": "cross_code"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual_unscaled_euclid"
+  }
+ }
+}

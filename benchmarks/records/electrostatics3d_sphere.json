@@ -1,0 +1,25 @@
+{
+  "check": "sphere",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 13:52",
+  "a_m": 0.5,
+  "C_F": 5.5637645337766e-11,
+  "C_exact_F": 5.563250277239594e-11,
+  "relative_error": 9.243814521697757e-05,
+  "checks": {
+    "symmetry_relative": 0.0,
+    "energy_max_relative_difference": 4.937872678347864e-06,
+    "charge_gauss_max_relative_difference": 0.004832503049511764,
+    "exterior_monopole_max_relative_difference": 0.007649360696220623,
+    "energy_superposition_relative": 4.937872561127805e-06,
+    "mixed_potential_max_relative_difference": 8.398585286245369e-15,
+    "floating_max_relative_charge": null,
+    "min_slack_relative": 1.0,
+    "off_diagonal_signs_ok": true,
+    "max_relative_residual": 5.785471990028843e-14,
+    "dofs": 114641
+  },
+  "warnings": [],
+  "pass": true,
+  "headline": "C = 5.56376453e-11 F (exact 5.56325028e-11), rel err +9.24e-05"
+}

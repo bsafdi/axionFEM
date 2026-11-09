@@ -1,0 +1,162 @@
+{
+ "stamp": {
+  "date": "2026-11-01 01:33",
+  "commit": "fd72b4030b4d2c54e43d753673a81b9f0ecaf760",
+  "worktree_clean": false,
+  "build": {
+   "device": "cpu",
+   "engine_3d": true,
+   "gpu_backend": "",
+   "metis": true,
+   "mfem": "4.10.0",
+   "mpi": true,
+   "openmp": true,
+   "source_commit": "8ab7dfa502d5ecc443786c024ed8e146c4a27150",
+   "source_dirty": "true",
+   "strumpack": true,
+   "strumpack_min_dofs": 300000,
+   "strumpack_mpi": false,
+   "strumpack_version": "8.0.0",
+   "threads": 16,
+   "version": "0.1.0"
+  }
+ },
+ "material": {
+  "E_Pa": 200000000000.0,
+  "nu": 0.3,
+  "rho": 7900.0,
+  "c_T_m_s": 3120.4323970714827
+ },
+ "rows": [
+  {
+   "geometry": "thin",
+   "h": 0.00052,
+   "free_dofs": 355059,
+   "choice": {
+    "chosen_backend": "eigen",
+    "chosen_p": 8,
+    "decision": {
+     "backend": "eigen",
+     "memory_limited_p": 20,
+     "p": 8,
+     "predicted_throughput_eigen_per_s": 2.435848913853433,
+     "predicted_throughput_strumpack_per_s": 0.8904483988438625
+    },
+    "eigen_memory_per_solve_bytes": 1268072448.0,
+    "eigen_probe": {
+     "predicted_eigen_memory_bytes": 2059417062.0,
+     "probe_eigen": true,
+     "reason": "thin section and memory for an Eigen solve"
+    },
+    "memory": {
+     "available_bytes": 33234333696.0,
+     "found": true,
+     "rss_bytes": 1101541376.0,
+     "source": "cgroup",
+     "sources": {
+      "MemAvailable_bytes": 624575905792.0,
+      "SLURM_MEM_PER_NODE_bytes": 34359738368.0,
+      "SLURM_ignored": "a cgroup limit was found; it is what the kernel enforces",
+      "cgroup_limit_bytes": 34359738368.0,
+      "cgroup_used_bytes": 1125404672.0,
+      "cgroup_version": 2
+     }
+    },
+    "mode": "auto",
+    "probe_eigen_factor_nnz_per_dof": 105.08302282155924,
+    "probe_eigen_s": 2.985705407,
+    "probe_strumpack_factor_nnz_per_dof": 61.423692963704625,
+    "probe_strumpack_factor_s": 1.123029702,
+    "threads": 16
+   },
+   "effective_seconds_per_frequency": 0.7597089804375,
+   "call_wall_s": 12.744735479354858,
+   "peak_rss_GB": 9.252685546875,
+   "Y_re": [
+    1.3785104625674336e-17,
+    1.2755511732457046e-17,
+    1.1836327055215402e-17,
+    1.1012325967402473e-17,
+    1.0270819891433443e-17,
+    9.601165815873276e-18,
+    8.9943830068198e-18,
+    8.442850958559939e-18,
+    7.940069481698812e-18,
+    7.480466739295965e-18,
+    7.059244593526587e-18,
+    6.6722531820144315e-18,
+    6.315888600306384e-18,
+    5.987008930144017e-18,
+    5.682864961785608e-18,
+    5.401042739093869e-18
+   ]
+  },
+  {
+   "geometry": "compact",
+   "h": 0.00037,
+   "free_dofs": 338989,
+   "choice": {
+    "chosen_backend": "strumpack",
+    "chosen_p": 1,
+    "decision": {
+     "backend": "strumpack",
+     "memory_limited_p": 0,
+     "p": 1,
+     "predicted_throughput_eigen_per_s": 0.0,
+     "predicted_throughput_strumpack_per_s": 0.8983600497481969
+    },
+    "eigen_memory_per_solve_bytes": 0.0,
+    "eigen_probe": {
+     "predicted_eigen_memory_bytes": 3362373582.0,
+     "probe_eigen": false,
+     "reason": "STRUMPACK fill above 90 per DOF marks a compact section, where Eigen is slower"
+    },
+    "memory": {
+     "available_bytes": 33152692224.0,
+     "found": true,
+     "rss_bytes": 1181872128.0,
+     "source": "cgroup",
+     "sources": {
+      "MemAvailable_bytes": 624581414912.0,
+      "SLURM_MEM_PER_NODE_bytes": 34359738368.0,
+      "SLURM_ignored": "a cgroup limit was found; it is what the kernel enforces",
+      "cgroup_limit_bytes": 34359738368.0,
+      "cgroup_used_bytes": 1207046144.0,
+      "cgroup_version": 2
+     }
+    },
+    "mode": "auto",
+    "probe_eigen_factor_nnz_per_dof": null,
+    "probe_eigen_s": null,
+    "probe_strumpack_factor_nnz_per_dof": 107.14893698615589,
+    "probe_strumpack_factor_s": 1.113139437,
+    "threads": 16
+   },
+   "effective_seconds_per_frequency": 1.2170714496875,
+   "call_wall_s": 20.042999744415283,
+   "peak_rss_GB": 2.0898818969726562,
+   "Y_re": [
+    2.937028651434363e-18,
+    2.8936052295970035e-18,
+    2.944534627257854e-18,
+    3.0910071702943996e-18,
+    3.379977957876389e-18,
+    3.926545091561228e-18,
+    5.019022428540712e-18,
+    7.515472517694073e-18,
+    1.4789569685117886e-17,
+    4.4470172337222753e-17,
+    6.289688595603349e-17,
+    1.9577456292121787e-17,
+    8.709738113657114e-18,
+    5.284695766221196e-18,
+    3.822987619951514e-18,
+    3.0689983474922953e-18
+   ]
+  }
+ ],
+ "case": {
+  "job_mem": "32768 MB",
+  "threads": "16"
+ }
+}

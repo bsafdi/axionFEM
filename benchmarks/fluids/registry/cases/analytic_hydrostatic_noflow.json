@@ -1,0 +1,476 @@
+{
+ "id": "analytic_hydrostatic_noflow",
+ "capability": "F4a",
+ "title": "Hydrostatic no-flow: stably stratified fluid at rest, u = 0, T linear, p quadratic (planar and axisymmetric); uniform temperature: buoyancy absorbed by a LINEAR pressure, u_h = 0 to round-off",
+ "physics": "rho0 beta g (T - T_ref) e_up is a gradient: u = 0 exactly; Taylor-Hood is not pressure-robust, so its spurious u_h converges with the pressure's best approximation",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f4a_heat",
+   "function": "hydrostatic",
+   "check_module": "f4a_heat_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "fields": {
+    "hydro_sq_strat": {
+     "path": "tools/fluids_mms/out/hydro_sq_strat.json",
+     "sha256": "c969c215b30dba2602b4dbd7e3489b8475c59f1ffcb3ea3a5a803e21dd405027"
+    },
+    "hydro_sq_uniform": {
+     "path": "tools/fluids_mms/out/hydro_sq_uniform.json",
+     "sha256": "1631bf9b2193a51a115552e24f5757d1988c4f4e460601932fe722e69f3f6213"
+    },
+    "hydro_axi_strat": {
+     "path": "tools/fluids_mms/out/hydro_axi_strat.json",
+     "sha256": "fe9b68f198531822b9bc73a1f56cf39f6148387ae59cffa73559ab5e8d5c14e0"
+    },
+    "hydro_axi_uniform": {
+     "path": "tools/fluids_mms/out/hydro_axi_uniform.json",
+     "sha256": "ffbaa8977ad4cdadea9237d25b2ad1ec79c1f2038bc8dac1981028c236ed7889"
+    }
+   },
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "temperature": "P2"
+   },
+   "viscous_forms": [
+    "lap",
+    "sym"
+   ],
+   "meshes": {
+    "unit": {
+     "family": "unit",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "scalar_transport_check.box_mesh(8, 8, k), k = 0..4, on [0,1]^2 in (x, y): 8 x 8 squares split along the (1,1) diagonal except the two cells at the corners (1,0) and (0,1) (split the other way: no triangle with all vertices on the boundary), refined uniformly (red) k times (identical to the fixed F1a structured_mesh(N), N = 8 * 2^k). Nested.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    }
+   },
+   "constants": "rho0 = c_p = mu = k = 1, beta g = 1000, T_ref = 1/4; stratified: T = 0 on the bottom, 1 on the top; uniform: T = 3/4 on both; side walls adiabatic (axisymmetric: r = 1 adiabatic, axis natural); no slip everywhere",
+   "dirichlet_data": "P2 (P1) Lagrange NODAL interpolation of the fixed callables at the vertices and edge midpoints of the Dirichlet boundary parts; at a node shared by two Dirichlet parts the data agree (one exact callable per field); Dirichlet beats every natural condition at a shared node",
+   "nonlinear_solver": "as mms_boussinesq_2d (Newton from the lift, newton_rtol 1e-12)",
+   "pressure": "nullspace detected (mean-free comparison)"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "strat_sq_lap_pL2m",
+    "level": "analytic",
+    "norm": "mean-free ||p - p_h|| (means by the same quadrature)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 208.329539,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "strat_sq_lap_spurious_uL2",
+    "level": "analytic",
+    "norm": "||u_h|| (exact u = 0)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1000.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "allow_superconvergence": true,
+    "max_order": 4.0
+   },
+   {
+    "series": "strat_sq_lap_spurious_uH1",
+    "level": "analytic",
+    "norm": "|u_h|_H1 (exact u = 0)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1000.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "allow_superconvergence": true,
+    "max_order": 3.0
+   },
+   {
+    "series": "strat_sq_sym_pL2m",
+    "level": "analytic",
+    "norm": "mean-free ||p - p_h|| (means by the same quadrature)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 208.329539,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "strat_sq_sym_spurious_uL2",
+    "level": "analytic",
+    "norm": "||u_h|| (exact u = 0)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1000.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "allow_superconvergence": true,
+    "max_order": 4.0
+   },
+   {
+    "series": "strat_sq_sym_spurious_uH1",
+    "level": "analytic",
+    "norm": "|u_h|_H1 (exact u = 0)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1000.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "allow_superconvergence": true,
+    "max_order": 3.0
+   },
+   {
+    "series": "strat_axi_lap_pL2mw",
+    "level": "analytic",
+    "norm": "r-weighted mean-free pressure error",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 208.329539,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "strat_axi_lap_spurious_uL2",
+    "level": "analytic",
+    "norm": "||u_h|| (exact u = 0), r-weighted, cylindrical gradient",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1000.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "allow_superconvergence": true,
+    "max_order": 4.0
+   },
+   {
+    "series": "strat_axi_lap_spurious_uH1",
+    "level": "analytic",
+    "norm": "|u_h|_H1 (exact u = 0), r-weighted, cylindrical gradient",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1000.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "allow_superconvergence": true,
+    "max_order": 3.0
+   },
+   {
+    "series": "strat_axi_sym_pL2mw",
+    "level": "analytic",
+    "norm": "r-weighted mean-free pressure error",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 208.329539,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "strat_axi_sym_spurious_uL2",
+    "level": "analytic",
+    "norm": "||u_h|| (exact u = 0), r-weighted, cylindrical gradient",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1000.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "allow_superconvergence": true,
+    "max_order": 4.0
+   },
+   {
+    "series": "strat_axi_sym_spurious_uH1",
+    "level": "analytic",
+    "norm": "|u_h|_H1 (exact u = 0), r-weighted, cylindrical gradient",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1000.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "allow_superconvergence": true,
+    "max_order": 3.0
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "strat_sq_lap_TL2_finest",
+    "level": "analytic",
+    "max": 1e-08
+   },
+   {
+    "quantity": "uniform_sq_lap_u_L2_max_over_levels",
+    "level": "conservation",
+    "max": 1e-09
+   },
+   {
+    "quantity": "uniform_sq_lap_pL2m_max_over_levels",
+    "level": "conservation",
+    "max": 1e-06
+   },
+   {
+    "quantity": "uniform_sq_lap_TL2_max_over_levels",
+    "level": "conservation",
+    "max": 1e-09
+   },
+   {
+    "quantity": "strat_sq_sym_TL2_finest",
+    "level": "analytic",
+    "max": 1e-08
+   },
+   {
+    "quantity": "uniform_sq_sym_u_L2_max_over_levels",
+    "level": "conservation",
+    "max": 1e-09
+   },
+   {
+    "quantity": "uniform_sq_sym_pL2m_max_over_levels",
+    "level": "conservation",
+    "max": 1e-06
+   },
+   {
+    "quantity": "uniform_sq_sym_TL2_max_over_levels",
+    "level": "conservation",
+    "max": 1e-09
+   },
+   {
+    "quantity": "strat_axi_lap_TL2w_finest",
+    "level": "analytic",
+    "max": 1e-08
+   },
+   {
+    "quantity": "uniform_axi_lap_u_L2_max_over_levels",
+    "level": "conservation",
+    "max": 1e-09
+   },
+   {
+    "quantity": "uniform_axi_lap_pL2m_max_over_levels",
+    "level": "conservation",
+    "max": 1e-06
+   },
+   {
+    "quantity": "uniform_axi_lap_TL2_max_over_levels",
+    "level": "conservation",
+    "max": 1e-09
+   },
+   {
+    "quantity": "strat_axi_sym_TL2w_finest",
+    "level": "analytic",
+    "max": 1e-08
+   },
+   {
+    "quantity": "uniform_axi_sym_u_L2_max_over_levels",
+    "level": "conservation",
+    "max": 1e-09
+   },
+   {
+    "quantity": "uniform_axi_sym_pL2m_max_over_levels",
+    "level": "conservation",
+    "max": 1e-06
+   },
+   {
+    "quantity": "uniform_axi_sym_TL2_max_over_levels",
+    "level": "conservation",
+    "max": 1e-09
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "analytic",
+    "max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

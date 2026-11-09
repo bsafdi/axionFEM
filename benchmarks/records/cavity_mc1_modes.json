@@ -1,0 +1,245 @@
+{
+ "case": "copper pillbox a = 0.1 m, L = 0.2 m (wall t = 1 cm), closed sphere R = 1 m, cavity restricted",
+ "rows": [
+  {
+   "order": 2,
+   "h_m": 0.02,
+   "dofs": 7547,
+   "seconds": 10.423837423324585,
+   "excluded_components": 1,
+   "TM010": {
+    "f_Hz": 1147427482.3635385,
+    "f_exact_Hz": 1147425278.3521006,
+    "rel": 1.92083221417505e-06,
+    "residual_true": 2.2188023193111162e-14,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TM011": {
+    "f_Hz": 1370526781.6356466,
+    "f_exact_Hz": 1370513318.4730117,
+    "rel": 9.823445312973078e-06,
+    "residual_true": 2.292343911196453e-14,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TE011": {
+    "f_Hz": 1976028095.1228426,
+    "f_exact_Hz": 1975899911.772241,
+    "rel": 6.487340266470021e-05,
+    "residual_true": 9.755128069792202e-15,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   }
+  },
+  {
+   "order": 2,
+   "h_m": 0.01,
+   "dofs": 9127,
+   "seconds": 0.5189032554626465,
+   "excluded_components": 1,
+   "TM010": {
+    "f_Hz": 1147425427.14322,
+    "f_exact_Hz": 1147425278.3521006,
+    "rel": 1.2967390738971574e-07,
+    "residual_true": 9.984850629160159e-14,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TM011": {
+    "f_Hz": 1370514227.9468086,
+    "f_exact_Hz": 1370513318.4730117,
+    "rel": 6.636008453853037e-07,
+    "residual_true": 9.484964158498165e-14,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TE011": {
+    "f_Hz": 1975908142.5390337,
+    "f_exact_Hz": 1975899911.772241,
+    "rel": 4.165578804560255e-06,
+    "residual_true": 3.460843131369394e-14,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   }
+  },
+  {
+   "order": 2,
+   "h_m": 0.005,
+   "dofs": 13435,
+   "seconds": 0.845402717590332,
+   "excluded_components": 1,
+   "TM010": {
+    "f_Hz": 1147425288.8250303,
+    "f_exact_Hz": 1147425278.3521006,
+    "rel": 9.127330447000759e-09,
+    "residual_true": 3.8467093066279345e-13,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TM011": {
+    "f_Hz": 1370513388.9397142,
+    "f_exact_Hz": 1370513318.4730117,
+    "rel": 5.141628434124357e-08,
+    "residual_true": 3.1273923240840445e-13,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TE011": {
+    "f_Hz": 1975900541.3849287,
+    "f_exact_Hz": 1975899911.772241,
+    "rel": 3.1864604266296226e-07,
+    "residual_true": 1.4900969217399216e-13,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   }
+  },
+  {
+   "order": 2,
+   "h_m": 0.0025,
+   "dofs": 28787,
+   "seconds": 2.104017734527588,
+   "excluded_components": 1,
+   "TM010": {
+    "f_Hz": 1147425279.0167718,
+    "f_exact_Hz": 1147425278.3521006,
+    "rel": 5.79271963729866e-10,
+    "residual_true": 1.7294324369041273e-12,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TM011": {
+    "f_Hz": 1370513322.6215484,
+    "f_exact_Hz": 1370513318.4730117,
+    "rel": 3.026994876975664e-09,
+    "residual_true": 1.23608431318308e-12,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TE011": {
+    "f_Hz": 1975899949.9916215,
+    "f_exact_Hz": 1975899911.772241,
+    "rel": 1.934277138460061e-08,
+    "residual_true": 6.420935015857301e-13,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   }
+  },
+  {
+   "order": 3,
+   "h_m": 0.02,
+   "dofs": 16855,
+   "seconds": 0.5588982105255127,
+   "excluded_components": 1,
+   "TM010": {
+    "f_Hz": 1147425284.6605172,
+    "f_exact_Hz": 1147425278.3521006,
+    "rel": 5.4978888108792034e-09,
+    "residual_true": 6.617247401392464e-14,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TM011": {
+    "f_Hz": 1370513336.9702985,
+    "f_exact_Hz": 1370513318.4730117,
+    "rel": 1.3496612272234643e-08,
+    "residual_true": 6.945423891019058e-14,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TE011": {
+    "f_Hz": 1975900231.2180488,
+    "f_exact_Hz": 1975899911.772241,
+    "rel": 1.616710469942717e-07,
+    "residual_true": 2.6675340209803764e-14,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   }
+  },
+  {
+   "order": 3,
+   "h_m": 0.01,
+   "dofs": 20401,
+   "seconds": 0.687079906463623,
+   "excluded_components": 1,
+   "TM010": {
+    "f_Hz": 1147425278.4585335,
+    "f_exact_Hz": 1147425278.3521006,
+    "rel": 9.27580234844072e-11,
+    "residual_true": 2.575747495451e-13,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TM011": {
+    "f_Hz": 1370513318.7759302,
+    "f_exact_Hz": 1370513318.4730117,
+    "rel": 2.2102542018842541e-10,
+    "residual_true": 2.1053785512970955e-13,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TE011": {
+    "f_Hz": 1975899916.9260914,
+    "f_exact_Hz": 1975899911.772241,
+    "rel": 2.6083559756528985e-09,
+    "residual_true": 1.0013917944516851e-13,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   }
+  },
+  {
+   "order": 3,
+   "h_m": 0.005,
+   "dofs": 30073,
+   "seconds": 1.4863383769989014,
+   "excluded_components": 1,
+   "TM010": {
+    "f_Hz": 1147425278.3543801,
+    "f_exact_Hz": 1147425278.3521006,
+    "rel": 1.986633080264255e-12,
+    "residual_true": 1.0799207001810499e-12,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TM011": {
+    "f_Hz": 1370513318.4790003,
+    "f_exact_Hz": 1370513318.4730117,
+    "rel": 4.369615780319691e-12,
+    "residual_true": 8.293848443517379e-13,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   },
+   "TE011": {
+    "f_Hz": 1975899911.8819604,
+    "f_exact_Hz": 1975899911.772241,
+    "rel": 5.5528692755046904e-11,
+    "residual_true": 3.964116516416463e-13,
+    "energy_fraction": {
+     "cavity": 1.0
+    }
+   }
+  }
+ ],
+ "seconds": 16.638622522354126,
+ "status": "beta"
+}

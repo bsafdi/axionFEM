@@ -1,0 +1,292 @@
+{
+ "check": "tree_cotree_mqs_limit",
+ "provenance": {
+  "git_describe": "cbdff1d",
+  "git_head": "cbdff1dee79ac330a0dd955b96e4d1967d670556",
+  "git_diff_sha256": null,
+  "AXF_EXE": {
+   "path": "build7/axf",
+   "mtime": "2026-10-21T08:17:10",
+   "sha256": "502d9020d3e30710036b75c561d8928ac90c141efa4cd90b16810da6fa9007a8"
+  },
+  "libaxionfem": {
+   "path": "build7/libaxionfem.so",
+   "mtime": "2026-10-21T08:17:09",
+   "sha256": "16a3e5b3c71b807d661ee8d7266a367db58a49d480882d2ddd31a252870f7f4d"
+  },
+  "AXF_MESHER": {
+   "path": "build7/axf-mesher",
+   "mtime": "2026-10-21T08:16:47",
+   "sha256": "91dcb2717afc871f5e74a1ed5bc656a32d44b6ac1a6df41a1ba3131bf89286e7"
+  },
+  "python_core": {
+   "path": "runs/pkg7/axionfem/_core.cpython-312-x86_64-linux-gnu.so",
+   "mtime": "2026-10-21T08:17:10",
+   "sha256": "74cf16fcf34c8714882ac69be531537b1eafe9410e102f82bd01b9c710262247"
+  },
+  "driver": {
+   "path": "benchmarks/tree_cotree_mqs_limit.py",
+   "mtime": "2026-10-21T16:56:37",
+   "sha256": "30e3b20760bce2ed6a6a25129980c63bd424ceddbf6ed54e0039df59ffa367d5"
+  },
+  "date": "2026-10-21"
+ },
+ "scales": [
+  0.5,
+  0.35355339059327373,
+  0.25,
+  0.17677669529663687,
+  0.125
+ ],
+ "frequencies_Hz": [
+  10.0,
+  100.0
+ ],
+ "wall_m": [
+  0.7,
+  0.75
+ ],
+ "domain_radius_m": 0.8,
+ "levels": [
+  {
+   "scale": 0.5,
+   "dofs": 132767,
+   "elements": 106231,
+   "mesh_sha256": "bc8aee477a5bb6e03b2fb020658de062db08a33dd1ab2b1fe05723cf4a4e3b2f",
+   "L_fw_H": {
+    "10": 4.749504987748919e-07,
+    "100": 4.749504987760107e-07
+   },
+   "L_mqs_H": 4.749504984832356e-07,
+   "solver_path": "tree-cotree gauged STRUMPACK LU (E = S_c e + G_c phi, K G = 0 exact), Woodbury loads, iterative refinement on the transformed residual (normwise); charge projection 2; gate on the split-form original-space residual",
+   "pickup_bodies": [
+    {
+     "betti1": 0,
+     "elements": 561,
+     "generators": [],
+     "names": [
+      "loop"
+     ]
+    },
+    {
+     "betti1": 0,
+     "elements": 7726,
+     "generators": [],
+     "names": [
+      "wall"
+     ]
+    }
+   ],
+   "warnings": [
+    "superconductor 'loop': every surface point lies within three face sizes of a sharp edge, so the regular peak equals the raw peak (0 T); refine its surface mesh"
+   ],
+   "fw_over_mqs_minus_1": {
+    "10": 6.140772335072597e-10,
+    "100": 6.164329047209094e-10
+   }
+  },
+  {
+   "scale": 0.35355339059327373,
+   "dofs": 161603,
+   "elements": 131098,
+   "mesh_sha256": "b007566bb3904c8ac09dd239e3d0b4801c4cbd0a93fdcd2f8c3ba3bdeb92cd92",
+   "L_fw_H": {
+    "10": 4.894010958926176e-07,
+    "100": 4.894010958935113e-07
+   },
+   "L_mqs_H": 4.894010955338779e-07,
+   "solver_path": "tree-cotree gauged STRUMPACK LU (E = S_c e + G_c phi, K G = 0 exact), Woodbury loads, iterative refinement on the transformed residual (normwise); charge projection 2; gate on the split-form original-space residual",
+   "pickup_bodies": [
+    {
+     "betti1": 0,
+     "elements": 850,
+     "generators": [],
+     "names": [
+      "loop"
+     ]
+    },
+    {
+     "betti1": 0,
+     "elements": 15316,
+     "generators": [],
+     "names": [
+      "wall"
+     ]
+    }
+   ],
+   "warnings": [
+    "superconductor 'loop': every surface point lies within three face sizes of a sharp edge, so the regular peak equals the raw peak (0 T); refine its surface mesh"
+   ],
+   "fw_over_mqs_minus_1": {
+    "10": 7.330178686260069e-10,
+    "100": 7.348439634569104e-10
+   }
+  },
+  {
+   "scale": 0.25,
+   "dofs": 227971,
+   "elements": 187981,
+   "mesh_sha256": "c7f8c859b7a7e09b390920d023f96b1f23a301b07625a300bab5004043f69a7d",
+   "L_fw_H": {
+    "10": 5.020878943404086e-07,
+    "100": 5.020878943412355e-07
+   },
+   "L_mqs_H": 5.020878938507517e-07,
+   "solver_path": "tree-cotree gauged STRUMPACK LU (E = S_c e + G_c phi, K G = 0 exact), Woodbury loads, iterative refinement on the transformed residual (normwise); charge projection 2; gate on the split-form original-space residual",
+   "pickup_bodies": [
+    {
+     "betti1": 0,
+     "elements": 1878,
+     "generators": [],
+     "names": [
+      "loop"
+     ]
+    },
+    {
+     "betti1": 0,
+     "elements": 29733,
+     "generators": [],
+     "names": [
+      "wall"
+     ]
+    }
+   ],
+   "warnings": [
+    "superconductor 'loop': every surface point lies within three face sizes of a sharp edge, so the regular peak equals the raw peak (0 T); refine its surface mesh"
+   ],
+   "fw_over_mqs_minus_1": {
+    "10": 9.752414431574152e-10,
+    "100": 9.768883479921442e-10
+   }
+  },
+  {
+   "scale": 0.17677669529663687,
+   "dofs": 398228,
+   "elements": 334118,
+   "mesh_sha256": "83670fe18e89f46ba26fa6f5de0b2f8471472eaf0c5e5a8c3f4e528f6d8ba6f7",
+   "L_fw_H": {
+    "10": 5.10299166485074e-07,
+    "100": 5.102991664860979e-07
+   },
+   "L_mqs_H": 5.102991657635268e-07,
+   "solver_path": "tree-cotree gauged STRUMPACK LU (E = S_c e + G_c phi, K G = 0 exact), Woodbury loads, iterative refinement on the transformed residual (normwise); charge projection 2; gate on the split-form original-space residual",
+   "pickup_bodies": [
+    {
+     "betti1": 0,
+     "elements": 4326,
+     "generators": [],
+     "names": [
+      "loop"
+     ]
+    },
+    {
+     "betti1": 0,
+     "elements": 57424,
+     "generators": [],
+     "names": [
+      "wall"
+     ]
+    }
+   ],
+   "warnings": [
+    "superconductor 'loop': every surface point lies within three face sizes of a sharp edge, so the regular peak equals the raw peak (0 T); refine its surface mesh"
+   ],
+   "fw_over_mqs_minus_1": {
+    "10": 1.413969163976958e-09,
+    "100": 1.4159755590270606e-09
+   }
+  },
+  {
+   "scale": 0.125,
+   "dofs": 898548,
+   "elements": 759774,
+   "mesh_sha256": "573caaace3a1985041d10598ddc04ed8dbbddbe06bae3d8323ac97ebc3b49d4e",
+   "L_fw_H": {
+    "10": 5.16248051237792e-07,
+    "100": 5.162480512387081e-07
+   },
+   "L_mqs_H": 5.162480501345966e-07,
+   "solver_path": "tree-cotree gauged STRUMPACK LU (E = S_c e + G_c phi, K G = 0 exact), Woodbury loads, iterative refinement on the transformed residual (normwise); charge projection 2; gate on the split-form original-space residual",
+   "pickup_bodies": [
+    {
+     "betti1": 0,
+     "elements": 10079,
+     "generators": [],
+     "names": [
+      "loop"
+     ]
+    },
+    {
+     "betti1": 0,
+     "elements": 158242,
+     "generators": [],
+     "names": [
+      "wall"
+     ]
+    }
+   ],
+   "warnings": [],
+   "fw_over_mqs_minus_1": {
+    "10": 2.1369483960143043e-09,
+    "100": 2.138722976496865e-09
+   }
+  }
+ ],
+ "extrapolation": {
+  "fw_100Hz": {
+   "h": [
+    0.010363017686860593,
+    0.013592188926821316,
+    0.01636967781937753
+   ],
+   "values": [
+    5.162480512387081e-07,
+    5.102991664860979e-07,
+    5.020878943412355e-07
+   ],
+   "order": 3.1310872911615997,
+   "extrapolated": 5.206940196407243e-07,
+   "gci_fine": 0.01076509730000004,
+   "extrapolation_error": 0.008538543240968706,
+   "safety_factor": 1.25,
+   "order_used": 3.1310872911615997,
+   "behaviour": "monotone"
+  },
+  "mqs": {
+   "h": [
+    0.010363017686860593,
+    0.013592188926821316,
+    0.01636967781937753
+   ],
+   "values": [
+    5.162480501345966e-07,
+    5.102991657635268e-07,
+    5.020878938507517e-07
+   ],
+   "order": 3.1310874552660763,
+   "extrapolated": 5.206940179056502e-07,
+   "gci_fine": 0.010765095795263763,
+   "extrapolation_error": 0.008538542057649059,
+   "safety_factor": 1.25,
+   "order_used": 3.1310874552660763,
+   "behaviour": "monotone"
+  },
+  "fw_over_mqs": {
+   "h": [
+    0.010363017686860593,
+    0.013592188926821316,
+    0.01636967781937753
+   ],
+   "values": [
+    1.000000002138723,
+    1.0000000014159756,
+    1.0000000009768883
+   ],
+   "order": null,
+   "extrapolated": null,
+   "gci_fine": null,
+   "extrapolation_error": null,
+   "behaviour": "no usable order"
+  }
+ }
+}

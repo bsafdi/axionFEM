@@ -1,0 +1,167 @@
+{
+ "id": "analytic_conduction_annulus_axi",
+ "capability": "F4a",
+ "title": "Radial conduction with variable conductivity kappa = 1 + r^2 in a hollow cylinder (exact): the non-MMS cell of variable kappa, the r weight away from the axis, and a variational flux through the inner wall r = 1/2",
+ "physics": "-div(kappa grad T) = 0, T = ln r - ln(1 + r^2)/2 + z/4 on [1/2, 1] x [0, 1]",
+ "levels": [
+  "analytic"
+ ],
+ "run": {
+  "runner": {
+   "module": "f4a_heat",
+   "function": "conduction_annulus",
+   "check_module": "f4a_heat_check",
+   "cost": "short",
+   "timeout_s": 600
+  },
+  "parameters": {
+   "field": {
+    "path": "tools/fluids_mms/out/cond_annulus.json",
+    "sha256": "7ea294b603c28352b7d0ec8b2d70f5cf0bfbc675b4b96a880f408127cdf7298f"
+   },
+   "element": {
+    "temperature": "P2"
+   },
+   "meshes": {
+    "annulus": {
+     "family": "annulus",
+     "k": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "scalar_transport_check.box_mesh(4, 8, k, (1/2, 1, 0, 1)), k = 0..4 in (r, z): cells of side 1/8, flipped corner cells, red-refined k times. Nested.",
+     "h_definition": "h_nominal = 0.125 / 2^k"
+    }
+   },
+   "boundary_conditions": "r = 1/2 and r = 1 Dirichlet (exact), z = 0 and z = 1 exact diffusive flux; no advection, no source",
+   "inner_flux": "variational outward flux through r = 1/2 (nodal v_Gamma); exact value 1 (per radian)",
+   "dirichlet_data": "P2 (P1) Lagrange NODAL interpolation of the fixed callables at the vertices and edge midpoints of the Dirichlet boundary parts; at a node shared by two Dirichlet parts the data agree (one exact callable per field); Dirichlet beats every natural condition at a shared node",
+   "quadrature_requirement": "Every Galerkin and SUPG integrand that is a polynomial on affine triangles is integrated EXACTLY: for P2 T and v: a b.grad T v with b in P1 degree 4 planar / 5 axisymmetric; with b = u_h in P2 (the coupled energy equation: B, C1, E1, H1, X1) or the quadratic Poiseuille b (G1, G2) degree 5 planar / 6 axisymmetric (a degree-4 rule for a u_h.grad T v moves X1 by 3.4e-8 against its 1e-8 recipe); the momentum terms as F2a requires. Non-polynomial data (MMS loads, Robin T_ext, Neumann data) by rules of degree >= 6 on elements and edges; the identities that involve such data are then QUADRATURE-LIMITED (worst measured 1.3e-11 with an admissible degree-6 rule, against bounds of 1e-10). Data callables are evaluated at interior quadrature points and at the Dirichlet nodes only (some axisymmetric loads have removable 1/r singularities on the axis)."
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "gal_TL2w",
+    "level": "analytic",
+    "norm": "r-weighted ||T - T_h|| = (int (T - T_h)^2 r dr dz)^1/2 (the 3D norm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.804303,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "gal_TH1w",
+    "level": "analytic",
+    "norm": "r-weighted |T - T_h|_H1 (the 3D seminorm / 2 pi)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.618534,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "gal_TL2_unw",
+    "level": "analytic",
+    "norm": "UNWEIGHTED ||T - T_h|| over the (r, z) half-plane (report both)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.804303,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "gal_inner_flux_err",
+    "level": "analytic",
+    "norm": "|Q_out,h(r = 1/2) - 1|, Q_out,h the variational outward flux through the inner wall",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.annulus.h_nominal",
+    "expected_order": 4.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-12,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "analytic",
+    "max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

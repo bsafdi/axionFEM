@@ -1,0 +1,63 @@
+{
+  "check": "vs_2d",
+  "axionfem_version": "0.1.0",
+  "date": "2026-10-06 14:54",
+  "rows": [
+    {
+      "i": "can",
+      "j": "can",
+      "axi_F": 1.2593730539368878e-10,
+      "three_d_F": 1.2636435015090308e-10,
+      "relative_difference": 0.0033909313517495043,
+      "difference_over_C_can_can": 0.003390931351749478
+    },
+    {
+      "i": "can",
+      "j": "ring",
+      "axi_F": -5.96486573162836e-11,
+      "three_d_F": -6.002138286034049e-11,
+      "relative_difference": 0.006248682884520518,
+      "difference_over_C_can_can": -0.0029596118710950776
+    },
+    {
+      "i": "ring",
+      "j": "can",
+      "axi_F": -5.96486573162836e-11,
+      "three_d_F": -6.002138286034049e-11,
+      "relative_difference": 0.006248682884520518,
+      "difference_over_C_can_can": -0.0029596118710950776
+    },
+    {
+      "i": "ring",
+      "j": "ring",
+      "axi_F": 5.964865731628242e-11,
+      "three_d_F": 6.002138286034043e-11,
+      "relative_difference": 0.006248682884539392,
+      "difference_over_C_can_can": 0.002959611871104006
+    }
+  ],
+  "worst_difference_over_C_max": 0.003390931351749478,
+  "axi": {
+    "dofs": 36841,
+    "checks": null
+  },
+  "three_d": {
+    "dofs": 271762,
+    "checks": {
+      "symmetry_relative": 6.136871857785765e-16,
+      "energy_max_relative_difference": 7.973625736110871e-07,
+      "charge_gauss_max_relative_difference": 0.09862148864770272,
+      "exterior_monopole_max_relative_difference": 0.0016269445315402723,
+      "energy_superposition_relative": 1.4150424835304813e-06,
+      "mixed_potential_max_relative_difference": 1.8366414138122284e-14,
+      "floating_max_relative_charge": 5.183965681542235e-17,
+      "min_slack_relative": -8.613395063698971e-16,
+      "off_diagonal_signs_ok": true,
+      "max_relative_residual": 5.499799587532772e-14,
+      "dofs": 271762
+    }
+  },
+  "warnings_3d": [],
+  "pass": true,
+  "headline": "largest 3D-vs-2D matrix difference 3.39e-03 of C(can, can)"
+}

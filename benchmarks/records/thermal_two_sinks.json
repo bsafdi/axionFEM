@@ -1,0 +1,53 @@
+{
+ "axionfem_version": "0.1.0",
+ "date": "2026-10-06 15:02",
+ "check": "thermal_two_sinks",
+ "geometry": {
+  "wall_r_in_m": 0.4,
+  "wall_r_out_m": 0.5,
+  "height_m": 1.0,
+  "k_W_mK": 10.0,
+  "T_cold_K": 4.0,
+  "T_warm_K": 300.0
+ },
+ "reference": "steady radial conduction between two isothermal cylinders: Q = 2 pi k H (T_warm - T_cold)/ln(b/a), T(r) = T_cold + dT ln(r/a)/ln(b/a)",
+ "exact_W": 83346.47539539826,
+ "rows": [
+  {
+   "mesh_size": 0.04,
+   "dofs": 13727,
+   "heat_removed_W": 83346.4882193491,
+   "heat_added_W": 83346.48821934884,
+   "exact_W": 83346.47539539826,
+   "heat_removed_rel": 1.5386314533571976e-07,
+   "net_outflow_W": 1.8393623311098321e-10,
+   "generated_W": 0.0,
+   "balance_relative": 2.2068864212599415e-15,
+   "max_abs_err_K": 0.009486205857086816
+  },
+  {
+   "mesh_size": 0.02,
+   "dofs": 16547,
+   "heat_removed_W": 83346.4763314196,
+   "heat_added_W": 83346.47633141925,
+   "exact_W": 83346.47539539826,
+   "heat_removed_rel": 1.1230484986413103e-08,
+   "net_outflow_W": 3.3822837428369145e-10,
+   "generated_W": 0.0,
+   "balance_relative": 4.058100464124691e-15,
+   "max_abs_err_K": 0.001377794704016111
+  },
+  {
+   "mesh_size": 0.01,
+   "dofs": 27647,
+   "heat_removed_W": 83346.47545791155,
+   "heat_added_W": 83346.47545791107,
+   "exact_W": 83346.47539539826,
+   "heat_removed_rel": 7.500413623517943e-10,
+   "net_outflow_W": -1.2018357755698223e-10,
+   "generated_W": 0.0,
+   "balance_relative": 1.441975523220208e-15,
+   "max_abs_err_K": 0.0001701830336457988
+  }
+ ]
+}

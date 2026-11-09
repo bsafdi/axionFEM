@@ -1,0 +1,225 @@
+{
+ "id": "xcode_stokes_cavity_reg_3d",
+ "capability": "F1c",
+ "title": "Cross-code: regularized-lid 3D Stokes cavity energy and dissipation against DOLFINx (NGSolve as the second code) on the fixed octant Kuhn meshes N = 8, 16, both forms",
+ "physics": "lid u = (256 x^2(1-x)^2 y^2(1-y)^2, 0, 0) on z = 1, u = 0 on the other faces, mu = 1, f = 0",
+ "levels": [
+  "cross_code"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1c_stokes",
+   "function": "xcode_cavity_3d",
+   "check_module": "f1c_stokes_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine"
+   },
+   "forms": [
+    "lap",
+    "sym"
+   ],
+   "ranks": 16,
+   "solver": {
+    "kind": "direct sparse LU"
+   },
+   "lid_data": {
+    "path": "tools/fluids_mms/out/f1c_cavity_lid.json",
+    "sha256": "802f2c92d1d456d43467ce8dc38a2a10905d03452806c4ebb33ff2da5430634d"
+   },
+   "meshes": {
+    "kuhn": {
+     "family": "kuhn_octant",
+     "N": [
+      8,
+      16
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625
+     ],
+     "construction": "f1c_stokes_check.cube_tet(N)"
+    }
+   },
+   "functionals": "E_kin = 1/2 ||u_h||^2, dissipation a_form(u_h, u_h): computed by f1c_stokes_check.energy_sums from the solution, exact quadrature for affine P2",
+   "shared_node_rule": "At a velocity node shared by several boundary attributes (edges and corners of the cube, the slip-symmetry edge of T4): (1) Dirichlet beats every natural condition and every slip/symmetry constraint; (2) between Dirichlet attributes the fixed data AGREE (one exact callable per field; checked: dirichlet_shared_node_mismatch_max), so no precedence is needed and the result is independent of attribute order; (3) at a node on two slip/symmetry faces BOTH normal constraints are imposed (u along the common edge only); (4) no periodic boundaries in F1c."
+  }
+ },
+ "reference": {
+  "quantities": {
+   "lap_Diss_N16": {
+    "kind": "scalar",
+    "source": "dolfinx",
+    "value": 1.473968606968556,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/fenicsx_cavity3d_reference.json: quantities.lap_Diss_N16"
+   },
+   "lap_Diss_N8": {
+    "kind": "scalar",
+    "source": "dolfinx",
+    "value": 1.476398527564129,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/fenicsx_cavity3d_reference.json: quantities.lap_Diss_N8"
+   },
+   "lap_Ekin_N16": {
+    "kind": "scalar",
+    "source": "dolfinx",
+    "value": 0.006479629799262424,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/fenicsx_cavity3d_reference.json: quantities.lap_Ekin_N16"
+   },
+   "lap_Ekin_N8": {
+    "kind": "scalar",
+    "source": "dolfinx",
+    "value": 0.0064841361686021354,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/fenicsx_cavity3d_reference.json: quantities.lap_Ekin_N8"
+   },
+   "sym_Diss_N16": {
+    "kind": "scalar",
+    "source": "dolfinx",
+    "value": 1.4741601928478067,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/fenicsx_cavity3d_reference.json: quantities.sym_Diss_N16"
+   },
+   "sym_Diss_N8": {
+    "kind": "scalar",
+    "source": "dolfinx",
+    "value": 1.4788546334410404,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/fenicsx_cavity3d_reference.json: quantities.sym_Diss_N8"
+   },
+   "sym_Ekin_N16": {
+    "kind": "scalar",
+    "source": "dolfinx",
+    "value": 0.006480354601380388,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/fenicsx_cavity3d_reference.json: quantities.sym_Ekin_N16"
+   },
+   "sym_Ekin_N8": {
+    "kind": "scalar",
+    "source": "dolfinx",
+    "value": 0.006492802142785909,
+    "unit": "1",
+    "uncertainty": 0.0,
+    "uncertainty_kind": "own_estimate",
+    "locator": "tools/fluids_mms/xcode/fenicsx_cavity3d_reference.json: quantities.sym_Ekin_N8"
+   }
+  },
+  "tolerance_recipe": {
+   "lap_Diss_N16": {
+    "rel": 1e-09
+   },
+   "lap_Diss_N8": {
+    "rel": 1e-09
+   },
+   "lap_Ekin_N16": {
+    "rel": 1e-09
+   },
+   "lap_Ekin_N8": {
+    "rel": 1e-09
+   },
+   "sym_Diss_N16": {
+    "rel": 1e-09
+   },
+   "sym_Diss_N8": {
+    "rel": 1e-09
+   },
+   "sym_Ekin_N16": {
+    "rel": 1e-09
+   },
+   "sym_Ekin_N8": {
+    "rel": 1e-09
+   }
+  }
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "lap_Diss_N16",
+    "reference": "lap_Diss_N16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Diss_N8",
+    "reference": "lap_Diss_N8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Ekin_N16",
+    "reference": "lap_Ekin_N16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "lap_Ekin_N8",
+    "reference": "lap_Ekin_N8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Diss_N16",
+    "reference": "sym_Diss_N16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Diss_N8",
+    "reference": "sym_Diss_N8",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Ekin_N16",
+    "reference": "sym_Ekin_N16",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "sym_Ekin_N8",
+    "reference": "sym_Ekin_N8",
+    "level": "cross_code"
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "cross_code",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "comm_size_mismatch_runs",
+    "level": "cross_code",
+    "max": 0
+   },
+   {
+    "quantity": "partition_failures",
+    "level": "cross_code",
+    "max": 0
+   },
+   {
+    "quantity": "shared_dofs_min_runs",
+    "level": "cross_code",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,124 @@
+{
+ "check": "epoxy_same_mesh",
+ "date": "2026-10-18",
+ "mesh": "bmqs2211/runs/mesh_epoxy_C/mesh3d.msh",
+ "rel_offset": 0.002,
+ "rows": [
+  {
+   "pole": 1,
+   "points": [
+    {
+     "f_Hz": 26697498.0,
+     "X_ohm": 18581.903744555813,
+     "dX_dw_H": 0.0453955813963263,
+     "f_pole_Hz": 26762645.35007322,
+     "accepted": true,
+     "true_relative_residual": null
+    },
+    {
+     "f_Hz": 26804502.0,
+     "X_ohm": -28820.618167329714,
+     "dX_dw_H": 0.10950591076993339,
+     "f_pole_Hz": 26762614.362957913,
+     "accepted": true,
+     "true_relative_residual": null
+    }
+   ],
+   "f_pole_eps1_Hz": 26762591.33608923,
+   "spread_rel": 1.1578518281647531e-06,
+   "lossless_meshC_Hz": 26751000.0,
+   "epoxy_meshEC_Hz": 26422300.0,
+   "mesh_effect_rel": 0.00043330477698888537,
+   "shift_same_mesh_rel": -0.012715186351567875,
+   "shift_two_meshes_rel": -0.012287391125565428,
+   "comsol_shift_rel": -0.011689866786409264
+  },
+  {
+   "pole": 2,
+   "points": [
+    {
+     "f_Hz": 75414822.0,
+     "X_ohm": 14927.232798187497,
+     "dX_dw_H": 0.052737424314193954,
+     "f_pole_Hz": 75459870.51947947,
+     "accepted": true,
+     "true_relative_residual": null
+    },
+    {
+     "f_Hz": 75475178.0,
+     "X_ohm": -43108.989888380136,
+     "dX_dw_H": 0.44410318174026997,
+     "f_pole_Hz": 75459728.8676485,
+     "accepted": true,
+     "true_relative_residual": null
+    }
+   ],
+   "f_pole_eps1_Hz": 75459709.63955238,
+   "spread_rel": 1.877184946084047e-06,
+   "lossless_meshC_Hz": 75445000.0,
+   "epoxy_meshEC_Hz": 74986000.0,
+   "mesh_effect_rel": 0.00019497169530624525,
+   "shift_same_mesh_rel": -0.006277649911656802,
+   "shift_two_meshes_rel": -0.006083902180396339,
+   "comsol_shift_rel": -0.0149
+  },
+  {
+   "pole": 3,
+   "points": [
+    {
+     "f_Hz": 116407418.4,
+     "X_ohm": 3017.011035857723,
+     "dX_dw_H": 0.0075921754598208355,
+     "f_pole_Hz": 116470664.06947388,
+     "accepted": true,
+     "true_relative_residual": null
+    },
+    {
+     "f_Hz": 116500581.6,
+     "X_ohm": -5286.976512077989,
+     "dX_dw_H": 0.026510956897855563,
+     "f_pole_Hz": 116468841.95178021,
+     "accepted": true,
+     "true_relative_residual": null
+    }
+   ],
+   "f_pole_eps1_Hz": 116468105.35722177,
+   "spread_rel": 1.5644778354331327e-05,
+   "lossless_meshC_Hz": 116454000.0,
+   "epoxy_meshEC_Hz": 116061000.0,
+   "mesh_effect_rel": 0.00012112385338225451,
+   "shift_same_mesh_rel": -0.003495423540832321,
+   "shift_two_meshes_rel": -0.003374723066618568,
+   "comsol_shift_rel": -0.0119
+  },
+  {
+   "pole": 4,
+   "points": [
+    {
+     "f_Hz": 149897017.20000002,
+     "X_ohm": 5774.9086193418025,
+     "dX_dw_H": 0.012935790508389059,
+     "f_pole_Hz": 149968068.54023904,
+     "accepted": true,
+     "true_relative_residual": null
+    },
+    {
+     "f_Hz": 150016982.79999998,
+     "X_ohm": -6952.413320034732,
+     "dX_dw_H": 0.022048553159318675,
+     "f_pole_Hz": 149966797.60470366,
+     "accepted": true,
+     "true_relative_residual": null
+    }
+   ],
+   "f_pole_eps1_Hz": 149964949.40586275,
+   "spread_rel": 8.474883900581755e-06,
+   "lossless_meshC_Hz": 149957000.0,
+   "epoxy_meshEC_Hz": 149371000.0,
+   "mesh_effect_rel": 5.301123563916654e-05,
+   "shift_same_mesh_rel": -0.003960588178877011,
+   "shift_two_meshes_rel": -0.003907786898911025,
+   "comsol_shift_rel": -0.01
+  }
+ ]
+}

@@ -1,0 +1,199 @@
+{
+ "name": "annulus_sym",
+ "description": "Curved free-slip wall: annulus 1<r<2, inner cylinder rotating at Omega=1, outer free slip. The two forms have DIFFERENT exact solutions (sym: rigid rotation; lap: A r + B/r). Needs isoparametric P2 geometry (Babuska-paradox control).",
+ "domain": {
+  "kind": "annulus",
+  "r": [
+   1,
+   2
+  ]
+ },
+ "pressure": "mean_zero",
+ "conventions": {
+  "G_ij": "d u_i / d x_j",
+  "sigma_sym": "2 mu eps(u) - p I",
+  "sigma_lap": "mu G - p I",
+  "f": "-div sigma_form - gamma grad div u (= -div sigma_form for these fields)",
+  "traction": "g = sigma_form n, n the outward unit normal",
+  "grad_div": "gamma (div u_h, div v); gamma in viscosity units, not scaled by mu"
+ },
+ "u": [
+  {
+   "sympy": "-y",
+   "c": "-y",
+   "numpy": "-y"
+  },
+  {
+   "sympy": "x",
+   "c": "x",
+   "numpy": "x"
+  }
+ ],
+ "p": {
+  "sympy": "0",
+  "c": "0",
+  "numpy": "0"
+ },
+ "mu": {
+  "sympy": "1",
+  "c": "1",
+  "numpy": "1"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "-1",
+    "c": "-1",
+    "numpy": "-1"
+   }
+  ],
+  [
+   {
+    "sympy": "1",
+    "c": "1",
+    "numpy": "1"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ]
+ ],
+ "forms": {
+  "sym": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ],
+    [
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     },
+     {
+      "sympy": "0",
+      "c": "0",
+      "numpy": "0"
+     }
+    ]
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "r1",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "-x",
+     "c": "-x",
+     "numpy": "-x"
+    },
+    {
+     "sympy": "-y",
+     "c": "-y",
+     "numpy": "-y"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "cos(t)",
+     "c": "cos(t)",
+     "numpy": "np.cos(t)"
+    },
+    "y": {
+     "sympy": "sin(t)",
+     "c": "sin(t)",
+     "numpy": "np.sin(t)"
+    },
+    "range": [
+     0,
+     "2*pi"
+    ]
+   }
+  },
+  {
+   "name": "r2",
+   "bc": "slip",
+   "normal": [
+    {
+     "sympy": "x/2",
+     "c": "(1.0/2.0)*x",
+     "numpy": "(1/2)*x"
+    },
+    {
+     "sympy": "y/2",
+     "c": "(1.0/2.0)*y",
+     "numpy": "(1/2)*y"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "2*cos(t)",
+     "c": "2*cos(t)",
+     "numpy": "2*np.cos(t)"
+    },
+    "y": {
+     "sympy": "2*sin(t)",
+     "c": "2*sin(t)",
+     "numpy": "2*np.sin(t)"
+    },
+    "range": [
+     0,
+     "2*pi"
+    ]
+   }
+  }
+ ],
+ "extra": {
+  "slip_other_form_nonzero": true,
+  "cross_bc_exempt": "closed-form patch: rigid rotation satisfies slip on r = 1 too; the curved MMS annulus_mms_* carries the attribute test"
+ },
+ "constants": {
+  "area": 9.42477796076938,
+  "p_mean": 0.0,
+  "u_L2": 4.85406478138925,
+  "grad_u_L2": 4.3416075273496055,
+  "p_minus_mean_L2": 0.0,
+  "u_max_sampled": 1.9990000000000003,
+  "p_max_abs_sampled": 0.0,
+  "p_minus_mean_max_abs_sampled": 0.0,
+  "mu_min_sampled": 1.0,
+  "mu_max_sampled": 1.0
+ },
+ "selfcheck": {
+  "fd_residual_sym": 8.334074171519508e-11,
+  "net_boundary_flux": 0.0,
+  "status": "pass"
+ }
+}

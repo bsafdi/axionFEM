@@ -1,0 +1,207 @@
+{
+  "cost": {
+    "sc_wall_cap": 0.086
+  },
+  "description": "DMRadio-Core pickup segment (outer diameter 146 cm) around the published 5 T magnet, CORE topology.",
+  "mesh": {
+    "order": 2,
+    "size": "max(b, H)/30",
+    "surface_size": "min(w, gn)/2"
+  },
+  "name": "dmradio_core_pickup_146cm",
+  "notes": "Dimensions and sources: benchmarks/published/sources.json, key 'dmradio_core'.",
+  "parameters": {
+    "H": 2.95,
+    "NI": 11894164.2303695,
+    "Rc": 0.185,
+    "a": 0.32,
+    "b": 0.73,
+    "cl": "0.05*Rc",
+    "f": 0.02,
+    "fl": 0.0015,
+    "gc": 0.06,
+    "gn": 0.06,
+    "h": 0.29,
+    "iron_dz": "0.02*Rc",
+    "iron_r0": "0",
+    "iron_r1": "b+w",
+    "iron_t": 0.0,
+    "tw": 0.11499999999999999,
+    "w": 0.005
+  },
+  "pickup": {
+    "port": "neck",
+    "type": "poloidal"
+  },
+  "regions": [
+    {
+      "material": "winding",
+      "name": "coil_upper",
+      "shape": {
+        "rect": {
+          "r": [
+            "Rc",
+            "Rc+tw"
+          ],
+          "z": [
+            "gc/2",
+            "H/2"
+          ]
+        }
+      }
+    },
+    {
+      "material": "winding",
+      "name": "coil_lower",
+      "shape": {
+        "rect": {
+          "r": [
+            "Rc",
+            "Rc+tw"
+          ],
+          "z": [
+            "-H/2",
+            "-gc/2"
+          ]
+        }
+      }
+    },
+    {
+      "material": "nb",
+      "name": "cavity",
+      "shape": {
+        "union": [
+          {
+            "difference": [
+              {
+                "frame": {
+                  "fillet": "f",
+                  "r": [
+                    "a-w",
+                    "b+w"
+                  ],
+                  "thickness": "w",
+                  "z": [
+                    "-h/2-w",
+                    "h/2+w"
+                  ]
+                }
+              },
+              {
+                "rect": {
+                  "r": [
+                    "a-w",
+                    "a"
+                  ],
+                  "z": [
+                    "-gn/2-w",
+                    "gn/2+w"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "rect": {
+              "fillet": "fl",
+              "r": [
+                "a-w",
+                "a"
+              ],
+              "z": [
+                "gn/2",
+                "gn/2+2*w"
+              ]
+            }
+          },
+          {
+            "rect": {
+              "fillet": "fl",
+              "r": [
+                "a-w",
+                "a"
+              ],
+              "z": [
+                "-gn/2-2*w",
+                "-gn/2"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "material": "vacuum",
+      "name": "neck",
+      "shape": {
+        "rect": {
+          "r": [
+            "a-w+fl",
+            "a-fl"
+          ],
+          "z": [
+            "-gn/2",
+            "gn/2"
+          ]
+        }
+      }
+    },
+    {
+      "enabled": "iron_t",
+      "material": "iron",
+      "name": "iron_cap_upper",
+      "shape": {
+        "rect": {
+          "r": [
+            "iron_r0",
+            "iron_r1"
+          ],
+          "z": [
+            "h/2+w+iron_dz",
+            "h/2+w+iron_dz+iron_t"
+          ]
+        }
+      }
+    },
+    {
+      "enabled": "iron_t",
+      "material": "iron",
+      "name": "iron_cap_lower",
+      "shape": {
+        "rect": {
+          "r": [
+            "iron_r0",
+            "iron_r1"
+          ],
+          "z": [
+            "-h/2-w-iron_dz-iron_t",
+            "-h/2-w-iron_dz"
+          ]
+        }
+      }
+    }
+  ],
+  "schema": "axionfem.design/1",
+  "superconductors": [
+    {
+      "azimuthal": {
+        "net_current": 0
+      },
+      "body": "cavity"
+    }
+  ],
+  "windings": [
+    {
+      "ampere_turns": "NI/2",
+      "name": "upper",
+      "region": "coil_upper",
+      "type": "azimuthal"
+    },
+    {
+      "ampere_turns": "NI/2",
+      "name": "lower",
+      "region": "coil_lower",
+      "type": "azimuthal"
+    }
+  ]
+}

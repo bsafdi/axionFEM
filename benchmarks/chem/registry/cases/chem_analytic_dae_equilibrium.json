@@ -1,0 +1,370 @@
+{
+ "id": "chem_analytic_dae_equilibrium",
+ "capability": "C1c",
+ "title": "Instantaneous equilibrium (reaction-invariant form, index 1): consistent initialization, constraint, closed form",
+ "physics": "d(c_A + c_B)/dt = -k c_B, 0 = c_B - K c_A",
+ "levels": [
+  "analytic"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "analytic_dae",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "case": {
+    "K": "3",
+    "k": "3/5",
+    "A0": "8/5",
+    "B0": "1/5"
+   },
+   "dt_levels": [
+    0.25,
+    0.125,
+    0.0625,
+    0.03125,
+    0.015625
+   ],
+   "fixed": {
+    "start": "exact",
+    "error": "final time"
+   },
+   "adaptive": {
+    "methods": {
+     "bdf2": "bdf2_adaptive",
+     "onestep": "onestep_adaptive"
+    },
+    "rtol": 1e-08,
+    "atol": 1e-10
+   },
+   "output_policy": {
+    "rule": "stop_time",
+    "text": "Adaptive runs: the solver steps EXACTLY to every fixed output time (stop-time mode: each output time is an accepted step end) and reports the state there; no interpolated outputs for any compared value. Dense output is used only where an item says so (dense-output query times, maxima located on the dense output, event location)."
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "A9_A_init": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.45,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A9_B_init": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.35,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A9_A_t1": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.28693266822979796,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A9_B_t1": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.8607980046893939,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A9_C_t1": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.6522693270808081,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A9_A_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.1829563468832696,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A9_B_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.5488690406498088,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A9_C_t2": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.0681746124669216,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A9_A_t4": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.07438449969971395,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A9_B_t4": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 0.22315349909914184,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   },
+   "A9_C_t4": {
+    "kind": "scalar",
+    "source": "closed_form_c1",
+    "value": 1.5024620012011443,
+    "unit": "mol/m^3",
+    "uncertainty_kind": "exact"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "A9_bdf1_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / 1.8 (all components), exact start",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels",
+    "expected_order": 1.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A9_bdf2_order",
+    "level": "analytic",
+    "norm": "max_i |y_i(T) - y_i(T)_exact| / 1.8 (all components), exact start",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "A9_onestep_order",
+    "level": "analytic",
+    "norm": "same norm (all components), final time",
+    "abscissa": {
+     "kind": "dt"
+    },
+    "levels_from": "dt_levels",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 1.0,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "comparisons": [
+   {
+    "quantity": "A9_A_init",
+    "reference": "A9_A_init",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-12
+    }
+   },
+   {
+    "quantity": "A9_B_init",
+    "reference": "A9_B_init",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-12
+    }
+   },
+   {
+    "quantity": "A9_A_t1__bdf2",
+    "reference": "A9_A_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.9985726966709194e-05
+    }
+   },
+   {
+    "quantity": "A9_A_t1__onestep",
+    "reference": "A9_A_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1258420640203326e-07
+    }
+   },
+   {
+    "quantity": "A9_B_t1__bdf2",
+    "reference": "A9_B_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.9985726966709194e-05
+    }
+   },
+   {
+    "quantity": "A9_B_t1__onestep",
+    "reference": "A9_B_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1258420640203326e-07
+    }
+   },
+   {
+    "quantity": "A9_C_t1__bdf2",
+    "reference": "A9_C_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.9985726966709194e-05
+    }
+   },
+   {
+    "quantity": "A9_C_t1__onestep",
+    "reference": "A9_C_t1",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1258420640203326e-07
+    }
+   },
+   {
+    "quantity": "A9_A_t2__bdf2",
+    "reference": "A9_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.9985726966709194e-05
+    }
+   },
+   {
+    "quantity": "A9_A_t2__onestep",
+    "reference": "A9_A_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1258420640203326e-07
+    }
+   },
+   {
+    "quantity": "A9_B_t2__bdf2",
+    "reference": "A9_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.9985726966709194e-05
+    }
+   },
+   {
+    "quantity": "A9_B_t2__onestep",
+    "reference": "A9_B_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1258420640203326e-07
+    }
+   },
+   {
+    "quantity": "A9_C_t2__bdf2",
+    "reference": "A9_C_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.9985726966709194e-05
+    }
+   },
+   {
+    "quantity": "A9_C_t2__onestep",
+    "reference": "A9_C_t2",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1258420640203326e-07
+    }
+   },
+   {
+    "quantity": "A9_A_t4__bdf2",
+    "reference": "A9_A_t4",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.9985726966709194e-05
+    }
+   },
+   {
+    "quantity": "A9_A_t4__onestep",
+    "reference": "A9_A_t4",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1258420640203326e-07
+    }
+   },
+   {
+    "quantity": "A9_B_t4__bdf2",
+    "reference": "A9_B_t4",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.9985726966709194e-05
+    }
+   },
+   {
+    "quantity": "A9_B_t4__onestep",
+    "reference": "A9_B_t4",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1258420640203326e-07
+    }
+   },
+   {
+    "quantity": "A9_C_t4__bdf2",
+    "reference": "A9_C_t4",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.9985726966709194e-05
+    }
+   },
+   {
+    "quantity": "A9_C_t4__onestep",
+    "reference": "A9_C_t4",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.1258420640203326e-07
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "A9_constraint_residual_max",
+    "level": "analytic",
+    "abs_max": 1e-08
+   },
+   {
+    "quantity": "outputs_at_step_ends_min",
+    "level": "analytic",
+    "min": 1.0
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  }
+ }
+}

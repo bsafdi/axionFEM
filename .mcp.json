@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "axionfem": {
+      "command": ".venv/bin/python",
+      "args": ["-m", "axionfem.mcp_server"],
+      "env": {"AXF_WORKSPACE": "axf_workspace", "AXF_THREADS": "4"}
+    }
+  }
+}

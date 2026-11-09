@@ -1,0 +1,167 @@
+# Build the laptop wheels with cibuildwheel.
+#
+# One job per native architecture, because each wheel needs a serial MFEM built
+# for that architecture and cibuildwheel runs `before-all` once per job: no
+# cross-compiling.  The configuration itself (CPython versions, before-all,
+# test command, auditwheel/delocate) lives in [tool.cibuildwheel] in
+# pyproject.toml, so building a wheel locally gives the same result:
+#
+#   pipx run cibuildwheel --platform linux
+#
+# What goes into these wheels, and what does not (gmsh), is documented in
+# docs/install.md, "Licensing of each wheel".
+name: wheels
+
+# A release tag and workflow_dispatch build every wheel; a pull request that touches the packaging files below
+# builds one CPython per platform and installs it on clean runners.
+on:
+  push:
+    tags: ["v*"]
+  pull_request:
+    paths:
+      - pyproject.toml
+      - CMakeLists.txt
+      - scripts/build_deps_wheel.sh
+      - scripts/common.sh
+      - third_party/SHA256SUMS.txt
+      - .github/workflows/wheels.yml
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "Upload to PyPI (needs the pypi environment)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wheels-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  wheels:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        # macos-15-intel is GitHub's x86_64 macOS image.
+        include:
+          - {name: "manylinux x86_64", os: ubuntu-24.04, archs: x86_64}
+          - {name: "macOS x86_64", os: macos-15-intel, archs: x86_64}
+          - {name: "macOS arm64", os: macos-14, archs: arm64}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # The macOS runners have no OpenMP: AXF_OPENMP=AUTO then builds
+      # single-threaded through cpp/include/axionfem/omp_shim.hpp.  Homebrew's
+      # libomp is not installed: its bottles target the runner's macOS (14.0 on
+      # both images), so delocate refuses a wheel for MACOSX_DEPLOYMENT_TARGET
+      # 11.0 that links it.  OpenMP on macOS needs either a higher deployment
+      # target or a libomp built for 11.0.
+
+      - name: Build wheels
+        if: github.event_name != 'pull_request'
+        uses: pypa/cibuildwheel@v2.21
+        env:
+          CIBW_ARCHS: ${{ matrix.archs }}
+
+      # A pull request builds one CPython per platform: the deps are shared, each further version adds a build and
+      # its tests.
+      - name: Build one wheel (pull request)
+        if: github.event_name == 'pull_request'
+        uses: pypa/cibuildwheel@v2.21
+        env:
+          CIBW_ARCHS: ${{ matrix.archs }}
+          CIBW_BUILD: cp312-*
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}-${{ matrix.archs }}
+          path: wheelhouse/*.whl
+
+  sdist:
+    name: sdist
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install build twine
+      - run: python -m build --sdist
+      - run: python -m twine check dist/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: dist/*.tar.gz
+
+  # A wheel is only useful if a fresh machine can install and use it, so the
+  # artifacts are installed again on a clean runner, with the gmsh wheel for the
+  # mesher, and asked to run a 2D solve.
+  smoke:
+    name: install the wheel on a clean ${{ matrix.os }}
+    needs: wheels
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-14]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheels-*
+          merge-multiple: true
+          path: wheelhouse
+      # libgmsh from the gmsh wheel links the FLTK/OpenGL GUI and needs these
+      # even without a display; the runner lacks libGLU (docs/guides/install.md).
+      - name: Install gmsh's runtime libraries (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libglu1-mesa libgl1 libxcursor1 libxft2 libxinerama1
+      - name: Install and solve
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --find-links wheelhouse "axionfem[mesh]"
+          cd "$RUNNER_TEMP"
+          python -c "
+          import json, axionfem as af
+          info = af.build_info(); print(json.dumps(info))
+          assert info['engine_3d'] is False, 'the wheels are sequential'
+          res = af.template('toroid', R=1.0, H=1.0).solve('runs/t', verbose=0)
+          print(res.summary())
+          assert res.Psi > 0 and res.L_p > 0 and 0 < res.g < 1
+          page = open(res.export_html('t.html')).read()
+          assert page.count('data:text/javascript;base64,') == 5
+          w = res.show(backend='html'); assert '<iframe' in w._repr_html_()
+          "
+          axf templates | head -5
+
+  publish:
+    name: publish to PyPI
+    if: github.event_name == 'workflow_dispatch' && inputs.publish
+    needs: [wheels, sdist, smoke]
+    runs-on: ubuntu-24.04
+    environment: pypi
+    permissions:
+      id-token: write  # trusted publishing; no API token in the repository
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: "{wheels-*,sdist}"
+          merge-multiple: true
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1

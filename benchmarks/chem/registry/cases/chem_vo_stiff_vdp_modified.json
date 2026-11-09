@@ -1,0 +1,340 @@
+{
+ "id": "chem_vo_stiff_vdp_modified",
+ "capability": "C1d",
+ "title": "Van der Pol, eps = 1e-3 (chosen parameters)",
+ "physics": "Chosen stiffness eps = 1/1000 and initial data (the Van der Pol equation in Lienard-free first-order form y1' = y2, eps y2' = (1 - y1^2) y2 - y1 is the definition; no literature values).",
+ "levels": [
+  "cross_code"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "vo_stiff_vdp_modified",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "params": {
+    "path": "benchmarks/chem/casedata/c1/vdp_modified.json",
+    "sha256": "0a28337120c8689d87b9b782319bbb8dabd24996ad2fa3d7a92ac16a618756d4"
+   },
+   "rhs": {
+    "path": "benchmarks/chem/casedata/c1/vdp_modified_rhs_numpy.json",
+    "sha256": "c69d955b0614b6fb1011c4fadb6e4dbb3fbf0b7579851cd8903e813771b7961c"
+   },
+   "form": "ode",
+   "rtol": 1e-06,
+   "atol": [
+    1e-08,
+    1e-08
+   ],
+   "h0": 1e-08,
+   "methods": [
+    "vsvo"
+   ],
+   "output_policy": {
+    "rule": "stop_time",
+    "text": "Adaptive runs: the solver steps EXACTLY to every fixed output time (stop-time mode: each output time is an accepted step end) and reports the state there; no interpolated outputs for any compared value. Dense output is used only where an item says so (dense-output query times, maxima located on the dense output, event location)."
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "y1_t0.25": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": 1.8199101420250599,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.8471890683713355e-12
+   },
+   "y2_t0.25": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": -0.7868594718546909,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.3572476476042539e-12
+   },
+   "y1_t0.5": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": 1.5973236845903258,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.009637232295973e-12
+   },
+   "y2_t0.5": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": -1.028599020982407,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 8.986145161316017e-12
+   },
+   "y1_t0.75": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": 1.2502952549540003,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.4539481557894757e-11
+   },
+   "y2_t0.75": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": -2.1901675077637957,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.9238921566966383e-10
+   },
+   "y1_t1": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": -1.8883706530392221,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 5.963896043681416e-12
+   },
+   "y2_t1": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": 0.7357375280935857,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 4.057643110400022e-12
+   },
+   "y1_t1.25": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": -1.684552883634972,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.0581091558492517e-11
+   },
+   "y2_t1.25": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": 0.916089693762833,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.1950884726275035e-11
+   },
+   "y1_t1.5": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": -1.406045188784024,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.2677859590203298e-11
+   },
+   "y2_t1.5": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": 1.434684142246381,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 6.96480650930198e-11
+   },
+   "y1_t1.75": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": 1.95267632471798,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.670330540548548e-11
+   },
+   "y2_t1.75": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": -0.6940252070312671,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 1.0143996753697593e-11
+   },
+   "y1_t2": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": 1.7632345402034457,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.3140822591471988e-11
+   },
+   "y2_t2": {
+    "kind": "scalar",
+    "source": "ref_vdp_modified",
+    "value": -0.8356886816776774,
+    "unit": "1",
+    "uncertainty_kind": "reference_spread",
+    "uncertainty": 2.1071366873570696e-11
+   }
+  },
+  "tolerance_recipe": {
+   "y1_t0.25": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y2_t0.25": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y1_t0.5": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y2_t0.5": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y1_t0.75": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y2_t0.75": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y1_t1": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y2_t1": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y1_t1.25": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y2_t1.25": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y1_t1.5": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y2_t1.5": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y1_t1.75": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y2_t1.75": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y1_t2": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   },
+   "y2_t2": {
+    "abs": 3.5870266446724665e-06,
+    "rel": 0.0003587026644672466
+   }
+  }
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "y1_t0.25",
+    "reference": "y1_t0.25",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y2_t0.25",
+    "reference": "y2_t0.25",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y1_t0.5",
+    "reference": "y1_t0.5",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y2_t0.5",
+    "reference": "y2_t0.5",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y1_t0.75",
+    "reference": "y1_t0.75",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y2_t0.75",
+    "reference": "y2_t0.75",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y1_t1",
+    "reference": "y1_t1",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y2_t1",
+    "reference": "y2_t1",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y1_t1.25",
+    "reference": "y1_t1.25",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y2_t1.25",
+    "reference": "y2_t1.25",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y1_t1.5",
+    "reference": "y1_t1.5",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y2_t1.5",
+    "reference": "y2_t1.5",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y1_t1.75",
+    "reference": "y1_t1.75",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y2_t1.75",
+    "reference": "y2_t1.75",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y1_t2",
+    "reference": "y1_t2",
+    "level": "cross_code"
+   },
+   {
+    "quantity": "y2_t2",
+    "reference": "y2_t2",
+    "level": "cross_code"
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "newton_per_solve_mean",
+    "level": "cross_code",
+    "max": 6.0
+   },
+   {
+    "quantity": "outputs_at_step_ends_min",
+    "level": "cross_code",
+    "min": 1.0
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  }
+ }
+}

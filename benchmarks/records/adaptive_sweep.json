@@ -1,0 +1,869 @@
+{
+ "check": "adaptive_sweep",
+ "date": "2026-10-29 10:10",
+ "provenance": {
+  "commit": "012b8340cabc133103c1b2c1d7b97278c76194ee",
+  "dirty": true,
+  "source_sha256": {
+   "cpp/src/model3d_fullwave.cpp": "a36aeac6b8d093293f1cc7f47ffc86cb921064e14aa5571eb21af4c829505e48",
+   "cpp/src/rational_fit.cpp": "e232e1688f212dd600d6efbe5051b868bd95c20a454f5b269ea8881e78115cda",
+   "cpp/src/spec.cpp": "ad5aeefd2c27d2e687c2c8f0cf910ffe791adf92efb4b39d2e8717cb76263af0"
+  }
+ },
+ "builds": {
+  "build1": "3b86cfc, the build before the adaptive sweep (invariance reference)",
+  "build5": "2fa406a plus an uncommitted change to the adaptive dense output (the Core's dense parts only: fixed lists, bit-identical across builds by the invariance check)",
+  "build9": "e0e1373 (ctest 12/12): an intermediate build (earlier records)",
+  "build14": "806f133 (ctest 12/12): the Core and invariance runs (the pole uncertainty's offset term of build16 changes neither)",
+  "build16": "012b834 (ctest 12/12): adds the model's offset in the pole uncertainty; the gap, cavity and high-Q runs"
+ },
+ "tolerance": 0.001,
+ "cavity_band_Hz": [
+  100000000.0,
+  270000000.0
+ ],
+ "cavity": {
+  "build": "build16",
+  "solves": 20,
+  "converged": true,
+  "stop_reason": "converged",
+  "estimated_error": 0.0004652791348523315,
+  "hermite": {
+   "dropped": null,
+   "used_in_final_fit": true
+  },
+  "fit_consistent": true,
+  "last_prediction_error": 0.0004965207992016479,
+  "support_points": 18,
+  "refused": [],
+  "eigenmodes_converged": false,
+  "eigenmodes_in_band": [
+   122318859.00188342,
+   141502417.68301454,
+   178609811.4693187,
+   202604930.81620738,
+   239592378.1947275,
+   253588087.50947633,
+   255496347.97111914,
+   256090662.8779247
+  ],
+  "self_resonances": 8,
+  "poles": [
+   {
+    "pole_f_Hz": 122318859.00415885,
+    "pole_im_Hz": -2.0761170560490427e-07,
+    "Q": null,
+    "class": "resonance",
+    "relative_strength": 0.0018974466264484898,
+    "contribution_one_step_away": 3.7929958062705316,
+    "uncertainty_Hz": {
+     "im": 2.816202752601876e-05,
+     "re": 7.523409452586416
+    },
+    "Q_uncertainty": null,
+    "Q_min": 500000000000.0,
+    "reproduced_by_refits": [
+     20,
+     20
+    ],
+    "eigenmode_f_Hz": 122318859.00188342,
+    "relative_difference": 1.8602504431372176e-11
+   },
+   {
+    "pole_f_Hz": 141502417.6798564,
+    "pole_im_Hz": -8.606448886894214e-06,
+    "Q": null,
+    "class": "resonance",
+    "relative_strength": 0.3471971287535068,
+    "contribution_one_step_away": 694.0470603782601,
+    "uncertainty_Hz": {
+     "im": 5.711124590906414e-05,
+     "re": 0.41145801147789285
+    },
+    "Q_uncertainty": null,
+    "Q_min": 412943824015.457,
+    "reproduced_by_refits": [
+     20,
+     20
+    ],
+    "eigenmode_f_Hz": 141502417.68301454,
+    "relative_difference": -2.231871479750106e-11
+   },
+   {
+    "pole_f_Hz": 178609811.46900576,
+    "pole_im_Hz": 2.0761170560490427e-07,
+    "Q": null,
+    "class": "resonance",
+    "relative_strength": 0.00047563955469219255,
+    "contribution_one_step_away": 0.9508034698296929,
+    "uncertainty_Hz": {
+     "im": 6.83544658946121e-06,
+     "re": 6.570352306642669
+    },
+    "Q_uncertainty": null,
+    "Q_min": 500000000000.0,
+    "reproduced_by_refits": [
+     20,
+     20
+    ],
+    "eigenmode_f_Hz": 178609811.4693187,
+    "relative_difference": -1.7519999741142689e-12
+   },
+   {
+    "pole_f_Hz": 202604930.81616542,
+    "pole_im_Hz": -3.019806626980426e-07,
+    "Q": null,
+    "class": "resonance",
+    "relative_strength": 0.10748473344687438,
+    "contribution_one_step_away": 214.8619821603019,
+    "uncertainty_Hz": {
+     "im": 8.035761307912216e-06,
+     "re": 0.010229316674726553
+    },
+    "Q_uncertainty": null,
+    "Q_min": 500000000000.0,
+    "reproduced_by_refits": [
+     20,
+     20
+    ],
+    "eigenmode_f_Hz": 202604930.81620738,
+    "relative_difference": -2.071108030432904e-13
+   },
+   {
+    "pole_f_Hz": 239592378.19472677,
+    "pole_im_Hz": 1.1324274851176597e-07,
+    "Q": null,
+    "class": "resonance",
+    "relative_strength": 3.0156011468718232e-05,
+    "contribution_one_step_away": 0.06028186692596774,
+    "uncertainty_Hz": {
+     "im": 3.363483138639586e-05,
+     "re": 0.05605676732526537
+    },
+    "Q_uncertainty": null,
+    "Q_min": 500000000000.0,
+    "reproduced_by_refits": [
+     20,
+     20
+    ],
+    "eigenmode_f_Hz": 239592378.1947275,
+    "relative_difference": -3.1096901550300594e-15
+   },
+   {
+    "pole_f_Hz": 253588087.7669216,
+    "pole_im_Hz": 4.907185768843192e-07,
+    "Q": null,
+    "class": "resonance",
+    "relative_strength": 6.236052793386617e-06,
+    "contribution_one_step_away": 0.01246586953397985,
+    "uncertainty_Hz": {
+     "im": 2.9574293886511316e-05,
+     "re": 35.61313514639807
+    },
+    "Q_uncertainty": null,
+    "Q_min": 500000000000.0,
+    "reproduced_by_refits": [
+     20,
+     20
+    ],
+    "eigenmode_f_Hz": 253588087.50947633,
+    "relative_difference": 1.0152104474304943e-09
+   },
+   {
+    "pole_f_Hz": 255496347.97123903,
+    "pole_im_Hz": 3.774758283725532e-08,
+    "Q": null,
+    "class": "resonance",
+    "relative_strength": 0.00011515820573667742,
+    "contribution_one_step_away": 0.23020125326761817,
+    "uncertainty_Hz": {
+     "im": 2.264131808431254e-06,
+     "re": 0.001694475791778794
+    },
+    "Q_uncertainty": null,
+    "Q_min": 500000000000.0,
+    "reproduced_by_refits": [
+     20,
+     20
+    ],
+    "eigenmode_f_Hz": 255496347.97111914,
+    "relative_difference": 4.692620615432473e-13
+   },
+   {
+    "pole_f_Hz": 256090662.87679595,
+    "pole_im_Hz": 5.473399511402022e-07,
+    "Q": null,
+    "class": "resonance",
+    "relative_strength": 4.836848091608006e-05,
+    "contribution_one_step_away": 0.09668859335124404,
+    "uncertainty_Hz": {
+     "im": 5.690065439156906e-05,
+     "re": 1.6377211512831735
+    },
+    "Q_uncertainty": null,
+    "Q_min": 500000000000.00006,
+    "reproduced_by_refits": [
+     20,
+     20
+    ],
+    "eigenmode_f_Hz": 256090662.8779247,
+    "relative_difference": -4.4076693298733325e-12
+   }
+  ],
+  "max_abs_pole_vs_eigenmode": 1.0152104474304943e-09,
+  "eigenmodes_without_pole": [],
+  "check": {
+   "max_relative_error": {
+    "all": 8.462721343178557e-08,
+    "Z": 3.777105430642453e-08,
+    "Psi": 8.462721343178557e-08
+   },
+   "at_Hz": 105100000.0,
+   "checked_frequencies": 27,
+   "tolerance": 0.001
+  }
+ },
+ "cavity_lossy": {
+  "build": "build16",
+  "solves": 23,
+  "converged": true,
+  "stop_reason": "converged",
+  "estimated_error": 1.555218165558515e-05,
+  "hermite": {
+   "dropped": null,
+   "used_in_final_fit": true
+  },
+  "fit_consistent": true,
+  "last_prediction_error": 1.0055280226648675e-06,
+  "support_points": 19,
+  "refused": [],
+  "eigenmodes_converged": false,
+  "eigenmodes_in_band": [
+   121466780.44813038,
+   140259582.55550903,
+   178087446.0993001,
+   200424794.83059257,
+   239854330.95058265,
+   254137270.04173207,
+   255260823.0982608,
+   255897519.5160345
+  ],
+  "self_resonances": 8,
+  "poles": [
+   {
+    "pole_f_Hz": 121466780.43374637,
+    "pole_im_Hz": -37.359936639891345,
+    "Q": 1625628.8334286055,
+    "class": "resonance",
+    "relative_strength": 8.264811018158079e-05,
+    "contribution_one_step_away": 0.16521357225298,
+    "uncertainty_Hz": {
+     "im": 0.01719282432127535,
+     "re": 0.11750326905198402
+    },
+    "Q_uncertainty": 748.1048807479746,
+    "Q_min": null,
+    "reproduced_by_refits": [
+     23,
+     23
+    ],
+    "eigenmode_f_Hz": 121466780.44813038,
+    "relative_difference": -1.1841934347438754e-10,
+    "slab_energy_fraction": 0.0006151467930538984,
+    "Q_reference": 1625628.24238341,
+    "Q_relative_difference": 3.635795564616018e-07
+   },
+   {
+    "pole_f_Hz": 140259582.45400864,
+    "pole_im_Hz": -378.21210099653337,
+    "Q": 185424.5039812915,
+    "class": "resonance",
+    "relative_strength": 0.5075422221072209,
+    "contribution_one_step_away": 1014.5769019923345,
+    "uncertainty_Hz": {
+     "im": 0.014887031664793769,
+     "re": 0.09748854946012925
+    },
+    "Q_uncertainty": 7.298604288241603,
+    "Q_min": null,
+    "reproduced_by_refits": [
+     23,
+     23
+    ],
+    "eigenmode_f_Hz": 140259582.55550903,
+    "relative_difference": -7.236610156027972e-10
+   },
+   {
+    "pole_f_Hz": 178087445.7337095,
+    "pole_im_Hz": -1324.1465781499428,
+    "Q": 67246.12239776652,
+    "class": "resonance",
+    "relative_strength": 0.0003187567055598844,
+    "contribution_one_step_away": 0.6371946544142089,
+    "uncertainty_Hz": {
+     "im": 0.10251394535742013,
+     "re": 87.39563079035672
+    },
+    "Q_uncertainty": 5.20611949669095,
+    "Q_min": null,
+    "reproduced_by_refits": [
+     23,
+     23
+    ],
+    "eigenmode_f_Hz": 178087446.0993001,
+    "relative_difference": -2.0528711055428774e-09,
+    "slab_energy_fraction": 0.014870737314402955,
+    "Q_reference": 67246.16129366071,
+    "Q_relative_difference": -5.784106251738308e-07
+   },
+   {
+    "pole_f_Hz": 200424794.74199933,
+    "pole_im_Hz": -470.91010037303425,
+    "Q": 212805.79306244614,
+    "class": "resonance",
+    "relative_strength": 0.15257091135833406,
+    "contribution_one_step_away": 304.9892518053098,
+    "uncertainty_Hz": {
+     "im": 0.014222143429798068,
+     "re": 0.6239351586125732
+    },
+    "Q_uncertainty": 6.427032482906042,
+    "Q_min": null,
+    "reproduced_by_refits": [
+     23,
+     23
+    ],
+    "eigenmode_f_Hz": 200424794.83059257,
+    "relative_difference": -4.420273680584033e-10,
+    "slab_energy_fraction": 0.004699121499376415,
+    "Q_reference": 212805.73403618153,
+    "Q_relative_difference": 2.7737158903029524e-07
+   },
+   {
+    "pole_f_Hz": 239854330.9454532,
+    "pole_im_Hz": -17.35143576264697,
+    "Q": 6911656.597945509,
+    "class": "resonance",
+    "relative_strength": 0.0003331888620132893,
+    "contribution_one_step_away": 0.6660445351645654,
+    "uncertainty_Hz": {
+     "im": 0.44426033793247405,
+     "re": 0.28948622599548357
+    },
+    "Q_uncertainty": 176963.7359051645,
+    "Q_min": null,
+    "reproduced_by_refits": [
+     23,
+     23
+    ],
+    "eigenmode_f_Hz": 239854330.95058265,
+    "relative_difference": -2.1385715653962454e-11,
+    "slab_energy_fraction": 0.00014468563098702126,
+    "Q_reference": 6911536.364586908,
+    "Q_relative_difference": 1.7396039354800052e-05
+   },
+   {
+    "pole_f_Hz": 254137269.86592266,
+    "pole_im_Hz": -339.9075531218543,
+    "Q": 373832.92535252427,
+    "class": "resonance",
+    "relative_strength": 3.1046407063839024e-05,
+    "contribution_one_step_away": 0.06206176772061422,
+    "uncertainty_Hz": {
+     "im": 0.0007015237036407751,
+     "re": 0.0029504502643315513
+    },
+    "Q_uncertainty": 0.7715411320740867,
+    "Q_min": null,
+    "reproduced_by_refits": [
+     23,
+     23
+    ],
+    "eigenmode_f_Hz": 254137270.04173207,
+    "relative_difference": -6.917891782098178e-10,
+    "slab_energy_fraction": 0.0026749929435768006,
+    "Q_reference": 373832.7618400648,
+    "Q_relative_difference": 4.3739467536774157e-07
+   },
+   {
+    "pole_f_Hz": 255260823.078439,
+    "pole_im_Hz": -132.76917984028637,
+    "Q": 961295.473036374,
+    "class": "resonance",
+    "relative_strength": 0.00031555025298201386,
+    "contribution_one_step_away": 0.6307849557110456,
+    "uncertainty_Hz": {
+     "im": 0.001628827371736607,
+     "re": 0.03300822708674243
+    },
+    "Q_uncertainty": 11.793282000323293,
+    "Q_min": null,
+    "reproduced_by_refits": [
+     23,
+     23
+    ],
+    "eigenmode_f_Hz": 255260823.0982608,
+    "relative_difference": -7.765309458916611e-11,
+    "slab_energy_fraction": 0.0010402630558130432,
+    "Q_reference": 961295.3131536766,
+    "Q_relative_difference": 1.663200632773254e-07
+   },
+   {
+    "pole_f_Hz": 255897519.4870869,
+    "pole_im_Hz": -170.76430768314665,
+    "Q": 749271.0946420518,
+    "class": "resonance",
+    "relative_strength": 0.00010884534994144673,
+    "contribution_one_step_away": 0.21758185453295203,
+    "uncertainty_Hz": {
+     "im": 0.0005714120311718344,
+     "re": 0.001332896286559814
+    },
+    "Q_uncertainty": 2.507213151838366,
+    "Q_min": null,
+    "reproduced_by_refits": [
+     23,
+     23
+    ],
+    "eigenmode_f_Hz": 255897519.5160345,
+    "relative_difference": -1.1312193114917921e-10,
+    "slab_energy_fraction": 0.0013346304150584777,
+    "Q_reference": 749271.1006111639,
+    "Q_relative_difference": -7.966558523975209e-09
+   }
+  ],
+  "max_abs_pole_vs_eigenmode": 2.0528711055428774e-09,
+  "max_abs_Q_vs_reference": 1.7396039354800052e-05,
+  "eigenmodes_without_pole": [],
+  "check": {
+   "max_relative_error": {
+    "all": 8.215767772709908e-07,
+    "Z": 8.215767772709908e-07,
+    "Psi": 6.178794133640655e-07
+   },
+   "at_Hz": 121466851.58151764,
+   "checked_frequencies": 30,
+   "tolerance": 0.001
+  }
+ },
+ "core": {
+  "builds": {
+   "core_adaptive": "build14",
+   "core_dense_0": "build5",
+   "core_dense_1": "build5",
+   "core_dense_2": "build5",
+   "core_dense_3": "build5"
+  },
+  "band_Hz": [
+   70000000.0,
+   140000000.0
+  ],
+  "mesh": {
+   "order": 2,
+   "size": 0.32,
+   "surface_size": 0.05
+  },
+  "dense_parts_f_max_spread": 0.0,
+  "adaptive_solves": 7,
+  "dense_solves": 61,
+  "dense_accepted": 61,
+  "converged": true,
+  "stop_reason": "converged",
+  "estimated_error": 2.7710118726402645e-05,
+  "last_prediction_error": 4.571488862091221e-08,
+  "support_points": 5,
+  "self_resonances": [],
+  "model_vs_dense": {
+   "max_relative_error": {
+    "all": 5.090042287525179e-07,
+    "Z": 1.2250304990570262e-07,
+    "Psi": 5.090042287525179e-07
+   },
+   "at_Hz": 75024142.37754051,
+   "checked_frequencies": 61,
+   "tolerance": 0.001
+  },
+  "scan_time_yr": {
+   "dense_61_solves": 26.08365929926337,
+   "four_point_subset": 27.78701642315527,
+   "adaptive_solves_only": 26.990801032739554,
+   "adaptive_model_dense": 26.07949720313652,
+   "adaptive_model_at_the_61": 26.083673785026136
+  },
+  "scan_time_relative_to_dense": {
+   "dense_61_solves": 0.0,
+   "four_point_subset": 0.06530361036957744,
+   "adaptive_solves_only": 0.03477816218454444,
+   "adaptive_model_dense": -0.00015956718645571133,
+   "adaptive_model_at_the_61": 5.553577662187337e-07
+  },
+  "L_eff_model_vs_dense_max_relative": 3.167530956416087e-07
+ },
+ "invariance": {
+  "stage1": {
+   "values_compared": 981,
+   "floats_compared": 704,
+   "differences": 0,
+   "first_differences": [],
+   "old_build": "build1",
+   "new_build": "build14",
+   "frequencies": 2,
+   "returncodes": [
+    0,
+    0
+   ]
+  },
+  "stage1_lossy": {
+   "values_compared": 1053,
+   "floats_compared": 754,
+   "differences": 0,
+   "first_differences": [],
+   "old_build": "build1",
+   "new_build": "build14",
+   "frequencies": 3,
+   "returncodes": [
+    0,
+    0
+   ]
+  },
+  "stage1_radiating": {
+   "values_compared": 833,
+   "floats_compared": 617,
+   "differences": 0,
+   "first_differences": [],
+   "old_build": "build1",
+   "new_build": "build14",
+   "frequencies": 3,
+   "returncodes": [
+    0,
+    0
+   ]
+  },
+  "stage1_gauged": {
+   "values_compared": 1222,
+   "floats_compared": 865,
+   "differences": 0,
+   "first_differences": [],
+   "old_build": "build1",
+   "new_build": "build14",
+   "frequencies": 2,
+   "returncodes": [
+    0,
+    0
+   ]
+  }
+ },
+ "gap_validation": {
+  "tree_cotree": {
+   "build": "build16",
+   "ranks": 4,
+   "env": {
+    "AXF_FW_SOLVER": "strumpack",
+    "AXF_FW_GAUGE": "tree-cotree"
+   },
+   "ports": 2,
+   "converged": true,
+   "stop_reason": "converged",
+   "solves": 9,
+   "refused": [],
+   "support_points": 7,
+   "hermite": {
+    "dropped": null,
+    "used_in_final_fit": true
+   },
+   "fit_consistent": true,
+   "estimated_error": 7.878240108273315e-05,
+   "dense_solves": 41,
+   "self_resonances": [
+    {
+     "f_Hz": 121211944.04598728,
+     "Q": null
+    },
+    {
+     "f_Hz": 139195762.61741114,
+     "Q": null
+    }
+   ],
+   "pole_classes": {
+    "resonance": 2
+   },
+   "model_vs_dense": {
+    "max_relative_error": {
+     "all": 2.0803776917042576e-07,
+     "Z": 1.9877006593494233e-08,
+     "Psi": 2.0803776917042576e-07
+    },
+    "at_Hz": 147375000.0,
+    "checked_frequencies": 41,
+    "tolerance": 0.001
+   }
+  },
+  "pml": {
+   "build": "build16",
+   "ranks": 4,
+   "env": {},
+   "ports": 1,
+   "converged": true,
+   "stop_reason": "converged",
+   "solves": 7,
+   "refused": [],
+   "support_points": 4,
+   "hermite": {
+    "dropped": null,
+    "used_in_final_fit": true
+   },
+   "fit_consistent": true,
+   "estimated_error": 8.734125282518431e-05,
+   "dense_solves": 41,
+   "self_resonances": [],
+   "pole_classes": {},
+   "model_vs_dense": {
+    "max_relative_error": {
+     "all": 1.9564331273299062e-07,
+     "Z": 1.9564331273299062e-07,
+     "Psi": null
+    },
+    "at_Hz": 260000000.0,
+    "checked_frequencies": 41,
+    "tolerance": 0.001
+   }
+  },
+  "robin_absorbing": {
+   "build": "build16",
+   "ranks": 4,
+   "env": {},
+   "ports": 1,
+   "converged": true,
+   "stop_reason": "converged",
+   "solves": 7,
+   "refused": [],
+   "support_points": 1,
+   "hermite": {
+    "dropped": null,
+    "used_in_final_fit": true
+   },
+   "fit_consistent": true,
+   "estimated_error": 4.010739839231217e-07,
+   "dense_solves": 41,
+   "self_resonances": [],
+   "pole_classes": {},
+   "model_vs_dense": {
+    "max_relative_error": {
+     "all": 6.07057206344952e-07,
+     "Z": 6.07057206344952e-07,
+     "Psi": null
+    },
+    "at_Hz": 100000000.0,
+    "checked_frequencies": 41,
+    "tolerance": 0.001
+   }
+  },
+  "robin_impedance": {
+   "build": "build16",
+   "ranks": 4,
+   "env": {},
+   "ports": 1,
+   "converged": true,
+   "stop_reason": "converged",
+   "solves": 7,
+   "refused": [],
+   "support_points": 4,
+   "hermite": {
+    "dropped": null,
+    "used_in_final_fit": true
+   },
+   "fit_consistent": true,
+   "estimated_error": 1.6201099429525839e-07,
+   "dense_solves": 41,
+   "self_resonances": [],
+   "pole_classes": {
+    "unresolved": 1
+   },
+   "model_vs_dense": {
+    "max_relative_error": {
+     "all": 2.2850128606524967e-09,
+     "Z": 2.2850128606524967e-09,
+     "Psi": null
+    },
+    "at_Hz": 285000000.0,
+    "checked_frequencies": 41,
+    "tolerance": 0.001
+   }
+  },
+  "four_ports": {
+   "build": "build16",
+   "ranks": 4,
+   "env": {},
+   "ports": 4,
+   "converged": true,
+   "stop_reason": "converged",
+   "solves": 8,
+   "refused": [],
+   "support_points": 8,
+   "hermite": {
+    "dropped": null,
+    "used_in_final_fit": true
+   },
+   "fit_consistent": true,
+   "estimated_error": 9.618834899122103e-05,
+   "dense_solves": 41,
+   "self_resonances": [
+    {
+     "f_Hz": 121170524.30002439,
+     "Q": null
+    },
+    {
+     "f_Hz": 140366270.42104715,
+     "Q": null
+    }
+   ],
+   "pole_classes": {
+    "resonance": 2
+   },
+   "model_vs_dense": {
+    "max_relative_error": {
+     "all": 1.828232901180718e-06,
+     "Z": 1.828232901180718e-06,
+     "Psi": 1.8149524200713453e-06
+    },
+    "at_Hz": 140375000.0,
+    "checked_frequencies": 41,
+    "tolerance": 0.001
+   }
+  },
+  "refusal": {
+   "build": "build16",
+   "ranks": 1,
+   "env": {
+    "AXF_FW_MAX_ITER": "32"
+   },
+   "ports": 1,
+   "converged": true,
+   "stop_reason": "converged",
+   "solves": 7,
+   "refused": [
+    {
+     "f_Hz": 250000000.0,
+     "reason": "rejected: multiport full-wave right-hand side did not converge; refusing an invalid Z matrix [at /fullwave] Hint: Refine the solver/preconditioner before accept"
+    }
+   ],
+   "support_points": 5,
+   "hermite": {
+    "dropped": null,
+    "used_in_final_fit": true
+   },
+   "fit_consistent": true,
+   "estimated_error": 0.000641402307567492,
+   "dense_solves": 41,
+   "self_resonances": [
+    {
+     "f_Hz": 249827064.7656952,
+     "Q": null
+    }
+   ],
+   "pole_classes": {
+    "resonance": 1
+   },
+   "model_vs_dense": {
+    "max_relative_error": {
+     "all": 1.2356851202658886e-07,
+     "Z": 1.2356851202658886e-07,
+     "Psi": null
+    },
+    "at_Hz": 250000000.0,
+    "checked_frequencies": 41,
+    "tolerance": 0.001
+   }
+  }
+ },
+ "high_q": {
+  "0": {
+   "converged": true,
+   "stop_reason": "converged",
+   "solves": 7,
+   "Q_expected": null,
+   "poles": [
+    {
+     "f_Hz": 249827064.74585888,
+     "im_Hz": -1.6653345369377348e-07,
+     "uncertainty_Hz": {
+      "im": 3.211082187919046e-07,
+      "re": 0.0702195488792678
+     },
+     "class": "resonance",
+     "Q": null,
+     "Q_uncertainty": null,
+     "Q_min": 499999999999.99994,
+     "Q_over_expected": null
+    }
+   ],
+   "self_resonances": 1
+  },
+  "1e-11": {
+   "converged": true,
+   "stop_reason": "converged",
+   "solves": 7,
+   "Q_expected": 100000000000.0,
+   "poles": [
+    {
+     "f_Hz": 249827064.7458578,
+     "im_Hz": -0.0012488343692496073,
+     "uncertainty_Hz": {
+      "im": 1.9460361622383468e-06,
+      "re": 0.07021898173487671
+     },
+     "class": "resonance",
+     "Q": 100024098830.64497,
+     "Q_uncertainty": 155865756.2705437,
+     "Q_min": null,
+     "Q_over_expected": 1.0002409883064496
+    }
+   ],
+   "self_resonances": 1
+  },
+  "1e-10": {
+   "converged": true,
+   "stop_reason": "converged",
+   "solves": 7,
+   "Q_expected": 10000000000.0,
+   "poles": [
+    {
+     "f_Hz": 249827064.74586678,
+     "im_Hz": -0.012491940815095859,
+     "uncertainty_Hz": {
+      "im": 1.895087312551106e-06,
+      "re": 0.07022821178995285
+     },
+     "class": "resonance",
+     "Q": 9999529634.496979,
+     "Q_uncertainty": 1516976.5869298675,
+     "Q_min": null,
+     "Q_over_expected": 0.9999529634496979
+    }
+   ],
+   "self_resonances": 1
+  },
+  "1e-9": {
+   "converged": true,
+   "stop_reason": "converged",
+   "solves": 7,
+   "Q_expected": 999999999.9999999,
+   "poles": [
+    {
+     "f_Hz": 249827064.7458671,
+     "im_Hz": -0.12491377932022374,
+     "uncertainty_Hz": {
+      "im": 3.7231096692505958e-06,
+      "re": 0.07022731447071028
+     },
+     "class": "resonance",
+     "Q": 999998023.0580523,
+     "Q_uncertainty": 29805.377190089857,
+     "Q_min": null,
+     "Q_over_expected": 0.9999980230580524
+    }
+   ],
+   "self_resonances": 1
+  }
+ }
+}

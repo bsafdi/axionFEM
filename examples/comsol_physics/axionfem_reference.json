@@ -1,0 +1,154 @@
+{
+ "design": "benchmarks/designs/stage1_twoport.json",
+ "Z_ref_ohm": 50.0,
+ "conventions": {
+  "axionFEM": "exp(-i omega t); Z = R - i omega L; open-circuit V = -i omega Psi (kappa = 1 A/m^2/T)",
+  "COMSOL": "exp(+j omega t): conjugate values; Zport_1 = conj(Z); open-circuit V = conj(V) up to the port's polarity; 'volt' run reports V_loaded = V_oc Z_ref / (Z_ref + Zport_1)"
+ },
+ "runs": [
+  {
+   "mesh_order": 1,
+   "mesh": {
+    "dofs": 108964,
+    "elements": 85562,
+    "mpi_ranks": 1,
+    "order": 1
+   },
+   "rows": [
+    {
+     "f_MHz": 1.0,
+     "axionFEM": {
+      "Z_ohm": [
+       -0.0,
+       -2.8248492809095227
+      ],
+      "L_H": 4.495887265463366e-07,
+      "Psi_Wb_per_T": [
+       -2.1113658979834284e-10,
+       -0.0
+      ],
+      "V_open_V": [
+       -0.0,
+       0.001326610318828951
+      ],
+      "V_open_direct_solve_V": [
+       -0.0,
+       0.0013266103273430793
+      ]
+     },
+     "COMSOL_expected": {
+      "Zport_1": [
+       -0.0,
+       2.8248492809095227
+      ],
+      "abs_V_open_V": 0.001326610318828951,
+      "abs_Vport_1_loaded_50ohm_V": 0.001324498163878793
+     }
+    },
+    {
+     "f_MHz": 12.0,
+     "axionFEM": {
+      "Z_ohm": [
+       -0.0,
+       -35.20248703917683
+      ],
+      "L_H": 4.66887485117781e-07,
+      "Psi_Wb_per_T": [
+       -1.4491664547030187e-09,
+       -0.0
+      ],
+      "V_open_V": [
+       -0.0,
+       0.10926457651017046
+      ],
+      "V_open_direct_solve_V": [
+       -0.0,
+       0.1092645766431417
+      ]
+     },
+     "COMSOL_expected": {
+      "Zport_1": [
+       -0.0,
+       35.20248703917683
+      ],
+      "abs_V_open_V": 0.10926457651017046,
+      "abs_Vport_1_loaded_50ohm_V": 0.08934271935566404
+     }
+    }
+   ],
+   "warnings": []
+  },
+  {
+   "mesh_order": 2,
+   "mesh": {
+    "dofs": 572252,
+    "elements": 85562,
+    "mpi_ranks": 1,
+    "order": 2
+   },
+   "rows": [
+    {
+     "f_MHz": 1.0,
+     "axionFEM": {
+      "Z_ohm": [
+       -0.0,
+       -3.2097115648770633
+      ],
+      "L_H": 5.108414614494074e-07,
+      "Psi_Wb_per_T": [
+       -1.9922448020623984e-10,
+       -0.0
+      ],
+      "V_open_V": [
+       -0.0,
+       0.0012517643268623365
+      ],
+      "V_open_direct_solve_V": [
+       -0.0,
+       0.0012517642742493206
+      ]
+     },
+     "COMSOL_expected": {
+      "Zport_1": [
+       -0.0,
+       3.2097115648770633
+      ],
+      "abs_V_open_V": 0.0012517643268623365,
+      "abs_Vport_1_loaded_50ohm_V": 0.0012491930736565045
+     }
+    },
+    {
+     "f_MHz": 12.0,
+     "axionFEM": {
+      "Z_ohm": [
+       -0.0,
+       -39.48717692867833
+      ],
+      "L_H": 5.237149497452835e-07,
+      "Psi_Wb_per_T": [
+       -1.2679215731316806e-09,
+       -0.0
+      ],
+      "V_open_V": [
+       -0.0,
+       0.09559903438748404
+      ],
+      "V_open_direct_solve_V": [
+       -0.0,
+       0.09559903417040894
+      ]
+     },
+     "COMSOL_expected": {
+      "Zport_1": [
+       -0.0,
+       39.48717692867833
+      ],
+      "abs_V_open_V": 0.09559903438748404,
+      "abs_Vport_1_loaded_50ohm_V": 0.07502418704421597
+     }
+    }
+   ],
+   "warnings": []
+  }
+ ]
+}

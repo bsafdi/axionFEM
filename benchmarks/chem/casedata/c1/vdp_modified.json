@@ -1,0 +1,11 @@
+{
+ "name": "vdp_modified",
+ "provenance": "Stiffness eps = 1/1000 and initial data chosen for this test (the Van der Pol equation in Lienard-free first-order form y1' = y2, eps y2' = (1 - y1^2) y2 - y1 is the definition; not the Hairer-Wanner scaling, no literature values).",
+ "variables": ["y1", "y2"],
+ "rhs": ["y2", "((1 - y1**2)*y2 - y1)/eps"],
+ "parameters": {"eps": "1/1000"},
+ "y0": [2.0, 0.0],
+ "t0": 0,
+ "t_out": [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0],
+ "abs_floor": [1e-8, 1e-8]
+}

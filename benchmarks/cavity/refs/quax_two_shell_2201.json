@@ -1,0 +1,1895 @@
+{
+ "name": "quax_two_shell_2201",
+ "title": "QUAX two-shell sapphire dielectric resonator, pseudo-TM030 at 10.47 GHz (Q0 ~ 1e7)",
+ "benchmark_rank": "3",
+ "citations": [
+  {
+   "arxiv": "2201.04223",
+   "authors_short": "R. Di Vora, D. Alesini, C. Braggio et al. (QUAX)",
+   "journal": "Phys. Rev. Applied 17, 054013 (2022)",
+   "items_used": [
+    "Fig. 1(a) dimensions",
+    "text p.3 (dimensions, V)",
+    "Table I",
+    "Table II",
+    "Fig. 3 (+inset)",
+    "text p.4 (16% endcap loss, teflon Q, R_s)"
+   ]
+  },
+  {
+   "arxiv": "2004.02754",
+   "authors_short": "D. Alesini et al. (QUAX)",
+   "journal": "NIM A 985, 164641 (2021)",
+   "items_used": [
+    "Fig. 4/Fig. 10 cone design (used only to propose the missing cone geometry)"
+   ]
+  }
+ ],
+ "software": {
+  "code": "ANSYS HFSS (ANSYS Electronics)",
+  "version": null,
+  "solver_type": "eigenmode (implied; losses split by running lossless-wall and lossless-dielectric variants)",
+  "boundary": "copper finite-conductivity (anomalous-skin-effect effective R_s) walls; sapphire tan_delta",
+  "mesh_notes": "not stated; Fig. 1(b) is a half-length 3D model incl. teflon pins and sapphire tuning rods"
+ },
+ "geometry": {
+  "units": "mm",
+  "description": "Right circular copper cylinder with two coaxial hollow sapphire tubes (full length), conical end-cap recesses on the axis (coupling antennas at cone apex), teflon pins holding the tubes (no grooves). Dimensions are room-temperature drawing values; the FEM rescales each temperature using Cu and sapphire thermal expansion (coefficients not given).",
+  "parameters": {
+   "D_cav": {
+    "value": 57.1,
+    "unit": "mm",
+    "source": "Fig. 1(a) dimension label",
+    "note": "text p.3 says '57 mm-diameter'"
+   },
+   "R_cav": {
+    "value": 28.55,
+    "unit": "mm",
+    "source": "inferred: D_cav/2 (Fig. 1a)"
+   },
+   "L_cav": {
+    "value": 420,
+    "unit": "mm",
+    "source": "text p.3 and Fig. 1(a)",
+    "note": "cylindrical body length, excluding cone recesses"
+   },
+   "tube1_inner_diameter": {
+    "value": 21.75,
+    "unit": "mm",
+    "source": "text p.3, Fig. 1(a)",
+    "note": "tolerance +-0.15 mm (inner) / +-0.05 mm (outer diameter) quoted for the internal tube"
+   },
+   "tube1_thickness": {
+    "value": 2.35,
+    "unit": "mm",
+    "source": "text p.3, Fig. 1(a)",
+    "note": "=> tube1 radii 10.875 .. 13.225 mm"
+   },
+   "tube2_inner_diameter": {
+    "value": 41.8,
+    "unit": "mm",
+    "source": "text p.3, Fig. 1(a)"
+   },
+   "tube2_thickness": {
+    "value": 1.94,
+    "unit": "mm",
+    "source": "text p.3, Fig. 1(a)",
+    "note": "=> tube2 radii 20.90 .. 22.84 mm"
+   },
+   "tube_length": {
+    "value": 420,
+    "unit": "mm",
+    "source": "inferred: Fig. 1(a) shows tubes spanning the full body",
+    "note": "end clearance not given"
+   },
+   "cone_height": {
+    "value": null,
+    "unit": "mm",
+    "source": "NOT GIVEN (Fig. 1a/1e show conical end-cap recesses, no dimensions)"
+   },
+   "cone_base_diameter": {
+    "value": null,
+    "unit": "mm",
+    "source": "NOT GIVEN; Fig. 1(a) sketch: base ~ inner-tube diameter"
+   },
+   "antenna_bore_diameter": {
+    "value": null,
+    "unit": "mm",
+    "source": "NOT GIVEN"
+   },
+   "teflon_pins": {
+    "value": null,
+    "unit": "mm",
+    "source": "NOT GIVEN (Fig. 1a,b); paper: teflon loss negligible, Q_teflon-only = 5.8e8 with tan_delta=1e-3"
+   },
+   "tuning_rods": {
+    "value": 2,
+    "unit": "mm (diameter)",
+    "source": "Sec. VI / Fig. 5: triplets of 2 mm sapphire rods inserted from the end caps; positions NOT GIVEN; not used for Table I/II"
+   },
+   "V": {
+    "value": 1.0776,
+    "unit": "L",
+    "source": "text p.3 ('The cavity volume V is then 1.0776 l')",
+    "note": "pi*28.5^2*420 = 1.0717 L; pi*28.55^2*420 = 1.0755 L; remainder plausibly the two cone recesses"
+   }
+  }
+ },
+ "materials": {
+  "walls": {
+   "material": "copper (OFHC implied)",
+   "R_s_ohm": "1/(Table I 'sigma_eff' column); 4.83e-3 at 4.2 K (text p.4); anomalous-skin-effect effective value computed at 10.4 GHz",
+   "temperature_K": "Table I",
+   "source": "Table I, text p.4"
+  },
+  "tubes": {
+   "material": "sapphire (Al2O3 >=99.99%, Stepanov-grown, Rostox-N), annealed 1900 C",
+   "eps_r": "scalar, Table I (11.44 at 293 K -> 11.2 at 4.2 K, 4.2 K value measured)",
+   "tan_delta": "Table I (from Krupka et al., frequency-corrected)",
+   "anisotropy": "NOT specified (scalar eps only; crystal orientation not stated in this paper). For pseudo-TM0n0 with long coaxial tubes E is ~axial, so eps_par (along c, if c || tube axis as in 2004.02754/2410.07774) is what matters; flag for 3D/cone regions.",
+   "source": "text p.4, Table I"
+  },
+  "pins": {
+   "material": "PTFE",
+   "tan_delta": 0.001,
+   "source": "text p.4 (loss test only)"
+  }
+ },
+ "conditions": {
+  "temperature_K": "293 -> 4.2 (Table I rows)",
+  "B0_T": "0 for simulations (measurements up to 8 T, Fig. 4)",
+  "B0_direction": "axial (solenoid; C definition)",
+  "field_map": "uniform"
+ },
+ "conventions": {
+  "form_factor_definition": "C_mnl = |int d^3x B.E_mnl|^2 / (B0^2 V int d^3x eps_r |E_mnl|^2) (text p.1), V = full cavity volume (1.0776 L), uniform axial B",
+  "Q_definition": "1/Q0 = 1/Q_Cu + 1/Q_Sapph = R_s/G + p_e tan_delta (Eq. 4 writes tan_delta without the filling factor). Q_Cu from model with tan_delta = 0; Q_Sapph from model with lossless walls.",
+  "notes": "Table I 'sigma_eff_Cu' header has no unit; its values equal 1/R_s in siemens: 1/37.75 = 26.5 mOhm at 293 K (<=> sigma = 5.88e7 S/m at 10.45 GHz) and 1/207.04 = 4.83 mOhm at 4.2 K, exactly the R_s quoted in the text. Treat the column as 1/R_s. Fig. 3 inset: simulated f shifted by 121 MHz (caption) to overlay measurement; Table I gives the simulated absolute f, but see inconsistencies: an exact z-invariant model at the stated dimensions is ~0.9% low in f and ~15% high in C, so absolute f/C are soft targets."
+ },
+ "reference_values": {
+  "tables": [
+   {
+    "source": "Table I",
+    "description": "FEM parameters and results vs temperature (geometry thermally rescaled per row)",
+    "simulated": true,
+    "columns": [
+     "T",
+     "sigma_eff_Cu (printed header; see conventions: numerically = 1/R_s)",
+     "eps_r",
+     "tan_delta",
+     "f",
+     "C030",
+     "Q_Sapph",
+     "Q_Cu",
+     "Q0",
+     "Q0_exp"
+    ],
+    "units": [
+     "K",
+     "S (inferred; unit not printed)",
+     "1",
+     "1",
+     "GHz",
+     "1",
+     "1",
+     "1",
+     "1",
+     "1 (measured)"
+    ],
+    "rows": [
+     [
+      293,
+      37.75,
+      11.44,
+      "4.87e-6",
+      10.4468,
+      0.0321,
+      "1.21e6",
+      "2.04e6",
+      "7.60e5",
+      "6.17e5"
+     ],
+     [
+      260,
+      40.55,
+      11.3889,
+      "3.93e-6",
+      10.4529,
+      0.0321,
+      "1.50e6",
+      "2.18e6",
+      "8.88e5",
+      "7.28e5"
+     ],
+     [
+      230,
+      43.7,
+      11.3486,
+      "2.88e-6",
+      10.4576,
+      0.0321,
+      "2.05e6",
+      "2.35e6",
+      "1.09e6",
+      "8.08e5"
+     ],
+     [
+      190,
+      49.34,
+      11.2953,
+      "1.81e-6",
+      10.4638,
+      0.032,
+      "3.26e6",
+      "2.64e6",
+      "1.46e6",
+      "1.09e6"
+     ],
+     [
+      160,
+      55.53,
+      11.2602,
+      "7.84e-7",
+      10.4676,
+      0.032,
+      "7.51e6",
+      "3.02e6",
+      "2.12e6",
+      "1.48e6"
+     ],
+     [
+      125,
+      67.57,
+      11.2288,
+      "2.56e-7",
+      10.4711,
+      0.032,
+      "2.29e7",
+      "3.58e6",
+      "3.09e6",
+      "2.19e6"
+     ],
+     [
+      100,
+      84.17,
+      11.2125,
+      "8.87e-8",
+      10.4729,
+      0.032,
+      "6.62e7",
+      "4.47e6",
+      "4.15e6",
+      "2.80e6"
+     ],
+     [
+      77,
+      114.73,
+      11.2044,
+      "2.48e-8",
+      10.4738,
+      0.032,
+      "2.37e8",
+      "6.10e6",
+      "5.88e6",
+      "3.33e6"
+     ],
+     [
+      50,
+      174.57,
+      11.2006,
+      "7.52e-9",
+      10.4744,
+      0.032,
+      "7.82e8",
+      "9.29e6",
+      "9.02e6",
+      "4.63e6"
+     ],
+     [
+      25,
+      205.16,
+      11.2002,
+      "5.34e-9",
+      10.4745,
+      0.0321,
+      "1.10e9",
+      "1.09e7",
+      "1.06e7",
+      "5.48e6"
+     ],
+     [
+      4.2,
+      207.04,
+      11.2,
+      "1.19e-9",
+      10.4745,
+      0.0321,
+      "1.03e9",
+      "1.10e7",
+      "1.08e7",
+      "6.23e6"
+     ]
+    ]
+   },
+   {
+    "source": "Table II",
+    "description": "4.2 K model (4.2 K geometry, tan_delta = 1.19e-9, R_s = 4.83 mOhm) for several eps_r",
+    "simulated": true,
+    "columns": [
+     "eps_r",
+     "f",
+     "C030",
+     "Q_Cu",
+     "Q_Sapph",
+     "Q0"
+    ],
+    "units": [
+     "1",
+     "GHz",
+     "1",
+     "1",
+     "1",
+     "1"
+    ],
+    "rows": [
+     [
+      11.44,
+      10.4556,
+      0.0324,
+      "1.14e7",
+      "4.98e9",
+      "1.11e7"
+     ],
+     [
+      11.3,
+      10.4666,
+      0.0322,
+      "1.10e7",
+      "4.96e9",
+      "1.10e7"
+     ],
+     [
+      11.2,
+      10.4745,
+      0.0321,
+      "1.09e7",
+      "1.03e9",
+      "1.08e7"
+     ],
+     [
+      11.1,
+      10.4825,
+      0.0319,
+      "1.07e7",
+      "1.21e9",
+      "1.06e7"
+     ]
+    ]
+   },
+   {
+    "source": "text pp.3-4",
+    "description": "scalar FEM facts",
+    "simulated": true,
+    "columns": [
+     "quantity",
+     "value",
+     "unit"
+    ],
+    "units": [
+     "",
+     "",
+     ""
+    ],
+    "rows": [
+     [
+      "C030*V",
+      34.6,
+      "cm^3"
+     ],
+     [
+      "C010*V of empty cylinder, same length, TM010 at 10.4 GHz (comparison) [NOTE: analytic C010 V for an empty L = 420 mm cylinder with TM010 at 10.4 GHz is 111.1 cm^3 (V = 160.6 cm^3); the printed 164.6 looks like a volume, not C010 V. Kept as printed.]",
+      164.6,
+      "cm^3"
+     ],
+     [
+      "fraction of copper dissipation in the end caps (cones), 4.2 K",
+      0.16,
+      "1"
+     ],
+     [
+      "Q0 with only teflon loss (tan_delta=1e-3), lossless walls and sapphire",
+      "5.8e8",
+      "1"
+     ],
+     [
+      "frequency shift 293 K -> 4.2 K: from eps_r change",
+      19,
+      "MHz"
+     ],
+     [
+      "frequency shift 293 K -> 4.2 K: from thermal contraction",
+      9,
+      "MHz"
+     ],
+     [
+      "tan_delta needed to reproduce measured high-field Q0 at 4.2 K",
+      "2.0e-8",
+      "1"
+     ]
+    ]
+   }
+  ],
+  "curves": [
+   {
+    "source": "Fig. 3 (main)",
+    "description": "simulated Q0 vs T (red diamonds; same as Table I Q0 column)",
+    "x": {
+     "label": "T",
+     "unit": "K"
+    },
+    "y": {
+     "label": "Q0 (unloaded)",
+     "unit": "1"
+    },
+    "series": [
+     {
+      "label": "simulation (HFSS)",
+      "points": [
+       [
+        4.19,
+        10759600.0
+       ],
+       [
+        25.08,
+        10593400.0
+       ],
+       [
+        50.02,
+        9017850.0
+       ],
+       [
+        76.99,
+        5877870.0
+       ],
+       [
+        100.04,
+        4150280.0
+       ],
+       [
+        124.98,
+        3087890.0
+       ],
+       [
+        160.01,
+        2119260.0
+       ],
+       [
+        189.99,
+        1454560.0
+       ],
+       [
+        229.95,
+        1092820.0
+       ],
+       [
+        259.92,
+        887078.0
+       ],
+       [
+        293.1,
+        758715.0
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster color mask at 600 dpi (figure is an embedded bitmap); marker centroids (filled diamonds: connected components; '+' markers: pixels with full horizontal and vertical arm runs; hollow diamonds: hole-filled, eroded cores); linear axes least-squares calibrated on gridline pixels",
+     "page": 5,
+     "clip_bbox_pt": [
+      315,
+      300,
+      560,
+      505
+     ],
+     "dpi": 600,
+     "axis_calibration": {
+      "x": [
+       [
+        208,
+        0
+       ],
+       [
+        497,
+        50
+       ],
+       [
+        786,
+        100
+       ],
+       [
+        1075,
+        150
+       ],
+       [
+        1363.5,
+        200
+       ],
+       [
+        1652.5,
+        250
+       ],
+       [
+        1941.5,
+        300
+       ]
+      ],
+      "y": [
+       [
+        182,
+        11000000.0
+       ],
+       [
+        299,
+        10000000.0
+       ],
+       [
+        416,
+        9000000.0
+       ],
+       [
+        533,
+        8000000.0
+       ],
+       [
+        650,
+        7000000.0
+       ],
+       [
+        767,
+        6000000.0
+       ],
+       [
+        884.5,
+        5000000.0
+       ],
+       [
+        1001,
+        4000000.0
+       ],
+       [
+        1118,
+        3000000.0
+       ],
+       [
+        1235.5,
+        2000000.0
+       ],
+       [
+        1352.5,
+        1000000.0
+       ]
+      ],
+      "log": false,
+      "fit_rms_residual": {
+       "x": 0.02141242141008959,
+       "y": 1453.070676413411
+      }
+     },
+     "uncertainty_x": 0.52,
+     "uncertainty_y": 26000.0,
+     "uncertainty_basis": "+-3 px at 600 dpi (gridline calibration <1 px, marker centroid ~2 px; overlapping markers can merge or drop: point COUNT is not exact)",
+     "figure_png": "quax_two_shell_2201_fig3.png",
+     "overlay_png": "quax_two_shell_2201_fig3_overlay.png",
+     "script": "digitize/quax_two_shell_2201_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 3 (inset)",
+    "description": "simulated f(TM030) vs T, SHIFTED by the authors to match measurement at 4 K (caption: 'shifted by 121 MHz'); unshifted values are Table I f column",
+    "x": {
+     "label": "T",
+     "unit": "K"
+    },
+    "y": {
+     "label": "f(TM030)",
+     "unit": "GHz"
+    },
+    "series": [
+     {
+      "label": "simulation, shifted (red diamonds)",
+      "points": [
+       [
+        4.18,
+        10.3535
+       ],
+       [
+        25.03,
+        10.3535
+       ],
+       [
+        50.16,
+        10.3534
+       ],
+       [
+        77.03,
+        10.3528
+       ],
+       [
+        100.01,
+        10.3519
+       ],
+       [
+        125.07,
+        10.3501
+       ],
+       [
+        160.17,
+        10.3466
+       ],
+       [
+        190.09,
+        10.3428
+       ],
+       [
+        230.29,
+        10.3366
+       ],
+       [
+        260.0,
+        10.3319
+       ],
+       [
+        293.23,
+        10.3258
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster color mask at 600 dpi (figure is an embedded bitmap); marker centroids (filled diamonds: connected components; '+' markers: pixels with full horizontal and vertical arm runs; hollow diamonds: hole-filled, eroded cores); linear axes least-squares calibrated on gridline pixels",
+     "page": 5,
+     "clip_bbox_pt": [
+      315,
+      300,
+      560,
+      505
+     ],
+     "dpi": 600,
+     "axis_calibration": {
+      "x": [
+       [
+        1100.5,
+        0
+       ],
+       [
+        1238,
+        50
+       ],
+       [
+        1374,
+        100
+       ],
+       [
+        1511,
+        150
+       ],
+       [
+        1648,
+        200
+       ],
+       [
+        1784,
+        250
+       ],
+       [
+        1921,
+        300
+       ]
+      ],
+      "y": [
+       [
+        246,
+        10.35
+       ],
+       [
+        331.5,
+        10.345
+       ],
+       [
+        417,
+        10.34
+       ],
+       [
+        502,
+        10.335
+       ],
+       [
+        587,
+        10.33
+       ],
+       [
+        672.5,
+        10.325
+       ]
+      ],
+      "log": false,
+      "fit_rms_residual": {
+       "x": 0.11007373832159742,
+       "y": 1.0049732883434458e-05
+      }
+     },
+     "uncertainty_x": 1.1,
+     "uncertainty_y": 0.00018,
+     "uncertainty_basis": "+-3 px at 600 dpi; in the flat low-T region crosses overlap heavily, so some are missing",
+     "figure_png": "quax_two_shell_2201_fig3.png",
+     "overlay_png": "quax_two_shell_2201_fig3_overlay.png",
+     "script": "digitize/quax_two_shell_2201_digitize.py"
+    }
+   }
+  ],
+  "derived_checks": {
+   "note": "computed by us from Table I; not printed in the paper",
+   "geometry_factor_G_ohm": "Q_Cu * R_s = 53.0-54.4 kOhm for all rows (293 K: 54040, 4.2 K: 53130) -> TM030 G ~ 5.3e4 Ohm",
+   "sapphire_electric_filling_factor_p_e": "1/(Q_Sapph tan_delta) = 0.170 +- 0.001 for every row EXCEPT 4.2 K (0.816); see inconsistencies",
+   "empty_TM030_analytic": "empty cylinder, uniform axial B: C0n0 = 4/chi_0n^2 -> C010 = 0.6917, C020 = 0.1313, C030 = 0.0534 (paper quotes 0.69/0.13/0.05)"
+  }
+ },
+ "measured_values": {
+  "tables": [
+   {
+    "source": "Table I last column",
+    "description": "measured Q0 vs T (see Table I rows)",
+    "simulated": false,
+    "columns": [
+     "T",
+     "Q0_exp"
+    ],
+    "units": [
+     "K",
+     "1"
+    ],
+    "rows": [
+     [
+      293,
+      "6.17e5"
+     ],
+     [
+      260,
+      "7.28e5"
+     ],
+     [
+      230,
+      "8.08e5"
+     ],
+     [
+      190,
+      "1.09e6"
+     ],
+     [
+      160,
+      "1.48e6"
+     ],
+     [
+      125,
+      "2.19e6"
+     ],
+     [
+      100,
+      "2.80e6"
+     ],
+     [
+      77,
+      "3.33e6"
+     ],
+     [
+      50,
+      "4.63e6"
+     ],
+     [
+      25,
+      "5.48e6"
+     ],
+     [
+      4.2,
+      "6.23e6"
+     ]
+    ]
+   },
+   {
+    "source": "text/abstract",
+    "description": "high-field",
+    "simulated": false,
+    "columns": [
+     "quantity",
+     "value"
+    ],
+    "units": [
+     "",
+     ""
+    ],
+    "rows": [
+     [
+      "Q0 at B >= 5 T, 4.2 K",
+      "~9e6 (Fig. 4)"
+     ],
+     [
+      "f measured at 4 K",
+      "~10.3535 GHz (Fig. 3 inset; = Table I 10.4745 GHz - 121 MHz)"
+     ]
+    ]
+   }
+  ],
+  "curves": [
+   {
+    "source": "Fig. 3 (main)",
+    "description": "measured Q0 vs T, two cooling runs + greyed points",
+    "x": {
+     "label": "T",
+     "unit": "K"
+    },
+    "y": {
+     "label": "Q0 (unloaded)",
+     "unit": "1"
+    },
+    "series": [
+     {
+      "label": "measured run A (black +)",
+      "points": [
+       [
+        4.22,
+        6231840.0
+       ],
+       [
+        5.52,
+        5749130.0
+       ],
+       [
+        9.33,
+        5979810.0
+       ],
+       [
+        13.05,
+        5804660.0
+       ],
+       [
+        17.29,
+        5561170.0
+       ],
+       [
+        20.06,
+        5398840.0
+       ],
+       [
+        23.68,
+        5547640.0
+       ],
+       [
+        27.33,
+        5368930.0
+       ],
+       [
+        30.27,
+        5364660.0
+       ],
+       [
+        32.87,
+        5035730.0
+       ],
+       [
+        35.27,
+        5072230.0
+       ],
+       [
+        37.88,
+        5112620.0
+       ],
+       [
+        41.52,
+        4928930.0
+       ],
+       [
+        44.2,
+        4830680.0
+       ],
+       [
+        47.23,
+        4809320.0
+       ],
+       [
+        49.64,
+        4634890.0
+       ],
+       [
+        53.29,
+        4523110.0
+       ],
+       [
+        55.9,
+        4378580.0
+       ],
+       [
+        58.48,
+        4326600.0
+       ],
+       [
+        60.99,
+        4091650.0
+       ],
+       [
+        63.67,
+        4172820.0
+       ],
+       [
+        66.27,
+        4006210.0
+       ],
+       [
+        67.83,
+        3912230.0
+       ],
+       [
+        69.99,
+        3856700.0
+       ],
+       [
+        72.5,
+        3749900.0
+       ],
+       [
+        74.49,
+        3617480.0
+       ],
+       [
+        77.35,
+        3519220.0
+       ],
+       [
+        80.11,
+        3301360.0
+       ],
+       [
+        85.31,
+        3190290.0
+       ],
+       [
+        87.9,
+        3190290.0
+       ],
+       [
+        90.07,
+        3134760.0
+       ],
+       [
+        92.58,
+        3147570.0
+       ],
+       [
+        94.83,
+        2989520.0
+       ],
+       [
+        96.9,
+        2899810.0
+       ],
+       [
+        99.5,
+        2831460.0
+       ],
+       [
+        102.79,
+        2652040.0
+       ],
+       [
+        105.48,
+        2702400.0
+       ],
+       [
+        109.71,
+        2566600.0
+       ],
+       [
+        119.14,
+        2353010.0
+       ],
+       [
+        122.52,
+        2241940.0
+       ],
+       [
+        125.81,
+        2092430.0
+       ],
+       [
+        129.27,
+        1972820.0
+       ],
+       [
+        139.13,
+        1763500.0
+       ],
+       [
+        142.25,
+        1806210.0
+       ],
+       [
+        145.71,
+        1690870.0
+       ],
+       [
+        148.55,
+        1685700.0
+       ],
+       [
+        151.34,
+        1609710.0
+       ],
+       [
+        154.62,
+        1584080.0
+       ],
+       [
+        157.91,
+        1507190.0
+       ],
+       [
+        160.94,
+        1473010.0
+       ],
+       [
+        163.88,
+        1426020.0
+       ],
+       [
+        166.57,
+        1361940.0
+       ],
+       [
+        172.62,
+        1156890.0
+       ],
+       [
+        177.64,
+        1208160.0
+       ],
+       [
+        180.76,
+        1191070.0
+       ],
+       [
+        185.34,
+        1186800.0
+       ],
+       [
+        188.46,
+        1114180.0
+       ],
+       [
+        192.27,
+        1062910.0
+       ],
+       [
+        196.51,
+        904855.0
+       ],
+       [
+        204.56,
+        870681.0
+       ],
+       [
+        211.12,
+        916959.0
+       ],
+       [
+        214.51,
+        900584.0
+       ],
+       [
+        218.4,
+        879224.0
+       ],
+       [
+        221.69,
+        866409.0
+       ],
+       [
+        225.41,
+        823690.0
+       ],
+       [
+        229.22,
+        815147.0
+       ],
+       [
+        233.29,
+        759613.0
+       ],
+       [
+        236.49,
+        759613.0
+       ],
+       [
+        240.21,
+        763885.0
+       ],
+       [
+        244.19,
+        759613.0
+       ],
+       [
+        247.82,
+        661360.0
+       ],
+       [
+        251.46,
+        733982.0
+       ],
+       [
+        255.09,
+        733982.0
+       ],
+       [
+        258.62,
+        739568.0
+       ],
+       [
+        261.84,
+        704079.0
+       ],
+       [
+        264.79,
+        695535.0
+       ],
+       [
+        268.25,
+        695535.0
+       ],
+       [
+        271.8,
+        716894.0
+       ],
+       [
+        274.65,
+        678448.0
+       ],
+       [
+        278.1,
+        617930.0
+       ],
+       [
+        281.23,
+        686991.0
+       ],
+       [
+        284.69,
+        665632.0
+       ],
+       [
+        287.2,
+        648545.0
+       ],
+       [
+        290.75,
+        541749.0
+       ],
+       [
+        294.07,
+        602504.0
+       ]
+      ]
+     },
+     {
+      "label": "measured run B (light-blue hollow diamonds)",
+      "points": [
+       [
+        4.22,
+        6291650.0
+       ],
+       [
+        5.69,
+        6086600.0
+       ],
+       [
+        7.71,
+        6166340.0
+       ],
+       [
+        12.79,
+        5932820.0
+       ],
+       [
+        17.64,
+        5727770.0
+       ],
+       [
+        20.92,
+        5633790.0
+       ],
+       [
+        25.08,
+        5377480.0
+       ],
+       [
+        29.23,
+        5326210.0
+       ],
+       [
+        34.77,
+        5078450.0
+       ],
+       [
+        39.96,
+        5001550.0
+       ],
+       [
+        45.41,
+        4852040.0
+       ],
+       [
+        51.73,
+        4531650.0
+       ],
+       [
+        56.4,
+        4283880.0
+       ],
+       [
+        62.29,
+        4044660.0
+       ],
+       [
+        67.31,
+        3856700.0
+       ],
+       [
+        78.9,
+        3339810.0
+       ],
+       [
+        83.46,
+        3295660.0
+       ],
+       [
+        96.04,
+        2959610.0
+       ],
+       [
+        99.41,
+        2805830.0
+       ],
+       [
+        101.58,
+        2711850.0
+       ],
+       [
+        105.04,
+        2579420.0
+       ],
+       [
+        107.63,
+        2472620.0
+       ],
+       [
+        109.19,
+        2353010.0
+       ],
+       [
+        111.79,
+        2393590.0
+       ],
+       [
+        114.61,
+        2444140.0
+       ],
+       [
+        118.02,
+        2306020.0
+       ],
+       [
+        119.75,
+        2177860.0
+       ],
+       [
+        121.48,
+        2288930.0
+       ],
+       [
+        124.08,
+        2241940.0
+       ],
+       [
+        127.19,
+        2177860.0
+       ],
+       [
+        135.84,
+        1981360.0
+       ],
+       [
+        139.65,
+        1908740.0
+       ],
+       [
+        294.04,
+        537477.0
+       ]
+      ]
+     },
+     {
+      "label": "measured, greyed (mode-mixing affected, light-gray +)",
+      "points": [
+       [
+        82.8,
+        1259420.0
+       ],
+       [
+        112.83,
+        2092430.0
+       ],
+       [
+        132.21,
+        1584080.0
+       ],
+       [
+        135.59,
+        1186800.0
+       ],
+       [
+        200.14,
+        400778.0
+       ],
+       [
+        208.19,
+        533205.0
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster color mask at 600 dpi (figure is an embedded bitmap); marker centroids (filled diamonds: connected components; '+' markers: pixels with full horizontal and vertical arm runs; hollow diamonds: hole-filled, eroded cores); linear axes least-squares calibrated on gridline pixels",
+     "page": 5,
+     "clip_bbox_pt": [
+      315,
+      300,
+      560,
+      505
+     ],
+     "dpi": 600,
+     "axis_calibration": {
+      "x": [
+       [
+        208,
+        0
+       ],
+       [
+        497,
+        50
+       ],
+       [
+        786,
+        100
+       ],
+       [
+        1075,
+        150
+       ],
+       [
+        1363.5,
+        200
+       ],
+       [
+        1652.5,
+        250
+       ],
+       [
+        1941.5,
+        300
+       ]
+      ],
+      "y": [
+       [
+        182,
+        11000000.0
+       ],
+       [
+        299,
+        10000000.0
+       ],
+       [
+        416,
+        9000000.0
+       ],
+       [
+        533,
+        8000000.0
+       ],
+       [
+        650,
+        7000000.0
+       ],
+       [
+        767,
+        6000000.0
+       ],
+       [
+        884.5,
+        5000000.0
+       ],
+       [
+        1001,
+        4000000.0
+       ],
+       [
+        1118,
+        3000000.0
+       ],
+       [
+        1235.5,
+        2000000.0
+       ],
+       [
+        1352.5,
+        1000000.0
+       ]
+      ],
+      "log": false,
+      "fit_rms_residual": {
+       "x": 0.02141242141008959,
+       "y": 1453.070676413411
+      }
+     },
+     "uncertainty_x": 0.52,
+     "uncertainty_y": 26000.0,
+     "uncertainty_basis": "+-3 px at 600 dpi (gridline calibration <1 px, marker centroid ~2 px; overlapping markers can merge or drop: point COUNT is not exact)",
+     "figure_png": "quax_two_shell_2201_fig3.png",
+     "overlay_png": "quax_two_shell_2201_fig3_overlay.png",
+     "script": "digitize/quax_two_shell_2201_digitize.py"
+    }
+   },
+   {
+    "source": "Fig. 3 (inset)",
+    "description": "measured f(TM030) vs T",
+    "x": {
+     "label": "T",
+     "unit": "K"
+    },
+    "y": {
+     "label": "f(TM030)",
+     "unit": "GHz"
+    },
+    "series": [
+     {
+      "label": "measured (black +)",
+      "points": [
+       [
+        13.04,
+        10.3535
+       ],
+       [
+        17.35,
+        10.3535
+       ],
+       [
+        32.98,
+        10.3535
+       ],
+       [
+        35.36,
+        10.3535
+       ],
+       [
+        37.92,
+        10.3535
+       ],
+       [
+        41.57,
+        10.3534
+       ],
+       [
+        43.71,
+        10.3535
+       ],
+       [
+        58.58,
+        10.3533
+       ],
+       [
+        61.14,
+        10.3533
+       ],
+       [
+        63.89,
+        10.3533
+       ],
+       [
+        67.42,
+        10.3532
+       ],
+       [
+        70.1,
+        10.3531
+       ],
+       [
+        72.12,
+        10.3531
+       ],
+       [
+        85.18,
+        10.3527
+       ],
+       [
+        87.66,
+        10.3526
+       ],
+       [
+        89.97,
+        10.3525
+       ],
+       [
+        92.6,
+        10.3524
+       ],
+       [
+        94.72,
+        10.3523
+       ],
+       [
+        105.66,
+        10.3516
+       ],
+       [
+        109.79,
+        10.3513
+       ],
+       [
+        112.72,
+        10.351
+       ],
+       [
+        119.3,
+        10.3505
+       ],
+       [
+        129.25,
+        10.3494
+       ],
+       [
+        131.92,
+        10.3491
+       ],
+       [
+        135.58,
+        10.3488
+       ],
+       [
+        139.13,
+        10.3483
+       ],
+       [
+        142.16,
+        10.3479
+       ],
+       [
+        145.64,
+        10.3475
+       ],
+       [
+        148.56,
+        10.3472
+       ],
+       [
+        151.49,
+        10.3468
+       ],
+       [
+        154.69,
+        10.3463
+       ],
+       [
+        157.71,
+        10.3458
+       ],
+       [
+        161.37,
+        10.3455
+       ],
+       [
+        163.93,
+        10.3451
+       ],
+       [
+        166.85,
+        10.3447
+       ],
+       [
+        172.89,
+        10.3439
+       ],
+       [
+        177.97,
+        10.3431
+       ],
+       [
+        180.75,
+        10.3427
+       ],
+       [
+        185.55,
+        10.342
+       ],
+       [
+        188.57,
+        10.3416
+       ],
+       [
+        192.09,
+        10.3411
+       ],
+       [
+        196.92,
+        10.3404
+       ],
+       [
+        200.08,
+        10.34
+       ],
+       [
+        204.89,
+        10.3393
+       ],
+       [
+        208.37,
+        10.3389
+       ],
+       [
+        211.31,
+        10.3384
+       ],
+       [
+        214.89,
+        10.3379
+       ],
+       [
+        218.68,
+        10.3374
+       ],
+       [
+        221.88,
+        10.3369
+       ],
+       [
+        233.5,
+        10.3353
+       ],
+       [
+        236.59,
+        10.3349
+       ],
+       [
+        240.05,
+        10.3344
+       ],
+       [
+        244.29,
+        10.3339
+       ],
+       [
+        247.87,
+        10.3335
+       ],
+       [
+        251.53,
+        10.3331
+       ],
+       [
+        255.19,
+        10.3326
+       ],
+       [
+        264.88,
+        10.3314
+       ],
+       [
+        268.37,
+        10.3311
+       ],
+       [
+        271.83,
+        10.3306
+       ],
+       [
+        274.75,
+        10.3303
+       ],
+       [
+        278.23,
+        10.3299
+       ],
+       [
+        281.34,
+        10.3296
+       ],
+       [
+        284.63,
+        10.3292
+       ],
+       [
+        287.56,
+        10.329
+       ],
+       [
+        290.95,
+        10.3287
+       ],
+       [
+        293.85,
+        10.3286
+       ]
+      ]
+     }
+    ],
+    "digitization": {
+     "method": "raster color mask at 600 dpi (figure is an embedded bitmap); marker centroids (filled diamonds: connected components; '+' markers: pixels with full horizontal and vertical arm runs; hollow diamonds: hole-filled, eroded cores); linear axes least-squares calibrated on gridline pixels",
+     "page": 5,
+     "clip_bbox_pt": [
+      315,
+      300,
+      560,
+      505
+     ],
+     "dpi": 600,
+     "axis_calibration": {
+      "x": [
+       [
+        1100.5,
+        0
+       ],
+       [
+        1238,
+        50
+       ],
+       [
+        1374,
+        100
+       ],
+       [
+        1511,
+        150
+       ],
+       [
+        1648,
+        200
+       ],
+       [
+        1784,
+        250
+       ],
+       [
+        1921,
+        300
+       ]
+      ],
+      "y": [
+       [
+        246,
+        10.35
+       ],
+       [
+        331.5,
+        10.345
+       ],
+       [
+        417,
+        10.34
+       ],
+       [
+        502,
+        10.335
+       ],
+       [
+        587,
+        10.33
+       ],
+       [
+        672.5,
+        10.325
+       ]
+      ],
+      "log": false,
+      "fit_rms_residual": {
+       "x": 0.11007373832159742,
+       "y": 1.0049732883434458e-05
+      }
+     },
+     "uncertainty_x": 1.1,
+     "uncertainty_y": 0.00018,
+     "uncertainty_basis": "+-3 px at 600 dpi; in the flat low-T region crosses overlap heavily, so some are missing",
+     "figure_png": "quax_two_shell_2201_fig3.png",
+     "overlay_png": "quax_two_shell_2201_fig3_overlay.png",
+     "script": "digitize/quax_two_shell_2201_digitize.py"
+    }
+   }
+  ]
+ },
+ "gaps": [
+  {
+   "parameter": "end-cap cone geometry (height, base diameter, apex/antenna bore)",
+   "issue": "cones appear in Fig. 1(a,e) only, no dimensions. They DOMINATE Q_Cu: with flat ends at the stated dims (R_s = 4.83 mOhm) the end plates carry 77-78% of the Cu loss and Q_Cu = 2.7e6 vs 1.10e7 in Tab I/II; the side wall alone gives Q ~1.2e7 (x0.84 -> ~1.03e7). The cones (which pull the field off the end plates) are what makes the paper's end-cap share only 16%. Earlier claim 'cone sensitivity small' was wrong for Q_Cu/G.",
+   "proposal": "Q_Cu/G is a cone-dominated, UNRELIABLE 2D target while the cone geometry is unknown; use it only as a cone-calibration quantity (or compare the side-wall-only Q ~1.2e7). 2D hard targets: Delta f(eps), Delta f(T), p_e, C trend. Baseline: copy the sister design 2004.02754 (Fig. 4/Fig. 10: cone height 6 mm, base diameter = inner-tube inner diameter, ~4 mm antenna bore); sweep height 0 (flat) .. 10 mm and base diameter 20.7..21.75 mm; report f, C030, G sensitivity. Hint: V = 1.0776 L with D = 57.1 mm leaves ~2.1 cm^3 for two cones, i.e. ~8 mm tall cones of base radius ~10.9 mm (inferred, UNVERIFIED)."
+  },
+  {
+   "parameter": "tube end clearance / pin geometry",
+   "issue": "not given",
+   "proposal": "Sweep the tube end gap 0-1.5 mm (each end) as a parameter. Tubes touching both endplates is physically doubtful: the inner tube is the one reused in 2410.07774 where L_Al2O3 = 420 mm at 300 K in a 422.23 mm body, and differential contraction (Cu ~0.33% vs sapphire ~0.08%) requires a gap; 2410 shows a 0.73 mm gap moves C from ~0.34 (no gap) to 0.235. Pins ignored (paper: negligible loss)."
+  },
+  {
+   "parameter": "4.2 K geometry (thermal contraction values)",
+   "issue": "Table I/II use thermally rescaled dimensions, coefficients not printed (only 'refs 45, 46')",
+   "proposal": "use integrated contraction 293->4 K: Cu -3.26e-3, sapphire ~ -8e-4 (literature, UNVERIFIED for this paper); the paper attributes 9 MHz to geometry, so the sensitivity is small; reproduce Table II first with RT geometry and with contracted geometry"
+  },
+  {
+   "parameter": "D_cav 57 vs 57.1 mm",
+   "issue": "text says 57 mm, Fig. 1a says 57.1",
+   "proposal": "use 57.1 (drawing; also closer to the quoted V)"
+  },
+  {
+   "parameter": "sapphire anisotropy / c-axis orientation",
+   "issue": "scalar eps only",
+   "proposal": "use scalar eps (paper's model); optionally eps_par = eps (axial), eps_perp ~ 9.3 as a sensitivity check"
+  }
+ ],
+ "inconsistencies": [
+  {
+   "description": "Table I column header 'sigma_eff_Cu' (no unit) holds 1/R_s in siemens, not a conductivity",
+   "evidence": "1/207.04 = 4.83e-3 Ohm = 'surface copper resistivity 0.00483 Ohm' (text p.4); 1/37.75 Ohm <=> sigma = 5.88e7 S/m (RT copper). Q_Cu scales linearly with this column (QCu*Rs constant), as it must for 1/R_s.",
+   "proposal": "use R_s = 1/column. NOTE 2410.07774 later used '5.48x RT conductivity' (=207.04/37.75) as a sigma ratio, which is the 1/R_s ratio - see quax_clamshell_2410.json"
+  },
+  {
+   "description": "Q_Sapph at 4.2 K (1.03e9) is inconsistent with all other rows",
+   "evidence": "p_e = 1/(Q_Sapph tan_delta) = 0.170 for T = 293..25 K but 0.816 at 4.2 K; with p_e = 0.170, tan_delta = 1.19e-9 gives Q_Sapph = 4.94e9, i.e. the Table II eps=11.3/11.44 values (4.96e9, 4.98e9). Table II eps=11.1 row (1.21e9) is likewise off.",
+   "proposal": "benchmark p_e (= 0.170) and Q_Cu (G ~ 5.3e4 Ohm) separately; treat printed Q_Sapph(4.2 K)=1.03e9 and Q0(4.2 K)=1.08e7 as possibly affected (Q0 would be 1.098e7 with Q_Sapph = 4.94e9); text quotes 'as high as 11e6'"
+  },
+  {
+   "description": "Table II eps=11.44 row: Q0 1.11e7 != 1/(1/1.14e7 + 1/4.98e9) = 1.137e7",
+   "evidence": "Table II",
+   "proposal": "compare Q_Cu and f, C030 only for that row"
+  },
+  {
+   "description": "Table I Q0 slightly below 1/(1/Q_Cu+1/Q_Sapph) at low T (1-2%: 77 K 5.88e6 vs 5.95e6, 50 K 9.02e6 vs 9.18e6, 25 K 1.06e7 vs 1.08e7)",
+   "evidence": "Table I",
+   "proposal": "tolerance of ~2% on Q0 comparisons; Q0 probably from a separate combined-loss run"
+  },
+  {
+   "description": "Simulated f is 121 MHz (1.2%) above measured at 4 K",
+   "evidence": "Fig. 3 caption: 'simulation frequencies shifted by 121 MHz'; conclusions claim agreement within ~1%",
+   "proposal": "benchmark against simulated f (Table I/II), measurement only as sanity check"
+  },
+  {
+   "description": "the earlier literature survey lists 'cone dimensions UNVERIFIED' - confirmed: no cone dimension in 2201.04223",
+   "evidence": "full text + Fig. 1",
+   "proposal": "see gaps"
+  },
+  {
+   "description": "Absolute f and C are not reproduced by an exact z-invariant layered-cylinder TM0n0 model at the stated dims (4.2 K, eps 11.2, Cu -3.26e-3 / sapphire -8e-4 contraction, flat ends): f = 10.364 GHz, C = 0.0378, p_e = 0.170 vs Tab II 10.4745 GHz, 0.0321, (p_e 0.170). Cone shift scaled from 2004.02754 ~ +14 MHz leaves ~95 MHz (0.9%) unexplained. Differences DO reproduce: eps 11.44->11.2 shift 18.5 MHz (paper 19), thermal 8.8 MHz (paper 9), p_e 0.170 exact. df/dR1 ~ -0.66 GHz/mm: R1 = 10.73 mm (within the +-0.15 mm ID tolerance) gives ~10.45-10.46 GHz.",
+   "evidence": "f/C/p_e re-run independently (10.3640 GHz, 0.0378, 0.170; flat-end Q_Cu 2.74e6, end share 77%, side-wall-only Q 1.21e7)",
+   "proposal": "hard targets = Delta f(eps), Delta f(T), p_e, C trend vs eps/T; absolute f tolerance ~1%, absolute C ~15% (or fit R1 / end gap first and then compare); Q_Cu only with a fitted cone"
+  },
+  {
+   "description": "Table II eps = 11.2 row Q_Cu = 1.09e7 vs Table I 4.2 K row Q_Cu = 1.10e7 for the same conditions (4.2 K geometry, eps 11.2, R_s 4.83 mOhm)",
+   "evidence": "Tab I vs Tab II",
+   "proposal": "1% tolerance; Q_Cu is a soft target anyway (cone-dominated)"
+  }
+ ],
+ "solver_class": {
+  "axisymmetric_2d_possible": true,
+  "needs_3d": false,
+  "reason": "Coaxial tubes, cylinder and on-axis cones are axisymmetric; pseudo-TM030 is m=0. Teflon pins and the sapphire tuning rods (absent in Table I/II) break symmetry but the paper says pin loss is negligible. Mode crossings with TE/TEM modes (seen in measurement) would need m!=0 / 3D. Also omitted in 2D: teflon pins (harmless for TM0n0: axial currents)."
+ },
+ "priority": "P0",
+ "priority_reason": "Tabulated f, C030, Q_Cu, Q_Sapph vs eps and T for a 2D-axisymmetric dielectric-loaded cavity. Cone and tube-end-gap geometry are missing. Q_Cu/G is cone-dominated (flat ends give 2.7e6 vs 1.1e7) -> unreliable target; absolute f is ~0.9% and C ~15% off an exact model at stated dims. Good targets: Delta f(eps), Delta f(T), p_e = 0.170, C trends.",
+ "readme_row": {
+  "quantities": "hard: Delta f(eps), Delta f(T), p_e; soft: absolute f (~1%), C030 (~15%); Q_Cu cone-dominated (unreliable)",
+  "geometry_complete": "nearly",
+  "axisym_2d": "yes",
+  "needs_3d": "no"
+ }
+}

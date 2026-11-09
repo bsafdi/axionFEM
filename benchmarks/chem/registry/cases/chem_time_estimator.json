@@ -1,0 +1,176 @@
+{
+ "id": "chem_time_estimator",
+ "capability": "C1a",
+ "title": "Estimator effectivity (uniform and variable history, pinned sign), tolerance reliability/efficiency per method, forced rejections",
+ "physics": "M1_batch (generic interface) for effectivity; A3 for the rtol sweep; Robertson-class (h0 = 1) for rejections",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "time_estimator",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "effectivity": {
+    "problem": "M1_batch",
+    "t_star": 1.3,
+    "h": {
+     "1": 0.00625,
+     "2": 0.00625,
+     "onestep": 0.00625
+    },
+    "varhist_step_ratio": 2.0,
+    "sign_convention": "est = lower - higher"
+   },
+   "rtol_sweep": {
+    "problem": "A3",
+    "t_end": 10.0,
+    "n_out": 20,
+    "rtols": [
+     0.0001,
+     1e-05,
+     1e-06,
+     1e-07,
+     1e-08
+    ],
+    "atol": "= rtol",
+    "methods": [
+     "bdf2_adaptive",
+     "onestep_adaptive"
+    ]
+   },
+   "rejections": {
+    "params": {
+     "path": "benchmarks/chem/casedata/c1/robertson_modified.json",
+     "sha256": "18d53c64edd9c57b8d0ff548c18be79fb721cc490c80f79f258c12789b948f2a"
+    },
+    "t_end": 10000.0,
+    "h0": 1.0,
+    "rtol": 1e-06
+   },
+   "fields": {
+    "path": "benchmarks/chem/casedata/c1/c1_fields.json",
+    "sha256": "24f967bad7e3a294b201c7dd94b26b386824b752df6d606256c7b2454571c8a5"
+   },
+   "scales": {
+    "M1_batch": [
+     1.399999928878873,
+     1.0999999764387611,
+     0.78642630304418,
+     0.6999999365863669,
+     1.0499999714833903
+    ],
+    "A3": [
+     1.0,
+     0.5609869316969336,
+     0.9712278255752979
+    ]
+   },
+   "output_policy": {
+    "rule": "stop_time",
+    "text": "Adaptive runs: the solver steps EXACTLY to every fixed output time (stop-time mode: each output time is an accepted step end) and reports the state there; no interpolated outputs for any compared value. Dense output is used only where an item says so (dense-output query times, maxima located on the dense output, event location)."
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "effectivity_bdf1_h",
+    "level": "mms",
+    "min": 0.8,
+    "max": 1.25
+   },
+   {
+    "quantity": "effectivity_bdf1_2h",
+    "level": "mms",
+    "min": 0.67,
+    "max": 1.5
+   },
+   {
+    "quantity": "effectivity_bdf2_h",
+    "level": "mms",
+    "min": 0.8,
+    "max": 1.25
+   },
+   {
+    "quantity": "effectivity_bdf2_2h",
+    "level": "mms",
+    "min": 0.67,
+    "max": 1.5
+   },
+   {
+    "quantity": "effectivity_bdf2_varhist",
+    "level": "mms",
+    "min": 0.9,
+    "max": 1.1
+   },
+   {
+    "quantity": "effectivity_onestep_h",
+    "level": "mms",
+    "min": 0.8,
+    "max": 1.25
+   },
+   {
+    "quantity": "effectivity_onestep_2h",
+    "level": "mms",
+    "min": 0.67,
+    "max": 1.5
+   },
+   {
+    "quantity": "onestep_embedded_local_order",
+    "level": "mms",
+    "min": 2.7,
+    "max": 3.3
+   },
+   {
+    "quantity": "rejections_bdf2",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "rejections_onestep",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "outputs_at_step_ends_min",
+    "level": "mms",
+    "min": 1.0
+   }
+  ],
+  "tolerance_behaviour": [
+   {
+    "id": "rtol_bdf2",
+    "series": "rtol_sweep_bdf2",
+    "level": "mms",
+    "tols_from": "rtol_sweep.rtols",
+    "C_hi": 3680.0,
+    "C_lo": 5.4,
+    "tightest_k": 2,
+    "calibration": "sundials_c1"
+   },
+   {
+    "id": "rtol_onestep",
+    "series": "rtol_sweep_onestep",
+    "level": "mms",
+    "tols_from": "rtol_sweep.rtols",
+    "C_hi": 80.2,
+    "C_lo": 0.0297,
+    "tightest_k": 2,
+    "calibration": "sundials_c1"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  }
+ }
+}

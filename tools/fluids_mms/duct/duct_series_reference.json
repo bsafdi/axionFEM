@@ -1,0 +1,37 @@
+{
+ "method": "x-series and y-series of the separated solution, Python decimal at 60 digits, pi by Machin's formula; the two series are independent evaluations and must agree",
+ "problem": {
+  "G": "2",
+  "H": "1/2",
+  "L": "2",
+  "W": "1",
+  "axis": "z",
+  "mu": "1",
+  "pde": "-mu (w_xx + w_yy) = G, w = 0 on the walls; u = (0, 0, w), p = G (L - z)"
+ },
+ "quantities": {
+  "Q": {
+   "definition": "flow rate int_section w dA (= (1/L) int_Omega u_z dV for the exact solution)",
+   "truncation_bound_abs": 5.106391312253492e-21,
+   "value": 0.014292604819973173,
+   "value_str": "0.01429260481997317281920594065195603510",
+   "x_vs_y_series_abs": 4.786763139031559e-21
+  },
+  "Q_over_volume_mean": {
+   "definition": "mean axial velocity Q / (W H)",
+   "value": 0.028585209639946346
+  },
+  "w_centre": {
+   "definition": "w at the duct centre (x, y) = (1/2, 1/4)",
+   "truncation_bound_abs": 1.6815762426157733e-145,
+   "value": 0.05693591606363715,
+   "value_str": "0.05693591606363714514570616821192725786",
+   "x_vs_y_series_abs": 2.6e-60
+  }
+ },
+ "terms": {
+  "Q": 20000,
+  "w_centre_x": 200,
+  "w_centre_y": 400
+ }
+}

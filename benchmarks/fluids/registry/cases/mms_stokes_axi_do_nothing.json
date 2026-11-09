@@ -1,0 +1,303 @@
+{
+ "id": "mms_stokes_axi_do_nothing",
+ "capability": "F1b",
+ "title": "Axisymmetric MMS with swirl, each form's do-nothing condition on z = 1",
+ "physics": "sigma_form n = 0 on z = 1 for the field of that form (the other form's condition violated)",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1b_stokes",
+   "function": "mms_do_nothing",
+   "check_module": "f1b_stokes_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2 (u_r, u_z, u_theta)",
+    "pressure": "P1",
+    "geometry": "affine"
+   },
+   "formulation": "weight r in every volume and boundary integral; continuity tested with r q (symmetric saddle point); grad u with the hoop entries (r,theta) = -u_theta/r, (theta,theta) = u_r/r; lap a = int mu grad u : grad v r, sym a = int 2 mu eps(u) : eps(v) r; traction g = sigma_form n (vector (g_r, g_z, g_theta)); grad-div gamma (div_r u, div_r v)_r with div_r u = d_r u_r + u_r/r + d_z u_z, the weight r, gamma in viscosity units (tools/fluids_mms/axi_stokes.py docstring)",
+   "forms": [
+    "lap",
+    "sym"
+   ],
+   "quadrature_error_norms": 10,
+   "solver": {
+    "kind": "direct sparse LU",
+    "tight": "same, plus 2 steps of iterative refinement (vacuous for a direct solve; meaningful for an iterative path)"
+   },
+   "axis_rule": "Axis r = 0 (attribute 'axis'): u_r = u_theta = 0 STRONGLY at every P2 velocity node on the axis (vertices and edge nodes), rows and columns eliminated (the assembled axis-axis entries are never used); u_z and p natural. No quadrature point on r = 0 (the hoop integrands u v / r are rational on elements that touch the axis at one vertex).",
+   "shared_node_rule": "At a velocity node shared by several boundary attributes: (1) Dirichlet beats every natural condition and the axis condition (the fixed data satisfy u_r = u_theta = 0 at r = 0 anyway); (2) between Dirichlet attributes the fixed data AGREE at shared nodes (one exact callable per field: checked by dirichlet_shared_node_mismatch_max), so the result does not depend on attribute order; (3) a node shared by the axis and a natural (traction / do-nothing) attribute takes the axis condition u_r = u_theta = 0 (strong) and the natural condition for u_z.",
+   "dirichlet_data": "Dirichlet data by P2 LAGRANGE NODAL INTERPOLATION of the fixed callable (exact at vertices and edge nodes); checked on the solution by dirichlet_nodal_data_defect_max.",
+   "quadrature": "QUADRATURE REQUIREMENTS: (a) no quadrature point on r = 0; (b) the viscous rule (including the 1/r hoop terms) and the load rule exact to degree >= 4 on affine elements (the order-4 functionals need it; degree 3 drops the torque orders to 2.96); (c) the continuity / pressure coupling (div_r v, q)_r integrated exactly, i.e. degree >= 3 on affine elements; (d) grad-div assembled with the SAME rule as the viscous 1/r terms. The constant-mu identity and continuity_rq_max_rel hold to round-off only under (c) and (d) (measured: a degree-2 grad-div rule gives identity p 5e-7, a degree-2 (div, q) rule continuity 3e-5).",
+   "mms_data": {
+    "lap": {
+     "path": "tools/fluids_mms/out/f1b/axi_do_nothing_lap.json",
+     "sha256": "567f78722369f5b50ff39414543f4f53cf7a8538e31ac4fdc67c714239f33660"
+    },
+    "sym": {
+     "path": "tools/fluids_mms/out/f1b/axi_do_nothing_sym.json",
+     "sha256": "f91807699c5490a80159b7b3c2963017a122112c06969067dbb8dd03d7376a5f"
+    }
+   },
+   "meshes": {
+    "structured": {
+     "family": "structured",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "f1b_stokes_check.square_mesh(N) = f1a_stokes_check.structured_mesh(N) with (x, y) = (r, z): the N = 8 base (corner cells (1,0) and (0,1) split the other way: no triangle with three boundary vertices, the axis counted as boundary), red-refined log2(N/8) times; nested.",
+     "h_definition": "h_nominal = 1/N; h_max = sqrt(2)/N reported"
+    }
+   },
+   "boundaries": {
+    "axis": "axis",
+    "z1": "do_nothing",
+    "r1": "dirichlet",
+    "z0": "dirichlet"
+   },
+   "pressure": "determined (raw comparison)"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "lap_struct_dn_uL2r",
+    "level": "mms",
+    "norm": "||u - u_h||_{L2_r} = (int |u - u_h|^2 r dr dz)^(1/2), all three components (u_r, u_z, u_theta); degree-10 element quadrature (exact u at the points; f1b_stokes_check.norms)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.917651,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_dn_uH1r",
+    "level": "mms",
+    "norm": "|u - u_h|_{H1_r}: int (|grad e_r|^2 + e_r^2/r^2 + |grad e_z|^2 + |grad e_t|^2 + e_t^2/r^2) r dr dz, the weighted V^1_1 seminorm with the hoop terms (f1b_stokes_check.norms)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.917651,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_dn_pL2r",
+    "level": "mms",
+    "norm": "pressure error in L2_r (mean-free with the r-weighted mean if the pressure has a nullspace, raw otherwise)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.86077,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_dn_utL2r",
+    "level": "mms",
+    "norm": "||u_theta - u_theta,h||_{L2_r}: the swirl component alone (a swirl-only defect cannot hide in the total)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.266947,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_dn_uL2r",
+    "level": "mms",
+    "norm": "||u - u_h||_{L2_r} = (int |u - u_h|^2 r dr dz)^(1/2), all three components (u_r, u_z, u_theta); degree-10 element quadrature (exact u at the points; f1b_stokes_check.norms)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.324224,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_dn_uH1r",
+    "level": "mms",
+    "norm": "|u - u_h|_{H1_r}: int (|grad e_r|^2 + e_r^2/r^2 + |grad e_z|^2 + |grad e_t|^2 + e_t^2/r^2) r dr dz, the weighted V^1_1 seminorm with the hoop terms (f1b_stokes_check.norms)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.324224,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_dn_pL2r",
+    "level": "mms",
+    "norm": "pressure error in L2_r (mean-free with the r-weighted mean if the pressure has a nullspace, raw otherwise)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.36527,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_dn_utL2r",
+    "level": "mms",
+    "norm": "||u_theta - u_theta,h||_{L2_r}: the swirl component alone (a swirl-only defect cannot hide in the total)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0106779,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "axis_nodal_max_rel",
+    "level": "mms",
+    "abs_max": 1e-13
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "dirichlet_shared_node_mismatch_max",
+    "level": "mms",
+    "abs_max": 1e-14
+   },
+   {
+    "quantity": "nullspace_detected",
+    "level": "mms",
+    "max": 0
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,65 @@
+{
+ "S_u": 0.9298406832872116,
+ "code": "PETSc TSBDF (order 2, TSADAPTBASIC) via DOLFINx",
+ "dolfinx": "0.11.0",
+ "error_weights": "velocity DOFs: atol = rtol S_u, rtol 0 (WRMS over all DOFs, constrained and pressure DOFs excluded by huge tolerances)",
+ "petsc": "3.25.6",
+ "sweep": [
+  {
+   "err": 0.0047887346744037865,
+   "err_over_tol": 0.4788734674403786,
+   "rejected": 6,
+   "rtol": 0.01,
+   "seconds": 0.5,
+   "steps": 18
+  },
+  {
+   "err": 0.003557143347228539,
+   "err_over_tol": 1.1857144490761795,
+   "rejected": 6,
+   "rtol": 0.003,
+   "seconds": 0.5,
+   "steps": 22
+  },
+  {
+   "err": 0.0019181212646184015,
+   "err_over_tol": 1.9181212646184014,
+   "rejected": 5,
+   "rtol": 0.001,
+   "seconds": 0.5,
+   "steps": 28
+  },
+  {
+   "err": 0.0009745746643541295,
+   "err_over_tol": 3.2485822145137653,
+   "rejected": 8,
+   "rtol": 0.0003,
+   "seconds": 0.6,
+   "steps": 37
+  },
+  {
+   "err": 0.0004822635375939416,
+   "err_over_tol": 4.822635375939416,
+   "rejected": 9,
+   "rtol": 0.0001,
+   "seconds": 0.8,
+   "steps": 50
+  },
+  {
+   "err": 0.0002275503715047727,
+   "err_over_tol": 7.585012383492423,
+   "rejected": 9,
+   "rtol": 3e-05,
+   "seconds": 1.0,
+   "steps": 70
+  },
+  {
+   "err": 0.00011540505487990394,
+   "err_over_tol": 11.540505487990393,
+   "rejected": 10,
+   "rtol": 1e-05,
+   "seconds": 1.4,
+   "steps": 97
+  }
+ ]
+}

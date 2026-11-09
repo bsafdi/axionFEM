@@ -1,0 +1,378 @@
+{
+ "id": "chem_kernel_rates",
+ "capability": "C1b",
+ "title": "Kinetics kernel: rates, Jacobians, dR/dT at fixed states (no 0/1 concentrations) vs out-of-band values; refusals",
+ "physics": "rates(c, T) -> (omega, d omega/dc, d omega/dT); explicit orders, Kc with mole change, reversible Arrhenius (Kc path and explicit k_r with n, Ea), Wegscheider cycle",
+ "levels": [
+  "analytic"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "kernel_rates",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 120
+  },
+  "parameters": {
+   "reference": {
+    "path": "benchmarks/chem/casedata/c1/c1_kernel_ref.json",
+    "sha256": "4f241f30dc805139068d20fd2d4363965d5fad897316c2316b35cafa97bae2df"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "omega_M1_A": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": -1.3743326912834473,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M1_B": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 0.53305,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M1_C": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": -0.014232691283447287,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M1_D": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 0.09805,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M1_E": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 0.3791826912834473,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M2_A": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": -1.2291320930709697,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M2_B": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 0.1581313446306557,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M2_C": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 0.7581706309432347,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M2_D": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 0.2694691532596154,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M2_E": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 0.043360964237463856,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M3_A": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": -9.6,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M3_B": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 18.688,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M3_C": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 0.256,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_A2m_A": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": -0.656,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_A2m_B": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 1.312,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_A11_A": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": -3.3,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_A11_B": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 0.8666666666666667,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_A11_C": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 2.433333333333333,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M6_A": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": -0.918,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M6_B": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 0.054,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   },
+   "omega_M6_C": {
+    "kind": "scalar",
+    "source": "kernel_c1",
+    "value": 0.27,
+    "unit": "mol/(m^3 s)",
+    "uncertainty_kind": "exact"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "omega_M1_A",
+    "reference": "omega_M1_A",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.3743326912834472e-12
+    }
+   },
+   {
+    "quantity": "omega_M1_B",
+    "reference": "omega_M1_B",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.3743326912834472e-12
+    }
+   },
+   {
+    "quantity": "omega_M1_C",
+    "reference": "omega_M1_C",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.3743326912834472e-12
+    }
+   },
+   {
+    "quantity": "omega_M1_D",
+    "reference": "omega_M1_D",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.3743326912834472e-12
+    }
+   },
+   {
+    "quantity": "omega_M1_E",
+    "reference": "omega_M1_E",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.3743326912834472e-12
+    }
+   },
+   {
+    "quantity": "omega_M2_A",
+    "reference": "omega_M2_A",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2291320930709698e-12
+    }
+   },
+   {
+    "quantity": "omega_M2_B",
+    "reference": "omega_M2_B",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2291320930709698e-12
+    }
+   },
+   {
+    "quantity": "omega_M2_C",
+    "reference": "omega_M2_C",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2291320930709698e-12
+    }
+   },
+   {
+    "quantity": "omega_M2_D",
+    "reference": "omega_M2_D",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2291320930709698e-12
+    }
+   },
+   {
+    "quantity": "omega_M2_E",
+    "reference": "omega_M2_E",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2291320930709698e-12
+    }
+   },
+   {
+    "quantity": "omega_M3_A",
+    "reference": "omega_M3_A",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.8687999999999998e-11
+    }
+   },
+   {
+    "quantity": "omega_M3_B",
+    "reference": "omega_M3_B",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.8687999999999998e-11
+    }
+   },
+   {
+    "quantity": "omega_M3_C",
+    "reference": "omega_M3_C",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.8687999999999998e-11
+    }
+   },
+   {
+    "quantity": "omega_A2m_A",
+    "reference": "omega_A2m_A",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.312e-12
+    }
+   },
+   {
+    "quantity": "omega_A2m_B",
+    "reference": "omega_A2m_B",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.312e-12
+    }
+   },
+   {
+    "quantity": "omega_A11_A",
+    "reference": "omega_A11_A",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 3.2999999999999997e-12
+    }
+   },
+   {
+    "quantity": "omega_A11_B",
+    "reference": "omega_A11_B",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 3.2999999999999997e-12
+    }
+   },
+   {
+    "quantity": "omega_A11_C",
+    "reference": "omega_A11_C",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 3.2999999999999997e-12
+    }
+   },
+   {
+    "quantity": "omega_M6_A",
+    "reference": "omega_M6_A",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 9.18e-13
+    }
+   },
+   {
+    "quantity": "omega_M6_B",
+    "reference": "omega_M6_B",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 9.18e-13
+    }
+   },
+   {
+    "quantity": "omega_M6_C",
+    "reference": "omega_M6_C",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 9.18e-13
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "jacobian_max_rel_dev",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "dRdT_max_rel_dev",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "refused_inconsistent_cycle",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "refused_orders_on_reversible",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "refused_kc_dH_nonisothermal",
+    "level": "analytic",
+    "min": 1
+   }
+  ],
+  "solver": {
+   "max_residual": 1.0
+  }
+ }
+}

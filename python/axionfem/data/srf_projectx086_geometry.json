@@ -1,0 +1,140 @@
+{
+ "schema": "axionfem.srf_geometry/1",
+ "status": "beta",
+ "cell": "Project X 650 MHz beta = 0.9 regular cell (srf.PROJECTX_650_B09), axial factor 0.86, beam tubes 50 mm x 100 mm",
+ "pump": "TM020",
+ "signal": "TE011",
+ "definitions": "docs/srf/README.md; Bpk_over_B0 is the largest pump |B| on the wall (iris-side lobe), the peak wall magnetic field to which a field limit applies. B_equator_over_B0 is the pump |B| at the equator, a diagnostic only (not a field limit). B0 is the volume rms. The wall is the exact elliptical contour (curved elements) and the wall peaks are taken at the Gauss points of the wall faces, as in 3D",
+ "inputs": {
+  "cell": {
+   "iris_radius": 0.05,
+   "equator_radius": 0.2003,
+   "half_length": 0.1038,
+   "iris_axes": [
+    0.018,
+    0.038
+   ],
+   "equator_axes": [
+    0.0825,
+    0.084
+   ]
+  },
+  "axial_factor": 0.86,
+  "tube_radius_m": 0.05,
+  "tube_length_m": 0.1,
+  "pump": "TM020",
+  "signal": "TE011",
+  "n": 80,
+  "n_check": 40,
+  "order": 3,
+  "wall": "smooth",
+  "subdiv": 4
+ },
+ "fingerprint": {
+  "srf_py_sha256": "806f1b730b839097aac077785d74d5e915c063e936885fe20ad61b5197eae76c",
+  "git_describe": "04b257118461",
+  "dirty": false
+ },
+ "figures_of_merit": {
+  "f_pump_Hz": 1416510381.2313464,
+  "f_signal_Hz": 1416530690.828624,
+  "splitting_Hz": 20309.597277641296,
+  "V_m3": 0.017062847448197874,
+  "xi_pump": 7.642980703551237,
+  "xi_signal": 7.6430902868357276,
+  "eta_10": 0.4492115766111113,
+  "G_pump_ohm": 524.4740275110354,
+  "G_signal_ohm": 604.4785472926995,
+  "Bpk_over_B0": 1.4640064777921826,
+  "B_equator_over_B0": 1.4038818907680757,
+  "Epk_over_cB0": 1.8430904075139134,
+  "A_over_V23": 6.182226853321626,
+  "Bpk_at_rz_m": [
+   0.07768820179723156,
+   -0.07436885624431146
+  ],
+  "Epk_at_rz_m": [
+   0.052737753884007185,
+   0.08349861458567259
+  ],
+  "Bpk_over_B0_face_rms": 1.4639555595906866,
+  "Epk_over_cB0_face_rms": 1.8421870757111725,
+  "mesh": {
+   "h_over_Req": 0.0125,
+   "order": 3,
+   "wall": "smooth",
+   "elements": 52878
+  },
+  "checks": {
+   "int_E1^2 (1 expected)": 0.9999646688393117,
+   "int_E0^2 (1 expected)": 0.9999679935271611,
+   "c^2 int B0^2 (1 expected at resonance)": 0.9999667863731388,
+   "c^2 int B1^2 (1 expected)": 0.9999675168086395,
+   "n_wall_points": 5782,
+   "subdiv": 4,
+   "volume_contour_vs_solver": -2.0329726790890845e-10
+  },
+  "seconds": 19.750791549682617
+ },
+ "convergence_check": {
+  "f_pump_Hz": 1416510386.8599691,
+  "f_signal_Hz": 1416530693.0981092,
+  "splitting_Hz": 20306.2381401062,
+  "V_m3": 0.017062847500067077,
+  "xi_pump": 7.642980741665871,
+  "xi_signal": 7.6430903068257745,
+  "eta_10": 0.4492167692452804,
+  "G_pump_ohm": 524.474029914015,
+  "G_signal_ohm": 604.478497247147,
+  "Bpk_over_B0": 1.4640035430801452,
+  "B_equator_over_B0": 1.403942273783794,
+  "Epk_over_cB0": 1.8451589714999956,
+  "A_over_V23": 6.18222684079276,
+  "Bpk_at_rz_m": [
+   0.0776559017233917,
+   -0.07437257827410096
+  ],
+  "Epk_at_rz_m": [
+   0.05278107111359307,
+   -0.08345478425101976
+  ],
+  "Bpk_over_B0_face_rms": 1.4636313934218637,
+  "Epk_over_cB0_face_rms": 1.838777874678604,
+  "mesh": {
+   "h_over_Req": 0.025,
+   "order": 3,
+   "wall": "smooth",
+   "elements": 23259
+  },
+  "checks": {
+   "int_E1^2 (1 expected)": 0.9998592418860053,
+   "int_E0^2 (1 expected)": 0.9998809500593466,
+   "c^2 int B0^2 (1 expected at resonance)": 0.9998807897056705,
+   "c^2 int B1^2 (1 expected)": 0.9998828908103681,
+   "n_wall_points": 2905,
+   "subdiv": 4,
+   "volume_contour_vs_solver": -3.2431886065609206e-09
+  },
+  "seconds": 9.17655611038208
+ },
+ "rel_diff_check_vs_ref": {
+  "f_pump_Hz": 3.973583906358158e-09,
+  "f_signal_Hz": 1.60214330691133e-09,
+  "V_m3": 3.0398914496743146e-09,
+  "xi_pump": 4.986880686175255e-09,
+  "xi_signal": 2.6154403087730316e-09,
+  "eta_10": 1.1559439781816394e-05,
+  "G_pump_ohm": 4.581694135197267e-09,
+  "G_signal_ohm": -8.279127994281765e-08,
+  "Bpk_over_B0": -2.0045758553077775e-06,
+  "B_equator_over_B0": 4.3011464223141616e-05,
+  "Epk_over_cB0": 0.0011223345190496392,
+  "A_over_V23": -2.0265943367903105e-09
+ },
+ "generated": {
+  "by": "benchmarks/srf/srf_geometry_record.py",
+  "axionfem": "0.1.0",
+  "git": "04b25711",
+  "date": "2026-11-08"
+ }
+}

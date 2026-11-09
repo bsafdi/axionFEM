@@ -1,0 +1,196 @@
+{
+ "id": "chem_analytic_adiabatic",
+ "capability": "C1c",
+ "title": "Liquid adiabatic batch with Arrhenius: conversion vs quadrature reference; exact linear invariant",
+ "physics": "constant V, constant rho c_p, Delta H (a constant-volume gas would need c_v and Delta U: not this case)",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c1_kinetics",
+   "function": "analytic_adiabatic",
+   "check_module": "c1_kinetics_check",
+   "cost": "short",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "case": {
+    "A": "4000000",
+    "Ea": "45000",
+    "dH": "-60000",
+    "rhocp": "4000000",
+    "A0": "1000",
+    "T0": "300"
+   },
+   "t_out": [
+    5,
+    10,
+    20,
+    40,
+    80
+   ],
+   "adaptive": {
+    "methods": {
+     "bdf2": "bdf2_adaptive",
+     "onestep": "onestep_adaptive"
+    },
+    "rtol": 1e-08,
+    "atol": [
+     1e-06,
+     1e-06,
+     1e-08
+    ]
+   },
+   "output_policy": {
+    "rule": "stop_time",
+    "text": "Adaptive runs: the solver steps EXACTLY to every fixed output time (stop-time mode: each output time is an accepted step end) and reports the state there; no interpolated outputs for any compared value. Dense output is used only where an item says so (dense-output query times, maxima located on the dense output, event location)."
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "A5_X_t5": {
+    "kind": "scalar",
+    "source": "quadrature_c1",
+    "value": 0.2834677533813164,
+    "unit": "1",
+    "uncertainty_kind": "exact"
+   },
+   "A5_X_t10": {
+    "kind": "scalar",
+    "source": "quadrature_c1",
+    "value": 0.5297411852560181,
+    "unit": "1",
+    "uncertainty_kind": "exact"
+   },
+   "A5_X_t20": {
+    "kind": "scalar",
+    "source": "quadrature_c1",
+    "value": 0.8410685754528576,
+    "unit": "1",
+    "uncertainty_kind": "exact"
+   },
+   "A5_X_t40": {
+    "kind": "scalar",
+    "source": "quadrature_c1",
+    "value": 0.9886119711462029,
+    "unit": "1",
+    "uncertainty_kind": "exact"
+   },
+   "A5_X_t80": {
+    "kind": "scalar",
+    "source": "quadrature_c1",
+    "value": 0.9999540923286432,
+    "unit": "1",
+    "uncertainty_kind": "exact"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "comparisons": [
+   {
+    "quantity": "A5_X_t5__bdf2",
+    "reference": "A5_X_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2631080381630966e-05
+    }
+   },
+   {
+    "quantity": "A5_X_t5__onestep",
+    "reference": "A5_X_t5",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 4.844678880289166e-08
+    }
+   },
+   {
+    "quantity": "A5_X_t10__bdf2",
+    "reference": "A5_X_t10",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2631080381630966e-05
+    }
+   },
+   {
+    "quantity": "A5_X_t10__onestep",
+    "reference": "A5_X_t10",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 4.844678880289166e-08
+    }
+   },
+   {
+    "quantity": "A5_X_t20__bdf2",
+    "reference": "A5_X_t20",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2631080381630966e-05
+    }
+   },
+   {
+    "quantity": "A5_X_t20__onestep",
+    "reference": "A5_X_t20",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 4.844678880289166e-08
+    }
+   },
+   {
+    "quantity": "A5_X_t40__bdf2",
+    "reference": "A5_X_t40",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2631080381630966e-05
+    }
+   },
+   {
+    "quantity": "A5_X_t40__onestep",
+    "reference": "A5_X_t40",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 4.844678880289166e-08
+    }
+   },
+   {
+    "quantity": "A5_X_t80__bdf2",
+    "reference": "A5_X_t80",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 1.2631080381630966e-05
+    }
+   },
+   {
+    "quantity": "A5_X_t80__onestep",
+    "reference": "A5_X_t80",
+    "level": "analytic",
+    "tolerance": {
+     "abs": 4.844678880289166e-08
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "A5_invariant_abs",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 315.0,
+    "scale_quantity": "A5_invariant_scale"
+   },
+   {
+    "quantity": "outputs_at_step_ends_min",
+    "level": "analytic",
+    "min": 1.0
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-08,
+   "residual_key": "relative_residual"
+  }
+ }
+}

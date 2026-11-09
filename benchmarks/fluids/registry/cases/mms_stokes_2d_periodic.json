@@ -1,0 +1,380 @@
+{
+ "id": "mms_stokes_2d_periodic",
+ "capability": "F1a",
+ "title": "MMS, periodic in x with a prescribed pressure drop, and with a prescribed flow rate",
+ "physics": "p = p_per - G x, G = 2 per period; flow-rate variant: Q prescribed, G a Lagrange multiplier",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1a_stokes",
+   "function": "mms_periodic",
+   "check_module": "f1a_stokes_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "forms": [
+    "lap",
+    "sym"
+   ],
+   "quadrature_error_norms": 10,
+   "solver": {
+    "kind": "direct sparse LU",
+    "tight": "same, plus 2 steps of iterative refinement (vacuous for a direct solve; meaningful only for an iterative solver)"
+   },
+   "pressure_constant_treatment": "the residual reported is that of the consistent system solved; the measured flux defect is reported",
+   "mms_data": {
+    "dp": {
+     "path": "tools/fluids_mms/out/per_dp.json",
+     "sha256": "9a43d595a92b0a1b0ba811c9bbf3dcd7ba3c0878d1a6e75c90d6e4985b8794a2"
+    },
+    "q": {
+     "path": "tools/fluids_mms/out/per_q.json",
+     "sha256": "4f24976401b263385ece761f1cc4be604dee460ccf1b1a84e7fc92342311ca1a"
+    }
+   },
+   "meshes": {
+    "structured": {
+     "family": "structured",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(N): the N = 8 BASE mesh (8 x 8 squares split along the (1,1) diagonal, except the two cells at the corners (1,0) and (0,1), split the other way: no triangle with all vertices on the boundary) refined uniformly (red) log2(N/8) times. Nested; the flipped region of level N is a (N/8) x (N/8) block at each of those corners. The check module verifies counts, hash and nestedness.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too",
+     "periodic": "x: nodes on x=0 and x=1 identified"
+    }
+   },
+   "pressure_drop_per_period": 2.0,
+   "flow_rate_Q": "sin(2)/250 + 1/50",
+   "shared_node_rule": "At a velocity node shared by several boundary attributes: (1) Dirichlet beats every natural condition (traction, do-nothing) and every slip/symmetry constraint (the slip constraint is not imposed at such nodes); (2) between Dirichlet attributes the fixed data AGREE at shared nodes (checked: dirichlet_shared_node_mismatch_max), so no precedence between them is needed and the result is independent of attribute order; (3) between two slip/symmetry attributes both normal constraints are imposed (u = 0 at a convex corner); (4) a periodic pair at a Dirichlet corner takes the (periodic-consistent) Dirichlet value."
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "lap_struct_dp_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.103325,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_dp_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.103325,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_dp_pL2m",
+    "level": "mms",
+    "norm": "||(p~_h - mean) - (p_per - mean)||_L2 with p~_h the periodic part of the discrete pressure (total p_h = p~_h - G x, G prescribed (dp) or computed (q))",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.920238,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_dp_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.103325,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_dp_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.103325,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_dp_pL2m",
+    "level": "mms",
+    "norm": "||(p~_h - mean) - (p_per - mean)||_L2 with p~_h the periodic part of the discrete pressure (total p_h = p~_h - G x, G prescribed (dp) or computed (q))",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.920238,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_q_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.103325,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_q_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.103325,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_q_pL2m",
+    "level": "mms",
+    "norm": "||(p~_h - mean) - (p_per - mean)||_L2 with p~_h the periodic part of the discrete pressure (total p_h = p~_h - G x, G prescribed (dp) or computed (q))",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.920238,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_q_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.103325,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_q_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.103325,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_q_pL2m",
+    "level": "mms",
+    "norm": "||(p~_h - mean) - (p_per - mean)||_L2 with p~_h the periodic part of the discrete pressure (total p_h = p~_h - G x, G prescribed (dp) or computed (q))",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.920238,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "q_G_rel_err_finest_max",
+    "level": "mms",
+    "abs_max": 0.001
+   },
+   {
+    "quantity": "nullspace_detected",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "dirichlet_shared_node_mismatch_max",
+    "level": "mms",
+    "abs_max": 1e-14
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,82 @@
+{
+ "id": "cons_heat_balance",
+ "capability": "F4a",
+ "title": "Discrete energy balance of the coupled Boussinesq solution (v = 1): variational Dirichlet flux + natural outflow - int Q + int rho0 c_p u_h.grad T_h = 0 (planar and axisymmetric, lap/sym, Galerkin/SUPG)",
+ "physics": "rho0 (u.grad)u - div sigma_form = f_u + rho0 beta g (T - T_ref) e_up, div u = 0, rho0 c_p u.grad T - div(k grad T) = Q",
+ "levels": [
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f4a_heat",
+   "function": "bous_balance",
+   "check_module": "f4a_heat_check",
+   "cost": "long",
+   "timeout_s": 1800
+  },
+  "parameters": {
+   "fields": {
+    "bous_sq": {
+     "path": "tools/fluids_mms/out/bous_sq.json",
+     "sha256": "1698f275bd257006e89586fa686f1c7c6c1762071db2b85d4bdee4e522493c7c"
+    },
+    "bous_axi": {
+     "path": "tools/fluids_mms/out/bous_axi.json",
+     "sha256": "84e25e853720959e9ad516569280d547410b9ae2a6d828795297fc2f9655ea36"
+    }
+   },
+   "levels_N": [
+    8,
+    16,
+    32
+   ],
+   "meshes": {
+    "unit": {
+     "family": "unit",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "scalar_transport_check.box_mesh(8, 8, k), k = 0..4, on [0,1]^2 in (x, y): 8 x 8 squares split along the (1,1) diagonal except the two cells at the corners (1,0) and (0,1) (split the other way: no triangle with all vertices on the boundary), refined uniformly (red) k times (identical to the fixed F1a structured_mesh(N), N = 8 * 2^k). Nested.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    }
+   },
+   "variants": "lap/sym x Galerkin/SUPG",
+   "nonlinear_solver": "as mms_boussinesq_2d",
+   "dirichlet_data": "P2 (P1) Lagrange NODAL interpolation of the fixed callables at the vertices and edge midpoints of the Dirichlet boundary parts; at a node shared by two Dirichlet parts the data agree (one exact callable per field); Dirichlet beats every natural condition at a shared node",
+   "flux_definition": "q_D = -R. w over the UNION of the Dirichlet temperature parts; natural_out by the check module from the fixed Robin / Neumann data and T_h"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "bous_sq_balance_defect_max",
+    "level": "conservation",
+    "max": 1e-10
+   },
+   {
+    "quantity": "bous_axi_balance_defect_max",
+    "level": "conservation",
+    "max": 1e-10
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,511 @@
+{
+ "id": "chem_mms_c3_galvanostatic_2d",
+ "capability": "C3a",
+ "title": "MMS, galvanostatic kinetic electrode (phi_s unknown, bordered system), grounded counter",
+ "physics": "as chem_mms_c3_bv_2d with int i_n dA = I on the anode",
+ "levels": [
+  "mms",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "c3_current_distribution",
+   "function": "mms_galvanostatic",
+   "check_module": "c3_checks",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "field": {
+    "path": "benchmarks/chem/casedata/c3/mms_bv2d.json",
+    "sha256": "5a81e225206beb5390ca4563fe5e2c786703a41c72e4efe6ebae215ee8e00746"
+   },
+   "control": "anode galvanostatic (exact current per unit depth from galvanostatic_I_exact), cathode potentiostatic at its manufactured phi_s (the ground)",
+   "initial_phi_s": "manufactured value + 0.02 V",
+   "meshes": {
+    "p1_struct": {
+     "family": "bv2d_struct_p1",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625,
+      7.8125e-05
+     ],
+     "levels": [
+      {
+       "name": "p1_struct_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "74975e5d25d12aa0",
+       "connectivity_hash": "715527f07411437f"
+      },
+      {
+       "name": "p1_struct_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "9a9e611e9d41065f",
+       "connectivity_hash": "e38e9617367a01eb"
+      },
+      {
+       "name": "p1_struct_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "95203f415b742553",
+       "connectivity_hash": "d5c1f5f473ff6547"
+      },
+      {
+       "name": "p1_struct_64",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "12b6a3ec2cd12e68",
+       "connectivity_hash": "b216ae5f54773251"
+      },
+      {
+       "name": "p1_struct_128",
+       "n_elements": 32768,
+       "hash_scale": 0.01,
+       "vertex_hash": "51eaa74d253980ff",
+       "connectivity_hash": "2acefadab9be568e"
+      }
+     ]
+    },
+    "p2_struct": {
+     "family": "bv2d_struct_p2",
+     "N": [
+      4,
+      8,
+      16,
+      32,
+      64
+     ],
+     "h_nominal": [
+      0.0025,
+      0.00125,
+      0.000625,
+      0.0003125,
+      0.00015625
+     ],
+     "levels": [
+      {
+       "name": "p2_struct_4",
+       "n_elements": 32,
+       "hash_scale": 0.01,
+       "vertex_hash": "5d51020794e08935",
+       "connectivity_hash": "e50370e20e2713d5"
+      },
+      {
+       "name": "p2_struct_8",
+       "n_elements": 128,
+       "hash_scale": 0.01,
+       "vertex_hash": "74975e5d25d12aa0",
+       "connectivity_hash": "715527f07411437f"
+      },
+      {
+       "name": "p2_struct_16",
+       "n_elements": 512,
+       "hash_scale": 0.01,
+       "vertex_hash": "9a9e611e9d41065f",
+       "connectivity_hash": "e38e9617367a01eb"
+      },
+      {
+       "name": "p2_struct_32",
+       "n_elements": 2048,
+       "hash_scale": 0.01,
+       "vertex_hash": "95203f415b742553",
+       "connectivity_hash": "d5c1f5f473ff6547"
+      },
+      {
+       "name": "p2_struct_64",
+       "n_elements": 8192,
+       "hash_scale": 0.01,
+       "vertex_hash": "12b6a3ec2cd12e68",
+       "connectivity_hash": "b216ae5f54773251"
+      }
+     ]
+    }
+   },
+   "newton": {
+    "criterion": "iterate TO STAGNATION: stop once relres <= stag and an iteration did not halve it (or relres is exactly 0); at most max_iter iterations; no early exit at a tolerance; converged = final relres <= the solver gate",
+    "relres": "max(field, constraint): field = |r_u|_2 / (|P^T |K| |phi||_2 + |P^T (|F_v| + |F_b|)|_2 + |P^T b_abs|_2), r_u the residual of the free (non-Dirichlet) dofs, P the elimination map, K the stiffness, F_v/F_b the volume/insulator loads, b_abs = int (sum_j |i_j| + |g|) v over the kinetic electrodes; constraint = max over galvanostatic electrodes |I_k,h - I_k| / |I_k| (bordered rows, per radian in axisymmetry: the 3D total divided by 2 pi)",
+    "stag": 1e-13,
+    "max_iter": 60,
+    "limiter": "if max |d eta| over the kinetic electrodes' quadrature points exceeds 10 RT/F, the whole step is scaled to 10 RT/F and accepted without line search",
+    "line_search": "full Newton steps: halving down to 1/64 until |r| < (1 - 1e-4 t)|r_0|",
+    "clamp": "exponent arguments clipped at |200|; a clamp active at the final iterate = not converged",
+    "initial": "phi = 0; phi_s as given; galvanostatic phi_s initial as stated per case"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "bv_sym_p1_struct_phis",
+    "level": "mms",
+    "norm": "|phi_s,h - phi_s|: the solved anode metal potential under galvanostatic control",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.26,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p1_struct_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0007326290182352304,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_struct_phis",
+    "level": "mms",
+    "norm": "|phi_s,h - phi_s|: the solved anode metal potential under galvanostatic control",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.26,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "bv_sym_p2_struct_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0007326290182352304,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "multi_p1_struct_phis",
+    "level": "mms",
+    "norm": "|phi_s,h - phi_s|: the solved anode metal potential under galvanostatic control",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.26,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "multi_p1_struct_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0007326290182352304,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "multi_p2_struct_phis",
+    "level": "mms",
+    "norm": "|phi_s,h - phi_s|: the solved anode metal potential under galvanostatic control",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.26,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "multi_p2_struct_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0007326290182352304,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "tafel_p1_struct_phis",
+    "level": "mms",
+    "norm": "|phi_s,h - phi_s|: the solved anode metal potential under galvanostatic control",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.28,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "tafel_p1_struct_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p1_struct.h_nominal",
+    "expected_order": 2,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0007326290182352304,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "tafel_p2_struct_phis",
+    "level": "mms",
+    "norm": "|phi_s,h - phi_s|: the solved anode metal potential under galvanostatic control",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 4,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-13,
+    "solution_scale": 0.28,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   },
+   {
+    "series": "tafel_p2_struct_L2",
+    "level": "mms",
+    "norm": "||phi - phi_h||_L2",
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.p2_struct.h_nominal",
+    "expected_order": 3,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-11,
+    "solution_scale": 0.0007326290182352304,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4,
+    "mesh_family": {
+     "kind": "nested"
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "bv_sym_p1_struct_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1.68,
+    "scale_quantity": "bv_sym_p1_struct_I_scale"
+   },
+   {
+    "quantity": "bv_sym_p2_struct_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1.68,
+    "scale_quantity": "bv_sym_p2_struct_I_scale"
+   },
+   {
+    "quantity": "multi_p1_struct_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1.68,
+    "scale_quantity": "multi_p1_struct_I_scale"
+   },
+   {
+    "quantity": "multi_p2_struct_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1.68,
+    "scale_quantity": "multi_p2_struct_I_scale"
+   },
+   {
+    "quantity": "tafel_p1_struct_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1.68,
+    "scale_quantity": "tafel_p1_struct_I_scale"
+   },
+   {
+    "quantity": "tafel_p2_struct_balance_abs_max",
+    "level": "conservation",
+    "kind": "identity",
+    "bound_kind": "roundoff",
+    "c": 1000.0,
+    "scale": 1.68,
+    "scale_quantity": "tafel_p2_struct_I_scale"
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-12,
+   "residual_key": "relative_residual"
+  },
+  "solver_sensitivity": [
+   {
+    "quantity": "bv_sym_p2_struct_phis_finest",
+    "tight_quantity": "bv_sym_p2_struct_phis_finest_plus1",
+    "level": "mms",
+    "abs_max": 5.23e-12
+   },
+   {
+    "quantity": "multi_p2_struct_phis_finest",
+    "tight_quantity": "multi_p2_struct_phis_finest_plus1",
+    "level": "mms",
+    "abs_max": 5.77e-12
+   },
+   {
+    "quantity": "tafel_p2_struct_phis_finest",
+    "tight_quantity": "tafel_p2_struct_phis_finest_plus1",
+    "level": "mms",
+    "abs_max": 4.59e-12
+   }
+  ]
+ }
+}

@@ -1,0 +1,80 @@
+{
+  "case": "toroid_slit6_h0.22",
+  "slit_deg": 6.0,
+  "order_3d": 2,
+  "seconds_2d": 3.3945722579956055,
+  "seconds_3d": 9155.066943407059,
+  "dofs_3d": 1640512,
+  "elements_3d": 254276,
+  "open_boundary": "infinity shell",
+  "domain_radius": 2.9988042753535638,
+  "timing_3d": {
+    "mesh_s": 190.936143495,
+    "pickup_s": 2935.1647567170003,
+    "post_s": 34.28691801900095,
+    "setup_s": 120.439589479,
+    "static_s": 5873.7664421009995,
+    "total_s": 9154.593851236
+  },
+  "solver_3d": {
+    "max_relative_residual": 1.844946234535707e-06,
+    "pcg_iterations_total": 2400
+  },
+  "warnings_3d": [
+    "3D linear solve did not converge (800 AMS-PCG iterations, relative residual 1.84495e-06); results are NOT reliable"
+  ],
+  "Psi_SI_H_T_m2": {
+    "2d": 5.212513778550136e-08,
+    "3d": 5.356227957542822e-08,
+    "rel_diff": 0.027570992633934067
+  },
+  "L_p_H": {
+    "2d": 4.253043339273614e-07,
+    "3d": 4.3451419023183143e-07,
+    "rel_diff": 0.021654743603066618
+  },
+  "W_mag_J": {
+    "2d": 57330.08859351358,
+    "3d": 57277.777920779794,
+    "rel_diff": -0.0009124470939629026
+  },
+  "g_factor": {
+    "2d": 0.05335763864892282,
+    "3d": 0.055196630832923796,
+    "rel_diff": 0.03446539671856532
+  },
+  "bodies_3d_static": [
+    {
+      "betti1": 1,
+      "elements": 40933,
+      "generators": [
+        {
+          "azimuthal_period": -9.33339475814821e-08,
+          "constraint": "net current",
+          "fluxoid_coefficient": 0.12246696387022961,
+          "net_current_A": 7.95118341584411e-08
+        }
+      ],
+      "names": [
+        "sheath"
+      ]
+    }
+  ],
+  "bodies_3d_pickup": [
+    {
+      "betti1": 1,
+      "elements": 40933,
+      "generators": [
+        {
+          "azimuthal_period": -9.33339475814821e-08,
+          "constraint": "fixed fluxoid",
+          "fluxoid_coefficient": 0.0,
+          "net_current_A": 4.557336860873145e-06
+        }
+      ],
+      "names": [
+        "sheath"
+      ]
+    }
+  ]
+}

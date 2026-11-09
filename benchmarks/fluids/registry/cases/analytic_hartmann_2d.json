@@ -1,0 +1,943 @@
+{
+ "id": "analytic_hartmann_2d",
+ "capability": "F13a",
+ "title": "Hartmann flow: Ha sweep 0-1000 with thin layers on layer-adapted nested meshes; short/open circuit; in-plane (J_z) and duct (phi) pathways; two-layer conductivity",
+ "physics": "Fully developed channel flow between Hartmann walls y = +-1, B = (0, B0, 0)",
+ "levels": [
+  "analytic",
+  "conservation"
+ ],
+ "run": {
+  "runner": {
+   "module": "f13a_mhd",
+   "function": "hartmann",
+   "check_module": "f13a_mhd_check",
+   "cost": "long",
+   "timeout_s": 7200
+  },
+  "parameters": {
+   "formulation": "2.5D planar inductionless MHD (u = (u_x, u_y, u_z) independent of z; J = sigma(-grad phi + E_z e_z + u x B); Lorentz force J x B; conservative potential equation (J, grad psi) = <j_n, psi> - (q, psi))",
+   "element": {
+    "velocity": "P2 (all three components)",
+    "pressure": "P1",
+    "potential": "P2 Lagrange",
+    "geometry": "affine (straight-sided)"
+   },
+   "viscous_form": "lap (mu constant: both forms coincide with Dirichlet data)",
+   "quadrature_error_norms": 10,
+   "dirichlet_data": "P2 Lagrange NODAL interpolation of the fixed callables (velocity and potential)",
+   "solver": {
+    "kind": "direct sparse LU (Newton for rho > 0)",
+    "tight": "same, plus 2 steps of iterative refinement / Newton to 1e-14 (vacuous for a direct linear solve; meaningful for an iterative path)"
+   },
+   "shared_node_rule": "At a node shared by several boundary attributes: (1) velocity Dirichlet beats every natural velocity condition; potential Dirichlet beats insulation and normal-current data; (2) between Dirichlet attributes the fixed data AGREE at shared nodes (one exact callable per MMS field; the Hartmann/duct data vanish or are consistent at the corners), checked by dirichlet_shared_node_mismatch, so the result is independent of attribute order.",
+   "series_magnitude_keys": {
+    "uL2": "u_magnitude",
+    "uH1": "u_magnitude",
+    "divL2": "u_magnitude",
+    "pL2": "p_magnitude",
+    "phiL2": "phi_magnitude",
+    "phiH1": "phi_magnitude",
+    "JL2": "J_magnitude"
+   },
+   "meshes": {
+    "strip": {
+     "family": "strip_Ha<Ha>",
+     "Ha": [
+      0.0,
+      1.0,
+      10.0,
+      100.0,
+      1000.0
+     ],
+     "k": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "h_nominal": [
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125,
+      0.00390625
+     ],
+     "construction": "f13a_mhd_check.hartmann_strip_mesh(Ha, k): base 2 x 16 cells on [0, 0.25] x [-1, 1], y nodes graded_nodes(16, 1, 1/Ha) (first interval = Hartmann-layer thickness); uniform for Ha = 0; corner cells flipped (Taylor-Hood condition); k red refinements (NESTED: the grading is fixed by the base mesh)",
+     "h_definition": "h_nominal = 1/(16 * 2^k) (computational, base intervals halved per refinement); h_max reported"
+    }
+   },
+   "physical": {
+    "mu": 0.5,
+    "sigma": 2.0,
+    "G": 1.0,
+    "a": 1.0,
+    "LX": 0.25,
+    "B": "(0, B0, 0), B0 = Ha/2"
+   },
+   "variants": {
+    "inplane_short": {
+     "Ha": [
+      0.0,
+      1.0,
+      10.0,
+      100.0,
+      1000.0
+     ],
+     "E_z": 0.0,
+     "velocity": "u = 0 on y = +-1; traction g = (G LX, 0, 0) on x = 0, do-nothing on x = LX",
+     "potential": "insulating everywhere"
+    },
+    "inplane_open": {
+     "Ha": [
+      10.0,
+      100.0
+     ],
+     "E_z": {
+      "Ha10": -0.9000000041223072,
+      "Ha100": -0.9899999999999991
+     },
+     "velocity": "as inplane_short",
+     "potential": "insulating everywhere"
+    },
+    "duct_open": {
+     "Ha": [
+      10.0,
+      100.0
+     ],
+     "G_z": 1.0,
+     "velocity": "Dirichlet: 0 on y = +-1, (0, 0, W(y)) on x = 0 and x = LX (exact, nodal)",
+     "potential": {
+      "x0": 0.0,
+      "x1": {
+       "Ha10": -0.2250000010305768,
+       "Ha100": -0.24749999999999978
+      },
+      "y0 y1": "insulating"
+     }
+    },
+    "duct_jn": {
+     "Ha": [
+      10.0,
+      100.0
+     ],
+     "G_z": 1.0,
+     "velocity": "as duct_open",
+     "potential": {
+      "x0": "normal current density j_n = -sigma(E_x - B0 W(y)) (outward n = -e_x)",
+      "x1": "normal current density j_n = +sigma(E_x - B0 W(y)) (outward n = +e_x)",
+      "y0 y1": "insulating",
+      "E_x": "as duct_open (open circuit)",
+      "gauge": "nullspace: compared mean-free"
+     }
+    },
+    "twolayer": {
+     "Ha": [
+      10.0
+     ],
+     "sigma": {
+      "y<0": 2.0,
+      "y>0": 0.5
+     },
+     "E_z": 0.0,
+     "velocity": "as inplane_short",
+     "potential": "insulating everywhere"
+    }
+   },
+   "probe": {
+    "center": [
+     0.0,
+     0.0
+    ]
+   }
+  }
+ },
+ "reference": {
+  "quantities": {
+   "inplane_short_Ha1_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.9536233761769406,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "unit": "1",
+    "locator": "analytic_reference.json: hartmann.inplane_short_Ha1.Q"
+   },
+   "inplane_short_Ha10_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.03600000001648923,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "unit": "1",
+    "locator": "analytic_reference.json: hartmann.inplane_short_Ha10.Q"
+   },
+   "inplane_short_Ha100_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.000396,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "unit": "1",
+    "locator": "analytic_reference.json: hartmann.inplane_short_Ha100.Q"
+   },
+   "inplane_short_Ha1000_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 3.996e-06,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "unit": "1",
+    "locator": "analytic_reference.json: hartmann.inplane_short_Ha1000.Q"
+   },
+   "twolayer_Ha10_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.07621441338818014,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "unit": "1",
+    "locator": "f13a_mhd_series.HartmannTwoLayer.Q()"
+   },
+   "inplane_open_Ha10_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.3600000016489229,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "unit": "1",
+    "locator": "analytic_reference.json: hartmann.inplane_open_Ha10.Q"
+   },
+   "duct_open_Ha10_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.3600000016489229,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "unit": "1",
+    "locator": "analytic_reference.json: hartmann.duct_open_Ha10.Q"
+   },
+   "duct_jn_Ha10_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.3600000016489229,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "unit": "1",
+    "locator": "analytic_reference.json: hartmann.duct_open_Ha10.Q"
+   },
+   "inplane_open_Ha100_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.03959999999999996,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "unit": "1",
+    "locator": "analytic_reference.json: hartmann.inplane_open_Ha100.Q"
+   },
+   "duct_open_Ha100_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.03959999999999996,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "unit": "1",
+    "locator": "analytic_reference.json: hartmann.duct_open_Ha100.Q"
+   },
+   "duct_jn_Ha100_Q": {
+    "kind": "scalar",
+    "source": "closed_form",
+    "value": 0.03959999999999996,
+    "uncertainty": 0.0,
+    "uncertainty_kind": "exact",
+    "unit": "1",
+    "locator": "analytic_reference.json: hartmann.duct_open_Ha100.Q"
+   }
+  },
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "inplane_short_Ha1_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.703891,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "inplane_short_Ha1_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.703891,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "inplane_short_Ha10_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0199982,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "inplane_short_Ha10_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0199982,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "inplane_short_Ha100_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0002,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "inplane_short_Ha100_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0002,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "inplane_short_Ha1000_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2e-06,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "twolayer_Ha10_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0707468,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "twolayer_Ha10_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.0707468,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "twolayer_Ha10_JL2",
+    "level": "analytic",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.396226,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_open_Ha10_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.199982,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_open_Ha10_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.199982,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_open_Ha10_JL2",
+    "level": "analytic",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.79871,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_jn_Ha10_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.199982,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_jn_Ha10_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.199982,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_jn_Ha10_JL2",
+    "level": "analytic",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.79871,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_open_Ha100_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.02,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_open_Ha100_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.02,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_open_Ha100_JL2",
+    "level": "analytic",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.97871,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_jn_Ha100_uL2",
+    "level": "analytic",
+    "norm": "||u - u_h||_L2 over the 3 velocity components, degree-10 element quadrature, exact u at the quadrature points",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.02,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_jn_Ha100_uH1",
+    "level": "analytic",
+    "norm": "|u - u_h|_H1 seminorm over all 6 gradient components (d/dx, d/dy of u_x, u_y, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.02,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "duct_jn_Ha100_JL2",
+    "level": "analytic",
+    "norm": "||J_h - J||_L2, J_h = sigma(-grad phi_h + E_z e_z + u_h x B) recomputed by the check module (exact sigma, B)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.strip.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 1.97871,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "comparisons": [
+   {
+    "quantity": "inplane_short_Ha1_Q_h_finest",
+    "reference": "inplane_short_Ha1_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-10
+    }
+   },
+   {
+    "quantity": "inplane_short_Ha10_Q_h_finest",
+    "reference": "inplane_short_Ha10_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-08
+    }
+   },
+   {
+    "quantity": "inplane_short_Ha100_Q_h_finest",
+    "reference": "inplane_short_Ha100_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-08
+    }
+   },
+   {
+    "quantity": "inplane_short_Ha1000_Q_h_finest",
+    "reference": "inplane_short_Ha1000_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-09
+    }
+   },
+   {
+    "quantity": "twolayer_Ha10_Q_h_finest",
+    "reference": "twolayer_Ha10_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-08
+    }
+   },
+   {
+    "quantity": "inplane_open_Ha10_Q_h_finest",
+    "reference": "inplane_open_Ha10_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-08
+    }
+   },
+   {
+    "quantity": "duct_open_Ha10_Q_h_finest",
+    "reference": "duct_open_Ha10_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-08
+    }
+   },
+   {
+    "quantity": "duct_jn_Ha10_Q_h_finest",
+    "reference": "duct_jn_Ha10_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-08
+    }
+   },
+   {
+    "quantity": "inplane_open_Ha100_Q_h_finest",
+    "reference": "inplane_open_Ha100_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-08
+    }
+   },
+   {
+    "quantity": "duct_open_Ha100_Q_h_finest",
+    "reference": "duct_open_Ha100_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 3e-09
+    }
+   },
+   {
+    "quantity": "duct_jn_Ha100_Q_h_finest",
+    "reference": "duct_jn_Ha100_Q",
+    "level": "analytic",
+    "tolerance": {
+     "rel": 1e-07
+    }
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "inplane_open_Ha10_net_axial_current_rel_finest",
+    "level": "analytic",
+    "abs_max": 3e-08
+   },
+   {
+    "quantity": "inplane_open_Ha100_net_axial_current_rel_finest",
+    "level": "analytic",
+    "abs_max": 1e-08
+   },
+   {
+    "quantity": "Ha0_patch_u_rel",
+    "level": "analytic",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "Ha0_patch_p_rel",
+    "level": "analytic",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "inplane_phi_spread_max",
+    "level": "analytic",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "phi_nullspace_detected_inplane",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "phi_nullspace_detected_duct",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "phi_nullspace_detected_duct_jn",
+    "level": "analytic",
+    "min": 1
+   },
+   {
+    "quantity": "axial_momentum_residual_max",
+    "level": "conservation",
+    "abs_max": 1e-09
+   },
+   {
+    "quantity": "nullspace_detected_inplane",
+    "level": "analytic",
+    "max": 0
+   },
+   {
+    "quantity": "layer_robustness_ratio",
+    "level": "analytic",
+    "abs_max": 7.0
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,334 @@
+{
+ "cost": {
+  "sc_wall_cap": 0.086
+ },
+ "description": "DMRadio-Core pickup (outer diameter 120 cm) around a 0.6 m coil instead of the published 2.95 m, so that the 3D full-wave domain is tractable; used only for the 3D-vs-axisymmetric port comparison; revolved to 3D with 2 readout port(s) of 30 degrees, equally spaced, the rest of the slit open.",
+ "mesh": {
+  "order": 2,
+  "size": 0.16,
+  "surface_size": 0.025
+ },
+ "name": "dmradio_core_reduced_120cm_3d_readout_n2",
+ "notes": "Dimensions and sources: benchmarks/published/sources.json, key 'dmradio_core'.",
+ "parameters": {
+  "H": 0.6,
+  "NI": 2419179.661016949,
+  "Rc": 0.185,
+  "a": 0.32,
+  "b": 0.6,
+  "cl": "0.05*Rc",
+  "f": 0.02,
+  "fl": 0.0015,
+  "gc": 0.06,
+  "gn": 0.06,
+  "h": 0.29,
+  "iron_dz": "0.02*Rc",
+  "iron_r0": "0",
+  "iron_r1": "b+w",
+  "iron_t": 0.0,
+  "tw": 0.11499999999999999,
+  "w": 0.005
+ },
+ "pickup": {
+  "type": "port",
+  "port": "neck_port0",
+  "toward": [
+   0.0,
+   0.0,
+   1.0
+  ]
+ },
+ "regions": [
+  {
+   "material": "winding",
+   "name": "coil_upper",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "Rc",
+        "Rc+tw"
+       ],
+       "z": [
+        "gc/2",
+        "H/2"
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "material": "winding",
+   "name": "coil_lower",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "Rc",
+        "Rc+tw"
+       ],
+       "z": [
+        "-H/2",
+        "-gc/2"
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "material": "nb",
+   "name": "cavity",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "union": [
+       {
+        "difference": [
+         {
+          "frame": {
+           "fillet": "f",
+           "r": [
+            "a-w",
+            "b+w"
+           ],
+           "thickness": "w",
+           "z": [
+            "-h/2-w",
+            "h/2+w"
+           ]
+          }
+         },
+         {
+          "rect": {
+           "r": [
+            "a-w",
+            "a"
+           ],
+           "z": [
+            "-gn/2-w",
+            "gn/2+w"
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "rect": {
+         "fillet": "fl",
+         "r": [
+          "a-w",
+          "a"
+         ],
+         "z": [
+          "gn/2",
+          "gn/2+2*w"
+         ]
+        }
+       },
+       {
+        "rect": {
+         "fillet": "fl",
+         "r": [
+          "a-w",
+          "a"
+         ],
+         "z": [
+          "-gn/2-2*w",
+          "-gn/2"
+         ]
+        }
+       }
+      ]
+     }
+    }
+   }
+  },
+  {
+   "enabled": "iron_t",
+   "material": "iron",
+   "name": "iron_cap_upper",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "iron_r0",
+        "iron_r1"
+       ],
+       "z": [
+        "h/2+w+iron_dz",
+        "h/2+w+iron_dz+iron_t"
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "enabled": "iron_t",
+   "material": "iron",
+   "name": "iron_cap_lower",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "iron_r0",
+        "iron_r1"
+       ],
+       "z": [
+        "-h/2-w-iron_dz-iron_t",
+        "-h/2-w-iron_dz"
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "neck_port0",
+   "material": "vacuum",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "a-w+fl",
+        "a-fl"
+       ],
+       "z": [
+        "-gn/2",
+        "gn/2"
+       ]
+      }
+     },
+     "angles": [
+      -15.0,
+      15.0
+     ]
+    }
+   },
+   "notes": "readout port 0: 30 degrees of the slit"
+  },
+  {
+   "name": "neck_port1",
+   "material": "vacuum",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "a-w+fl",
+        "a-fl"
+       ],
+       "z": [
+        "-gn/2",
+        "gn/2"
+       ]
+      }
+     },
+     "angles": [
+      165.0,
+      195.0
+     ]
+    }
+   },
+   "notes": "readout port 1: 30 degrees of the slit"
+  },
+  {
+   "name": "neck_gap0",
+   "material": "vacuum",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "a-w+fl",
+        "a-fl"
+       ],
+       "z": [
+        "-gn/2",
+        "gn/2"
+       ]
+      }
+     },
+     "angles": [
+      15.0,
+      165.0
+     ]
+    }
+   },
+   "notes": "open, undriven part of the slit"
+  },
+  {
+   "name": "neck_gap1",
+   "material": "vacuum",
+   "solid": {
+    "revolve": {
+     "profile": {
+      "rect": {
+       "r": [
+        "a-w+fl",
+        "a-fl"
+       ],
+       "z": [
+        "-gn/2",
+        "gn/2"
+       ]
+      }
+     },
+     "angles": [
+      195.0,
+      345.0
+     ]
+    }
+   },
+   "notes": "open, undriven part of the slit"
+  }
+ ],
+ "schema": "axionfem.design/1",
+ "superconductors": [
+  {
+   "azimuthal": {
+    "net_current": 0
+   },
+   "body": "cavity"
+  }
+ ],
+ "windings": [
+  {
+   "ampere_turns": "NI/2",
+   "name": "upper",
+   "region": "coil_upper",
+   "type": "azimuthal"
+  },
+  {
+   "ampere_turns": "NI/2",
+   "name": "lower",
+   "region": "coil_lower",
+   "type": "azimuthal"
+  }
+ ],
+ "symmetry": "3d",
+ "fullwave": {
+  "f_min": 70000000.0,
+  "f_max": 140000000.0,
+  "points": 4,
+  "boundary": "radiation",
+  "ports": [
+   {
+    "name": "port1",
+    "region": "neck_port1",
+    "toward": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,238 @@
+{
+ "id": "mms_stokes_2d_do_nothing",
+ "capability": "F1a",
+ "title": "MMS, homogeneous natural (do-nothing) outlet per viscous form, with a field built for each form",
+ "physics": "Field sq_do_nothing_lap has (mu G - pI) n = 0 on x=1 but (2 mu eps - pI) n != 0; field sq_do_nothing_sym the reverse. Each is solved with its own form.",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f1a_stokes",
+   "function": "mms_do_nothing",
+   "check_module": "f1a_stokes_check",
+   "cost": "long",
+   "timeout_s": 3600
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "forms": [
+    "lap",
+    "sym"
+   ],
+   "quadrature_error_norms": 10,
+   "solver": {
+    "kind": "direct sparse LU",
+    "tight": "same, plus 2 steps of iterative refinement (vacuous for a direct solve; meaningful only for an iterative solver)"
+   },
+   "pressure_constant_treatment": "the residual reported is that of the consistent system solved; the measured flux defect is reported",
+   "mms_data": {
+    "lap": {
+     "path": "tools/fluids_mms/out/sq_do_nothing_lap.json",
+     "sha256": "e69f5d8ab4d71329a5e04e4ff3100a606730f2771367e3dc933fb58e496df441"
+    },
+    "sym": {
+     "path": "tools/fluids_mms/out/sq_do_nothing_sym.json",
+     "sha256": "4d3b6bec1a69a35de1f226b3751cf95db9d8f51635f9403fd5c92ca29f2735a7"
+    }
+   },
+   "meshes": {
+    "structured": {
+     "family": "structured",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "f1a_stokes_check.structured_mesh(N): the N = 8 BASE mesh (8 x 8 squares split along the (1,1) diagonal, except the two cells at the corners (1,0) and (0,1), split the other way: no triangle with all vertices on the boundary) refined uniformly (red) log2(N/8) times. Nested; the flipped region of level N is a (N/8) x (N/8) block at each of those corners. The check module verifies counts, hash and nestedness.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    }
+   },
+   "boundaries": {
+    "x1": "do-nothing (no data: the natural condition of the form)",
+    "x0 y0 y1": "dirichlet"
+   },
+   "shared_node_rule": "At a velocity node shared by several boundary attributes: (1) Dirichlet beats every natural condition (traction, do-nothing) and every slip/symmetry constraint (the slip constraint is not imposed at such nodes); (2) between Dirichlet attributes the fixed data AGREE at shared nodes (checked: dirichlet_shared_node_mismatch_max), so no precedence between them is needed and the result is independent of attribute order; (3) between two slip/symmetry attributes both normal constraints are imposed (u = 0 at a convex corner); (4) a periodic pair at a Dirichlet corner takes the (periodic-consistent) Dirichlet value."
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "lap_struct_dn_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.92139,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_dn_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.92139,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_struct_dn_pL2",
+    "level": "mms",
+    "norm": "||p_h - p||_L2(Omega), no mean removal (pressure determined by the boundary data / constraint)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 5.704546,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_dn_uL2",
+    "level": "mms",
+    "norm": "||u - u_h||_L2(Omega): element quadrature of degree 10 (exact u at the quadrature points; no interpolation of the exact solution)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 7.399556,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_dn_uH1",
+    "level": "mms",
+    "norm": "|u - u_h|_H1(Omega) seminorm (all four components of grad), degree-10 quadrature",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 7.399556,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_struct_dn_pL2",
+    "level": "mms",
+    "norm": "||p_h - p||_L2(Omega), no mean removal (pressure determined by the boundary data / constraint)",
+    "mesh_family": {
+     "kind": "nested"
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.structured.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 11.410375,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "nullspace_detected",
+    "level": "mms",
+    "max": 0
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "dirichlet_shared_node_mismatch_max",
+    "level": "mms",
+    "abs_max": 1e-14
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-10,
+   "residual_key": "relative_residual"
+  }
+ }
+}

@@ -1,0 +1,334 @@
+{
+ "name": "per_dp",
+ "description": "Periodic in x (period 1), Dirichlet (moving, u_y = 0) walls y=0,1, p = p_per - G x with the pressure drop G = 2 per period PRESCRIBED; variable periodic mu; p_per up to a constant.",
+ "domain": {
+  "kind": "rect",
+  "x": [
+   0,
+   1
+  ],
+  "y": [
+   0,
+   1
+  ],
+  "periodic": "x, period 1"
+ },
+ "pressure": "periodic_jump",
+ "conventions": {
+  "G_ij": "d u_i / d x_j",
+  "sigma_sym": "2 mu eps(u) - p I",
+  "sigma_lap": "mu G - p I",
+  "f": "-div sigma_form - gamma grad div u (= -div sigma_form for these fields)",
+  "traction": "g = sigma_form n, n the outward unit normal",
+  "grad_div": "gamma (div u_h, div v); gamma in viscosity units, not scaled by mu"
+ },
+ "u": [
+  {
+   "sympy": "-y**2/25 + 2*y*(3/2 - y)/25 + 3*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/500 + 3*pi*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/250 + cos(2*y)/125",
+   "c": "-1.0/25.0*pow(y, 2) + (2.0/25.0)*y*(3.0/2.0 - y) + (3.0/500.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/250.0)*M_PI*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) + (1.0/125.0)*cos(2*y)",
+   "numpy": "-1/25*y**2 + (2/25)*y*(3/2 - y) + (3/500)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/250)*np.pi*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) + (1/125)*np.cos(2*y)"
+  },
+  {
+   "sympy": "-3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/125",
+   "c": "-3.0/125.0*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0)",
+   "numpy": "-3/125*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5)"
+  }
+ ],
+ "p": {
+  "sympy": "-2*x + y*cos(2*pi*x)/5 + cos(2*pi*x + 3/10)*sinh(7*y/10)",
+  "c": "-2*x + (1.0/5.0)*y*cos(2*M_PI*x) + cos(2*M_PI*x + 3.0/10.0)*sinh((7.0/10.0)*y)",
+  "numpy": "-2*x + (1/5)*y*np.cos(2*np.pi*x) + np.cos(2*np.pi*x + 3/10)*np.sinh((7/10)*y)"
+ },
+ "mu": {
+  "sympy": "y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2",
+  "c": "(1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0",
+  "numpy": "(1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/250 + 3*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125",
+    "c": "(3.0/250.0)*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) + (3.0/125.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0)",
+    "numpy": "(3/250)*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) + (3/125)*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5)"
+   },
+   {
+    "sympy": "-6*y/25 - 3*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/250 + 3*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/1000 + 3*pi*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/250 - 2*sin(2*y)/125 + 3/25",
+    "c": "-6.0/25.0*y - 3.0/250.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/1000.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/250.0)*M_PI*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) - 2.0/125.0*sin(2*y) + 3.0/25.0",
+    "numpy": "-6/25*y - 3/250*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/1000)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/250)*np.pi*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) - 2/125*np.sin(2*y) + 3/25"
+   }
+  ],
+  [
+   {
+    "sympy": "6*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/125",
+    "c": "(6.0/125.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0)",
+    "numpy": "(6/125)*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5)"
+   },
+   {
+    "sympy": "-3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/250 - 3*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125",
+    "c": "-3.0/250.0*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) - 3.0/125.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0)",
+    "numpy": "-3/250*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) - 3/125*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5)"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "-2*pi*y*sin(2*pi*x)/5 - (-2*sin(y)*sin(2*pi*x + 7/10)/5 + 1/5)*(-6*y/25 - 3*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/250 + 3*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/1000 + 3*pi*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/250 - 2*sin(2*y)/125 + 3/25) - 4*pi*(3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/250 + 3*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125)*cos(y)*cos(2*pi*x + 7/10)/5 - (-3*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/125 - 6*pi**3*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/125)*(y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2) - (y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2)*(-9*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/500 + 3*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/2000 - 3*pi**3*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/250 + 9*pi*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/1000 - 4*cos(2*y)/125 - 6/25) - 2*pi*sin(2*pi*x + 3/10)*sinh(7*y/10) - 2",
+     "c": "-2.0/5.0*M_PI*y*sin(2*M_PI*x) - (-2.0/5.0*sin(y)*sin(2*M_PI*x + 7.0/10.0) + 1.0/5.0)*(-6.0/25.0*y - 3.0/250.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/1000.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/250.0)*M_PI*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) - 2.0/125.0*sin(2*y) + 3.0/25.0) - 4.0/5.0*M_PI*((3.0/250.0)*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) + (3.0/125.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0))*cos(y)*cos(2*M_PI*x + 7.0/10.0) - (-3.0/125.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) - 6.0/125.0*pow(M_PI, 3)*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y))*((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0) - ((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0)*(-9.0/500.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/2000.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) - 3.0/250.0*pow(M_PI, 3)*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) + (9.0/1000.0)*M_PI*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) - 4.0/125.0*cos(2*y) - 6.0/25.0) - 2*M_PI*sin(2*M_PI*x + 3.0/10.0)*sinh((7.0/10.0)*y) - 2",
+     "numpy": "-2/5*np.pi*y*np.sin(2*np.pi*x) - (-2/5*np.sin(y)*np.sin(2*np.pi*x + 7/10) + 1/5)*(-6/25*y - 3/250*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/1000)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/250)*np.pi*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) - 2/125*np.sin(2*y) + 3/25) - 4/5*np.pi*((3/250)*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) + (3/125)*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5))*np.cos(y)*np.cos(2*np.pi*x + 7/10) - (-3/125*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) - 6/125*np.pi**3*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y))*((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2) - ((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2)*(-9/500*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/2000)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) - 3/250*np.pi**3*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) + (9/1000)*np.pi*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) - 4/125*np.cos(2*y) - 6/25) - 2*np.pi*np.sin(2*np.pi*x + 3/10)*np.sinh((7/10)*y) - 2"
+    },
+    {
+     "sympy": "-(-2*sin(y)*sin(2*pi*x + 7/10)/5 + 1/5)*(-3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/250 - 3*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125) - (y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2)*(-3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/500 + 3*pi**3*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/125 - 3*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125) - 12*pi**3*(y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2)*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/125 - 24*pi**3*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)*cos(y)*cos(2*pi*x + 7/10)/625 + cos(2*pi*x)/5 + 7*cos(2*pi*x + 3/10)*cosh(7*y/10)/10",
+     "c": "-(-2.0/5.0*sin(y)*sin(2*M_PI*x + 7.0/10.0) + 1.0/5.0)*(-3.0/250.0*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) - 3.0/125.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0)) - ((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0)*(-3.0/500.0*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) + (3.0/125.0)*pow(M_PI, 3)*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) - 3.0/125.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0)) - 12.0/125.0*pow(M_PI, 3)*((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) - 24.0/625.0*pow(M_PI, 3)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0)*cos(y)*cos(2*M_PI*x + 7.0/10.0) + (1.0/5.0)*cos(2*M_PI*x) + (7.0/10.0)*cos(2*M_PI*x + 3.0/10.0)*cosh((7.0/10.0)*y)",
+     "numpy": "-(-2/5*np.sin(y)*np.sin(2*np.pi*x + 7/10) + 1/5)*(-3/250*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) - 3/125*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5)) - ((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2)*(-3/500*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) + (3/125)*np.pi**3*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) - 3/125*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5)) - 12/125*np.pi**3*((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) - 24/625*np.pi**3*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5)*np.cos(y)*np.cos(2*np.pi*x + 7/10) + (1/5)*np.cos(2*np.pi*x) + (7/10)*np.cos(2*np.pi*x + 3/10)*np.cosh((7/10)*y)"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "2*x - y*cos(2*pi*x)/5 + (3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/250 + 3*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125)*(y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2) - cos(2*pi*x + 3/10)*sinh(7*y/10)",
+      "c": "2*x - 1.0/5.0*y*cos(2*M_PI*x) + ((3.0/250.0)*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) + (3.0/125.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0))*((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0) - cos(2*M_PI*x + 3.0/10.0)*sinh((7.0/10.0)*y)",
+      "numpy": "2*x - 1/5*y*np.cos(2*np.pi*x) + ((3/250)*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) + (3/125)*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5))*((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2) - np.cos(2*np.pi*x + 3/10)*np.sinh((7/10)*y)"
+     },
+     {
+      "sympy": "(y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2)*(-6*y/25 - 3*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/250 + 3*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/1000 + 3*pi*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/250 - 2*sin(2*y)/125 + 3/25)",
+      "c": "((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0)*(-6.0/25.0*y - 3.0/250.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/1000.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/250.0)*M_PI*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) - 2.0/125.0*sin(2*y) + 3.0/25.0)",
+      "numpy": "((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2)*(-6/25*y - 3/250*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/1000)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/250)*np.pi*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) - 2/125*np.sin(2*y) + 3/25)"
+     }
+    ],
+    [
+     {
+      "sympy": "6*pi**2*(y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2)*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/125",
+      "c": "(6.0/125.0)*pow(M_PI, 2)*((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0)",
+      "numpy": "(6/125)*np.pi**2*((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5)"
+     },
+     {
+      "sympy": "2*x - y*cos(2*pi*x)/5 + (-3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/250 - 3*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125)*(y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2) - cos(2*pi*x + 3/10)*sinh(7*y/10)",
+      "c": "2*x - 1.0/5.0*y*cos(2*M_PI*x) + (-3.0/250.0*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) - 3.0/125.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0))*((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0) - cos(2*M_PI*x + 3.0/10.0)*sinh((7.0/10.0)*y)",
+      "numpy": "2*x - 1/5*y*np.cos(2*np.pi*x) + (-3/250*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) - 3/125*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5))*((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2) - np.cos(2*np.pi*x + 3/10)*np.sinh((7/10)*y)"
+     }
+    ]
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "sympy": "-2*pi*y*sin(2*pi*x)/5 - (-2*sin(y)*sin(2*pi*x + 7/10)/5 + 1/5)*(-6*y/25 + 3*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/1000 + 9*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/250 + 3*pi*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/250 - 2*sin(2*y)/125 + 3/25) - 4*pi*(3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/125 + 6*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125)*cos(y)*cos(2*pi*x + 7/10)/5 - (-6*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/125 - 12*pi**3*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/125)*(y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2) - (y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2)*(3*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/2000 + 3*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/500 + 9*pi*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/1000 + 9*pi**3*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/250 - 4*cos(2*y)/125 - 6/25) - 2*pi*sin(2*pi*x + 3/10)*sinh(7*y/10) - 2",
+     "c": "-2.0/5.0*M_PI*y*sin(2*M_PI*x) - (-2.0/5.0*sin(y)*sin(2*M_PI*x + 7.0/10.0) + 1.0/5.0)*(-6.0/25.0*y + (3.0/1000.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (9.0/250.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/250.0)*M_PI*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) - 2.0/125.0*sin(2*y) + 3.0/25.0) - 4.0/5.0*M_PI*((3.0/125.0)*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) + (6.0/125.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0))*cos(y)*cos(2*M_PI*x + 7.0/10.0) - (-6.0/125.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) - 12.0/125.0*pow(M_PI, 3)*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y))*((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0) - ((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0)*((3.0/2000.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/500.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (9.0/1000.0)*M_PI*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) + (9.0/250.0)*pow(M_PI, 3)*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) - 4.0/125.0*cos(2*y) - 6.0/25.0) - 2*M_PI*sin(2*M_PI*x + 3.0/10.0)*sinh((7.0/10.0)*y) - 2",
+     "numpy": "-2/5*np.pi*y*np.sin(2*np.pi*x) - (-2/5*np.sin(y)*np.sin(2*np.pi*x + 7/10) + 1/5)*(-6/25*y + (3/1000)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (9/250)*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/250)*np.pi*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) - 2/125*np.sin(2*y) + 3/25) - 4/5*np.pi*((3/125)*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) + (6/125)*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5))*np.cos(y)*np.cos(2*np.pi*x + 7/10) - (-6/125*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) - 12/125*np.pi**3*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y))*((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2) - ((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2)*((3/2000)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/500)*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (9/1000)*np.pi*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) + (9/250)*np.pi**3*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) - 4/125*np.cos(2*y) - 6/25) - 2*np.pi*np.sin(2*np.pi*x + 3/10)*np.sinh((7/10)*y) - 2"
+    },
+    {
+     "sympy": "-(-2*sin(y)*sin(2*pi*x + 7/10)/5 + 1/5)*(-3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/125 - 6*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125) - (y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2)*(-3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/250 + 6*pi**3*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/125 - 6*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125) - (y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2)*(3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/500 + 9*pi**3*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/125 + 3*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125) - 4*pi*(-6*y/25 + 3*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/1000 + 9*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/250 + 3*pi*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/250 - 2*sin(2*y)/125 + 3/25)*cos(y)*cos(2*pi*x + 7/10)/5 + cos(2*pi*x)/5 + 7*cos(2*pi*x + 3/10)*cosh(7*y/10)/10",
+     "c": "-(-2.0/5.0*sin(y)*sin(2*M_PI*x + 7.0/10.0) + 1.0/5.0)*(-3.0/125.0*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) - 6.0/125.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0)) - ((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0)*(-3.0/250.0*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) + (6.0/125.0)*pow(M_PI, 3)*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) - 6.0/125.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0)) - ((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0)*((3.0/500.0)*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) + (9.0/125.0)*pow(M_PI, 3)*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) + (3.0/125.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0)) - 4.0/5.0*M_PI*(-6.0/25.0*y + (3.0/1000.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (9.0/250.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/250.0)*M_PI*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) - 2.0/125.0*sin(2*y) + 3.0/25.0)*cos(y)*cos(2*M_PI*x + 7.0/10.0) + (1.0/5.0)*cos(2*M_PI*x) + (7.0/10.0)*cos(2*M_PI*x + 3.0/10.0)*cosh((7.0/10.0)*y)",
+     "numpy": "-(-2/5*np.sin(y)*np.sin(2*np.pi*x + 7/10) + 1/5)*(-3/125*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) - 6/125*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5)) - ((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2)*(-3/250*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) + (6/125)*np.pi**3*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) - 6/125*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5)) - ((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2)*((3/500)*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) + (9/125)*np.pi**3*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) + (3/125)*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5)) - 4/5*np.pi*(-6/25*y + (3/1000)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (9/250)*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/250)*np.pi*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) - 2/125*np.sin(2*y) + 3/25)*np.cos(y)*np.cos(2*np.pi*x + 7/10) + (1/5)*np.cos(2*np.pi*x) + (7/10)*np.cos(2*np.pi*x + 3/10)*np.cosh((7/10)*y)"
+    }
+   ],
+   "sigma": [
+    [
+     {
+      "sympy": "2*x - y*cos(2*pi*x)/5 + (3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/125 + 6*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125)*(y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2) - cos(2*pi*x + 3/10)*sinh(7*y/10)",
+      "c": "2*x - 1.0/5.0*y*cos(2*M_PI*x) + ((3.0/125.0)*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) + (6.0/125.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0))*((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0) - cos(2*M_PI*x + 3.0/10.0)*sinh((7.0/10.0)*y)",
+      "numpy": "2*x - 1/5*y*np.cos(2*np.pi*x) + ((3/125)*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) + (6/125)*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5))*((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2) - np.cos(2*np.pi*x + 3/10)*np.sinh((7/10)*y)"
+     },
+     {
+      "sympy": "(y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2)*(-6*y/25 + 3*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/1000 + 9*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/250 + 3*pi*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/250 - 2*sin(2*y)/125 + 3/25)",
+      "c": "((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0)*(-6.0/25.0*y + (3.0/1000.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (9.0/250.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/250.0)*M_PI*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) - 2.0/125.0*sin(2*y) + 3.0/25.0)",
+      "numpy": "((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2)*(-6/25*y + (3/1000)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (9/250)*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/250)*np.pi*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) - 2/125*np.sin(2*y) + 3/25)"
+     }
+    ],
+    [
+     {
+      "sympy": "(y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2)*(-6*y/25 + 3*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/1000 + 9*pi**2*exp(y/2)*sin(pi*y)*sin(2*pi*x + 2/5)/250 + 3*pi*exp(y/2)*sin(2*pi*x + 2/5)*cos(pi*y)/250 - 2*sin(2*y)/125 + 3/25)",
+      "c": "((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0)*(-6.0/25.0*y + (3.0/1000.0)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (9.0/250.0)*pow(M_PI, 2)*exp((1.0/2.0)*y)*sin(M_PI*y)*sin(2*M_PI*x + 2.0/5.0) + (3.0/250.0)*M_PI*exp((1.0/2.0)*y)*sin(2*M_PI*x + 2.0/5.0)*cos(M_PI*y) - 2.0/125.0*sin(2*y) + 3.0/25.0)",
+      "numpy": "((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2)*(-6/25*y + (3/1000)*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (9/250)*np.pi**2*np.exp((1/2)*y)*np.sin(np.pi*y)*np.sin(2*np.pi*x + 2/5) + (3/250)*np.pi*np.exp((1/2)*y)*np.sin(2*np.pi*x + 2/5)*np.cos(np.pi*y) - 2/125*np.sin(2*y) + 3/25)"
+     },
+     {
+      "sympy": "2*x - y*cos(2*pi*x)/5 + (-3*pi*exp(y/2)*sin(pi*y)*cos(2*pi*x + 2/5)/125 - 6*pi**2*exp(y/2)*cos(pi*y)*cos(2*pi*x + 2/5)/125)*(y/5 + 2*sin(2*pi*x + 7/10)*cos(y)/5 + 3/2) - cos(2*pi*x + 3/10)*sinh(7*y/10)",
+      "c": "2*x - 1.0/5.0*y*cos(2*M_PI*x) + (-3.0/125.0*M_PI*exp((1.0/2.0)*y)*sin(M_PI*y)*cos(2*M_PI*x + 2.0/5.0) - 6.0/125.0*pow(M_PI, 2)*exp((1.0/2.0)*y)*cos(M_PI*y)*cos(2*M_PI*x + 2.0/5.0))*((1.0/5.0)*y + (2.0/5.0)*sin(2*M_PI*x + 7.0/10.0)*cos(y) + 3.0/2.0) - cos(2*M_PI*x + 3.0/10.0)*sinh((7.0/10.0)*y)",
+      "numpy": "2*x - 1/5*y*np.cos(2*np.pi*x) + (-3/125*np.pi*np.exp((1/2)*y)*np.sin(np.pi*y)*np.cos(2*np.pi*x + 2/5) - 6/125*np.pi**2*np.exp((1/2)*y)*np.cos(np.pi*y)*np.cos(2*np.pi*x + 2/5))*((1/5)*y + (2/5)*np.sin(2*np.pi*x + 7/10)*np.cos(y) + 3/2) - np.cos(2*np.pi*x + 3/10)*np.sinh((7/10)*y)"
+     }
+    ]
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "x0",
+   "bc": "periodic_src",
+   "normal": [
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "y": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "x1",
+   "bc": "periodic_dst",
+   "normal": [
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    "y": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "y0",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "-1",
+     "c": "-1",
+     "numpy": "-1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "y": {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "name": "y1",
+   "bc": "dirichlet",
+   "normal": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    }
+   ],
+   "notes": "",
+   "param": {
+    "x": {
+     "sympy": "t",
+     "c": "t",
+     "numpy": "t"
+    },
+    "y": {
+     "sympy": "1",
+     "c": "1",
+     "numpy": "1"
+    },
+    "range": [
+     0,
+     1
+    ]
+   }
+  }
+ ],
+ "extra": {
+  "periodic_x": 1,
+  "p_periodic": {
+   "sympy": "y*cos(2*pi*x)/5 + cos(2*pi*x + 3/10)*sinh(7*y/10)",
+   "c": "(1.0/5.0)*y*cos(2*M_PI*x) + cos(2*M_PI*x + 3.0/10.0)*sinh((7.0/10.0)*y)",
+   "numpy": "(1/5)*y*np.cos(2*np.pi*x) + np.cos(2*np.pi*x + 3/10)*np.sinh((7/10)*y)"
+  },
+  "G": {
+   "sympy": "2",
+   "c": "2",
+   "numpy": "2"
+  },
+  "pressure_drop_per_period": {
+   "sympy": "2",
+   "c": "2",
+   "numpy": "2"
+  },
+  "flow_rate_Q": {
+   "sympy": "sin(2)/250 + 1/50",
+   "c": "(1.0/250.0)*sin(2) + 1.0/50.0",
+   "numpy": "(1/250)*np.sin(2) + 1/50"
+  },
+  "forms_must_differ_interior": true
+ },
+ "constants": {
+  "area": 1.0,
+  "p_mean": -0.9999999999999981,
+  "u_L2": 0.06045168316916428,
+  "grad_u_L2": 0.3931884117735496,
+  "p_minus_mean_L2": 0.6389674247654964,
+  "u_max_sampled": 0.10332489135282526,
+  "p_max_abs_sampled": 1.9971299817937873,
+  "p_minus_mean_max_abs_sampled": 1.9202383553389266,
+  "mu_min_sampled": 1.1011741147080385,
+  "mu_max_sampled": 1.9501283346944227
+ },
+ "selfcheck": {
+  "fd_residual_lap": 1.2648925526759635e-10,
+  "fd_residual_lap_with_sym_forcing": 0.04563779460261071,
+  "fd_residual_sym": 1.2713941654070955e-10,
+  "fd_residual_sym_with_lap_forcing": 0.04557468103176992,
+  "f_sym_minus_f_lap_max": 0.6453541742293101,
+  "net_boundary_flux": 0.0,
+  "status": "pass"
+ }
+}

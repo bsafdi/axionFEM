@@ -1,0 +1,12 @@
+{
+ "schema": "axionfem.design/1",
+ "name": "curved_probe_shell",
+ "notes": "Curved-element probe: a niobium toroidal box shell, 5 mm wall, inner corner radius 0.5 mm, at 20 mm / 8 mm mesh size, so the order-2 geometry of the fillets is under-resolved (size floor 2 mm). Used by benchmarks/curved_elements_study.py and tests/test_mesh3d_curved_elements.py.",
+ "symmetry": "3d",
+ "regions": [
+  {"name": "shell", "material": "nb",
+   "solid": {"revolve": {"profile": {"frame": {"r": [0.05, 0.15], "z": [-0.05, 0.05], "thickness": 0.005, "fillet": 0.0055}},
+                         "angles": [0, 360], "center": [0, 0, 0], "axis": [0, 0, 1]}}}
+ ],
+ "mesh": {"order": 2, "size": 0.02, "surface_size": 0.008, "domain_radius": 0.3}
+}

@@ -1,0 +1,160 @@
+{
+ "check": "global_opt_validation",
+ "date": "2026-11-09 01:09",
+ "axionfem_version": "0.1.0",
+ "commit": "d544de62",
+ "module": "global_opt.py",
+ "workers": 16,
+ "runs": [
+  {
+   "case": "toroid with H = R: maximise g over y",
+   "reference": {
+    "adjoint_optimum_y": 0.5674864529982517,
+    "y_long_limit": 0.6065306597126334
+   },
+   "optimum": {
+    "y": 0.5674788440853191
+   },
+   "value": 0.09558451347591547,
+   "feasible": true,
+   "solves": 41,
+   "evaluations": 41,
+   "converged": true,
+   "message": "converged: the population is feasible and std(f) <= atol + tol * |mean(f)|",
+   "de": {
+    "nit": 4,
+    "nfev": 40,
+    "converged": true,
+    "scipy_message": "callback function requested stop early",
+    "evaluations": 38,
+    "population": 8,
+    "seconds": 14.1,
+    "seed": 20261029,
+    "popsize": 8
+   },
+   "de_best": {
+    "parameters": {
+     "y": 0.5693452404953092
+    },
+    "values": {
+     "g_factor": 0.0955829388865339
+    }
+   },
+   "polish": {
+    "method": "adjoint",
+    "converged": true,
+    "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+    "iterations": 1,
+    "solves": 3,
+    "seconds": 14.0
+   },
+   "found_by": "polish",
+   "seconds": 28.2,
+   "wall_s": 29.97343921661377
+  },
+  {
+   "case": "long solenoid (H/R = 8): maximise g over x",
+   "reference": {
+    "adjoint_optimum_x": 0.5313833651035159,
+    "x_long_limit": 0.534
+   },
+   "optimum": {
+    "x": 0.5313823764682296
+   },
+   "value": 0.16869379646306912,
+   "feasible": true,
+   "solves": 34,
+   "evaluations": 34,
+   "converged": true,
+   "message": "converged: the population is feasible and std(f) <= atol + tol * |mean(f)|",
+   "de": {
+    "nit": 3,
+    "nfev": 32,
+    "converged": true,
+    "scipy_message": "callback function requested stop early",
+    "evaluations": 30,
+    "population": 8,
+    "seconds": 52.2,
+    "seed": 20261029,
+    "popsize": 8
+   },
+   "de_best": {
+    "parameters": {
+     "x": 0.5210851664967525
+    },
+    "values": {
+     "g_factor": 0.16863280069606926
+    }
+   },
+   "polish": {
+    "method": "adjoint",
+    "converged": true,
+    "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+    "iterations": 3,
+    "solves": 4,
+    "seconds": 82.0
+   },
+   "found_by": "polish",
+   "seconds": 134.3,
+   "wall_s": 134.292174577713
+  },
+  {
+   "case": "finite current-sheet solenoid: cost metric at the cost-optimal size over H and x",
+   "reference": {
+    "adjoint": {
+     "H": 1.3024755350667134,
+     "x": 0.5604186609855857,
+     "cost_optimal": 73.44021771977927
+    }
+   },
+   "optimum": {
+    "H": 1.3027184778386245,
+    "x": 0.5604060984119632
+   },
+   "value": 73.44021740276705,
+   "feasible": true,
+   "solves": 85,
+   "evaluations": 85,
+   "converged": true,
+   "message": "converged: the population is feasible and std(f) <= atol + tol * |mean(f)|",
+   "de": {
+    "nit": 4,
+    "nfev": 80,
+    "converged": true,
+    "scipy_message": "callback function requested stop early",
+    "evaluations": 80,
+    "population": 16,
+    "seconds": 99.6,
+    "seed": 20261029,
+    "popsize": 8
+   },
+   "de_best": {
+    "parameters": {
+     "H": 1.2492909847341358,
+     "x": 0.5582013318431465
+    },
+    "values": {
+     "cost_optimal": 73.45588359070959
+    }
+   },
+   "polish": {
+    "method": "adjoint",
+    "converged": true,
+    "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+    "iterations": 4,
+    "solves": 5,
+    "seconds": 119.1
+   },
+   "found_by": "polish",
+   "seconds": 218.8,
+   "computed": {
+    "R_m": 5.083609232386506,
+    "H_m": 6.609293094951025,
+    "x": 0.5604060984119632,
+    "W_MJ": 1366.796376254666,
+    "cost_MCHF": 73.44021740276813
+   },
+   "wall_s": 233.00603079795837
+  }
+ ]
+}

@@ -1,0 +1,167 @@
+{
+ "name": "ns_axi_energy",
+ "description": "axisymmetric, [0,1]^2, homogeneous Dirichlet + axis, mu = 1/100, rho = 1, f = (0, 3 r, 3 r^2)",
+ "geometry": "axisymmetric",
+ "coords": [
+  "r",
+  "z"
+ ],
+ "domain": {
+  "kind": "rectangle",
+  "c0": 0,
+  "c1": 1,
+  "d0": 0,
+  "d1": 1
+ },
+ "pressure": "mean_zero",
+ "rho": {
+  "sympy": "1",
+  "value": 1.0
+ },
+ "conventions": {
+  "planar": "u = (u_x, u_y); grad_u[i][j] = d u_i / d x_j; sigma_sym = 2 mu eps - p I, sigma_lap = mu G - p I; f = rho (u.grad)u - div sigma_form; traction g = sigma_form n (outward n)",
+  "axisymmetric": "coords (r, z); u = (u_r, u_theta, u_z); grad_u[i][j] = d u_i / d (r, z)_j (component derivatives, NOT the cylindrical gradient tensor); f in the (e_r, e_theta, e_z) frame, f = rho G u - div sigma_form with G and div as in tools/fluids_mms/f2a_fields.py"
+ },
+ "u": [
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  },
+  {
+   "sympy": "0",
+   "c": "0",
+   "numpy": "0"
+  }
+ ],
+ "p": {
+  "sympy": "0",
+  "c": "0",
+  "numpy": "0"
+ },
+ "mu": {
+  "sympy": "1/100",
+  "c": "1.0/100.0",
+  "numpy": "1/100"
+ },
+ "grad_u": [
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ],
+  [
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   },
+   {
+    "sympy": "0",
+    "c": "0",
+    "numpy": "0"
+   }
+  ]
+ ],
+ "forms": {
+  "lap": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "3*r",
+     "c": "3*r",
+     "numpy": "3*r"
+    },
+    {
+     "sympy": "3*r**2",
+     "c": "3*pow(r, 2)",
+     "numpy": "3*r**2"
+    }
+   ]
+  },
+  "sym": {
+   "f": [
+    {
+     "sympy": "0",
+     "c": "0",
+     "numpy": "0"
+    },
+    {
+     "sympy": "3*r",
+     "c": "3*r",
+     "numpy": "3*r"
+    },
+    {
+     "sympy": "3*r**2",
+     "c": "3*pow(r, 2)",
+     "numpy": "3*r**2"
+    }
+   ]
+  }
+ },
+ "boundaries": [
+  {
+   "name": "axis",
+   "bc": "axis"
+  },
+  {
+   "name": "r1",
+   "bc": "dirichlet"
+  },
+  {
+   "name": "z0",
+   "bc": "dirichlet"
+  },
+  {
+   "name": "z1",
+   "bc": "dirichlet"
+  }
+ ],
+ "exact_solution": false,
+ "exact_ns": false,
+ "constants": {
+  "measure": 1.0,
+  "volume_weighted": 0.5,
+  "p_mean_weighted": 0.0,
+  "p_mean_unweighted": 0.0,
+  "u_L2_weighted": 0.0,
+  "u_max_sampled": 0.0,
+  "p_minus_mean_max_abs_sampled": 0.0,
+  "p_max_abs_sampled": 0.0,
+  "mu_min_sampled": 0.01,
+  "mu_max_sampled": 0.01,
+  "rho": 1.0,
+  "Re_estimate": 0.0
+ },
+ "selfcheck": {
+  "status": "pass"
+ }
+}

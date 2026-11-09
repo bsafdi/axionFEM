@@ -1,0 +1,169 @@
+{
+ "id": "gls_tau_pins",
+ "capability": "F5",
+ "title": "Stabilization parameters pinned: diffusive, convective, anisotropic, variable-viscosity and small-dt states",
+ "physics": "tau_supg, tau_pspg, tau_lsic of the pinned metric definition evaluated by the solver at prescribed nodal states",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f5_gls",
+   "function": "tau_pins",
+   "check_module": "f5_gls_check",
+   "cost": "short",
+   "timeout_s": 900
+  },
+  "parameters": {
+   "element": {
+    "velocity": "P1",
+    "pressure": "P1",
+    "geometry": "affine (straight-sided)"
+   },
+   "formulation": "Equal-order continuous P1/P1 (u, p) on affine triangles, nodal basis, constant density rho, viscosity mu(x) (analytic with gradient, or a P1 nodal field with its element-wise gradient). Residual R_u,a = sum_K int [ rho (u_t + (w.grad)u).N_a e_i + a_visc(mu;u)(N_a e_i) - p d_i N_a - f_i N_a + tau_supg rho ((w.grad N_a) R_i) + tau_c rho (div u) d_i N_a ], R_p,a = sum_K int [ (div u) N_a + (tau_pspg/rho) grad N_a. R ] with the strong residual R = rho (u_t + (w.grad)u) + grad p - div sigma_visc(u; mu) - f (second derivatives of a P1 u vanish; grad mu KEPT: lap: sum_j d_j mu d_j u_i, sym: sum_j d_j mu (d_j u_i + d_i u_j)), w = u (Navier-Stokes), a given field (Oseen) or 0 (Stokes: convective and SUPG terms absent); a_visc lap = mu grad u : grad v, sym = mu (grad u + grad u^T) : grad v; BDF1 u_t = (u - u^{n-1})/dt or BDF2 (3u - 4u^{n-1} + u^{n-2})/(2 dt), constant step; tau_supg = [ (2/dt)^2 + CG w.G w + C_I (mu/rho)^2 G:G ]^(-1/2), tau_pspg = [ CG w.G w + C_I (mu/rho)^2 G:G ]^(-1/2) (NO dt term), tau_c = 1/(tau_pspg tr G), G_ij = sum_k dz_k/dx_i dz_k/dx_j with z the coordinates of the EQUILATERAL reference triangle of edge 1 (invariant under vertex renumbering), C_I = 36, CG = 1 (the (2/dt)^2 term only when dt is given). Every element integral by the pinned 6-point degree-4 rule f5_gls_check.rule_points() (the Galerkin terms of P1 data are polynomials of degree <= 3; tau is not polynomial). The continuity row carries the POSITIVE sign (div u) q. The Newton Jacobian is the exact derivative of this residual INCLUDING d tau / d state. Reference implementation: f5_gls_check.residual (numpy), agreeing with the independent NGSolve assembly to 3e-16.",
+   "stabilization": {
+    "family": "GLS-type residual-based: SUPG + PSPG + LSIC",
+    "tau": "Shakib-type, from the element metric tensor G (docs/guides/fluids.md, stabilized equal-order elements)",
+    "C_I": 36.0,
+    "CG": 1.0,
+    "quadrature": "6-point degree-4 rule, f5_gls_check.rule_points()"
+   },
+   "quadrature_error_norms": 10,
+   "nonlinear_solver": {
+    "start": "Stokes solution (GLS-stabilized, w = 0) with the Dirichlet data, then Newton with the exact Jacobian (d tau included) and an Armijo backtracking line search on the dual-norm merit (sufficient decrease 1e-4, lambda = 1, 1/2,..., 1/64); a continuation in the viscosity (or Re) is allowed: whatever path is used, the solution is that of the steady discrete equations",
+    "newton_rtol": 1e-12,
+    "newton_maxit": 40,
+    "linear_solver": "direct sparse LU",
+    "history": "solver.history = [{kind, residual, step}] with the relative residual after each step"
+   },
+   "dirichlet_data": "P1 nodal interpolation of the fixed callables at the boundary vertices",
+   "states": {
+    "definition": "f5_gls_check.tau_state(name) is the fixed definition of every state (mesh, nodal w, mu, rho, dt); names: diffusive, convective, variable_viscosity, anisotropic, transient_dt1e-2, transient_dt1e-6",
+    "diffusive": "structured N = 8, w = 0, mu = 1, rho = 1.25, steady: tau_pspg = (C_I (mu/rho)^2 G:G)^-1/2",
+    "convective": "structured N = 8, w = (sin 3x, cos 2y) (nodal P1), mu = 1e-9, rho = 1, steady: tau -> (w.G w)^-1/2",
+    "variable_viscosity": "distorted_unit(2), w as above, mu = P1 nodal 10^(-4 + 3x) (three decades, an eddy-viscosity-like variation), rho = 1",
+    "anisotropic": "graded_mesh(8, 8, 1e4): aspect ratios up to ~1e4 (turbulence-model wall cells reach 1e4 .. 1e6); w = (1, 0.3), mu = 1e-3",
+    "transient": "structured N = 8, w as above, mu = 0.05, dt = 1e-2 and dt = 1e-6",
+    "renumbered": "f5_gls_check.renumber_triangles(T) of the distorted_unit(2) mesh (cyclic permutations and reversals of every triangle's vertex list): tau must not change",
+    "reported": "tau_supg, tau_pspg, tau_lsic at the pinned rule points of every element, shape [ne, 6], from the public API; for 'renumbered' the three arrays of the variable_viscosity state on the renumbered mesh (same element order)"
+   }
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "checks": [
+   {
+    "quantity": "tau_supg_defect_diffusive",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_pspg_defect_diffusive",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_lsic_defect_diffusive",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_supg_defect_convective",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_pspg_defect_convective",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_lsic_defect_convective",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_supg_defect_variable_viscosity",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_pspg_defect_variable_viscosity",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_lsic_defect_variable_viscosity",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_supg_defect_anisotropic",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_pspg_defect_anisotropic",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_lsic_defect_anisotropic",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_supg_defect_transient_dt1e-2",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_pspg_defect_transient_dt1e-2",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_lsic_defect_transient_dt1e-2",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_supg_defect_transient_dt1e-6",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_pspg_defect_transient_dt1e-6",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_lsic_defect_transient_dt1e-6",
+    "level": "mms",
+    "abs_max": 1e-12
+   },
+   {
+    "quantity": "tau_pspg_dt_independence",
+    "level": "mms",
+    "abs_max": 1e-14
+   },
+   {
+    "quantity": "tau_supg_small_dt_limit",
+    "level": "mms",
+    "abs_max": 0.001
+   },
+   {
+    "quantity": "tau_vertex_renumbering_defect",
+    "level": "mms",
+    "abs_max": 1e-13
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  }
+ }
+}

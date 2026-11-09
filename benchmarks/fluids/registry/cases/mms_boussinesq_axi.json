@@ -1,0 +1,696 @@
+{
+ "id": "mms_boussinesq_axi",
+ "capability": "F4a",
+ "title": "Axisymmetric Boussinesq MMS with swirl (gravity -e_z): coupled u, p, T, r-weighted and unweighted norms, both viscous forms, Galerkin and SUPG energy equation",
+ "physics": "rho0 (u.grad)u - div sigma_form = f_u + rho0 beta g (T - T_ref) e_up, div u = 0, rho0 c_p u.grad T - div(k grad T) = Q",
+ "levels": [
+  "mms"
+ ],
+ "run": {
+  "runner": {
+   "module": "f4a_heat",
+   "function": "bous_mms_axi",
+   "check_module": "f4a_heat_check",
+   "cost": "long",
+   "timeout_s": 10800
+  },
+  "parameters": {
+   "field": {
+    "path": "tools/fluids_mms/out/bous_axi.json",
+    "sha256": "84e25e853720959e9ad516569280d547410b9ae2a6d828795297fc2f9655ea36"
+   },
+   "element": {
+    "velocity": "P2",
+    "pressure": "P1",
+    "temperature": "P2"
+   },
+   "viscous_forms": [
+    "lap",
+    "sym"
+   ],
+   "convective_form": "standard (F2a's required form)",
+   "energy_advection": "convective form a u_h.grad T (a = rho0 c_p)",
+   "constants": {
+    "rho0": "5/4",
+    "cp": "6/5",
+    "beta_g": "2",
+    "T_ref": "1/3"
+   },
+   "gravity": "-e_z",
+   "temperature_bcs": {
+    "axis": "axis",
+    "z0": "dirichlet",
+    "z1": "robin",
+    "r1": "neumann"
+   },
+   "velocity_bcs": "Dirichlet (exact data) on every wall + the axis conditions u_r = u_theta = 0",
+   "dirichlet_data": "P2 (P1) Lagrange NODAL interpolation of the fixed callables at the vertices and edge midpoints of the Dirichlet boundary parts; at a node shared by two Dirichlet parts the data agree (one exact callable per field); Dirichlet beats every natural condition at a shared node",
+   "supg_energy": "Residual-based SUPG: add sum_K int_K tau_K (a b.grad v) R_K(T_h) (r-weighted in axisymmetry) to the Galerkin form, with the FULL element residual R_K(T) = a b.grad T - div(kappa grad T) - s evaluated element-wise (second derivatives of T_h for P2, the grad kappa. grad T term, and in axisymmetry the hoop term kappa T_r / r). FIXED FAMILY: tau_K = C tau_rule(h_K) with tau_coth(h) = h / (2 p a |b|) (coth Pe - 1/Pe), Pe = a |b| h / (2 p kappa), or tau_Shakib(h) = [(2 p a |b| / h)^2 + 9 (4 p^2 kappa / h^2)^2]^(-1/2) (C multiplies tau; it is NOT inside Pe or h); p the element degree; |b| the Euclidean norm of the advecting velocity (in axisymmetry its MERIDIONAL part (b_r, b_z)); tau evaluated at the quadrature points or as an element constant; h_K a length that depends on the element's GEOMETRY only (invariant under a renumbering of its vertices and under rigid motions); admissible pairs (C, h_K): c_adv = C h_K / sqrt(2|K|) in [1/2, 2] AND c_diff = C h_K^2 / (2|K|) in [1/2, 2] (the advective- and diffusive-limit tau relative to C = 1, h_K = sqrt(2|K|)), evaluated on the right isosceles triangles of the unit, channel, pipe and annulus families; the same (rule, C, h_K) is used on every fixed mesh; on the distorted family the per-element values may leave the box (longest edge x 1: c_diff in [1.37, 3.07]), immaterial for its Pe 1e6 items (advective limit: only c_adv matters). Examples: h_K = sqrt(2|K|) (NGSolve mesh_size; MFEM sqrt(T->Weight()) on an affine triangle) with C in [1/2, 2]; the longest edge (sqrt(2) sqrt(2|K|) on the fixed right triangles) with C in [1/(2 sqrt 2), 1] (C = 1 is the library's shakib_hK); MFEM GetElementSize(e, 0) = 1.0746 sqrt(2|K|) with C in [0.47, 1.73]. In the coupled problem b = u_h.",
+   "quadrature_requirement": "Every Galerkin and SUPG integrand that is a polynomial on affine triangles is integrated EXACTLY: for P2 T and v: a b.grad T v with b in P1 degree 4 planar / 5 axisymmetric; with b = u_h in P2 (the coupled energy equation: B, C1, E1, H1, X1) or the quadratic Poiseuille b (G1, G2) degree 5 planar / 6 axisymmetric (a degree-4 rule for a u_h.grad T v moves X1 by 3.4e-8 against its 1e-8 recipe); the momentum terms as F2a requires. Non-polynomial data (MMS loads, Robin T_ext, Neumann data) by rules of degree >= 6 on elements and edges; the identities that involve such data are then QUADRATURE-LIMITED (worst measured 1.3e-11 with an admissible degree-6 rule, against bounds of 1e-10). Data callables are evaluated at interior quadrature points and at the Dirichlet nodes only (some axisymmetric loads have removable 1/r singularities on the axis). Coupled: the F2a requirement for the momentum equation.",
+   "meshes": {
+    "unit": {
+     "family": "unit",
+     "N": [
+      8,
+      16,
+      32,
+      64,
+      128
+     ],
+     "h_nominal": [
+      0.125,
+      0.0625,
+      0.03125,
+      0.015625,
+      0.0078125
+     ],
+     "construction": "scalar_transport_check.box_mesh(8, 8, k), k = 0..4, on [0,1]^2 in (r, z): 8 x 8 squares split along the (1,1) diagonal except the two cells at the corners (1,0) and (0,1) (split the other way: no triangle with all vertices on the boundary), refined uniformly (red) k times (identical to the fixed F1a structured_mesh(N), N = 8 * 2^k). Nested.",
+     "h_definition": "h_nominal = 1/N (leg of the right triangles); h_max = sqrt(2)/N reported too"
+    }
+   },
+   "nonlinear_solver": {
+    "start": "the Dirichlet lift: the P2 Lagrange nodal interpolant of the data at the Dirichlet nodes and 0 at every other node, p = 0",
+    "method": "Newton with the exact Jacobian of the coupled residual (every coupling block: d(buoyancy)/dT, d(u.grad T)/du, d(convection)/du), full steps, no line search",
+    "newton_rtol": 1e-12,
+    "newton_maxit": 30,
+    "linear_solver": "direct sparse LU",
+    "history": "solver.history = [{kind, residual, step}] after every step"
+   },
+   "pressure": "no constraint given: the solver detects the constant-pressure nullspace",
+   "variants": "lap/sym x Galerkin/SUPG (tau of the pinned family) on the unit family; lap/sym Galerkin on the distorted family (planar)"
+  }
+ },
+ "reference": {
+  "quantities": {},
+  "tolerance_recipe": {}
+ },
+ "acceptance": {
+  "convergence": [
+   {
+    "series": "lap_gal_unit_uL2w",
+    "level": "mms",
+    "norm": "r-weighted ||u - u_h||, u = (u_r, u_theta, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.956404,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_gal_unit_uH1w",
+    "level": "mms",
+    "norm": "r-weighted |u - u_h|_H1, CYLINDRICAL gradient",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.677014,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_gal_unit_pL2mw",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.122978,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_gal_unit_TH1w",
+    "level": "mms",
+    "norm": "r-weighted |T - T_h|_H1",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.835533,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_gal_unit_uL2_unw",
+    "level": "mms",
+    "norm": "UNWEIGHTED ||u - u_h||",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.956404,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_supg_unit_uL2w",
+    "level": "mms",
+    "norm": "r-weighted ||u - u_h||, u = (u_r, u_theta, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.956404,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_supg_unit_uH1w",
+    "level": "mms",
+    "norm": "r-weighted |u - u_h|_H1, CYLINDRICAL gradient",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.677014,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_supg_unit_pL2mw",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.122978,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_supg_unit_TL2w",
+    "level": "mms",
+    "norm": "r-weighted ||T - T_h||",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.81939,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_supg_unit_TH1w",
+    "level": "mms",
+    "norm": "r-weighted |T - T_h|_H1",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.835533,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_supg_unit_uL2_unw",
+    "level": "mms",
+    "norm": "UNWEIGHTED ||u - u_h||",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.956404,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "lap_supg_unit_TL2_unw",
+    "level": "mms",
+    "norm": "UNWEIGHTED ||T - T_h||",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.81939,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_gal_unit_uL2w",
+    "level": "mms",
+    "norm": "r-weighted ||u - u_h||, u = (u_r, u_theta, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.956404,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_gal_unit_uH1w",
+    "level": "mms",
+    "norm": "r-weighted |u - u_h|_H1, CYLINDRICAL gradient",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.677014,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_gal_unit_pL2mw",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.122978,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_gal_unit_TH1w",
+    "level": "mms",
+    "norm": "r-weighted |T - T_h|_H1",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.835533,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_gal_unit_uL2_unw",
+    "level": "mms",
+    "norm": "UNWEIGHTED ||u - u_h||",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.956404,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_supg_unit_uL2w",
+    "level": "mms",
+    "norm": "r-weighted ||u - u_h||, u = (u_r, u_theta, u_z)",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.956404,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_supg_unit_uH1w",
+    "level": "mms",
+    "norm": "r-weighted |u - u_h|_H1, CYLINDRICAL gradient",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 2.677014,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_supg_unit_pL2mw",
+    "level": "mms",
+    "norm": "r-weighted mean-free pressure error",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.122978,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_supg_unit_TL2w",
+    "level": "mms",
+    "norm": "r-weighted ||T - T_h||",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.81939,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_supg_unit_TH1w",
+    "level": "mms",
+    "norm": "r-weighted |T - T_h|_H1",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 2.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.835533,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_supg_unit_uL2_unw",
+    "level": "mms",
+    "norm": "UNWEIGHTED ||u - u_h||",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.956404,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   },
+   {
+    "series": "sym_supg_unit_TL2_unw",
+    "level": "mms",
+    "norm": "UNWEIGHTED ||T - T_h||",
+    "mesh_family": {
+     "kind": "nested",
+     "dim": 2
+    },
+    "abscissa": {
+     "kind": "h_nominal",
+     "dim": 2
+    },
+    "levels_from": "meshes.unit.h_nominal",
+    "expected_order": 3.0,
+    "order_tolerance": 0.15,
+    "estimator": "fit",
+    "fit_points": 3,
+    "min_levels": 4,
+    "floor_rel": 1e-10,
+    "solution_scale": 0.81939,
+    "min_refinement_ratio": 1.9,
+    "max_downward_drift": 0.1,
+    "min_span": 4
+   }
+  ],
+  "checks": [
+   {
+    "quantity": "newton_iterations_from_lift_max",
+    "level": "mms",
+    "max": 8
+   },
+   {
+    "quantity": "nullspace_detected",
+    "level": "mms",
+    "min": 1
+   },
+   {
+    "quantity": "dirichlet_nodal_data_defect_max",
+    "level": "mms",
+    "max": 1e-12
+   }
+  ],
+  "solver": {
+   "max_residual": 1e-11,
+   "residual_key": "relative_residual"
+  },
+  "solver_sensitivity": [
+   {
+    "quantity": "lap_gal_unit_uL2w_finest",
+    "tight_quantity": "lap_gal_unit_uL2w_finest_tight",
+    "level": "mms",
+    "rel_max": 0.001
+   }
+  ]
+ }
+}

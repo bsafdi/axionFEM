@@ -1,0 +1,49 @@
+{
+  "case": "solenoid_h0.18",
+  "slit_deg": 4.0,
+  "order_3d": 2,
+  "seconds_2d": 2.900347948074341,
+  "seconds_3d": 2775.7864809036255,
+  "dofs_3d": 7941236,
+  "elements_3d": 1237509,
+  "Psi_SI_H_T_m2": {
+    "2d": 1.4990725550447196e-07,
+    "3d": 1.4924922798880728e-07,
+    "rel_diff": -0.004389564157186856
+  },
+  "L_p_H": {
+    "2d": 2.1903081666410855e-07,
+    "3d": 2.1902984513241877e-07,
+    "rel_diff": -4.435593605407888e-06
+  },
+  "W_mag_J": {
+    "2d": 691832.7433448143,
+    "3d": 688842.879054659,
+    "rel_diff": -0.004321657682317977
+  },
+  "g_factor": {
+    "2d": 0.0851805901517825,
+    "3d": 0.08480127671125758,
+    "rel_diff": -0.004453050159068318
+  },
+  "bodies_3d_static": [],
+  "bodies_3d_pickup": [
+    {
+      "betti1": 1,
+      "elements": 41224,
+      "generators": [
+        {
+          "azimuthal_period": 1.0000000008219294,
+          "constraint": "fixed fluxoid",
+          "fluxoid_coefficient": 0.0,
+          "net_current_A": 0.012566184638016908
+        }
+      ],
+      "names": [
+        "coax_inner",
+        "coax_outer",
+        "coax_short"
+      ]
+    }
+  ]
+}

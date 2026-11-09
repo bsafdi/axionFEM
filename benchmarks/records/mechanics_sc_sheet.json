@@ -1,0 +1,66 @@
+{
+ "axionfem_version": "0.1.0",
+ "date": "2026-10-06 15:02",
+ "check": "mechanics_sc_sheet",
+ "geometry": {
+  "tube_r_in_m": 0.5,
+  "tube_length_m": 8.0,
+  "solenoid_length_m": 12.0,
+  "ampere_turns": 1000000.0,
+  "sheet_at": "outer surface of the tube"
+ },
+ "reference": "the sheet screens the tube, so the tube carries the external pressure p = (B_out^2 - B_in^2)/2 mu0; exact thick-wall Lam\u00e9 with free ends, k = -p b^2/(b^2 - a^2), thickness mean -p b/t",
+ "rows": [
+  {
+   "t_over_R": 0.04,
+   "t_m": 0.02,
+   "B_screened_T": 7.001073563097584e-15,
+   "B_outside_T": 0.10453873500233084,
+   "p_Pa": 4348.251155926822,
+   "sheets_loaded": [
+    "skin"
+   ],
+   "err_hoop_exact_thick_wall": 0.0009500265081205939,
+   "err_sigma_rr_over_p": 0.008994127057451869,
+   "hoop_Pa": -112955.65670357441,
+   "hoop_exact_mean_Pa": -113054.53005409738,
+   "hoop_exact_mean_rel": -0.000874563367568415,
+   "maxwell_traction_Bn_over_B_max": 2.9497466291283294e-14,
+   "applied_radial_N_per_rad": 19669.324024045534
+  },
+  {
+   "t_over_R": 0.02,
+   "t_m": 0.01,
+   "B_screened_T": 3.967826868137432e-15,
+   "B_outside_T": 0.10449878014907421,
+   "p_Pa": 4344.927975553281,
+   "sheets_loaded": [
+    "skin"
+   ],
+   "err_hoop_exact_thick_wall": 0.00011129467965176332,
+   "err_sigma_rr_over_p": 0.001952738155086315,
+   "hoop_Pa": -221566.23915910223,
+   "hoop_exact_mean_Pa": -221591.3267532173,
+   "hoop_exact_mean_rel": -0.0001132155959470138,
+   "maxwell_traction_Bn_over_B_max": 4.097173981683491e-14,
+   "applied_radial_N_per_rad": 20011.431185182068
+  },
+  {
+   "t_over_R": 0.01,
+   "t_m": 0.005,
+   "B_screened_T": 2.9570106627594313e-15,
+   "B_outside_T": 0.10449103859054171,
+   "p_Pa": 4344.28423084638,
+   "sheets_loaded": [
+    "skin"
+   ],
+   "err_hoop_exact_thick_wall": 9.522209316015218e-05,
+   "err_sigma_rr_over_p": 0.002267423088440265,
+   "hoop_Pa": -438733.0883069957,
+   "hoop_exact_mean_Pa": -438772.7073154843,
+   "hoop_exact_mean_rel": -9.029506126534415e-05,
+   "maxwell_traction_Bn_over_B_max": 1.2996259674624865e-13,
+   "applied_radial_N_per_rad": 20219.072063483036
+  }
+ ]
+}
