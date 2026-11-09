@@ -29,7 +29,7 @@ pip install "axionfem[draw]"        # circuit drawings: Readout/Circuit/Chain .d
 ```
 
 Platforms built by CI (release tags and on demand): **manylinux_2_28 x86_64**,
-**macOS x86_64** (11.0+ via `macos-15-intel`) and **macOS arm64** (11.0+ via `macos-14`), for CPython 3.10–3.13.
+**macOS x86_64** (11.0+ via `macos-15-intel`) and **macOS arm64** (11.0+ via `macos-15`), for CPython 3.10–3.13.
 musllinux, PyPy and Linux aarch64 are not built; use a source build. Windows is not supported.
 
 Check what you got:
@@ -428,8 +428,7 @@ a build flag.
 
 ## Clusters and batch systems
 
-The source build is the same on a cluster; only the environment differs. [3D designs, MPI and
-clusters](guides/3d.md) describes runs on several ranks from the user's side.
+The source build is the same on a cluster; only the environment differs.
 
 - Load a C++17 compiler, MPI, CMake (3.20 or newer) and Python 3.10+ with the site's modules, and keep the same
   ones loaded when running (the libraries record the paths of the MPI they were built with). To have
@@ -475,7 +474,7 @@ srun -n "$SLURM_NTASKS" ./build/axf solve design.json -o run
 AXIONFEM_DEPS=$PWD/third_party/install-seq pip install ".[mesh,notebook]"   # sequential build, in a clone
 pip install --no-build-isolation -e ".[notebook]"     # MPI build, in a clone (it meshes with the gmsh SDK)
 pip install jupyterlab
-jupyter lab examples/quickstart.ipynb
+jupyter lab examples/notebook_quickstart.ipynb
 ```
 
 ```python

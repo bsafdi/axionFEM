@@ -1,5 +1,5 @@
 """Inductionless MHD through the fluids Python API (solve_navier_stokes(..., geometry="planar25d", mhd=...)):
-unit tests that run in seconds on one rank (formulation: docs/guides/fluids.md).
+unit tests that run in seconds on one rank (formulation: docs/physics/fluids.md).
 
   H1  Hartmann duct mode: the flow rate converges to the closed form; Lorentz power balance and the charge-conservation
       identities hold to round-off (Shercliff-type insulated duct: net in-plane current 0, potential nullspace pinned,

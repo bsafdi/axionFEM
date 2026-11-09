@@ -4,7 +4,7 @@
     `axionfem.haloscope` and `axionfem.haloscope_presets` are beta.
 
 **Code:** `python/axionfem/haloscope.py`, presets in `python/axionfem/haloscope_presets.py`.
-**Tests:** `tests/test_haloscope.py`. **Notebook:** `examples/cavity_haloscope.ipynb`.
+**Tests:** `tests/test_haloscope.py`. **Notebook:** `examples/cavity_demo.ipynb`.
 **Figures:** `docs/physics/figures/cavity_sensitivity_{limits,ratios}.png`, `cavity_scan_rate_beta.png` (embedded in Secs. 4 and 8; drawn with `axionfem.haloscope` and `axionfem.haloscope_presets`; the drawing script is not part of the repository).
 
 This layer is pure Python and independent of the FEM solver. A cavity mode enters only through
@@ -391,5 +391,4 @@ calibration and dead time; it is not a contradiction, but it is unexplained. The
 
 ## Tutorials
 
-Executed notebook: [eigenmodes, form factor and reach; Q0 and the surface-resistance models; sensitivity and scan
-rate](../../examples/cavity_haloscope.ipynb).
+Executed notebook: [eigenmodes, form factor, tuning, scan rate and reach](../../examples/cavity_demo.ipynb).

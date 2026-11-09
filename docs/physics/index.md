@@ -94,3 +94,8 @@ checked against.
 
 - [Elasticity, conduction and torsional dynamics](mechanics_thermal.md) (torsional dynamics: beta)
 - [High-frequency torsional mobility](torsion_highfreq.md) (beta)
+
+**Fluids and chemistry**
+
+- [Fluids: formulation and numerics](fluids.md) (beta)
+- [Chemistry: formulation and numerics](chemistry.md) (beta)

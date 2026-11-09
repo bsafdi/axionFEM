@@ -1,13 +1,14 @@
-# Readout circuits, SQUID chains and multi-band scans
+# Readout and multi-band scans
 
-In a lumped-element experiment a readout circuit turns the axion-induced flux in the pickup into a current measured
-by a SQUID. A capacitor tunes the pickup and the SQUID input coil to resonance. The noise combines the thermal noise
-of the resistive elements with the amplifier's imprecision and its backaction on the coil. This guide computes
-readout noise, attaches a dc SQUID amplifier chain, and plans scans across several tunable bands.
+In lumped-element experiments, a readout circuit turns axion-induced pickup flux into a current measured by a
+SQUID. A capacitor tunes the pickup and input coil to resonance. The circuit
+combines thermal noise from resistive elements with the amplifier's measurement
+noise and backaction on the coil. In this guide we compute readout noise and
+plan multi-band scans.
 
 ## From pickup flux to readout noise
 
-The signal transfer and the noise referred to the pickup's electromotive force are
+The signal transfer and noise referred to the pickup's electromotive force are
 
 $$
 H_s(\omega)\equiv\frac{\Phi_{\rm SQ}}{\mathcal E_{\rm pickup}},
@@ -15,12 +16,13 @@ H_s(\omega)\equiv\frac{\Phi_{\rm SQ}}{\mathcal E_{\rm pickup}},
 N_V(\omega)\equiv\frac{S_\Phi^{\rm tot}(\omega)}{\lvert H_s(\omega)\rvert^2}.
 $$
 
-Here $\Phi_{\rm SQ}$ is the SQUID flux and $S_\Phi^{\rm tot}$ its total noise power spectral density (PSD). $H_s$
-has units of $\mathrm{Wb/V}$ and $N_V$ of $\mathrm{V^2\,s}$. These PSDs are half the usual one-sided per-Hz PSDs
-([readout circuit](../physics/readout_circuit.md)).
+Here $\Phi_{\rm SQ}$ is the SQUID flux and $S_\Phi^{\rm tot}$ its total noise
+power spectral density (PSD). $H_s$ has units of $\mathrm{Wb/V}$ and $N_V$ of
+$\mathrm{V^2\,s}$. These PSDs are half the usual one-sided per-Hz PSDs.
 
-With NumPy and SciPy installed, we tune to 1 MHz. `Q` sets the pickup loss; the default amplifier has uncorrelated
-noise and is matched for scan rate. We compute the effective circuit parameters and the input-referred noise:
+With NumPy and SciPy installed, we tune to 1 MHz. `Q` sets the pickup loss; the default amplifier has
+uncorrelated noise and is matched for scan rate. We compute the effective circuit
+parameters and input-referred noise to characterize the readout.
 
 ```python
 from math import pi
@@ -36,55 +38,34 @@ print(eq["L_eff_H"], eq["Q_loaded"], eq["T_eff_K"])
 print(readout.noise_psd(2 * pi * f0)["N_V_V2_s"])
 ```
 
-The first line gives the whole-loop inductance in henries, the loaded quality factor and the effective noise
-temperature in kelvin; the second the input-referred noise. Whole-loop quantities enter the scan reach: input-coil
-and lead inductances contribute even though they collect no signal. The model neglects the SQUID input impedance; the
-resonance reduction applies locally around an isolated pole. `series_readout` also takes the pickup's Ψ
-(`Psi_SI=res.Psi`) and its inductance from a solve, and `readout.draw()` draws the circuit (the `draw`
-extra).
-
-## dc SQUID amplifier chains (beta)
-
-`axionfem.squid` models published dc SQUID amplifier chains, a first-stage dc SQUID followed by a SQUID array and a
-preamplifier, with the noise of every stage referred to the first-stage flux
-([dc SQUID chains](../physics/squid_chain.md), after arXiv:2504.20398). It is beta. A chain replaces the default
-amplifier of a readout:
-
-```python
-from axionfem import squid
-
-print(squid.presets())                    # 'C1', 'C1+low+RT', ..., 'C1+high+cryo'
-chain = squid.chain("C1+low+RT")
-print(chain.eta(f0))                      # minimum noise temperature in units of hbar*omega/(2 k_B)
-readout.squid = chain.squid_for_resonator(f0, 1e6, 1e-6 + 1e-7, 0.03)   # f0, Q, loop inductance, T
-n = readout.noise_psd(2 * pi * f0)
-print(n["N_V_thermal_V2_s"], n["N_V_backaction_V2_s"], n["N_V_imprecision_V2_s"], n["N_V_V2_s"])
-```
-
-`squid_for_resonator` couples the chain at its scan-optimal input; the noise PSD then splits into the thermal,
-backaction, imprecision and correlation parts. `chain.draw()` draws the chain.
+The first line gives whole-loop inductance in henries, loaded quality factor,
+and effective noise temperature in kelvin; the second gives input-referred
+noise. We use whole-loop quantities for [scan reach](../../examples/lumped_element_demo.ipynb):
+input-coil and lead inductances contribute even though they collect no signal.
+The model neglects SQUID input impedance; the resonance reduction applies
+locally around an isolated pole.
 
 ## Tuning across several bands
 
-!!! warning "Beta"
-    `axionfem.multipole` (`multipole.source_table`, `multipole.multiband_scan`, `scan.multipole_scan`,
-    `scan.reach_2211`) is beta ([specification](../physics/multipole_scan.md)).
+The multi-band and multipole scans (`axionfem.multipole`) are beta.
 
-When a detector's size approaches an electromagnetic wavelength, its impedance can contain several resonances. A
-multi-band scan distributes time among tunable frequency intervals. In the engineering convention $Z=R+iX$, positive
-$X$ is inductive; a series capacitor or inductor cancels the source reactance:
+When a detector's size approaches an electromagnetic wavelength, its impedance
+can contain several resonances. A multi-band scan distributes time among tunable
+frequency intervals. In the engineering convention $Z=R+iX$, positive $X$ is
+inductive; a series capacitor or inductor cancels the source reactance:
 
 $$
 C=\frac{1}{\omega X}\quad(X>0),\qquad
 L_t=-\frac{X}{\omega}\quad(X<0).
 $$
 
-The effective inductance is half the slope of the total tuned reactance with respect to angular frequency, including
-the tuning element.
+The effective inductance is half the slope of the total tuned reactance with
+respect to angular frequency, including the tuning element.
 
-We start with an ideal 100 nH pickup and an illustrative coupling of $10^{-6}\,\mathrm{H\,T\,m^2}$. The same calls
-accept sampled full-wave responses. We tabulate the pickup response and plan a multi-band scan to find the time
-required for the target reach:
+We start with an ideal 100 nH pickup and an illustrative coupling of
+$10^{-6}\,\mathrm{H\,T\,m^2}$. The same axionFEM calls accept sampled full-wave responses. We tabulate the
+pickup response and plan a multi-band scan to find the time required for the
+target reach.
 
 ```python
 import numpy as np
@@ -104,27 +85,46 @@ print(plan["bands"])
 print(plan["t_req_s"])
 ```
 
-The voltage column is the open-circuit amplitude per unit SI axion source coefficient, identified by
-`source_unit="kappa_SI"`. For [COMSOL data](comsol.md), give the source normalization and any port load. axionFEM's
-own impedance data use `convention="exp(-iwt)"`, and `multipole.table_from_results` builds a table from a full-wave
-solve. Here `Q` is the total resonator quality factor; alternatively, `Q_mqs` adds intrinsic loss to the table's
-resistance.
+The voltage column is the open-circuit amplitude per unit SI axion source
+coefficient, identified by `source_unit="kappa_SI"`. For [COMSOL data](comsol.md),
+we specify source normalization and any port load. axionFEM impedance data use
+`convention="exp(-iwt)"`. Here `Q` specifies total resonator quality factor;
+alternatively, `Q_mqs` adds intrinsic loss to the table's resistance.
 
-`bands` lists intervals in Hz and their tuning-element type. Defaults allow 30–300 pF capacitors and 10–500 nH
-inductors, removing 2.5 MHz at each band edge. `t_req_s` is the time to reach $10^{-15}\,\mathrm{GeV^{-1}}$ across
-the accepted bands; `g_target_allocation_GeV` gives the reach after rescaling to the requested live time. The methods
-are those of arXiv:2211.00008 and arXiv:2302.14084 ([multi-band scans](../physics/multipole_scan.md)).
+`bands` lists intervals in Hz and their tuning-element type. Defaults allow
+30–300 pF capacitors and 10–500 nH inductors, removing 2.5 MHz at each band edge.
+`t_req_s` is the time to reach $10^{-15}\,\mathrm{GeV^{-1}}$ across accepted bands;
+`g_target_allocation_GeV` gives reach after rescaling to the requested live time.
 
-## Finite-band scans
+## Exporting port parameters to circuit tools
 
-`multiband_scan` treats each band through its local pole. `axionfem.scan.finite_band` instead combines the response
-across resonances at each fixed tuning with a frequency-dependent readout, within a capacitor-tunable interval, and
-evaluates the exact circuit noise ([finite-band validation](../validation/finite_band.md)). Port impedances of a
-full-wave solve can also be exported to external circuit tools as Touchstone files
-([Full wave](fullwave.md#touchstone-export)).
+A full-wave sweep's port impedances can be written as a Touchstone file and simulated with an external circuit tool
+(SPICE, ADS, Microwave Office, `scikit-rf`). The engine's $e^{-i\omega t}$ impedances are complex-conjugated into the
+$e^{+j\omega t}$ convention these tools assume, so an inductor reads $Z=+j\omega L$:
 
-## Next steps
+```python
+res = design.solve()                                   # a design with a fullwave section
+report = res.write_touchstone("pickup.s2p", kind="S", z0=50)   # the solved rows
+res.write_touchstone("pickup_dense.s2p", dense=True)   # an adaptive sweep's dense model curve (beta)
+print(report["sigma_max"], report["passivity_violations_Hz"], report["reciprocity_error"])
+```
 
-- [Walkthrough notebook](../../examples/readout_squid.ipynb): readout of a solved detector, SQUID chains and the
-  noise budget.
-- [API reference](../api.md): every argument of the circuit, SQUID and scan functions.
+From the command line, run `axf export-touchstone runs/NAME/results.json --kind S --z0 50 [--dense]`. It exits with
+0 when the file was written and is passive, 3 when it was written but is not passive, and 2 on an error. The file is
+Touchstone v1 with option line `# Hz S RI R 50`, increasing frequencies and a comment giving the port order and
+polarity (port 1 is the pickup).
+
+The report gives $\sigma_{\max}(S)$, which must not exceed 1 for a passive structure. A violation is reported as a
+warning and the data are written as computed, never clipped. The report also gives the asymmetry of $Z$, which for a
+reciprocal design is zero to solver precision (about $10^{-11}$).
+
+The perturbative conductor surface loss is not part of $Z$. `surface_losses=True` adds its resistive part to the solved
+rows, but not the surface reactance. `axionfem.touchstone.read_touchstone` reads files back. Per-port reference
+impedances are written for S-parameters only, as a Touchstone v1.1 option line. Z and Y do not depend on z0: export
+them with one z0, or compute per-port S with `z_to_s`. Details are in
+[S-, Y- and Z-parameters and Touchstone files](../physics/touchstone.md).
+
+`multiband_scan` uses local poles. axionFEM provides `scan.finite_band` to combine responses across resonances at
+each fixed tuning with a frequency-dependent readout within a capacitor-tunable
+interval. Further reading: [dc SQUID readout chains](../../examples/squid_chain_demo.ipynb) (beta)
+or the [API reference](../api.md).

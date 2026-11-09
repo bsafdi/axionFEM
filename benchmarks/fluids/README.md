@@ -87,4 +87,5 @@ The cases check the discretizations (orders of convergence on manufactured and c
 identities, agreement with NGSolve, DOLFINx/FEniCSx or Cantera on the same discrete problem) and the solvers'
 convergence. They do not validate physical models against experiments, and no published benchmark value is compared
 yet. The measured results are summarized (as `report` tables) in `docs/validation/fluids.md` and
-`docs/validation/chemistry.md`; the formulation is described in `docs/guides/fluids.md` and `docs/guides/chemistry.md`.
+`docs/validation/chemistry.md`; the formulation is described in `docs/physics/fluids.md` and `docs/physics/chemistry.md` (the user guides are
+`docs/guides/fluids.md` and `docs/guides/chemistry.md`).

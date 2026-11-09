@@ -20,7 +20,8 @@ and push to `main`; deployment to GitHub Pages runs only when started by hand (`
 
 - **Pages** are Markdown files in `docs/`. They keep their paths, because code, tests and other pages link to them;
   the navigation titles are set in the `nav` of `mkdocs.yml`. New user pages go to `docs/guides/`, developer pages to
-  `docs/developer/`.
+  `docs/developer/`. `exclude_docs` in `mkdocs.yml` keeps the reference material (validation, physics notes,
+  developer notes, the CLI and C++ references) out of the site; links to it go to GitHub.
 - **Links** are written for GitHub: relative paths to other pages, to source files, benchmarks and records.
   `scripts/docs/hooks.py` rewrites them at build time, to site pages where the target is part of the site and to the
   GitHub repository otherwise; a link to a file that does not exist stays broken, so `--strict` reports it.
@@ -36,16 +37,15 @@ and push to `main`; deployment to GitHub Pages runs only when started by hand (`
   names, tracebacks or timings for review. The released notebooks are executed with an MPI build that has STRUMPACK,
   so that their 3D cells run.
 - **Formulas** are typeset by MathJax (`pymdownx.arithmatex`); `docs/javascripts/mathjax.js` configures it.
-- **Styles.** `docs/stylesheets/extra.css` sets the palette (the viridis colours of the figures), the homepage hero
-  and the cards.
 
 ## The homepage figures
 
 The hero, the cards, the social preview and the logo files in `docs/images/home/` and `docs/images/logo/` are written by
 `docs/images/make_homepage_figures.py`; never edit them by hand. Every picture is axionFEM output: the script runs
 the solves, writes the PNGs in a light and a dark variant, a `manifest.json` with the design parameters, solver
-settings, convergence checks and the numbers each caption may quote, and `captions.md`, which pages include with
-pymdownx.snippets:
+settings, convergence checks and the numbers each caption may quote, and `captions.md`. The README and the home page
+use some of these figures; the README's static-field caption is the `hero` section of `captions.md`
+(`scripts/docs/check_readme.py` checks the copy), and a page can include a caption with pymdownx.snippets:
 
 ```markdown
 --8<-- "docs/images/home/captions.md:hero"

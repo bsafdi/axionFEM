@@ -1,72 +1,105 @@
-# Solvers and numerical controls
+# Designs and solvers
 
-A design states what to compute; axionFEM chooses the solver from its `symmetry` and its sections. This page lists
-the solvers, the settings that control their accuracy and cost, and where each solve reports what it did.
+Lumped-element detectors and cavity haloscopes search for axion dark matter.
+In this guide we describe axionFEM designs and solvers.
 
-## Which solver runs
+A design is a JSON document describing geometry, materials, magnet windings,
+readout and mesh settings in SI units. Numeric fields accept expressions over
+named `parameters`; later regions replace earlier ones where they overlap,
+and unassigned space is air.
 
-| design | solver | build |
-|---|---|---|
-| axisymmetric (default) | magnetoquasistatic (MQS) static field and pickup mode: flux function ψ = rA_φ for poloidal fields and G = rH_φ for toroidal fields, exact Dirichlet-to-Neumann open boundary, superconductors as floating bodies with fluxoid or current constraints, Newton iteration for nonlinear iron | any |
-| axisymmetric with `fullwave` | full wave, m = 0 (both TE and TM families) with exact radiation or PEC boundary; MQS is its ω → 0 limit | any |
-| axisymmetric with `cavity` | cavity eigenmodes, form factors and wall losses (beta) | any |
-| `"symmetry": "xsec"` | eigenmodes of the cross-section of a z-uniform cavity (beta) | any |
-| `"symmetry": "3d"` | 3D H(curl) engine: Nédélec elements, open boundary by an infinity-shell map, hypre AMS preconditioning; MQS, full wave and eigenmodes (beta) | MPI |
-| with `electrostatics` | capacitance matrix (axisymmetric and 3D) | any (3D: MPI) |
-| with `mechanics` / `thermal` | elasticity under magnetic and cooldown loads; steady conduction with k(T) (axisymmetric and 3D) | any (3D: MPI) |
-| with `hts` | critical-state screening currents in HTS regions (axisymmetric) | any |
+## Design file
 
-The [physics pages](../physics/index.md) give the formulations, and the [design format](../design_format.md)
-every section's fields. A 3D design in a build without MPI stops with an error that says so.
-
-## Accuracy: order and mesh
-
-| setting | effect |
-|---|---|
-| `mesh.order` (or `solve(order=...)`) | element order, default 2. Raising it is the cheapest convergence check |
-| `mesh.size`, `mesh.surface_size` | element size inside the device and at boundaries of superconductors, iron, conductors, windings and ports |
-| `<region>.mesh_size`, `<region>.surface_size` | the same for one region |
-| `mesh.refinements` | uniform refinements of the generated mesh (each multiplies the element count by four in 2D) |
-| `mesh.adapt` | adaptive refinement until Ψ, L_p and W (or a chosen list) change by less than `tol` between cycles |
-| `mesh.domain_radius` | radius of the outer boundary; the open boundary is exact, so it only changes the cost |
-
-[Concepts](concepts.md#convergence) shows a convergence check, and the
-[mesh size control](../design_format.md#mesh-size-control) section of the design format lists every field.
-
-## Cost: threads, solvers and memory
-
-- **Threads.** The C++ core uses OpenMP in its assembly loops and in STRUMPACK. `solve(threads=N)`,
-  `af.set_threads(N)` or the environment variable `AXF_THREADS` set the thread count; otherwise `OMP_NUM_THREADS`
-  applies. Results do not depend on the thread count beyond round-off.
-- **Axisymmetric systems** are factorized by a sparse direct solver: Eigen's LDLᵀ with AMD ordering for small
-  systems, METIS nested dissection above 1.5 × 10⁵ unknowns, and STRUMPACK, when the build has it, above
-  `AXF_STRUMPACK_MIN_DOFS` (default 3 × 10⁵). A build with neither METIS nor STRUMPACK refuses systems above
-  4 × 10⁵ unknowns rather than risk an unreliable ordering. All backends agree to round-off.
-- **3D systems** use Krylov solvers preconditioned by hypre's AMS (and BoomerAMG for the scalar problems) on MPI
-  ranks, with STRUMPACK as an optional direct path for full wave. Every Krylov solve checks its true residual.
-- **Memory** of 3D solves grows quickly with the element order and the number of unknowns; ranks × threads should
-  not exceed the cores of the machine. [3D designs, MPI and clusters](3d.md) covers runs on several ranks.
-
-[Build options](../install.md#sparse-direct-solvers) describes how to build with METIS and STRUMPACK and the
-run-time switches (`AXF_ORDERING`, `AXF_STRUMPACK_MIN_DOFS`).
-
-## What each solve reports
-
-Every solve records which backend ran and what it cost, so a result can be checked after the fact:
+We write, load and solve a complete JSON design, `toroid.json`, for a toroidal
+magnet with a superconducting pickup sheath to obtain coupling and inductance.
 
 ```python
 import axionfem as af
 
-d = af.template("toroid", R=2.0, H=2.0)
-d.set(y=0.6)
-res = d.solve("runs/toroid", verbose=0)
-s = res.data["pickup"]["solver"]
-print(s["backend"], s["dofs"], s["final_residual"])   # e.g. eigen-ldlt, the unknowns, the true residual
-for c in res.data["checks"]:                          # independent consistency checks
-    print(c["name"])
-print(res.data["warnings"])
+af.template("toroid", R=2.0, H=2.0).save("toroid.json")
+design = af.load("toroid.json")
+print(design.validate())
+result = design.solve("runs/toroid")
+print(result.Psi, result.L_p)
 ```
 
-For this design the checks compare the pickup inductance from flux and from energy, and verify that the axial forces
-on all bodies sum to zero (Newton's third law). A solve that fails to converge says so in `warnings`, or stops with an
-error whose hint includes a check of the worst mesh elements.
+Validation reports `ok: True` and evaluated parameters, or identifies an invalid
+field. The solve returns coupling in $\mathrm{H\,T\,m^2}$ and inductance in
+henries; we check mesh refinement and residuals before using them.
+
+| Top-level keys | Purpose |
+|---|---|
+| `schema`, `name`, `symmetry` | Format, name and geometry dimension |
+| `parameters` | Named numbers and expressions |
+| `regions`, `curves`, `materials` | Volumes, sheets and material properties |
+| `windings`, `circuits`, `background` | Static-field sources |
+| `superconductors`, `pickup` | Constraints and readout |
+| `mesh` | Element sizes and order |
+| `fullwave`, `cavity` | Driven frequency sweeps or cavity modes |
+| `scan`, `benchmarks`, `cost` | Sensitivity assumptions and cost metric |
+
+## Field models
+
+axionFEM's magnetoquasistatic (MQS) solver neglects displacement current and is
+appropriate when the detector is small compared with the signal wavelength.
+Its full-wave solver retains displacement current to resolve radiation,
+resonances and frequency-dependent coupling.
+With time dependence $e^{-i\omega t}$,
+
+$$
+\Psi(\omega)=\frac{1}{i\omega I}\int \mathbf E_I\cdot\mathbf B_{\rm lab}\,dV,
+\qquad L(\omega)=-\frac{\operatorname{Im}Z(\omega)}{\omega}.
+$$
+
+Here $\omega$ is angular frequency, $\mathbf E_I$ is the field driven by pickup
+current $I$, $\mathbf B_{\rm lab}$ is the static field and $Z$ is terminal
+impedance. Both quantities approach their MQS values at low frequency; negative
+inductance indicates a capacitive response.
+
+We add `"fullwave": {"frequencies": [1e5, 1e6, 1e7], "boundary": "radiation"}`
+for a sweep in hertz; `pec` instead closes the domain with a perfect conductor.
+Each `result.fullwave["sweep"]` row reports `f_Hz`, `Psi_abs` and `L_H`.
+
+Both models default to `"symmetry": "axisymmetric"`, for rotationally symmetric
+geometry and excitation. We set `"symmetry": "3d"` for slits or localized feeds;
+this requires an [MPI-enabled installation](install.md). Axisymmetric feeds are
+distributed uniformly around the axis. Eigenmode calculations are described in
+[Cavity haloscopes](../../examples/cavity_demo.ipynb).
+
+## Tree-cotree solve
+
+The tree-cotree solve is beta.
+At low frequency, separating gradient fields from magnetic-flux-carrying fields
+avoids cancellation in the 3D full-wave matrix. We set `AXF_FW_SOLVER=strumpack`
+and `AXF_FW_GAUGE=tree-cotree`; this requires STRUMPACK, first-order Nédélec
+elements, real lossless materials and PEC on every boundary. We assess
+`split_true_relative_residual`; the factorization occupies one MPI rank.
+
+## Multiport circuits and components
+
+`axionfem.multiport.MultiportCircuit` connects the detector impedance matrix to
+external loads, preserving the relative phases of axion-induced voltages.
+`axionfem.multiport_components.LosslessTransmissionLine` adds propagation delay
+and stored energy for distributed connections. We include only components absent
+from the FEM model, and supply reciprocal, passive impedances.
+We orient circuit branches along each gap's current profile; circuit current is
+opposite the current entering the FEM device.
+
+## 3D ports and magnetic sources
+
+Each gap in `fullwave.ports` touches two conducting terminal patches; `toward`
+sets its current direction, while the primary pickup needs a conducting return
+through one body. Each sweep row contains `Z_matrix_re_ohm`, `Z_matrix_im_ohm`
+and coherent `Psi_vector`: the pickup comes first, matrix rows are measured
+ports and columns are driven ports. `fullwave.source` supplies an independent
+static field for the axion overlap (beta, below).
+
+## Prescribed static source
+
+The prescribed static source is beta.
+For example, we add `"boundary": "pec", "source": {"kind": "uniform", "B_T": [0, 1, 0]}`
+inside `fullwave` for a $1\,\mathrm T$ field along the global $y$ axis.
+This replaces only the RF overlap field, leaving MQS energies and forces
+unchanged; it does not compute screening. With radiation boundaries, we use
+closed current segments inside the domain and check source quadrature as well
+as RF mesh convergence.

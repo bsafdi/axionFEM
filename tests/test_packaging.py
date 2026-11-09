@@ -234,8 +234,8 @@ def test_workflows_exist():
     assert "build_deps" in ci_text and "pytest" in ci_text
     assert "cibuildwheel" in wh_text
     # one job per native architecture: no cross-compiling of the MFEM dependency
-    for runner in ("ubuntu-24.04", "macos-15-intel", "macos-14"):
-        assert runner in wh_text, f"wheels.yml has no {runner} job"
+    for runner in ("ubuntu-24.04", "macos-15-intel", "macos-15"):
+        assert re.search(rf"os: {re.escape(runner)}[,}}]", wh_text), f"wheels.yml has no {runner} job"
 
 
 

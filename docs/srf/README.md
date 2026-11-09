@@ -242,8 +242,8 @@ Steps:
 
 ## Reproduce
 
-- `examples/srf_heterodyne.ipynb`: walkthrough of this page, of [sensitivity.md](sensitivity.md) and of the
-  wall-vibration estimate ([vibrations.md](vibrations.md)); a few minutes on one node.
+- `examples/srf_demo.ipynb`: walkthrough of this page, of [sensitivity.md](sensitivity.md) and of the
+  wall-vibration requirement ([vibrations.md](vibrations.md)); a few minutes on one node.
 - `pytest tests/test_srf.py`: fast in about 1 min (incl. the 2D wall-peak robustness on three meshes, the synthetic
   azimuthal-peak test and the 3D records regression). With AXF_SLOW=1 it adds the tuner, the 3D cell and the 3D
   pillbox checks of the new keys (consistent-flux E_n, wall samples).
@@ -428,4 +428,4 @@ another code is not available.
 
 ## Tutorials
 
-Notebook: [mode pair, volume and wall vibrations](../../examples/srf_heterodyne.ipynb).
+Notebook: [mode pair, volume and wall vibrations](../../examples/srf_demo.ipynb).

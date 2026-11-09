@@ -4,7 +4,7 @@ Lumped-element detectors and cavity haloscopes can be modeled in axionFEM and [C
 
 ## Design export to COMSOL
 
-We export the toroid template [design](concepts.md) to Java so that its geometry can be rebuilt in COMSOL.
+We export the toroid template [design](solvers.md) to Java so that its geometry can be rebuilt in COMSOL.
 
 ```python
 import axionfem as af
@@ -22,9 +22,7 @@ For a 3D design with a gap-port pickup, `physics="fullwave"` adds supported mate
 
 ## COMSOL .mph model import
 
-!!! warning "Beta"
-    The `.mph` import (`axionfem.import_comsol`, `axf import-comsol`) and the 2D full-wave solver it uses for 2D
-    models are beta. Read the import report before relying on an imported model.
+The import, and the 2D full-wave solver it uses for 2D models, are beta.
 
 We save a 3D **Electromagnetic Waves, Frequency Domain** model with its tetrahedral mesh, using **Mesh → Build All** before saving. We then import the saved model and print its report summary to inspect the transferred settings.
 
@@ -37,6 +35,6 @@ print(d.import_report.summary)
 
 The returned `Design` uses the stored mesh. The output directory contains `design.json`, `design.msh`, `design_mesh_info.json` and an import report in Markdown and JSON. The printed summary describes the imported mesh and electromagnetic settings. We read the report before solving: it identifies transferred settings and approximations, including frequency-dependent materials represented by constant values. Unsupported physics that would change the result stops the import with an explanation.
 
-2D and 2D-axisymmetric models import as well: they run on a 2D full-wave solver that takes the stored triangle mesh. Impedance, transition (thin layer) and scattering boundary conditions, and perfectly matched layers, are imported in 2D and 3D. The details and their validation are in the [COMSOL import reference](../comsol_import.md); the export options are in the [COMSOL export reference](../comsol_export.md).
+2D and 2D-axisymmetric models import as well: they run on a 2D full-wave solver that takes the stored triangle mesh. Impedance, transition (thin layer) and scattering boundary conditions, and perfectly matched layers, are imported in 2D and 3D. The details and their validation are in [comsol_import.md](../comsol_import.md).
 
 The [API reference](../api.md) lists conversion options.

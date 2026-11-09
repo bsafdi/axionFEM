@@ -1,5 +1,5 @@
 """Steady Navier-Stokes through the fluids Python API (axionfem.fluids.solve_navier_stokes, MPI builds):
-unit tests that run in seconds on one rank (formulation: docs/guides/fluids.md).
+unit tests that run in seconds on one rank (formulation: docs/physics/fluids.md).
 
   U1  Taylor test of R(x) against J(x)d per (geometry x form x viscous form): slope 2, r2/eps^2 constant (R is quadratic)
   U5  discrete energy identity of the kernel on random homogeneous fields: c_skew(u; u, u) = 0 to round-off and

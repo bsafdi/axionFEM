@@ -154,7 +154,7 @@ jobs:
 
   macos-sequential:
     name: macOS arm64 sequential (the guide's source build)
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
@@ -172,7 +172,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: third_party/install-seq
-          key: seq-macos-14-${{ hashFiles('scripts/build_deps_wheel.sh', 'scripts/common.sh', 'third_party/SHA256SUMS.txt') }}
+          key: seq-macos-15-${{ hashFiles('scripts/build_deps_wheel.sh', 'scripts/common.sh', 'third_party/SHA256SUMS.txt') }}
 
       - name: Build the sequential third-party stack (serial MFEM, METIS)
         if: steps.deps.outputs.cache-hit != 'true'
@@ -321,7 +321,7 @@ jobs:
   macos-mpi:
     name: macOS arm64 MPI (the guide's source build, 3D engine)
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4

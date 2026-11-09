@@ -24,7 +24,7 @@ Human contributors follow the same rules.
 | `viewer/` | three.js viewer, copied into the package; `viewer/vendor/` is the unmodified three.js release |
 | `benchmarks/` | validation drivers and the lean reference records that tests and docs read |
 | `tests/` | pytest suites; `tests/premerge.txt` is the quick pre-merge subset |
-| `examples/` | executed notebooks (`quickstart`, `lumped_element`, `fullwave`, `readout_squid`, `cavity_haloscope`, `srf_heterodyne`, `mechanics_thermal`, `reach_optimization`, `fluids_beta`, `chemistry_beta`) and example designs |
+| `examples/` | executed notebooks (`notebook_quickstart`, `lumped_element_demo`, `mechanics_thermal_demo`, `squid_chain_demo`, `cavity_demo`, `srf_demo`, `fluids_demo`, `chemistry_demo`) and example designs |
 | `docs/` | documentation site (MkDocs); `docs/developer/` holds the developer guide |
 | `scripts/` | dependency builds, `env.sh`, docs tooling, example SLURM scripts |
 | `tools/` | optional manufactured-solution and cross-code reference generators (NGSolve, FEniCSx) for the fluids checks |

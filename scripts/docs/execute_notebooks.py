@@ -1,7 +1,7 @@
 """Execute the example notebooks in place and store them without run-specific metadata.
 
     python scripts/docs/execute_notebooks.py                       # every notebook of the documentation site
-    python scripts/docs/execute_notebooks.py examples/fullwave.ipynb [--timeout 3600] [--jobs 4]
+    python scripts/docs/execute_notebooks.py examples/srf_demo.ipynb [--timeout 3600] [--jobs 4]
     python scripts/docs/execute_notebooks.py --audit-only          # only list suspicious output lines
 
 Each notebook runs with its own directory as the working directory, so its relative links and paths resolve as they do

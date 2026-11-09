@@ -310,9 +310,9 @@ WIDGET_VIEW_MIME = "application/vnd.jupyter.widget-view+json"
 
 
 def test_example_notebook_is_valid_and_stores_no_widget_state():
-    """The quickstart notebook is stored executed, but without widget views or widget state (they would add
+    """The quick-start notebook is stored executed, but without widget views or widget state (they would add
     megabytes and cannot render without a kernel)."""
-    nb_path = ROOT / "examples" / "quickstart.ipynb"
+    nb_path = ROOT / "examples" / "notebook_quickstart.ipynb"
     nb = json.loads(nb_path.read_text("utf-8"))
     assert nb["nbformat"] == 4
     code = [c for c in nb["cells"] if c["cell_type"] == "code"]

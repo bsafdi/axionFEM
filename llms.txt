@@ -13,17 +13,16 @@
 Repository paths below are relative to the repository root. Documentation site: https://bsafdi.github.io/axionFEM/
 
 ## Docs
-- [Installation](docs/guides/install.md): wheels, sequential and MPI source builds, `af.build_info()`
+- [Installation](docs/guides/install.md): sequential and MPI source builds (0.1.0 is not on PyPI), `af.build_info()`
 - [Designs and solvers](docs/guides/solvers.md): design documents, engines, solver choices
-- [Visualization](docs/guides/visualization.md): widget, HTML export, live viewer, PNG snapshots
+- [Visualization](docs/guides/visualization.md): widget, HTML export, scenes, PNG snapshots
 - [Readout and multi-band scans](docs/guides/readout_multiband.md) (`axionfem.multipole` is beta)
 - [Shape optimization](docs/guides/optimization.md): adjoint sensitivities and optimizers
 - [COMSOL export and import](docs/guides/comsol.md)
 - [AI assistants (MCP)](docs/guides/mcp.md): client configuration and the tool list
-- [User guide index](docs/guides/index.md), [concepts](docs/guides/concepts.md),
-  [scope and limitations](docs/guides/limitations.md), [running the tests](docs/developer/testing.md)
-- Executed notebooks (`examples/`): quickstart, lumped_element, fullwave, readout_squid, cavity_haloscope (beta),
-  srf_heterodyne (beta), mechanics_thermal, reach_optimization, fluids_beta (beta), chemistry_beta (beta)
+- [Fluids](docs/guides/fluids.md) and [chemistry](docs/guides/chemistry.md) (beta), [running the tests](docs/developer/testing.md)
+- Executed notebooks (`examples/`): notebook_quickstart, lumped_element_demo, mechanics_thermal_demo,
+  squid_chain_demo (beta), cavity_demo (beta), srf_demo (beta), fluids_demo (beta), chemistry_demo (beta)
 
 ## Start here
 - [AGENTS.md](AGENTS.md): Part A for agents changing axionFEM, Part B for agents designing detectors with it

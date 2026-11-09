@@ -13,7 +13,7 @@ change the script and run it again.
 | `card_mech_*` | von Mises stress of an illustrative solenoid winding under its own Lorentz force |
 | `card_reach_*` | published haloscope limits next to the same limits recomputed from the published parameters |
 | `card_fluids_*` | natural convection in a differentially heated square cavity |
-| `card_chem_*` | primary current distribution on a disk electrode (shown in the chemistry guide) |
+| `card_chem_*` | primary current distribution on a disk electrode |
 | `social_preview.png` (1280 x 640) | repository social preview (uploaded in the repository settings at release) |
 | `manifest.json` | axionFEM version and build features, SHA-256 of the script, design parameters, solver settings, convergence checks, quoted numbers, status, wall times |
 | `captions.md` | captions generated from the manifest, one snippet section per figure |

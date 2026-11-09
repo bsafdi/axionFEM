@@ -1,185 +1,170 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo/axionfem_wordmark_dark.svg">
-    <img src="docs/images/logo/axionfem_wordmark_light.svg" alt="axionFEM" width="330">
-  </picture>
-</p>
+# axionFEM
 
-<p align="center">
-  <b>Finite-element simulation for axion dark-matter detectors</b><br>
-  lumped-element detectors · cavity haloscopes · SRF heterodyne cavities · SQUID readout
-</p>
+axionFEM is a finite-element package for designing axion dark-matter
+detectors: lumped-element experiments (e.g., ABRACADABRA, DMRadio, CORE),
+resonant-cavity haloscopes (e.g., ADMX, HAYSTAC, CAPP, QUAX, ORGAN) and
+superconducting radio-frequency heterodyne cavities. It has a C++ core
+built on MFEM, a Python interface, a 3D viewer, and an MCP server so that
+designs can be built and evaluated through chat.
 
-<p align="center">
-  <a href="https://bsafdi.github.io/axionFEM/">Documentation</a> ·
-  <a href="docs/guides/install.md">Install</a> ·
-  <a href="#quick-start">Quick start</a> ·
-  <a href="docs/guides/index.md">User guide</a> ·
-  <a href="docs/validation/index.md">Validation</a> ·
-  <a href="#citing">Citing</a>
-</p>
+**Documentation:** [bsafdi.github.io/axionFEM](https://bsafdi.github.io/axionFEM/) (installation, tutorials, API reference)
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/home/hero_toroid_dark.png">
-    <img src="docs/images/home/hero_toroid_light.png" alt="Toroidal lumped-element detector: static field on the cut planes and pickup-mode field lines" width="100%">
-  </picture>
-</p>
+![The axionFEM viewer on the quick-start toroid](docs/images/viewer_toroid.png)
 
-<sub>The toroidal lumped-element detector of the quick start (R = H = 2.0 m, NI = 1.0 × 10⁶ A turns), solved axisymmetrically and drawn by axionFEM's renderer as a 3D cutaway. Colour: the static field |B| on the cut planes (viridis, 0 to 0.167 T), which is confined to the toroid volume; where it vanishes the planes are left uncoloured. Pink: field lines of the pickup mode in the bore. Signal coupling Ψ = 3.088 × 10⁻⁷ H T m², pickup inductance L_p = 1.458 µH, with third-order elements; second-order elements agree to 4 × 10⁻⁶.</sub>
+*The interactive viewer (`res.show()` in a notebook, or `res.export_html(...)` for a standalone page)
+on the quick-start ABRACADABRA-style toroid (R = 2 m, H = 2 m): a 90° cutaway colored by the
+pickup-mode field per ampere $`|\mathbf B_I|`$ (log scale), with the pickup field lines and the results panel
+(signal coupling $`\Psi`$, pickup inductance $`L_p`$, $`\mathcal F=\Psi^4/L_p^2`$, stored energy, peak fields).*
 
-axionFEM is a finite-element package for designing and evaluating axion dark-matter detectors. For lumped-element
-detectors it computes the signal coupling Ψ, the pickup inductance and the scan figure of merit from
-magnetoquasistatic and full-wave solutions; for cavity haloscopes, eigenmodes, form factors and quality factors; for
-SRF heterodyne cavities, pump and signal modes and their overlap; and for each, the noise, scan rate and reach of the
-readout chain. A C++17 core built on [MFEM](https://mfem.org) performs the solves. A Python API, the `axf` command
-line, an interactive 3D viewer and an MCP server for AI assistants sit on top. Mechanics and heat conduction are
-included, and beta modules cover incompressible flow and electrochemistry.
+<details>
+<summary>Static field $`\mathbf B_\mathrm{lab}`$ of the same toroid (3D cutaway)</summary>
 
-## Features
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/home/hero_toroid_dark.png">
+  <img src="docs/images/home/hero_toroid_light.png" alt="Static field of the quick-start toroid" width="100%">
+</picture>
 
-| Area | What axionFEM computes | Status |
-|---|---|---|
-| Lumped-element detectors | static field (nonlinear iron, superconductors with fluxoid or current constraints, exact open boundary), pickup inductance L_p, coupling Ψ, F = Ψ⁴/L_p² against the scan requirement, peak fields, forces; axisymmetric, and 3D with an MPI build | validated |
-| Full-wave response | Ψ(ω), L(ω) and port impedances beyond the quasistatic limit, radiation, self-resonances, bulk and surface losses, multiport circuits, Touchstone export; axisymmetric, and 3D with an MPI build | validated (in 3D: current ports); beta: the surface-resistance models, and in 3D the prescribed sources, imposed background field, perfectly matched layers, error indicator, Gauss-law guard, adaptive sweep, tree-cotree solve, eigenmodes, closed RF-only models (symmetry surfaces, removed PEC volumes, lumped gaps) and the energy-matrix, field-export and reactive-load diagnostics |
-| Readout and scans | series readout circuits, noise referred to the pickup, scan reach, finite-band scans, multi-band and multipole scans | validated; beta: multi-band and multipole scans (`axionfem.multipole`) |
-| dc SQUID amplifier chains | published chain models, noise and coupling to the readout | beta |
-| Sensitivities and optimization | adjoint shape sensitivities (axisymmetric magnetoquasistatic, linear materials), local and global optimization | validated |
-| Superconductors and conductors | Meissner bodies and fluxoid states, conductor critical surfaces, HTS critical state, thin magnetic layers, electrostatic capacitance | validated |
-| Mechanics and heat | elasticity under magnetic and cooldown loads, steady conduction with k(T); axisymmetric, and 3D with an MPI build | validated |
-| Torsional dynamics | axisymmetric torsional modes, harmonic response and mobility of structures | beta |
-| Cavity haloscopes | eigenmodes (axisymmetric, cross-section, 3D), form factor C, Q₀ with wall models, tuning sweeps with mode tracking, haloscope sensitivity, presets of published runs, receiver coupling | beta |
-| SRF heterodyne cavities | elliptical cells and closed cylinders, degeneracy tuning, overlap η₁₀, geometry factor, wall peaks, heterodyne sensitivity | beta |
-| COMSOL interoperability | export of geometry, meshes and full-wave physics; import of `.mph` models | export available; import beta |
-| Fluids | Stokes, steady and transient Navier-Stokes, GLS, inductionless MHD, scalar transport and Boussinesq convection (MPI build) | beta |
-| Chemistry | kinetics, reactors and equilibrium; primary and secondary current distribution; porous electrodes | beta |
-| Tools | interactive viewer (notebook widget, single-file HTML), PNG renderer, `axf` command line, MCP server | |
+*The toroidal lumped-element detector of the quick start (R = H = 2.0 m, NI = 1.0 × 10⁶ A turns), solved axisymmetrically and drawn by axionFEM's renderer as a 3D cutaway. Colour: the static field |B| on the cut planes (viridis, 0 to 0.167 T), which is confined to the toroid volume; where it vanishes the planes are left uncoloured. Pink: field lines of the pickup mode in the bore. Signal coupling Ψ = 3.088 × 10⁻⁷ H T m², pickup inductance L_p = 1.458 µH, with third-order elements; second-order elements agree to 4 × 10⁻⁶.*
+The figure is generated by [docs/images/make_homepage_figures.py](docs/images/make_homepage_figures.py).
 
-"Validated" means that the test suite checks the capability against closed-form solutions, manufactured solutions,
-independent solvers or published results ([validation pages](docs/validation/index.md)). "Beta" means
-that the capability works and is tested, but its interface or its validation is not complete; beta modules say so
-in their documentation.
+</details>
 
-<table>
-<tr>
-<td width="33%" align="center"><a href="docs/guides/cavity.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/home/card_cavity_dark.png"><img src="docs/images/home/card_cavity_light.png" alt="Cavity modes with an off-centre tuning rod"></picture></a><br><b>Cavity haloscopes</b> (beta)</td>
-<td width="33%" align="center"><a href="docs/guides/srf.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/home/card_srf_dark.png"><img src="docs/images/home/card_srf_light.png" alt="Overlap density of the pump and signal modes of an SRF cavity"></picture></a><br><b>SRF heterodyne cavities</b> (beta)</td>
-<td width="33%" align="center"><a href="docs/guides/readout_multiband.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/home/card_readout_dark.png"><img src="docs/images/home/card_readout_light.png" alt="Noise budget of a resonant readout with a dc SQUID chain"></picture></a><br><b>Readout and SQUID chains</b> (SQUID chains and multi-band scans: beta)</td>
-</tr>
-<tr>
-<td width="33%" align="center"><a href="docs/guides/mechanics_thermal.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/home/card_mech_dark.png"><img src="docs/images/home/card_mech_light.png" alt="Von Mises stress in a solenoid winding"></picture></a><br><b>Mechanics and thermal</b></td>
-<td width="33%" align="center"><a href="docs/guides/cavity.md#sensitivity-and-reach"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/home/card_reach_dark.png"><img src="docs/images/home/card_reach_light.png" alt="Published haloscope limits next to the limits recomputed by axionFEM"></picture></a><br><b>Reach across mass</b> (beta)</td>
-<td width="33%" align="center"><a href="docs/guides/fluids.md"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/home/card_fluids_dark.png"><img src="docs/images/home/card_fluids_light.png" alt="Natural convection in a differentially heated cavity"></picture></a><br><b>Fluids</b> (beta)</td>
-</tr>
-</table>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/home/card_cavity_dark.png">
+  <img src="docs/images/home/card_cavity_light.png" alt="Cavity modes with an off-centre tuning rod" width="360">
+</picture>
 
-<sub>Every image is axionFEM output generated by
-[docs/images/make_homepage_figures.py](docs/images/make_homepage_figures.py); the captions, with the numbers each
-figure quotes and their convergence checks, are in [docs/images/home/captions.md](docs/images/home/captions.md).</sub>
+*Transverse cross-section of a copper cavity with an off-centre tuning rod: $`E_z`$ of the three lowest TM modes from
+the cross-section eigensolver (`"symmetry": "xsec"`, beta); dark lines are nodal lines
+([validation](docs/validation/cavity_xsec.md)).*
 
-## Installation
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/home/card_srf_dark.png">
+  <img src="docs/images/home/card_srf_light.png" alt="Overlap density of the pump and signal modes of an SRF cavity" width="360">
+</picture>
 
-axionFEM 0.1.0 is not yet on PyPI: install it from a clone of this repository.
+*SRF heterodyne cavity (beta): the overlap density $`\mathbf E_1\cdot\mathbf B_0`$ of the pump and signal modes of a
+closed cylinder at their degenerate length, on the meridional section, from the axisymmetric eigensolver; its volume
+average is the overlap factor $`\eta_{10}`$ ([docs/srf/](docs/srf/README.md)).*
 
-| Build | What it has | Instructions |
-|---|---|---|
-| Sequential source build (`scripts/build_deps_wheel.sh`, then `AXIONFEM_DEPS=$PWD/third_party/install-seq pip install .`) | everything except the 3D engine, the fluids module (beta) and 3D current distributions: axisymmetric and full-wave solvers, readout and scans, cavities, SRF, mechanics, chemistry, viewer, CLI, MCP server | [install guide](docs/guides/install.md#sequential-source-build) |
-| MPI source build | the same plus the 3D engine and the fluids module (beta) | [install guide](docs/guides/install.md#mpi-source-build) |
+<img src="docs/images/readout_circuit.svg" alt="Effective readout circuit: FEM pickup with axion EMF and loss, leads, tuning capacitor, dc SQUID input coil" width="49%">
+<img src="docs/images/squid_chain.svg" alt="dc SQUID amplifier chain: first-stage dc SQUID, second-stage SQUID array, room-temperature preamplifier" width="49%">
 
-The sequential build (the configuration of the planned PyPI wheels, which cannot require a system MPI) is serial: 3D designs, the fluids module and 3D current
-distributions need the MPI source build. `af.build_info()` reports what a build has. The `mesh` extra installs gmsh,
-which axionFEM runs as a separate program (see [License](#license)). The release workflow is configured to build
-wheels of the sequential build (Linux x86_64 manylinux_2_28, macOS x86_64 and arm64, CPython 3.10 to 3.13) for a later
-upload to PyPI.
+*Left: the readout loop of `circuit.series_readout` ([docs/physics/readout_circuit.md](docs/physics/readout_circuit.md)),
+drawn by the package itself: `readout.draw(annotate=False)` (with values: `readout.draw()`; also `Chain.draw()`,
+`MultiportReadout.draw()`; the `draw` extra). Right: the dc SQUID amplifier chain behind the input coil (beta),
+`squid.chain("C1+low+RT").draw(annotate=False)` ([docs/physics/squid_chain.md](docs/physics/squid_chain.md)). Both
+drawings come from [docs/images/make_circuit_figure.py](docs/images/make_circuit_figure.py).*
+
+> Status: version 0.1.0 (alpha). Axisymmetric and MPI 3D solvers, full-wave analysis, circuits, HTS, mechanics and
+> heat conduction, and the design tools are checked against closed-form solutions, manufactured solutions,
+> independent solvers or published results ([validation](docs/validation/index.md)). Beta (working and tested, but
+> with an interface or a validation that is not complete): cavity haloscopes, SRF heterodyne cavities, dc SQUID
+> chains, multi-band and multipole scans, torsional dynamics, the COMSOL import, the fluids, scalar-transport and
+> chemistry modules, the surface-resistance models, and in 3D full wave everything except current ports (prescribed
+> sources, the imposed background field, perfectly matched layers, the error indicator, the Gauss-law guard, the
+> adaptive sweep, the tree-cotree solve, eigenmodes, closed RF-only models and the energy-matrix, field-export and
+> reactive-load diagnostics). The 3D engine and the fluids module need the MPI source build.
+
+## What it computes for lumped-element detectors
+
+For a lumped-element detector geometry (windings, superconductors, iron, normal conductors,
+readout port) axionFEM solves the magnetoquasistatic problems that define a
+lumped-element axion search:
+
+- the static laboratory field $`\mathbf B_\mathrm{lab}`$ (nonlinear iron, superconductors with
+  frozen fluxoid or prescribed current, exact open boundary);
+- the pickup mode: the field of a unit readout current, giving $`L_p`$;
+- the signal coupling $`\Psi=\frac{1}{I}\int \mathbf A_I\cdot\mathbf B_\mathrm{lab}\,d^3x`$ ($`\Phi_a=\kappa_a\Psi`$);
+- the scan figure of merit $`\mathcal F=\Psi^4/L_p^2`$ against the requirement $`\mathcal F_\mathrm{req}`$ of
+  the optimal resonant scan (Chaudhuri et al.), for any noise benchmark;
+- stored energy, peak fields in windings and on superconducting surfaces,
+  Lorentz forces and Maxwell pressure, cold-envelope area and a cost metric (a scaling metric for comparing
+  designs, not a construction estimate);
+- **shape sensitivities** of all of those with respect to the design parameters
+  (adjoint on a morphed mesh) and gradient-based optimization
+  ([docs/optimization.md](docs/optimization.md)).
 
 ## Quick start
 
+axionFEM 0.1.0 is not yet on PyPI. We build it from a clone with meshing and notebook support; the sequential build
+needs a C++17 compiler and CMake but no MPI ([installation](docs/guides/install.md#sequential-source-build)).
+
+```bash
+git clone https://github.com/bsafdi/axionFEM && cd axionFEM
+python3 -m venv .venv && source .venv/bin/activate
+pip install --upgrade pip
+bash scripts/build_deps_wheel.sh
+AXIONFEM_DEPS=$PWD/third_party/install-seq pip install ".[mesh,notebook]"
+```
+
+We solve the quick-start toroid to inspect its summary and fields, then export an HTML view.
+
 ```python
 import axionfem as af
-
-d = af.template("toroid", R=2.0, H=2.0)   # the toroidal detector of the figure above
-d.set(y=0.6)                              # inner radius of the field region, as a fraction of R
-res = d.solve()                           # mesh and solve; files go to runs/toroid
-print(res.summary())                      # Psi, L_p, stored energy, peak fields, scan requirement, cost metric
-res.export_html("toroid.html")            # a self-contained 3D viewer page
+res = af.template("toroid", R=2.0, H=2.0, y=0.6).solve()
+print(res.summary())
+res.show()                      # the 3D viewer in a Jupyter cell
+res.export_html("toroid.html")  # or a self-contained page
 ```
 
-The summary starts with
+The sequential build has everything except the 3D engine and the fluids module, which need MPI and so the
+[MPI source build](docs/guides/install.md#mpi-source-build). `af.build_info()` reports the available build features.
 
+Step-by-step [example notebooks](examples/) (executed, and rendered on the documentation website) cover
+lumped-element detectors, SQUID readout chains, cavity haloscopes, SRF heterodyne cavities, mechanics and heat,
+fluids and chemistry.
+
+With the MPI source build (on a cluster, in a compute allocation), we build the dependencies and axionFEM to solve an
+example design.
+
+```bash
+bash scripts/fetch_deps.sh && bash scripts/build_deps.sh
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release && cmake --build build
+./build/axf solve examples/long_solenoid_coax.json -o runs/demo
 ```
-design 'toroid'
-  Psi      = 3.088e-07 H T m^2  (0.2458 T m^3 natural)
-  L_p      = 1.458e-06 H
+
+`axf validate design.json` checks a design and prints actionable errors;
+`axf schema` prints the JSON Schema of the design format;
+`axf requirement` prints $`\mathcal F_\mathrm{req}`$ for the benchmarks.
+
+## Layout
+
+| Path | Contents |
+|---|---|
+| `cpp/` | C++ library `libaxionfem`, CLI `axf`, mesher `axf-mesher` (gmsh, separate process) |
+| `python/axionfem` | Python package: builder API, templates, viewer server, MCP server |
+| `viewer/` | three.js viewer shipped with the package |
+| `docs/` | [installation](docs/guides/install.md), [build options](docs/install.md), [viewer](docs/viewer.md), [COMSOL export](docs/comsol_export.md), [COMSOL import](docs/comsol_import.md) (`axf import-comsol model.mph`, beta), physics notes, design-format reference, [validation](docs/validation/index.md) |
+| `benchmarks/` | validation cases and their records (e.g. [SRF cell](benchmarks/srf/): 2D/3D convergence) |
+| `examples/` | example designs and notebooks: [quick start](examples/notebook_quickstart.ipynb), [lumped-element detectors](examples/lumped_element_demo.ipynb) (toroid, solenoid, CORE: geometry → $`\Psi`$, $`L_p`$ → $`\mathcal F`$ vs $`\mathcal F_\mathrm{req}`$ → scan), [mechanics and thermal](examples/mechanics_thermal_demo.ipynb) (forces on the winding, support stresses, cooldown, heat load with $`k(T)`$), [dc SQUID amplifier chains](examples/squid_chain_demo.ipynb) (beta), [cavity haloscope walkthrough](examples/cavity_demo.ipynb) (beta; geometry → eigenmodes → $`C`$, $`Q_0`$ → reach), [SRF heterodyne cavities](examples/srf_demo.ipynb) (beta; mode pair → $`\eta_{10}`$, $`G`$, $`\xi`$ → required volume), [fluids](examples/fluids_demo.ipynb) (beta; Stokes flow), [chemistry](examples/chemistry_demo.ipynb) (beta; current distributions) |
+
+## Building the docs
+
+The documentation website (MkDocs Material; user guides from `docs/`, the
+example notebooks, and an API reference generated from the docstrings) builds
+without the compiled core.
+
+We install the documentation dependencies and run the preview, strict build and offline build to generate the site.
+
+```bash
+pip install -r docs/requirements.txt -c docs/constraints.txt
+mkdocs serve                        # live preview on http://127.0.0.1:8000
+mkdocs build --strict               # what CI checks (.github/workflows/docs.yml)
+bash scripts/docs/build_offline.sh  # a site/ that opens from disk (file://; MathJax still needs a network)
 ```
 
-In a notebook, `res.show()` displays the same viewer in the cell. The
-[quick-start notebook](examples/quickstart.ipynb) continues with field inspection, exports and a 3D solve; the
-[user guide](docs/guides/index.md) covers each detector type.
-
-From the command line, `axf template toroid --set y=0.6 > design.json`, `axf validate design.json` and
-`axf solve design.json -o run --scene` do the same with a JSON design file.
-
-## Documentation
-
-- [Documentation website](https://bsafdi.github.io/axionFEM/): install, quick start, user guide, physics,
-  validation, API reference and developer guide.
-- [Installation](docs/guides/install.md) and [build options](docs/install.md).
-- [Concepts](docs/guides/concepts.md): designs, solves, results and units.
-- [Scope and limitations](docs/guides/limitations.md).
-- [Design format](docs/design_format.md), [command line](docs/cli.md), [Python API](docs/api.md).
-- Executed example notebooks in `examples/`: [quick start](examples/quickstart.ipynb),
-  [lumped-element detectors](examples/lumped_element.ipynb), [full wave](examples/fullwave.ipynb),
-  [readout and SQUID chains](examples/readout_squid.ipynb), [cavity haloscopes](examples/cavity_haloscope.ipynb)
-  (beta), [SRF heterodyne cavities](examples/srf_heterodyne.ipynb) (beta),
-  [mechanics and heat](examples/mechanics_thermal.ipynb), [reach and optimization](examples/reach_optimization.ipynb),
-  [fluids](examples/fluids_beta.ipynb) (beta), [chemistry](examples/chemistry_beta.ipynb) (beta).
-
-## Validation
-
-Each validated capability is checked against closed-form solutions, manufactured solutions, an independent solver
-or published results, and most of these checks run in the test suite; modules with less validation evidence are
-labelled beta. Comparisons with published work, each quantity with a verdict (agrees, disagrees or not decidable),
-cover the ABRACADABRA-10 cm, DMRadio-50L, DMRadio-m³, DMRadio-GUT and DMRadio-Core lumped-element designs, the COMSOL
-models of arXiv:2211.00008 (shielded scenarios), and the HAYSTAC, RADES, CAPP and QUAX cavities. The
-[validation overview](docs/validation/index.md) lists every check with its reference, page, benchmark and tests; the
-comparisons with published work are on the pages for [lumped-element detectors](docs/validation/published_benchmarks.md)
-and [cavities](docs/validation/cavity_reproductions.md).
-
-## Scope and limitations
-
-- The 3D engine (3D magnetoquasistatics, 3D full wave, 3D eigenmodes and 3D mechanics) needs an MPI source build;
-  the sequential build (and the planned wheels) is axisymmetric and 2D only.
-- Shape sensitivities by the adjoint method cover axisymmetric magnetoquasistatic designs with linear materials;
-  nonlinear iron uses finite differences with remeshing, and 3D or full-wave results are not differentiated.
-- Iron in RF problems uses the secant permeability at the static operating point, which is exact only for RF fields
-  perpendicular to the static field.
-- Sharp superconductor corners carry field singularities: results report the peak, the corner value and a regular
-  peak, and warn.
-- The cost metric is a scaling metric for comparing designs, not a construction estimate.
-- Cavity, SRF, SQUID-chain, multipole-scan, torsional-dynamics and COMSOL-import modules are beta, as are fluids and
-  chemistry: fluids
-  take meshes given as arrays and chemistry builds simple meshes with `axionfem.chem.meshes`; neither has design-file,
-  mesher, CLI, viewer or MCP integration.
-
-The [scope and limitations page](docs/guides/limitations.md) lists what is validated, what is beta and what is not
-implemented.
-
-## AI assistants (MCP)
-
-axionFEM includes a [Model Context Protocol](https://modelcontextprotocol.io) server (`axionfem-mcp`, installed with
-the `mcp` extra), so that an MCP client can build designs, run solves locally and read the results.
-The repository ships a project configuration for it (`.mcp.json`) and an agent skill for detector design
-(`.claude/skills/axionfem-design`). The [MCP guide](docs/guides/mcp.md) describes the setup for any MCP client, with
-examples, and lists the tools. [AGENTS.md](AGENTS.md) gives instructions for AI agents that work on or with axionFEM.
+The API reference lists the public objects in `docs/api.md`; the validation pages, physics notes and other
+reference pages are kept out of the site by `exclude_docs` in `mkdocs.yml` and linked on GitHub.
 
 ## Citing
 
-If you use axionFEM, please cite
+We ask that work using axionFEM cite
 
 > J. N. Benabou, J. W. Foster, B. R. Safdi, to appear (2026).
 
-and the software itself using the metadata in [CITATION.cff](CITATION.cff). Please also cite the methods and
-benchmark papers your work relies on, and MFEM. [How to cite](docs/about.md#citing-axionfem) has a BibTeX entry.
+and the software itself, using the metadata in [CITATION.cff](CITATION.cff). Please also cite the methods and
+benchmark papers your work relies on, and MFEM. [About](docs/about.md#citing-axionfem) has a BibTeX entry.
 
 ## Development
 
@@ -196,9 +181,7 @@ Joshua N. Benabou, Joshua W. Foster, Benjamin R. Safdi
 
 ## License
 
-BSD 3-Clause ([LICENSE](LICENSE)); the vendored three.js (`viewer/vendor/`, MIT) and stb_image_write
-(`cpp/third_party/`, MIT or public domain) keep their own licences, and `third_party/licenses/` holds the licence
-texts of every library a wheel bundles or compiles in. gmsh, which is GPL-licensed, is used only as an external program: the mesher
-`axf-mesher` runs in its own process, and gmsh is not redistributed in the wheels (it comes from gmsh's own package
-through the `mesh` extra). The [build options page](docs/install.md#licensing-of-each-wheel) lists the licence of
-every file in a wheel.
+BSD 3-Clause ([LICENSE](LICENSE)). The vendored three.js (`viewer/vendor/`, MIT) and stb_image_write
+(`cpp/third_party/`, MIT or public domain) keep their own licences. gmsh (GPL) is used only as an external program, is
+not redistributed in our wheels, and comes from its own PyPI package; licensing details are in
+[docs/install.md](docs/install.md#licensing-of-each-wheel), "Licensing of each wheel".

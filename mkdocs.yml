@@ -4,15 +4,13 @@
 #   mkdocs serve            # live preview on http://127.0.0.1:8000
 #   mkdocs build --strict   # what CI runs (.github/workflows/docs.yml)
 #
-# The API reference is read by griffe without importing the package, so the C++ core (_core) need not be compiled.
-# The example notebooks listed in scripts/docs/gen_pages.py (SITE_NOTEBOOKS) are copied in by that script and
-# rendered with their stored outputs by mkdocs-jupyter. scripts/docs/hooks.py maps links that point outside the
-# site (source files, benchmarks, records) to the GitHub repository. docs/developer/docs.md describes the whole
-# build, including the homepage figures.
+# The API reference (docs/api.md) is read by griffe without importing the
+# package, so the C++ core (_core) need not be compiled.
+# The notebooks come from examples/ and are
+# copied in by scripts/docs/gen_pages.py.  scripts/docs/hooks.py maps links that point
+# outside the site (source files, pages kept out of the site) to the GitHub repository.
 site_name: axionFEM
-site_description: >-
-  Finite-element simulation for axion dark-matter detectors: lumped-element detectors, cavity haloscopes, SRF
-  heterodyne cavities and SQUID readout, with mechanics and heat conduction; fluids and chemistry in beta
+site_description: "Finite-element tools for axion dark-matter detectors: lumped-element detectors, cavity haloscopes, SRF heterodyne cavities, SQUID readout, COMSOL export and import"
 site_author: Joshua N. Benabou, Joshua W. Foster, Benjamin R. Safdi
 site_url: https://bsafdi.github.io/axionFEM/
 repo_url: https://github.com/bsafdi/axionFEM
@@ -27,17 +25,32 @@ site_dir: site
 # or scripts/docs/build_offline.sh.  The defaults are the online site.
 use_directory_urls: !ENV [AXF_DOCS_DIRECTORY_URLS, true]
 
-# Files in docs/ that are not pages of the site: figure scripts and their data, the generated captions (pages
-# include them with pymdownx.snippets) and the docs build requirements.
+# Reference material (validation, physics notes, CLI and C++ references, developer notes, changelog) stays in the
+# repository but out of the site. Links to these files are rewritten to GitHub by scripts/docs/hooks.py.
 exclude_docs: |
-  /images/*.py
-  /images/*.npz
-  /images/home/README.md
-  /images/home/captions.md
-  /images/home/manifest.json
+  developer/
+  cavity/
+  validation/
+  physics/*.md
+  srf/*.md
+  /comsol_export.md
+  /comsol_import.md
+  /design_format.md
+  /install.md
+  /optimization.md
+  /viewer.md
+  /scene_format.md
+  /render.md
+  images/*.py
+  images/*.npz
+  images/home/README.md
+  images/home/captions.md
+  images/home/manifest.json
   *.tex
   /requirements.txt
   /constraints.txt
+  /cli.md
+  /cpp_core.md
 
 validation:
   nav:
@@ -61,13 +74,11 @@ watch:
 
 theme:
   name: material
-  logo: images/logo/axionfem_icon.svg
   favicon: images/logo/favicon.svg
   features:
     - content.code.copy
     - content.code.annotate
     - content.action.view
-    - navigation.tabs
     - navigation.sections
     - navigation.indexes
     - navigation.top
@@ -75,25 +86,22 @@ theme:
     - search.suggest
     - search.highlight
     - toc.follow
-  # Viridis blue and green, the colours of the figures and the logo (docs/stylesheets/extra.css defines them).
   palette:
     - media: "(prefers-color-scheme)"
-      primary: custom
-      accent: custom
       toggle:
         icon: material/brightness-auto
         name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: custom
-      accent: custom
+      primary: indigo
+      accent: deep purple
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: custom
-      accent: custom
+      primary: indigo
+      accent: deep purple
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
@@ -157,24 +165,17 @@ markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.details
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
-  - pymdownx.snippets:
-      check_paths: true
+  - pymdownx.snippets
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:
       custom_checkbox: true
-
-extra_css:
-  - stylesheets/extra.css
 
 extra_javascript:
   - javascripts/mathjax.js
@@ -185,141 +186,31 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/bsafdi/axionFEM
 
-# Navigation titles are independent of file paths: pages keep the paths that code, tests and other pages link to.
 nav:
   - Home: index.md
-  - Install: guides/install.md
-  - Quick start: examples/quickstart.ipynb
-  - User guide:
-      - guides/index.md
-      - Concepts: guides/concepts.md
-      - Solvers and numerical controls: guides/solvers.md
-      - Scope and limitations: guides/limitations.md
-      - Lumped-element detectors:
-          - Magnetoquasistatic designs: guides/lumped_element.md
-          - Walkthrough: examples/lumped_element.ipynb
-          - Full wave (beyond MQS): guides/fullwave.md
-          - Full-wave walkthrough: examples/fullwave.ipynb
-          - 3D designs, MPI and clusters: guides/3d.md
-      - Readout and SQUID chains:
-          - Guide: guides/readout_multiband.md
-          - Walkthrough: examples/readout_squid.ipynb
-      - Cavity haloscopes (beta):
-          - Guide: guides/cavity.md
-          - Walkthrough: examples/cavity_haloscope.ipynb
-      - SRF heterodyne cavities (beta):
-          - Guide: guides/srf.md
-          - Walkthrough: examples/srf_heterodyne.ipynb
-      - Mechanics and thermal:
-          - Guide: guides/mechanics_thermal.md
-          - Walkthrough: examples/mechanics_thermal.ipynb
-      - Reach, sensitivities and optimization:
-          - Guide: guides/optimization.md
-          - Walkthrough: examples/reach_optimization.ipynb
-      - Fluids (beta):
-          - Guide: guides/fluids.md
-          - Walkthrough: examples/fluids_beta.ipynb
-      - Chemistry (beta):
-          - Guide: guides/chemistry.md
-          - Walkthrough: examples/chemistry_beta.ipynb
-      - Visualization and viewer: guides/visualization.md
-      - COMSOL interoperability: guides/comsol.md
-      - AI assistants (MCP): guides/mcp.md
-  - Physics:
-      - physics/index.md
-      - Signal, readout and scan:
-          - Signal, noise and optimal scan: physics/scan_and_signal.md
-          - Readout circuit: physics/readout_circuit.md
-          - dc SQUID chains (beta): physics/squid_chain.md
-          - Multi-band scans: physics/multipole_scan.md
-          - Multiport circuits: physics/multiport.md
-          - Multiport components: physics/multiport_components.md
-          - Sensitivities and optimization: optimization.md
-      - Magnetostatics and materials:
-          - Thin magnetic layers: physics/thin_magnetic_layer.md
-          - Electrostatics: physics/electrostatics.md
-          - Surface resistance (beta): physics/surface_resistance.md
-      - Full wave:
-          - 3D current ports: physics/multiport_fullwave.md
-          - Prescribed static source (beta): physics/prescribed_source.md
-          - Background field (beta in 3D): physics/fullwave_background.md
-          - Error indicator (beta): physics/fullwave_error_indicator.md
-          - Gauss-law guard (beta): physics/fullwave_gauss_guard.md
-          - Tree-cotree gauge (beta): physics/fullwave_tree_cotree.md
-          - Surface losses: physics/fullwave_surface_losses.md
-          - Adaptive frequency sweep (beta): physics/adaptive_sweep.md
-          - S-, Y- and Z-parameters, Touchstone: physics/touchstone.md
-          - 2D full wave on imported meshes (beta): physics/fw2d.md
-      - Cavities (beta):
-          - Haloscope sensitivity: physics/haloscope_sensitivity.md
-          - Receiver coupling: cavity/coupling.md
-      - SRF heterodyne cavities (beta):
-          - Modes and figures of merit: srf/README.md
-          - Heterodyne sensitivity: srf/sensitivity.md
-          - Vibrations and mode mixing: srf/vibrations.md
-      - Mechanics and thermal:
-          - Elasticity, conduction and torsion: physics/mechanics_thermal.md
-          - High-frequency torsional mobility (beta): physics/torsion_highfreq.md
-  - Validation:
-      - validation/index.md
-      - Magnetoquasistatics and readout:
-          - Published lumped-element designs: validation/published_benchmarks.md
-          - 3D against axisymmetric: validation/m2_3d_vs_2d.md
-          - AMS robustness: validation/ams_robustness.md
-          - Axisymmetric sparse solvers: validation/solvers.md
-          - Shape sensitivities: validation/adjoint.md
-          - Thin magnetic layers: validation/thin_magnetic_layer.md
-          - HTS critical state: validation/hts.md
-          - Finite-band scans beyond MQS: validation/finite_band.md
-      - Full wave:
-          - Axisymmetric: validation/fullwave.md
-          - 3D current ports: validation/fullwave3d.md
-          - Multiport and prescribed source (beta): validation/multiport_stage1.md
-          - Closed RF-only models (beta): validation/fullwave_stage2a_boundaries_solver.md
-          - Energy identity and reactive loads (beta): validation/fullwave_stage2a_energy.md
-          - Radiating prescribed source (beta): validation/fullwave_radiating_source.md
-          - 3D with a background field (beta): validation/fullwave3d_background.md
-          - Background exterior, axisymmetric: validation/axi_background_exterior.md
-          - Tree-cotree (beta): validation/tree_cotree.md
-          - Memory of long sweeps: validation/fullwave_memory.md
-          - GPU builds: validation/gpu.md
-      - Cavities (beta):
-          - Published cavities: validation/cavity_reproductions.md
-          - Axisymmetric modes: validation/cavity_2d.md
-          - 3D modes: validation/cavity_3d.md
-          - Cross-section solver: validation/cavity_xsec.md
-          - Tuning and mode tracking: validation/cavity_tracking.md
-      - Electrostatics, mechanics and thermal:
-          - Electrostatics, axisymmetric: validation/electrostatics.md
-          - Electrostatics, 3D: validation/electrostatics3d.md
-          - Mechanics and thermal, axisymmetric: validation/mechanics_thermal.md
-          - Mechanics and thermal, 3D: validation/mech3d.md
-          - Torsional dynamics (beta): validation/torsion.md
-          - Torsional waveguide (beta): validation/torsion_highfreq.md
-      - Fluids and chemistry (beta):
-          - Fluids verification: validation/fluids.md
-          - Chemistry verification: validation/chemistry.md
-  - API reference:
-      - Python API: api.md
-      - Design format: design_format.md
-      - Command line: cli.md
-      - Scene format: scene_format.md
-      - Viewer: viewer.md
-      - PNG renderer: render.md
-      - COMSOL export: comsol_export.md
-      - COMSOL import (beta): comsol_import.md
-      - C++ core: cpp_core.md
-      - C++ scan API: physics/scan_cpp_api.md
-  - Developer guide:
-      - Architecture: developer/architecture.md
-      - Building from source: developer/building.md
-      - Build options and packaging: install.md
-      - Running the tests: developer/testing.md
-      - Contributing: developer/contributing.md
-      - Design notes: developer/design_notes.md
-      - Documentation and figures: developer/docs.md
-      - Releasing: developer/release.md
-  - About:
-      - About axionFEM: about.md
-      - References: references.md
-      - Changelog: about/changelog.md
+  - Getting started:
+      - Installation: guides/install.md
+      - Quick start: examples/notebook_quickstart.ipynb
+  - Lumped-element detectors:
+      - Walkthrough: examples/lumped_element_demo.ipynb
+      - Readout and multi-band scans: guides/readout_multiband.md
+      - Shape optimization: guides/optimization.md
+      - Mechanics and thermal: examples/mechanics_thermal_demo.ipynb
+  - dc SQUID readout chains:
+      - Walkthrough: examples/squid_chain_demo.ipynb
+  - Cavity haloscopes:
+      - Walkthrough: examples/cavity_demo.ipynb
+  - SRF heterodyne cavities:
+      - Walkthrough: examples/srf_demo.ipynb
+  - COMSOL:
+      - Export and import: guides/comsol.md
+  - Designs and solvers: guides/solvers.md
+  - Visualization: guides/visualization.md
+  - Fluids and chemistry (beta):
+      - Fluids: guides/fluids.md
+      - Fluids walkthrough: examples/fluids_demo.ipynb
+      - Chemistry: guides/chemistry.md
+      - Chemistry walkthrough: examples/chemistry_demo.ipynb
+  - Chat assistants (MCP): guides/mcp.md
+  - About: about.md
+  - API reference: api.md

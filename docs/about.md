@@ -1,25 +1,34 @@
-# About axionFEM
+# About
 
-axionFEM is a finite-element package for designing and evaluating axion dark-matter detectors that use the
-axion-photon coupling: lumped-element detectors, cavity haloscopes and SRF heterodyne cavities, together with their
-readout. It solves the electromagnetic problems that define each detector type, turns the solutions into the
-figures of merit, noise, scan rates and reach of an experiment, and adds the mechanics and heat conduction of the
-structure. Designs are JSON documents, so different detector concepts can be compared on the same footing, from a
-Python session, the command line or an AI assistant through the MCP server.
+Lumped-element detectors, cavity haloscopes and SRF heterodyne cavities use the axion–photon coupling to search for axion dark matter. Here we outline the goals of axionFEM and provide citation and contact information.
 
-## Authors
-
-Joshua N. Benabou, Joshua W. Foster, Benjamin R. Safdi
-
-## Citing axionFEM
-
-If you use axionFEM, please cite
+axionFEM is introduced in
 
 > J. N. Benabou, J. W. Foster, B. R. Safdi, to appear (2026).
 
-and the software itself; the repository's
-[CITATION.cff](https://github.com/bsafdi/axionFEM/blob/main/CITATION.cff) has its metadata, and GitHub offers it in
-several formats ("Cite this repository"). A BibTeX entry for the software:
+## Goal
+
+The package solves the coupled axion–electromagnetic equations of motion for laboratory
+experiments that use the axion–photon coupling, and turns the solutions into sensitivity
+estimates and experimental requirements. Its main focus is lumped-element detectors based on
+the ABRACADABRA concept (toroidal, solenoidal and CORE geometries); it also covers resonant
+cavity haloscopes, SRF heterodyne cavities and SQUID readout chains, so that different
+approaches can be compared on the same footing.
+
+## Scope
+
+Several modules are beta: they work and are tested, but their interfaces or their validation are
+not complete. They are the cavity-haloscope, SRF and dc SQUID-chain modules, multi-band and
+multipole scans, torsional dynamics, the COMSOL import, the fluids, scalar-transport and chemistry
+modules, the surface-resistance models, and the 3D full-wave features other than current ports.
+The 3D engine and the fluids module need the MPI source build. Adjoint shape sensitivities
+cover axisymmetric magnetoquasistatic designs with linear materials. The cost metric compares
+designs; it is not a construction estimate.
+
+## Citing axionFEM
+
+We ask that the paper above be cited in work that uses axionFEM. The software itself can be cited
+with the metadata in [CITATION.cff](https://github.com/bsafdi/axionFEM/blob/main/CITATION.cff):
 
 ```bibtex
 @software{axionFEM,
@@ -31,8 +40,8 @@ several formats ("Cite this repository"). A BibTeX entry for the software:
 }
 ```
 
-Please also cite the methods and benchmark papers your work relies on (each physics and validation page gives its own
-sources; [References](references.md) collects the main ones) and [MFEM](https://mfem.org), on which the solvers are built.
+Please also cite the methods and benchmark papers your work relies on and [MFEM](https://mfem.org), on which the
+solvers are built.
 
 ## How axionFEM was made
 
@@ -44,24 +53,13 @@ modules with less validation evidence are labelled beta.
 The [validation pages](validation/index.md) document the checks and their tolerances, so that users can judge the
 results independently of how the code was produced.
 
-## Built on
-
-axionFEM links only permissively licensed libraries: [MFEM](https://mfem.org) (finite elements),
-[hypre](https://github.com/hypre-space/hypre) (algebraic multigrid, in the 3D engine),
-[METIS](https://github.com/KarypisLab/METIS) (orderings), [Eigen](https://eigen.tuxfamily.org) (sparse direct
-solvers), [nlohmann/json](https://github.com/nlohmann/json), [nanobind](https://github.com/wjakob/nanobind) (Python
-bindings), [three.js](https://threejs.org) (the viewer) and, optionally, [STRUMPACK](https://github.com/pghysels/STRUMPACK)
-(sparse direct solvers). [gmsh](https://gmsh.info) generates the meshes; it is GPL-licensed and runs as a separate
-program, `axf-mesher`, and is not redistributed in the wheels.
-
-## License
-
-axionFEM is distributed under the BSD 3-Clause license
-([LICENSE](https://github.com/bsafdi/axionFEM/blob/main/LICENSE)).
-[Build options and packaging](install.md#licensing-of-each-wheel) lists the licence of every file in a wheel.
-
 ## Contact
 
-Questions, bug reports and feature requests are welcome as issues on
-[GitHub](https://github.com/bsafdi/axionFEM/issues). [Contributing](developer/contributing.md) describes how to
-propose changes.
+Questions, bug reports and feature requests can be submitted as issues on
+[GitHub](https://github.com/bsafdi/axionFEM/issues).
+
+## Contributors
+
+- Joshua N. Benabou
+- Joshua W. Foster
+- Benjamin R. Safdi

@@ -98,7 +98,7 @@ Notebook-specific limitations (the rest are under
 
 - each widget carries its own copy of three.js (about 1.2 MB) plus the scene,
   because the page is self-contained. **Clear the widget outputs before committing a
-  notebook**; `examples/quickstart.ipynb` is stored with static images in place of the widget;
+  notebook**; `examples/notebook_quickstart.ipynb` is stored without widget outputs;
 - in an *untrusted* notebook JupyterLab strips `<iframe>` and `<script>` from
   HTML output. Re-run the cell, or trust the notebook;
 - the front end needs import maps and `data:` module URLs: JupyterLab 3.1+,

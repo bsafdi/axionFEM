@@ -248,3 +248,9 @@ The import (`axionfem.comsol_import`) is beta; the export is not.
     options:
       heading_level: 3
       show_root_full_path: false
+
+## Fluids and chemistry
+
+The fluids (`axionfem.fluids`, `axionfem.transport`) and chemistry (`axionfem.chem`) modules are beta. The
+[fluids](guides/fluids.md) and [chemistry](guides/chemistry.md) guides list their entry points, and `help(...)` on
+each entry point documents its arguments.

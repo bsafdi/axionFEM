@@ -1,9 +1,9 @@
 """Generate the virtual pages of the documentation site (run by mkdocs-gen-files).
 
 * ``examples/*.ipynb`` -- the example notebooks listed in SITE_NOTEBOOKS (rendered with their stored
-                         outputs, not executed, by mkdocs-jupyter): one walkthrough per guide area, each
-                         listed in the ``nav`` of mkdocs.yml. A listed notebook that does not exist is
-                         reported as a warning, so ``mkdocs build --strict`` fails on it.
+                         outputs, not executed, by mkdocs-jupyter); each is the page of one topic.
+                         The other notebooks in examples/ stay in the repository only. A listed notebook
+                         that does not exist is reported as a warning, so ``mkdocs build --strict`` fails.
 
 Links inside these pages are written for their real location in the
 repository; scripts/docs/hooks.py rewrites them for the
@@ -20,16 +20,14 @@ ROOT = Path(__file__).resolve().parents[2]
 log = logging.getLogger("mkdocs.plugins.axionfem.gen_pages")
 
 SITE_NOTEBOOKS = [
-    "examples/quickstart.ipynb",
-    "examples/lumped_element.ipynb",
-    "examples/fullwave.ipynb",
-    "examples/readout_squid.ipynb",
-    "examples/cavity_haloscope.ipynb",
-    "examples/srf_heterodyne.ipynb",
-    "examples/mechanics_thermal.ipynb",
-    "examples/reach_optimization.ipynb",
-    "examples/fluids_beta.ipynb",
-    "examples/chemistry_beta.ipynb",
+    "examples/notebook_quickstart.ipynb",
+    "examples/lumped_element_demo.ipynb",
+    "examples/mechanics_thermal_demo.ipynb",
+    "examples/squid_chain_demo.ipynb",
+    "examples/cavity_demo.ipynb",
+    "examples/srf_demo.ipynb",
+    "examples/fluids_demo.ipynb",
+    "examples/chemistry_demo.ipynb",
 ]
 
 

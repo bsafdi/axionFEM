@@ -1,19 +1,15 @@
 # Visualization
 
-In this guide we use the axionFEM viewer to display detector materials and fields in a browser or a Jupyter
-notebook, render PNG snapshots without a browser, and export fields for ParaView. Axisymmetric designs have a
-revolved cutaway and a meridional section; full 3D designs show surfaces and field slices. We rotate, pan and zoom,
+Lumped-element axion experiments use static magnetic fields and pickup circuits.
+In this guide we use the axionFEM viewer to display detector materials and magnetic
+fields in a browser or Jupyter notebook. Axisymmetric designs have a revolved cutaway and a meridional
+section; full 3D designs show surfaces and field slices. We rotate, pan and zoom,
 then select a field quantity or probe a point.
-
-![The axionFEM viewer on the quick-start toroid: a 90-degree cutaway coloured by the pickup-mode field per ampere on a logarithmic scale, with the pickup field lines and the results panel](../images/viewer_toroid.png)
-
-*The viewer on the quick-start toroid (R = H = 2 m): a 90° cutaway coloured by the pickup-mode field per ampere
-(log scale), with the pickup field lines, the display controls and the results panel.*
 
 ## Viewing and saving a result
 
 We display the result `res` from the
-[quick start](../../examples/quickstart.ipynb) and save its HTML viewer and
+[quick start](../../examples/notebook_quickstart.ipynb) and save its HTML viewer and
 scene for later display.
 
 ```python
@@ -67,14 +63,4 @@ Logarithmic colours show magnitudes; we use a linear scale when a component's si
 matters. We set matching `vmin` and `vmax` when comparing images, `width` and
 `height` for pixel dimensions, and `annotate=False` to hide the results panel.
 
-## Live viewer, ParaView and plots
-
-- `axionfem.viewer.serve("runs/")` serves live viewers for scene files and reloads them when the files change, for
-  example while a parameter study runs. On a remote machine, forward the port first
-  (`ssh -L 8765:localhost:8765 <user>@<host>`, then open `http://localhost:8765/`).
-- `res.write_vtu("fields.vtu")` (or `axf solve --vtu`) writes the fields for ParaView.
-- `axionfem.plots` draws matplotlib figures from results: meridional sections, force distributions, full-wave
-  sweeps, noise spectra and reach curves (the `plots` extra).
-
-The [viewer reference](../viewer.md), the [PNG renderer](../render.md) and the [scene format](../scene_format.md) give
-every option.
+The [API reference](../api.md) lists display options.

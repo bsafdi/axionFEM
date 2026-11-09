@@ -417,7 +417,7 @@ FIGURES = {"readout_circuit": readout_circuit, "squid_chain": squid_chain, "squi
 
 
 if __name__ == "__main__":
-    matplotlib.use("Agg")  # only as a script: importing this module (readout_squid.ipynb) must keep the notebook backend
+    matplotlib.use("Agg")  # only as a script: importing this module (squid_chain_demo.ipynb) must keep the notebook backend
     args = sys.argv[1:]
     out_dir = HERE
     if args[:1] == ["--out"]:
