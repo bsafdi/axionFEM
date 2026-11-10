@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <exception>
 #include <fstream>
+#include <limits>
 #include <map>
 #include <string>
 #include <vector>
@@ -524,10 +525,25 @@ int main() {
     check_rel(g, "norm_ppf(norm_cdf(-7.3))", norm_ppf(norm_cdf(-7.3)), -7.3, 1e-14);
     check_rel(g, "norm_ppf(0.975)", norm_ppf(0.975), 1.959963984540054, 1e-14);
     // h functions (S4.2-S4.4): series vs closed form across the switch, and known series
-    // small s: compare with the closed forms in long double (cancellation ~1e-16/s relative)
+    // small s: compare with the closed forms in long double (cancellation ~1e-16/s relative). Where long double has
+    // no more precision than double (e.g. arm64 macOS), the closed forms lose about 1e-16/s, so the reference is
+    // their Taylor series instead, summed to convergence:
+    //   h_limit = 2 sum_{k>=2} (-1)^k (k-1)/k s^k,  h_discovery = 2 sum_{k>=2} (-1)^k s^k / k.
+    const bool long_double_is_wider = std::numeric_limits<long double>::digits > std::numeric_limits<double>::digits;
     for (long double s1 : {1e-3L, 1e-2L, 4e-2L}) {
-      const double hl = static_cast<double>(2 * (std::log1p(s1) - s1 / (1 + s1)));
-      const double hd = static_cast<double>(2 * (s1 - std::log1p(s1)));
+      double hl, hd;
+      if (long_double_is_wider) {
+        hl = static_cast<double>(2 * (std::log1p(s1) - s1 / (1 + s1)));
+        hd = static_cast<double>(2 * (s1 - std::log1p(s1)));
+      } else {
+        long double sl = 0, sd = 0, sk = s1 * s1;
+        for (int k = 2; k < 60; ++k, sk *= -s1) {
+          sl += sk * (k - 1) / k;
+          sd += sk / k;
+        }
+        hl = static_cast<double>(2 * sl);
+        hd = static_cast<double>(2 * sd);
+      }
       check_rel(g, "h_limit small s vs long-double closed form", h_limit(static_cast<double>(s1)), hl, 1e-14);
       check_rel(g, "h_discovery small s vs long-double closed form", h_discovery(static_cast<double>(s1)), hd, 1e-14);
     }

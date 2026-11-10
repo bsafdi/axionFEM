@@ -40,6 +40,46 @@ namespace R = axf::rational;
 
 namespace {
 
+// Gaussian noise that is the same on every platform. std::normal_distribution is implementation-defined (libstdc++ and
+// libc++ draw different numbers from the same engine), so the noisy-data checks would see different data on different
+// standard libraries. This is the algorithm of libstdc++ (the Marsaglia polar method on 53-bit uniforms made of two
+// 32-bit engine outputs), so on GCC builds the draws are the ones std::normal_distribution gives.
+class Normal {
+ public:
+  Normal(double mean, double stddev) : mean_(mean), stddev_(stddev) {}
+  double operator()(std::mt19937& g) {
+    double v;
+    if (saved_available_) {
+      saved_available_ = false;
+      v = saved_;
+    } else {
+      double x, y, r2;
+      do {
+        x = 2.0 * uniform(g) - 1.0;
+        y = 2.0 * uniform(g) - 1.0;
+        r2 = x * x + y * y;
+      } while (r2 > 1.0 || r2 == 0.0);
+      const double mult = std::sqrt(-2 * std::log(r2) / r2);
+      saved_ = x * mult;
+      saved_available_ = true;
+      v = y * mult;
+    }
+    return v * stddev_ + mean_;
+  }
+
+ private:
+  static double uniform(std::mt19937& g) {   // in [0, 1)
+    double sum = 0.0;
+    sum += static_cast<double>(g());
+    sum += static_cast<double>(g()) * 4294967296.0;
+    const double u = sum / 18446744073709551616.0;
+    return u >= 1.0 ? std::nextafter(1.0, 0.0) : u;
+  }
+  double mean_, stddev_;
+  double saved_ = 0.0;
+  bool saved_available_ = false;
+};
+
 struct Response {
   std::vector<cplx> poles;   // in f (e^{-i omega t}: Im p <= 0)
   std::vector<double> a;     // Z strengths
@@ -215,7 +255,7 @@ int main() {
     smooth.a = {0.5, 0.2};
     smooth.b = {0.3, 0.1};
     std::mt19937 rng(3);
-    std::normal_distribution<double> noise(0.0, 1e-9);
+    Normal noise(0.0, 1e-9);
     std::vector<R::Sample> s;
     for (int i = 0; i < 40; ++i) {
       R::Sample x = smooth.at(1.0 + i / 39.0);
@@ -306,7 +346,7 @@ int main() {
     weak.a = {2e-6, 1e-5, 3e-6, 0.3, 1.0, 0.4};
     weak.b = {1e-5, -2e-5, 1e-5, 0.2, 0.3, 0.1};
     std::mt19937 rng(11);
-    std::normal_distribution<double> noise(0.0, 1e-10);
+    Normal noise(0.0, 1e-10);
     std::vector<double> f;
     for (int i = 0; i <= 12; ++i) f.push_back(1.0 + i / 12.0);
     for (int n = 0; n < 3; ++n)
@@ -458,12 +498,15 @@ int main() {
     o.initial = R::band_grid(1e8, 3e8, 5, false);
     o.log_spacing = false;
     std::mt19937 rng(3);
-    std::normal_distribution<double> noise(0, 1);
+    Normal noise(0, 1);
     const R::AdaptiveResult res = R::adaptive_sweep(o, options(1e-6), [&](double f) {
       R::Sample s;
       s.f = f;
       s.value = Eigen::VectorXcd(2);
-      s.value << cplx(50.0 * (1 + 1e-9 * noise(rng)), 1e-9 * noise(rng)), cplx(0.0, 0.0);
+      // two draws, taken in a fixed order (the order of evaluation of function arguments is unspecified)
+      const double n_im = noise(rng);
+      const double n_re = noise(rng);
+      s.value << cplx(50.0 * (1 + 1e-9 * n_re), 1e-9 * n_im), cplx(0.0, 0.0);
       s.derivative = Eigen::VectorXcd(2);
       s.derivative << cplx(1e-9 * noise(rng) * 50.0 / 1e8, 0.0), cplx(std::nan(""), 0.0);
       return std::optional<R::Sample>(s);
@@ -489,7 +532,7 @@ int main() {
     po.tolerance = 1e-3;
     po.log_spacing = false;
     std::mt19937 rng(11);
-    std::normal_distribution<double> noise(0.0, 1e-10);
+    Normal noise(0.0, 1e-10);
     int old_rule = 0;     // Im p above 1e-12 |p| or below -1e-12 |p| (the plain-threshold classes, for comparison)
     int flipped = 0;      // non_passive or given a Q now
     int resonances = 0;   // in-band lossless poles classed resonance
@@ -581,7 +624,7 @@ int main() {
     po.tolerance = 1e-3;
     po.log_spacing = false;
     std::mt19937 rng(17);
-    std::normal_distribution<double> noise(0.0, 1e-10);
+    Normal noise(0.0, 1e-10);
     int old_rule = 0;
     int flipped = 0;
     int resonance = 0;
@@ -679,7 +722,7 @@ int main() {
     std::vector<R::PoleInfo> genuine;   // the noise-free fit's in-band poles
     for (const R::PoleInfo& info : R::classify_poles(R::fit(samples, o), samples, o, po)) genuine.push_back(info);
     std::mt19937 rng(17);
-    std::normal_distribution<double> g(0.0, 1.0);
+    Normal g(0.0, 1.0);
     int poles = 0;
     int resolved = 0;
     int outside = 0;
