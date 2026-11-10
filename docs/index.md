@@ -41,7 +41,7 @@ Citing axionFEM, contact and issues: [About](about.md)
 ![Von Mises stress in a solenoid winding under its own Lorentz force](images/home/card_mech_light.png#only-light){ width="49%" }
 ![Von Mises stress in a solenoid winding under its own Lorentz force](images/home/card_mech_dark.png#only-dark){ width="49%" }
 
-*Left: overlap of the pump and signal fields in an SRF heterodyne cavity. Right: von Mises stress in a solenoid winding under its own Lorentz force.*
+*Left: overlap of the pump and signal fields in an SRF heterodyne cavity (beta). Right: von Mises stress in a solenoid winding under its own Lorentz force.*
 
 ![Natural convection in a differentially heated square cavity](images/home/card_fluids_light.png#only-light){ width="49%" }
 ![Natural convection in a differentially heated square cavity](images/home/card_fluids_dark.png#only-dark){ width="49%" }

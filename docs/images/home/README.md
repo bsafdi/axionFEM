@@ -21,12 +21,17 @@ change the script and run it again.
 
 Cards are 1200 x 800 px with transparent backgrounds, in a light and a dark variant (ink `#1f2430` and `#e6e8ec`).
 The hero uses the renderer's own backgrounds, `#ffffff` and `#13151a`; a container behind it should use the same
-colour. Colour maps: viridis for magnitudes and coolwarm, symmetric about zero, for signed fields.
+colour. Colour maps: viridis for magnitudes and coolwarm, symmetric about zero, for signed fields. Card text is typeset
+by LaTeX in Computer Modern (matplotlib's `text.usetex`), and plot axes have inward ticks on all four sides with minor
+ticks. The logo files and the social preview keep their DejaVu Sans lettering, drawn as paths.
 
 ## Regenerating
 
 The script needs a source build with Python bindings and the mesher (`axf-mesher`, or `AXF_MESHER` pointing to it),
-plus NumPy, SciPy, matplotlib and Pillow. The fluids card needs an MPI build, because the fluids module exists only there.
+plus NumPy, SciPy, matplotlib and Pillow, and a LaTeX toolchain for matplotlib's `text.usetex`: `latex` and `dvipng`
+on the `PATH`, with the type1cm, type1ec and cm-super packages (TeX Live has them; on Debian/Ubuntu, for example,
+`texlive-latex-extra`, `texlive-fonts-recommended`, `cm-super` and `dvipng`). The fluids card needs an MPI build,
+because the fluids module exists only there.
 From the repository root:
 
 ```bash
@@ -39,9 +44,9 @@ python docs/images/make_homepage_figures.py --check             # files present,
 `--work DIR` sets the folder for the solver runs (default `runs/homepage`, which git ignores). The readout card
 and the social preview reuse the hero solve, so asking for either also redraws the hero.
 
-For a given build the output is deterministic: rcParams are fixed, the PNGs carry no metadata, and the C++
-renderer is byte-deterministic, so images and captions are byte-identical between runs. In the manifest the
-`seconds` fields change, and a different OpenMP thread count can change the last digit of relative differences that
+For a given build and TeX installation the output is deterministic: rcParams are fixed, the PNGs carry no metadata,
+and the C++ renderer is byte-deterministic, so images and captions are byte-identical between runs. In the manifest the
+`seconds` fields change, and repeated runs, or a different OpenMP thread count, can change the last digit of relative differences that
 sit at the round-off level (about 1e-9).
 
 ## Using the captions

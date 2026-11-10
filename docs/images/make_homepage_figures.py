@@ -33,16 +33,19 @@ Figures (``--only`` names, output stems):
 
 Cards are 1200 x 800 px with transparent backgrounds and theme-specific ink (light: #1f2430, dark: #e6e8ec); the
 hero uses the renderer backgrounds (#ffffff, #13151a). Colour maps: viridis for magnitudes, coolwarm (symmetric
-about zero) for signed fields. Output is deterministic for a given build (fixed rcParams, no PNG metadata, the
-byte-deterministic C++ renderer): images and captions are byte-identical between runs. In the manifest the
-``seconds`` fields change, and a different OpenMP thread count can change the last digit of relative differences
-that sit at the round-off level (about 1e-9).
+about zero) for signed fields. Card text is typeset by LaTeX (matplotlib's ``text.usetex``, Computer Modern), and
+plot axes have inward ticks on all four sides with minor ticks; the logo files and the social preview keep their
+DejaVu Sans lettering (drawn as paths, without LaTeX). Output is deterministic for a given build and TeX
+installation (fixed rcParams, no PNG metadata, the byte-deterministic C++ renderer): images and captions are
+byte-identical between runs. In the manifest the ``seconds`` fields change, and a different OpenMP thread count can
+change the last digit of relative differences that sit at the round-off level (about 1e-9).
 
-Needs a build with Python bindings and the mesher (``axf-mesher``), NumPy, SciPy, matplotlib and Pillow;
-``fluids`` needs an MPI build (``axionfem.build_info()["fluids"]``). ``--skip-unavailable`` skips, with a message, the
-figures whose module this build lacks instead of stopping. ``--check`` only verifies that every file in the manifest
-exists and that the manifest version equals ``axionfem.__version__``. Runtime on one node: a few minutes; not run
-in CI.
+Needs a build with Python bindings and the mesher (``axf-mesher``), NumPy, SciPy, matplotlib and Pillow, and a
+LaTeX toolchain for matplotlib's ``text.usetex`` (``latex`` and ``dvipng`` on the PATH, with the type1cm, type1ec
+and cm-super packages); ``fluids`` needs an MPI build (``axionfem.build_info()["fluids"]``). ``--skip-unavailable``
+skips, with a message, the figures whose module this build lacks instead of stopping. ``--check`` only verifies that
+every file in the manifest exists and that the manifest version equals ``axionfem.__version__``. Runtime on one node:
+a few minutes; not run in CI.
 """
 from __future__ import annotations
 
@@ -122,19 +125,23 @@ def check_row(name, coarse, fine, label_coarse, label_fine):
 
 
 def style(theme):
-    """Fixed rcParams for every matplotlib card."""
+    """Fixed rcParams for every matplotlib card: LaTeX text in Computer Modern, inward ticks on all four sides with
+    minor ticks."""
     t = THEME[theme]
     plt.rcdefaults()
     plt.rcParams.update({
-        "font.family": "DejaVu Sans", "font.size": 12, "mathtext.fontset": "dejavusans",
+        "text.usetex": True, "font.family": "serif", "font.serif": ["Computer Modern Roman"], "font.size": 14,
         "text.color": t["ink"], "axes.labelcolor": t["ink"], "axes.edgecolor": t["muted"],
         "xtick.color": t["muted"], "ytick.color": t["muted"], "xtick.labelcolor": t["ink"],
         "ytick.labelcolor": t["ink"], "axes.facecolor": "none", "figure.facecolor": "none",
-        "savefig.facecolor": "none", "axes.spines.top": False, "axes.spines.right": False,
-        "axes.grid": False, "grid.color": t["grid"], "grid.linewidth": 0.8, "lines.linewidth": 2.0,
-        "legend.frameon": False, "axes.labelsize": 13, "xtick.labelsize": 12, "ytick.labelsize": 12,
-        "xtick.major.size": 4, "ytick.major.size": 4, "xtick.minor.size": 2.5, "ytick.minor.size": 2.5,
-        "axes.linewidth": 1.0, "svg.hashsalt": "axionfem", "path.simplify": True,
+        "savefig.facecolor": "none", "axes.grid": False, "grid.color": t["grid"], "grid.linewidth": 0.8,
+        "lines.linewidth": 2.0, "legend.frameon": False, "axes.labelsize": 15, "xtick.labelsize": 14,
+        "ytick.labelsize": 14, "xtick.direction": "in", "ytick.direction": "in", "xtick.top": True,
+        "ytick.right": True, "xtick.minor.visible": True, "ytick.minor.visible": True,
+        "xtick.major.size": 5, "ytick.major.size": 5, "xtick.minor.size": 2.5, "ytick.minor.size": 2.5,
+        "xtick.major.width": 0.8, "ytick.major.width": 0.8, "xtick.minor.width": 0.6, "ytick.minor.width": 0.6,
+        "xtick.major.pad": 5, "ytick.major.pad": 5, "axes.linewidth": 1.0, "svg.hashsalt": "axionfem",
+        "path.simplify": True,
     })
     return t
 
@@ -154,16 +161,19 @@ def colorbar(fig, mappable, rect, label, t, ticks=None, fmt=None):
     """A slim vertical colour bar with units."""
     cax = fig.add_axes(rect)
     cb = fig.colorbar(mappable, cax=cax, ticks=ticks, format=fmt)
-    cb.outline.set_visible(False)
-    cb.ax.tick_params(labelsize=11, length=3, color=t["muted"], labelcolor=t["ink"])
-    cb.set_label(label, fontsize=12, color=t["ink"], labelpad=6)
+    cb.minorticks_off()
+    cb.outline.set_linewidth(0.8)
+    cb.outline.set_edgecolor(t["muted"])
+    cb.ax.tick_params(labelsize=13, length=4, width=0.8, direction="in", color=t["muted"],
+                      labelcolor=t["ink"])
+    cb.set_label(label, fontsize=14, color=t["ink"], labelpad=6)
     return cb
 
 
 def scale_bar(ax, x0, y0, length, label, t, lw=2.5, dy=0.0):
     """A thin horizontal scale bar starting at (x0, y0) in data units, label centred below."""
     ax.plot([x0, x0 + length], [y0, y0], color=t["ink"], lw=lw, solid_capstyle="butt")
-    ax.text(x0 + length / 2, y0 - dy, label, ha="center", va="top", fontsize=12, color=t["ink"])
+    ax.text(x0 + length / 2, y0 - dy, label, ha="center", va="top", fontsize=14, color=t["ink"])
 
 
 def field_image(ax, F, extent, **kw):
@@ -408,8 +418,8 @@ def fig_cavity(ctx):
         scale_bar(big, -R, -1.02 * R, 0.1, "10 cm", t, dy=0.012)
         sm = plt.cm.ScalarMappable(cmap="coolwarm", norm=plt.Normalize(-1, 1))
         cb = colorbar(fig, sm, [0.87, 0.2, 0.016, 0.6], "", t, ticks=[-1, 0, 1])
-        cb.ax.set_yticklabels(["\u2212max", "0", "max"])
-        cb.ax.set_title("$E_z$", fontsize=13, color=t["ink"], pad=8)
+        cb.ax.set_yticklabels([r"$-$max", "0", "max"])
+        cb.ax.set_title("$E_z$", fontsize=15, color=t["ink"], pad=8)
         p = save_card(fig, ctx.out / f"card_cavity_{theme}.png")
         files.append(p)
     c70, c100 = sols[70][2], sols[100][2]
@@ -521,7 +531,7 @@ def fig_srf(ctx):
             scale_bar(ax, -zmax + 0.5, -16.5, 10.0, "10 cm", t, dy=0.6)
         ticks = list(range(-int(lim), int(lim) + 1))
         cb = colorbar(fig, im, [0.875, 0.2, 0.016, 0.6], "", t, ticks=ticks)
-        cb.ax.set_title(r"$E_1\!\cdot\!B_0$", fontsize=13, color=t["ink"], pad=8)
+        cb.ax.set_title(r"$E_1\!\cdot\!B_0$", fontsize=15, color=t["ink"], pad=8)
         files.append(save_card(fig, ctx.out / f"card_srf_{theme}.png"))
     a, b = sols[meshes[0]][2], sols[meshes[-1]][2]
     lab = ("h=R/30", "h=R/40") if cyl else ("h=Req/30", "h=Req/40")
@@ -627,18 +637,17 @@ def fig_readout(ctx):
         ax.set_ylim(0.25, 80)
         ax.set_xticks([-400, -200, 0, 200, 400])
         ax.set_yticks([1, 10], ["1", "10"])
-        ax.minorticks_off()
         ax.set_xlabel(r"detuning from resonance, $f - f_0$ [Hz]")
         ax.set_ylabel("noise / thermal noise")
         ax.grid(True, which="major", axis="both")
         lc = RO_LABEL[theme]
-        ax.text(-490, 1.12, "thermal (loss at T)", ha="left", va="bottom", fontsize=12, color=lc["thermal"])
-        ax.text(-490, 0.80, "SQUID backaction", ha="left", va="top", fontsize=12, color=lc["backaction"])
-        j = np.searchsorted(x, 490.0)                    # above the right branch, where it runs above the total
+        ax.text(-490, 1.12, "thermal (loss at $T$)", ha="left", va="bottom", fontsize=14, color=lc["thermal"])
+        ax.text(-490, 0.77, "SQUID backaction", ha="left", va="top", fontsize=14, color=lc["backaction"])
+        j = np.searchsorted(x, 485.0)                    # above the right branch, where it runs above the total
         ax.text(x[j], N["N_V_imprecision_V2_s"][j] / th0 * 1.3, "SQUID imprecision", ha="right",
-                va="bottom", fontsize=12, color=lc["imprecision"])
+                va="bottom", fontsize=14, color=lc["imprecision"])
         j = np.searchsorted(x, -330.0)
-        ax.text(x[j] + 10, N["N_V_V2_s"][j] / th0 * 1.25, "total", ha="left", va="bottom", fontsize=12,
+        ax.text(x[j] + 10, N["N_V_V2_s"][j] / th0 * 1.25, "total", ha="left", va="bottom", fontsize=14,
                 color=t["ink"])
         files.append(save_card(fig, ctx.out / f"card_readout_{theme}.png"))
     a, b = out["order2"], out["order3"]
@@ -781,7 +790,7 @@ def fig_mech(ctx):
         ax.axis("off")
         sm = plt.cm.ScalarMappable(cmap="viridis", norm=plt.Normalize(0, vmax))
         cb = colorbar(fig, sm, [0.865, 0.2, 0.016, 0.6], "", t, ticks=np.arange(0, vmax + 1, 10))
-        cb.ax.set_title("MPa", fontsize=12, color=t["ink"], pad=8)
+        cb.ax.set_title("MPa", fontsize=14, color=t["ink"], pad=8)
         files.append(save_card(fig, ctx.out / f"card_mech_{theme}.png"))
     a, b = rows[2], rows[3]
     check = [check_row("peak von Mises stress [Pa]", a["vm_max_Pa"], b["vm_max_Pa"], "order2", "order3"),
@@ -817,8 +826,8 @@ REACH_LABELS = [("ADMX", ("ADMX_1A",), 1.12, "left", 0.85, "center"),
                 ("CAPP", ("CAPP_12TB",), 1.11, "left", 0.62, "center"),
                 ("HAYSTAC", ("HAYSTAC_2021", "HAYSTAC_2023"), 0.88, "right", 1.0, "center"),
                 ("TASEH", ("TASEH_2022",), 0.9, "right", 1.0, "center"),
-                ("ORGAN", ("ORGAN_Q_2025",), 1.0, "center", 2.1, "bottom"),
-                ("QUAX", ("QUAX_2019",), 1.0, "center", 2.1, "bottom"),
+                ("ORGAN", ("ORGAN_Q_2025",), 1.0, "center", 1.5, "bottom"),
+                ("QUAX", ("QUAX_2019",), 1.0, "center", 1.5, "bottom"),
                 ("QUAX", ("QUAX_2021",), 0.9, "right", 1.0, "center")]
 REACH_FAMILY = {"ADMX": BLUE, "HAYSTAC": ORANGE, "CAPP": GREEN, "TASEH": GOLD, "QUAX": VIOLET, "ORGAN": "#d1495b"}
 
@@ -856,11 +865,11 @@ def fig_reach(ctx):
         ax.set_xlabel(r"axion mass $m_a$ [$\mu$eV]")
         ax.set_ylabel(r"$|g_{a\gamma\gamma}|$ [GeV$^{-1}$]")
         ax.set_xticks([2, 5, 10, 20, 50], ["2", "5", "10", "20", "50"])
-        ax.minorticks_off()
+        ax.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
         ax.grid(True, which="major")
         k30 = int(np.searchsorted(m, 30.0))
-        ax.text(30.0, gk[k30] * 1.5, "KSVZ", color=t["muted"], fontsize=11, va="bottom")
-        ax.text(30.0, gd[k30] / 1.5, "DFSZ", color=t["muted"], fontsize=11, va="top")
+        ax.text(30.0, gk[k30] * 1.5, "KSVZ", color=t["muted"], fontsize=13, va="bottom")
+        ax.text(30.0, gd[k30] / 1.5, "DFSZ", color=t["muted"], fontsize=13, va="top")
         by_name = {r["name"]: r for r in rows}
         missing = sorted({r["family"] for r in rows} - {lab[0] for lab in REACH_LABELS})
         if missing:
@@ -873,11 +882,11 @@ def fig_reach(ctx):
             gg = math.exp(np.mean([math.log(r[k]) for r in rs for k in ("g", "g_pub")]))
             if va == "bottom":                    # above the points: clear the larger marker
                 gg = max(max(r["g"], r["g_pub"]) for r in rs)
-            ax.text(mm * dx, gg * fy, fam, ha=ha, va=va, fontsize=11.5, color=t["ink"])
+            ax.text(mm * dx, gg * fy, fam, ha=ha, va=va, fontsize=13.5, color=t["ink"])
         ax.plot([2.45], [1.25e-12], "o", ms=13, mfc="none", mec=t["muted"], mew=2.0)
         ax.plot([2.45], [3.4e-13], "o", ms=6.5, mfc=t["muted"], mec=t["muted"])
-        ax.text(2.75, 1.25e-12, "published limit", va="center", fontsize=11.5, color=t["ink"])
-        ax.text(2.75, 3.4e-13, "recomputed by axionFEM", va="center", fontsize=11.5, color=t["ink"])
+        ax.text(2.75, 1.25e-12, "published limit", va="center", fontsize=13.5, color=t["ink"])
+        ax.text(2.75, 3.4e-13, "recomputed by axionFEM", va="center", fontsize=13.5, color=t["ink"])
         files.append(save_card(fig, ctx.out / f"card_reach_{theme}.png"))
     ratios = [r["ratio"] for r in rows]
     return {
@@ -992,15 +1001,15 @@ def fig_fluids(ctx):
         ax.set_ylim(-0.01, 1.01)
         ax.set_aspect("equal")
         ax.axis("off")
-        fig.text(0.125, 0.5, "hot wall", rotation=90, ha="center", va="center", fontsize=12, color=t["ink"])
-        fig.text(0.798, 0.5, "cold wall", rotation=270, ha="center", va="center", fontsize=12, color=t["ink"])
+        fig.text(0.125, 0.5, "hot wall", rotation=90, ha="center", va="center", fontsize=14, color=t["ink"])
+        fig.text(0.798, 0.5, "cold wall", rotation=270, ha="center", va="center", fontsize=14, color=t["ink"])
         ax.annotate("", xy=(-0.105, 0.04), xytext=(-0.105, 0.24), annotation_clip=False,
                     arrowprops=dict(arrowstyle="-|>", color=t["ink"], lw=1.6, mutation_scale=14))
-        ax.text(-0.085, 0.14, "g", fontsize=13, style="italic", color=t["ink"], va="center", ha="left")
+        ax.text(-0.085, 0.14, "$g$", fontsize=15, color=t["ink"], va="center", ha="left")
         sm = plt.cm.ScalarMappable(cmap="coolwarm", norm=plt.Normalize(-0.5, 0.5))
         cb = colorbar(fig, sm, [0.87, 0.2, 0.016, 0.6], "", t, ticks=[-0.5, 0, 0.5])
-        cb.ax.set_yticklabels(["−0.5", "0", "0.5"])
-        cb.ax.set_title(r"$(T-T_0)/\Delta T$", fontsize=12, color=t["ink"], pad=8)
+        cb.ax.set_yticklabels([r"$-0.5$", "0", "0.5"])
+        cb.ax.set_title(r"$(T-T_0)/\Delta T$", fontsize=14, color=t["ink"], pad=8)
         files.append(save_card(fig, ctx.out / f"card_fluids_{theme}.png"))
     a, b = rows[NATCONV["meshes"][0]], rows[nf]
     lab = [f"{n}x{n}" for n in NATCONV["meshes"]]
@@ -1084,14 +1093,14 @@ def fig_chem(ctx):
         ax.fill_between([xg[0], xg[-1]], -0.4, 0.0, color=t["faint"], lw=0)
         ax.plot([xg[0], xg[-1]], [0, 0], color=t["muted"], lw=1.5)
         ax.plot([-1, 1], [0, 0], color=ORANGE, lw=7, solid_capstyle="butt")
-        ax.text(0, -0.2, "disk electrode", ha="center", va="center", fontsize=11.5, color=t["ink"])
-        ax.text(2.2, -0.2, "insulator", ha="center", va="center", fontsize=11.5, color=t["ink"])
+        ax.text(0, -0.2, "disk electrode", ha="center", va="center", fontsize=13.5, color=t["ink"])
+        ax.text(2.2, -0.2, "insulator", ha="center", va="center", fontsize=13.5, color=t["ink"])
         ax.set_xlim(xg[0], xg[-1])
         ax.set_ylim(-0.4, 3.6)
         ax.set_aspect("equal")
         ax.axis("off")
         cb = colorbar(fig, im, [0.9, 0.2, 0.016, 0.6], "", t, ticks=[0, 0.5, 1])
-        cb.ax.set_title(r"$\phi_l/V$", fontsize=12, color=t["ink"], pad=8)
+        cb.ax.set_title(r"$\phi_l/V$", fontsize=14, color=t["ink"], pad=8)
         files.append(save_card(fig, ctx.out / f"card_chem_{theme}.png"))
     a, b = rows[DISK["meshes"][0]], rows[DISK["meshes"][-1]]
     lab = [f"n={n}" for n in DISK["meshes"]]
@@ -1338,7 +1347,7 @@ def fig_social(ctx):
         axl.add_patch(PathPatch(tr.transform_path(tp), fc=ink, ec="none"))
     tag = ("Finite-element simulation\nfor axion dark-matter detectors")
     axl.text(2, 395, tag, fontsize=21, color=THEME["dark"]["muted"], va="top", ha="left", linespacing=1.35,
-             family="DejaVu Sans")
+             family="DejaVu Sans", usetex=False)
     p = ctx.out / "social_preview.png"
     buf = io.BytesIO()
     fig.savefig(buf, format="png", dpi=100, facecolor=bg, metadata={"Software": None})
