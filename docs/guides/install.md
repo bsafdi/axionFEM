@@ -4,7 +4,7 @@ In axion dark-matter experiments, finite-element calculations describe detector 
 
 ## Build and installation
 
-The build requires Python 3.10+ with development headers, a C++17 compiler, CMake 3.20+, Ninja and curl, and for the MPI build also MPI and BLAS/LAPACK. We build and install axionFEM in a virtual environment so that the build tools and package use the same Python interpreter. These commands are tested in clean Ubuntu 24.04 and Rocky Linux 9 containers (`docker/`) and with a Cray programming environment; macOS has not been tested yet, and Windows is not supported.
+The build requires Python 3.10+ with development headers, a C++17 compiler, CMake 3.20+, Ninja and curl, and for the MPI build also MPI and BLAS/LAPACK. We build and install axionFEM in a virtual environment so that the build tools and package use the same Python interpreter. These commands are tested in clean Ubuntu 24.04 and Rocky Linux 9 containers (`docker/`) and with a Cray programming environment, and the sequential build is tested on macOS (arm64) in CI; the MPI build has not been tested on macOS yet, and Windows is not supported.
 
 ### Prerequisites
 

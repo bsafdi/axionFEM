@@ -136,7 +136,7 @@ wheel. The resulting Linux wheel is about 15 MiB, most of it MFEM.
 ## Source build
 
 The prerequisites for each platform (Debian/Ubuntu, Fedora/RHEL, macOS, clusters) and the exact command sequence,
-with what was tested where (clean Ubuntu 24.04 and Rocky Linux 9 containers from `docker/`; macOS not yet), are in
+with what was tested where (clean Ubuntu 24.04 and Rocky Linux 9 containers from `docker/`; on macOS arm64 the sequential build, in CI), are in
 [the installation guide](guides/install.md). In short:
 
 ```bash
