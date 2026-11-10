@@ -129,6 +129,10 @@ def test_coupling_regression(name):
     ref = reference()
     assert name in ref, f"no reference for {name}; regenerate with --update"
     r, e = solve(name), ref[name]
+    if "dofs" in e and r.data["mesh"]["dofs"] != e["dofs"]:
+        # the stored values are a regression for the reference mesh; another mesher build (e.g. another platform)
+        # gives a slightly different mesh, for which they do not apply. The physics checks of this file still run.
+        pytest.skip(f"{name}: the mesh differs from the reference mesh ({r.data['mesh']['dofs']} != {e['dofs']} DOFs)")
     got = {"Psi_natural_T_m3": r.coupling.get("Psi_natural_T_m3", 0.0),
            "L_p_H": r.coupling.get("L_p_H", 0.0),
            "W_mag_J": r.coupling.get("W_mag_J", 0.0),

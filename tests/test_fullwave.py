@@ -269,7 +269,9 @@ def test_tm_exterior_reciprocity_tail_removes_domain_dependence(tmp_path):
         print(f"kR row {i}: |tail|/|Psi| = {abs(ta) / abs(pa):.3e}, {abs(tb) / abs(pb):.3e}; "
               f"domain dependence with tail {with_tail:.3e}, without {without:.3e}")
         assert abs(ta) > abs(tb)  # a larger domain leaves less outside
-        assert with_tail < 1e-3 * without  # ~2e4x in practice: catches normalization bugs
+        # a normalization bug leaves with_tail near without; what remains is the discretization difference of the
+        # two meshes, 5e-5 to 2e-3 of without depending on the mesher
+        assert with_tail < 1e-2 * without
 
 
 def test_tm_exterior_term_omitted_with_background_is_reported(tmp_path):
